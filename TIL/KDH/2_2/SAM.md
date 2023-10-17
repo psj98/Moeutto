@@ -22,4 +22,23 @@
   - 이미지 인코더가 가장 중요(이미지 정보를 압축하는 파트)
   - 이미지 인코더 임베딩
   - 인코더 파트를 파인튜닝 할 수도 있다
+
+# github
+- python>=3.8
+-> 3.11 사용하면 될 것으로 보임
+
+# model
+Three model versions of the model are available with different backbone sizes. These models can be instantiated by running
+
+```py
+from segment_anything import sam_model_registry
+sam = sam_model_registry["<model_type>"](checkpoint="<path/to/checkpoint>")
+```
+
+default or vit_h: ViT-H SAM model. : 제일 무거움, 2.4gb
+vit_l: ViT-L SAM model. : 중간, 1.2gb
+vit_b: ViT-B SAM model. : 제일 가벼움 358mb
+
+# 사용법
+- 다운로드받은 pth 경로를 아래 checkpoint에 입력하고 사용
 - 
