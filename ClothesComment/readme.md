@@ -5,3 +5,12 @@
 - segmentation - sam (여러 segment 추출 가능, 빠른 속도) / 프롬프트 입력(위치) 필요
 - classification - fashionClip
 - generate text - chat gpt 
+
+
+## 실행 매뉴얼 
+- 파이썬 버전 : 3.12 
+### 가상환경 생성, 적용
+- python -m venv myvenv
+- source myvenv/Scripts/activate
+### 필요 모듈 설치 
+- 
