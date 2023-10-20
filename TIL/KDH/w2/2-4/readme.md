@@ -1,6 +1,6 @@
 # 오전 라이브
 ## LLM(Large Language Model) 트랜드
-- DALLE3
+             - DALLE3
 - GPT
 - 무한경쟁시대
 
