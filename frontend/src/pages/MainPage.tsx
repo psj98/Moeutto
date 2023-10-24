@@ -1,10 +1,10 @@
-import UserName from "../components/main/atoms/UserName"
+import MainInfo from "../components/main/organisms/MainInfo"
 
 const MainPage = () => {
     return (
         <>
             <div>
-                <UserName />
+                <MainInfo />
             </div>
         </>
     )
