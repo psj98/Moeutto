@@ -14,7 +14,6 @@ const MainPage = () => {
     const [currentLocation, setCurrentLocation] = useState<{ 
         latitude: number; 
         longitude: number; 
-        address: string;
     } | null>(null);
     
     // map 변수를 함수 스코프 밖에서 정의
@@ -22,8 +21,8 @@ const MainPage = () => {
 
     // 주소 변환 함수
     let geocoder: any;
+    const [address, setAddress] = useState<string>("");
     
-    let address: string;
 
     const reverseGeocoding = (lat: number, lng: number) => {
         if (geocoder) {
@@ -31,7 +30,7 @@ const MainPage = () => {
                 if (status === window.kakao.maps.services.Status.OK) {
                     if (result[0]) {
                         // 법정동 주소를 출력
-                        address = result[0].address_name;
+                        setAddress(result[0].address_name);
 
                         console.log("법정동 주소:", address);
                     }
@@ -50,7 +49,7 @@ const MainPage = () => {
                 const lng = position.coords.longitude;
 
                 // 현재 위치 정보 업데이트
-                setCurrentLocation({ latitude: lat, longitude: lng, address });
+                setCurrentLocation({ latitude: lat, longitude: lng });
     
                 // 지도에 현재 위치 표시
                 // const currentLocationMarker = new window.kakao.maps.Marker({
@@ -87,8 +86,7 @@ const MainPage = () => {
         });
     }, [])
 
-    console.log('주소', address)
-
+    
 
     return (
         <>
@@ -102,7 +100,7 @@ const MainPage = () => {
                 <div>현재 위치 결과</div>
                 {currentLocation && (
                     <div>
-                        현재 위치 정보: {currentLocation.address}
+                        현재 위치 정보: {address}
 
                     </div>
                 )}
