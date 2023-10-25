@@ -32,7 +32,9 @@ public enum BaseResponseStatus {
      * Category
      * Code : 5000번대
      */
-    NOT_FOUNT_LARGE_CATEGORY(false, 5001, "대분류 카테고리가 존재하지 않습니다.");
+    NOT_FOUND_LARGE_CATEGORY(false, 5001, "대분류 카테고리가 존재하지 않습니다."),
+    NOT_FOUND_MIDDLE_CATEGORY(false, 5002, "중분류 카테고리가 존재하지 않습니다."),
+    NOT_FOUND_MIDDLE_CATEGORY_BY_LARGE_CATEGORY(false, 5003, "대분류 카테고리에 해당하는 중분류 카테고리 목록이 존재하지 않습니다.");
 
     /**
      * AICheckOutfit
