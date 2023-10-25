@@ -4,11 +4,12 @@
         "es2021": true
     },
     "extends": [
+        "naver",
+        "plugin:prettier/recommended", // eslint-config-prettier에서 설정을 가져온다. Prettier와 충돌하는 Eslint 규칙을 끈다,
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:react/recommended",
-        "naver",
-        "prettier" // eslint-config-prettier에서 설정을 가져온다. Prettier와 충돌하는 Eslint 규칙을 끈다
+        "prettier"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -26,3 +27,4 @@
         "prefer-arrow-callback": "off"
       }
 }
+
