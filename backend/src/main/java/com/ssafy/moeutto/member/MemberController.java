@@ -11,7 +11,7 @@ import java.util.Objects;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/memeber")
 public class MemberController {
 
     private final MemberLoginService memberLoginService;
@@ -34,6 +34,8 @@ public class MemberController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return null;
     }
 
 
