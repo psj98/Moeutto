@@ -34,7 +34,7 @@ public class LargeCategoryServiceImpl implements LargeCategoryService {
         
         // 크기가 0인 경우 체크
         if (largeCategoryList.size() == 0) {
-            throw new BaseException(BaseResponseStatus.NOT_FOUNT_LARGE_CATEGORY);
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_LARGE_CATEGORY);
         }
 
         // 대분류 카테고리를 리스트로 저장 및 반환
@@ -65,7 +65,7 @@ public class LargeCategoryServiceImpl implements LargeCategoryService {
         
         // 조회가 되지 않은 경우 체크
         if (!largeCategoryOptional.isPresent()) {
-            throw new BaseException(BaseResponseStatus.NOT_FOUNT_LARGE_CATEGORY);
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_LARGE_CATEGORY);
         }
 
         LargeCategory largeCategory = largeCategoryOptional.get();
