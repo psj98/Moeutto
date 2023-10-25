@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class GuestBookServiceImpl {
+public class GuestBookServiceImpl implements GuestBookService {
 
     private final GuestBookRepository guestBookRepository;
 }
