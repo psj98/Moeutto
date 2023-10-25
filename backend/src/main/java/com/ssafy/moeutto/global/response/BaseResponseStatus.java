@@ -6,7 +6,7 @@ import lombok.Getter;
 public enum BaseResponseStatus {
 
     // -------- 성공 코드 시작 -------- //
-    SUCCESS(true, 1000, "요청에 성공했습니다.");
+    SUCCESS(true, 1000, "요청에 성공했습니다."),
     // -------- 성공 코드 종료 -------- //
 
     // -------- 실패 코드 시작 -------- //
@@ -32,7 +32,7 @@ public enum BaseResponseStatus {
      * Category
      * Code : 5000번대
      */
-
+    NOT_FOUNT_LARGE_CATEGORY(false, 5001, "대분류 카테고리가 존재하지 않습니다.");
 
     /**
      * AICheckOutfit
