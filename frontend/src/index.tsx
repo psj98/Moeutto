@@ -5,6 +5,8 @@ import './index.css';
 import App from './App';
 import Work from './pages/Work';
 
+import MainPage from './pages/MainPage';
+
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
