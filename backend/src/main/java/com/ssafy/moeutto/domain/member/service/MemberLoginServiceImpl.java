@@ -28,6 +28,8 @@ public class MemberLoginServiceImpl implements MemberLoginService {
     @Override
     public String getKakaoPermissionCode() {
         String requestURL = "https://kauth.kakao.com/oauth/authorize";
+        String code = "";
+
 
 
 
