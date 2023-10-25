@@ -4,7 +4,13 @@ import TodayDate from "../atoms/TodayDate";
 import UserName from "../atoms/UserName";
 import Location from "../molecules/Location";
 
-const MainInfo = () => {
+interface MainInfoPropsType {
+    currentLocation: any;
+    address: string;
+    showLocationClick: () => void;
+}
+
+const MainInfo: React.FC<MainInfoPropsType> = ({ currentLocation, address, showLocationClick }) => {
     return (
         <div>
             <div>
@@ -12,7 +18,7 @@ const MainInfo = () => {
                 <TodayDate />
             </div>
             <div>
-                <Location />
+                <Location currentLocation={currentLocation} address={address} showLocationClick={showLocationClick} />
             </div>
 
         </div>
