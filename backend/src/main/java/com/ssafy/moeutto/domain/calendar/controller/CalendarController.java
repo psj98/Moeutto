@@ -22,15 +22,16 @@ public class CalendarController {
 
 
     /**
-     * 캘린더에 착장을 등록하는 컨트롤러 업니다.
+     * 캘린더에 착장을 등록하는 컨트롤러 입니다.
+     *
+     * ToDo - S3에서 이미지 받아오는 부분 수정 요망.
      * @param token =  JWT TOKEN
-     * @param clothes = 착장 정보 ( 착장 ID 얻기용)
+     * @param imageUrl = 저장한 착장 사진 전체 ImageUrl 입니다.
      * @return
      */
     @PostMapping("/regist")
     public BaseResponse<Object> registMyOutfit(@RequestHeader(value = "accessToken", required = false) String token,
                                                @RequestBody String imageUrl){
-
 //         토큰 검증
         try{
             if(token != null && !token.equals("")){
