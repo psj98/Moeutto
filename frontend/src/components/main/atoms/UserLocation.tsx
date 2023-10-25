@@ -1,9 +1,18 @@
 import React from "react";
 
-const UserLocation = () => {
+interface UserLocationPropsType {
+    currentLocation: any;
+    address: string;
+}
+
+const UserLocation: React.FC<UserLocationPropsType> = ({ currentLocation, address }) => {
     return (
         <div>
-            서울특별시 역삼동
+            {currentLocation ? (
+                <div>{address}</div>
+            ) : (
+                <div>현재 위치 정보가 없어요</div>
+            )}
         </div>
     )
 }
