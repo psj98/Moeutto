@@ -1,3 +1,5 @@
+import React from "react";
+
 import MainInfo from "../components/main/organisms/MainInfo"
 import { useEffect, useState } from "react";
 

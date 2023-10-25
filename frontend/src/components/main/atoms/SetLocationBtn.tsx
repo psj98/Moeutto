@@ -1,7 +1,6 @@
-import { useState } from "react";
+import React from "react";
 
 const SetLocationBtn = () => {
-
     return (
         <div>
             <img 
