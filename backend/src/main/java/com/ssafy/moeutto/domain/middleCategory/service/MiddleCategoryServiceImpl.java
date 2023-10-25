@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MiddleCategoryServiceImpl {
+public class MiddleCategoryServiceImpl implements MiddleCategoryService {
 
     private final MiddleCategoryRepository middleCategoryRepository;
 }
