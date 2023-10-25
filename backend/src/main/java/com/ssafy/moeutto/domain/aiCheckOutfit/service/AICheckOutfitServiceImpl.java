@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AICheckOutfitServiceImpl {
+public class AICheckOutfitServiceImpl implements AICheckOutfitService{
 
     private final AICheckOutfitRepository aiCheckOutfitRepository;
 }
