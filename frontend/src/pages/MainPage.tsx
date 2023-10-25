@@ -87,7 +87,7 @@ const MainPage = () => {
         <>
             <div>
                 <MainInfo />
-                <button onClick={resetToCurrentLocation}>현재 위치로 설정하기</button>
+                <button onClick={resetToCurrentLocation} className="bg-pink-hot">현재 위치로 설정하기</button>
                 <div id="map" style={{
                     width: '200px',
                     height: '200px'
