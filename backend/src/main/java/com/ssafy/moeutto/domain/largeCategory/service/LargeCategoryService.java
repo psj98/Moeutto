@@ -8,7 +8,20 @@ import java.util.Optional;
 
 public interface LargeCategoryService {
 
+    /**
+     * 대분류 카테고리 목록을 조회합니다.
+     *
+     * @return List<LargeCategoryDetailResponseDto>
+     * @throws BaseException
+     */
     List<LargeCategoryDetailResponseDto> getLargeCategoryList() throws BaseException;
 
+    /**
+     * 대분류 카테고리를 조회합니다.
+     *
+     * @param id
+     * @return LargeCategoryDetailResponseDto
+     * @throws BaseException
+     */
     LargeCategoryDetailResponseDto getLargeCategoryDetail(String id) throws BaseException;
 }
