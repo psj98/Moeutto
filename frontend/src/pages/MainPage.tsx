@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
 
 import MainInfo from "../components/main/organisms/MainInfo"
+import CurrentLocationBtn from "../components/main/atoms/CurrentLocationBtn";
+import ShowMap from "../components/main/atoms/ShowMap";
 
 interface KakaoMap extends Window {
     kakao: any; // Kakao Maps 라이브러리의 타입에 따라 조정
+    resetToCurrentLocation: () => void;
+    currentLocation: any;
+    address: string;
 }
 
 declare const window: KakaoMap;
@@ -22,7 +27,7 @@ const MainPage = () => {
     // 주소 변환 함수
     let geocoder: any;
     const [address, setAddress] = useState<string>("");
-    
+
 
     const reverseGeocoding = (lat: number, lng: number) => {
         if (geocoder) {
@@ -31,8 +36,6 @@ const MainPage = () => {
                     if (result[0]) {
                         // 법정동 주소를 출력
                         setAddress(result[0].address_name);
-
-                        console.log("법정동 주소:", address);
                     }
                 }
             });
@@ -40,6 +43,8 @@ const MainPage = () => {
             console.error("주소 바꾸는 것 에러남")
         }
     };
+
+  
 
     // resetToCurrentLocation 함수를 컴포넌트 스코프에서 정의
     const resetToCurrentLocation = () => {
@@ -83,6 +88,7 @@ const MainPage = () => {
 
             // 초기 실행시 현재 위치 띄워주기
             // resetToCurrentLocation();
+
         });
     }, [])
 
@@ -91,19 +97,9 @@ const MainPage = () => {
     return (
         <>
             <div>
-                <MainInfo />
-                <button onClick={resetToCurrentLocation} className="bg-pink-hot">현재 위치로 설정하기</button>
-                <div id="map" style={{
-                    width: '200px',
-                    height: '200px'
-                }}></div>
-                <div>현재 위치 결과</div>
-                {currentLocation && (
-                    <div>
-                        현재 위치 정보: {address}
-
-                    </div>
-                )}
+                <MainInfo currentLocation={currentLocation} address={address} />
+                <CurrentLocationBtn resetToCurrentLocation={resetToCurrentLocation}  />
+                <ShowMap />
             </div>
         </>
     )
