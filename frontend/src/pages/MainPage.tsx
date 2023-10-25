@@ -52,12 +52,12 @@ const MainPage = () => {
                 setCurrentLocation({ latitude: lat, longitude: lng });
     
                 // 지도에 현재 위치 표시
-                // const currentLocationMarker = new window.kakao.maps.Marker({
-                //     map,
-                //     position: new window.kakao.maps.LatLng(lat, lng),
-                // });
+                const currentLocationMarker = new window.kakao.maps.Marker({
+                    map,
+                    position: new window.kakao.maps.LatLng(lat, lng),
+                });
 
-                
+                currentLocationMarker.setMap(map);
 
                 // map 변수 사용
                 // 지도 객체가 생성되면 지도 객체를 조작한다
