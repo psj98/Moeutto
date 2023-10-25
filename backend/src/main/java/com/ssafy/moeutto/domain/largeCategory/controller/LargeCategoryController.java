@@ -22,7 +22,7 @@ public class LargeCategoryController {
     private final BaseResponseService baseResponseService;
 
     /**
-     * 대분류 카테고리를 조회합니다.
+     * 대분류 카테고리 목록을 조회합니다.
      *
      * @return List<LargeCategoryDetailResponseDto>
      */
@@ -36,6 +36,12 @@ public class LargeCategoryController {
         }
     }
 
+    /**
+     * 대분류 카테고리를 조회합니다.
+     *
+     * @param id
+     * @return LargeCategoryDetailResponseDto
+     */
     @GetMapping("/{id}")
     public BaseResponse<Object> getLargeCategoryDetail(@PathVariable("id") String id) {
         try {
