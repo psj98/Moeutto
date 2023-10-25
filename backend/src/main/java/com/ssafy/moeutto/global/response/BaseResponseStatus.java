@@ -14,7 +14,8 @@ public enum BaseResponseStatus {
      * Member
      * Code : 2000번대
      */
-    // ex) NOT_FOUND_MEMBER(false, 2001, "일치하는 사용자가 없습니다."), ...
+    NOT_FOUND_MEMBER(false, 2001, "일치하는 사용자가 없습니다."),
+    SESSION_EXPIRATION(false, 2002, "세션이 만료되었습니다"),
 
     /**
      * Clothes
