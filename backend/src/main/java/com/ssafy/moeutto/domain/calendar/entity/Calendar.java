@@ -25,12 +25,12 @@ public class Calendar {
     private UUID memberId;
     private Integer likeOutfit;
     private String imageUrl;
-    private LocalDateTime regDate;
+    private Timestamp regDate;
 
 
     @Builder(toBuilder = true)
     public Calendar(Integer id, UUID memberId, Integer likeOutfit,
-                    String imageUrl, LocalDateTime regDate) {
+                    String imageUrl, Timestamp regDate) {
         this.id = id;
         this.imageUrl = imageUrl;
         this.memberId = memberId;
