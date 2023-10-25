@@ -14,6 +14,7 @@ public class Clothes {
 
     @Id
     private Integer id;
+    private String imageUrl;
 
     @Builder(toBuilder = true)
     public Clothes(Integer id) {
