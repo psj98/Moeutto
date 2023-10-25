@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import MainInfo from "../components/main/organisms/MainInfo"
-import { useEffect, useState } from "react";
 
 interface KakaoMap extends Window {
     kakao: any; // Kakao Maps 라이브러리의 타입에 따라 조정
@@ -15,6 +14,7 @@ const MainPage = () => {
     const [currentLocation, setCurrentLocation] = useState<{ 
         latitude: number; 
         longitude: number; 
+        address: string;
     } | null>(null);
     
     // map 변수를 함수 스코프 밖에서 정의
@@ -22,6 +22,8 @@ const MainPage = () => {
 
     // 주소 변환 함수
     let geocoder: any;
+    
+    let address: string;
 
     const reverseGeocoding = (lat: number, lng: number) => {
         if (geocoder) {
@@ -29,7 +31,8 @@ const MainPage = () => {
                 if (status === window.kakao.maps.services.Status.OK) {
                     if (result[0]) {
                         // 법정동 주소를 출력
-                        const address = result[0].address_name;
+                        address = result[0].address_name;
+
                         console.log("법정동 주소:", address);
                     }
                 }
@@ -47,13 +50,15 @@ const MainPage = () => {
                 const lng = position.coords.longitude;
 
                 // 현재 위치 정보 업데이트
-                setCurrentLocation({ latitude: lat, longitude: lng });
+                setCurrentLocation({ latitude: lat, longitude: lng, address });
     
                 // 지도에 현재 위치 표시
-                const currentLocationMarker = new window.kakao.maps.Marker({
-                    map: map,
-                    position: new window.kakao.maps.LatLng(lat, lng),
-                });
+                // const currentLocationMarker = new window.kakao.maps.Marker({
+                //     map,
+                //     position: new window.kakao.maps.LatLng(lat, lng),
+                // });
+
+                
 
                 // map 변수 사용
                 // 지도 객체가 생성되면 지도 객체를 조작한다
@@ -78,9 +83,11 @@ const MainPage = () => {
             geocoder = new window.kakao.maps.services.Geocoder();
 
             // 초기 실행시 현재 위치 띄워주기
-            resetToCurrentLocation();
+            // resetToCurrentLocation();
         });
     }, [])
+
+    console.log('주소', address)
 
 
     return (
@@ -95,7 +102,8 @@ const MainPage = () => {
                 <div>현재 위치 결과</div>
                 {currentLocation && (
                     <div>
-                        현재 위치 정보: 위도{currentLocation.latitude} 경도{currentLocation.longitude}
+                        현재 위치 정보: {currentLocation.address}
+
                     </div>
                 )}
             </div>
