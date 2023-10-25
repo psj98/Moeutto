@@ -16,8 +16,16 @@ public class Member {
     @Id
     private UUID id;
 
+    private String email;
+    private String nickname;
+//    private String image;
+
     @Builder(toBuilder = true)
-    public Member(UUID id) {
+    public Member(UUID id, String email, String nickname) {
         this.id = id;
+        this.email = email;
+        this.nickname = nickname;
     }
+
+
 }

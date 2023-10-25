@@ -1,4 +1,4 @@
-package com.ssafy.moeutto.member.service;
+package com.ssafy.moeutto.domain.member.service;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -17,23 +17,26 @@ import java.util.HashMap;
 public class MemberLoginServiceImpl implements MemberLoginService {
 
     // kakao api key and redirect url
-    public static String apiKey;
-    public static String redirectURL;
-
-
     @Value("${kakao.api.key}")
-    public void setKey(String val){
-        apiKey = val;
-    }
-
+    private String apiKey;
     @Value("${kakao.redirect.url}")
-    public void setURL(String val){
-        redirectURL = val;
+    private String redirectURL;
+    @Value("${kakao.secret}")
+    private String secret;
+
+
+    @Override
+    public String getKakaoPermissionCode() {
+        String requestURL = "https://kauth.kakao.com/oauth/authorize";
+
+
+
+        return null;
     }
 
     /**
      * 인가코드를 사용하여 토큰 발급 ( 일단 accessToken만 반환 )
-     * @param code
+     * @param
      * @return accessToken
      */
     @Override
@@ -57,7 +60,8 @@ public class MemberLoginServiceImpl implements MemberLoginService {
             String str = "grant_type=authorization_code"+
                     "&client_id="+apiKey+
                     "&redirect_uri="+redirectURL+
-                    "&code=" + code;
+                    "&response_type=code"+
+                    "&client_secret="+ secret;
 
             bw.write(str);
             bw.flush();
