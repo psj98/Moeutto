@@ -1,3 +1,5 @@
+import React from "react";
+
 import MapIcon from "../atoms/MapIcon";
 import UserLocation from "../atoms/UserLocation";
 import SetLocationBtn from "../atoms/SetLocationBtn";

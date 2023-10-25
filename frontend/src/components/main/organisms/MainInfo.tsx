@@ -1,3 +1,5 @@
+import React from "react";
+
 import TodayDate from "../atoms/TodayDate";
 import UserName from "../atoms/UserName";
 import Location from "../molecules/Location";

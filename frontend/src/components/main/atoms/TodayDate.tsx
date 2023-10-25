@@ -1,3 +1,5 @@
+import React from "react";
+
 const TodayDate = () => {
     // 오늘 날짜
     const today = new Date();
