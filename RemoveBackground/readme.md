@@ -12,8 +12,20 @@
 - fine tunine 가능
 - python: >3.7, <3.12
 ### model
+
 - u2net_cloth_seg :  A pre-trained model for Cloths Parsing from human portrait. Here clothes are parsed into 3 category: Upper body, Lower body and Full body.
+- 산출물 : origin input(배경제거X)->알아보기 힘든 이미지
+  - MAM-kwon input ->
+  - ![kwon](./imgs/MAM-u2net_cloth-kwon.png)
 - sam
+  - input : dot(s)
+  - 산출물
+  - ![SAM-kwon](./imgs/SAM-kwon.png)
+- mam
+  - input : line or dot 
+  - [github link](https://github.com/SHI-Labs/Matting-Anything)
+  - 산출물
+  - ![kwon](./imgs/MAM-kwon.png)
 
 
 
