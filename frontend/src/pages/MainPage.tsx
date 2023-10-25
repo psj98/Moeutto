@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 interface KakaoMap extends Window {
     kakao: any; // Kakao Maps 라이브러리의 타입에 따라 조정
-  }
+}
 
 declare const window: KakaoMap;
 
@@ -13,62 +13,74 @@ const MainPage = () => {
     const [currentLocation, setCurrentLocation] = useState<{ 
         latitude: number; 
         longitude: number; 
-        address: string | null;
-    }>({
-        latitude: 0,
-        longitude: 0,
-        address: null,
-    }
-    );
+    } | null>(null);
     
     // map 변수를 함수 스코프 밖에서 정의
     let map: any;
-    let geocoder: undefined | any;
-    let marker: any;
-    let infowindow: any;
+
+    // 주소 변환 함수
+    let geocoder: any;
+
+    const reverseGeocoding = (lat: number, lng: number) => {
+        if (geocoder) {
+            geocoder.coord2RegionCode(lng, lat, (result: any, status: any) => {
+                if (status === window.kakao.maps.services.Status.OK) {
+                    if (result[0]) {
+                        // 법정동 주소를 출력
+                        const address = result[0].address_name;
+                        console.log("법정동 주소:", address);
+                    }
+                }
+            });
+        } else {
+            console.error("주소 바꾸는 것 에러남")
+        }
+    };
 
     // resetToCurrentLocation 함수를 컴포넌트 스코프에서 정의
     const resetToCurrentLocation = () => {
         if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
+            navigator.geolocation.getCurrentPosition((position) => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
 
-            // Geocoder를 사용하여 위도, 경도를 주소로 변환
-            geocoder = new window.kakao.maps.services.Geocoder();
-            geocoder.coord2RegionCode(lng, lat, (result: any, status: any) => {
-            if (status === window.kakao.maps.services.Status.OK) {
-            const address = result[0].address_name;
-            setCurrentLocation({ latitude: lat, longitude: lng, address: address });
-
-            // marker = new window.kakao.maps.Marker(), // 클릭한 위치를 표시할 마커입니다
-            // infowindow = new window.kakao.maps.InfoWindow({zindex:1}); // 클릭한 위치에 대한 주소를 표시할 인포윈도우입니다
-
-            // 지도에 현재 위치 표시
-            const currentLocationMarker = new window.kakao.maps.Marker({
-            map: map,
-            position: new window.kakao.maps.LatLng(lat, lng),
-            });
-            map.setCenter(new window.kakao.maps.LatLng(lat, lng));
-        }
-        });
-        });
-    }
-};
-
-  useEffect(() => {
-    const container = document.getElementById('map'); // 지도를 담을 영역의 DOM
-    const options = {
-      center: new window.kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-      level: 3 // 지도의 확대, 축소 레벨
-    };
-    map = new window.kakao.maps.Map(container, options); // 지도 생성 및 객체 리턴
-
-    // 초기 로딩 시 
-  
-  }, [])
-
+                // 현재 위치 정보 업데이트
+                setCurrentLocation({ latitude: lat, longitude: lng });
     
+                // 지도에 현재 위치 표시
+                const currentLocationMarker = new window.kakao.maps.Marker({
+                    map: map,
+                    position: new window.kakao.maps.LatLng(lat, lng),
+                });
+
+                // map 변수 사용
+                // 지도 객체가 생성되면 지도 객체를 조작한다
+                if (map) {
+                    map.setCenter(new window.kakao.maps.LatLng(lat, lng));
+                }
+
+                reverseGeocoding(lat, lng);
+            });
+        }
+    }
+
+    useEffect(() => {
+        const container = document.getElementById('map'); // 지도를 담을 영역의 DOM
+        const options = {
+            center: new window.kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+            level: 1 // 지도의 확대, 축소 레벨
+        };
+
+        window.kakao.maps.load(() => {
+            map = new window.kakao.maps.Map(container, options);
+            geocoder = new window.kakao.maps.services.Geocoder();
+
+            // 초기 실행시 현재 위치 띄워주기
+            resetToCurrentLocation();
+        });
+    }, [])
+
+
     return (
         <>
             <div>
@@ -80,9 +92,9 @@ const MainPage = () => {
                 }}></div>
                 <div>현재 위치 결과</div>
                 {currentLocation && (
-                <div>
-                    현재 위치 정보: {currentLocation.address}
-                </div>
+                    <div>
+                        현재 위치 정보: 위도{currentLocation.latitude} 경도{currentLocation.longitude}
+                    </div>
                 )}
             </div>
         </>
