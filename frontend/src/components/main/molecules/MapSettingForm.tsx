@@ -1,4 +1,6 @@
 import React, { Dispatch } from "react";
+import { AiOutlineClose } from "react-icons/ai";
+
 import SearchLocation from "../atoms/SearchLocation";
 import UserLocation from "../atoms/UserLocation";
 import CurrentLocationBtn from "../atoms/CurrentLocationBtn";
@@ -8,18 +10,21 @@ interface MapSettingPropsType {
     currentLocation: any;
     address: string;
     setResetLocation: Dispatch<React.SetStateAction<boolean>>;
-
+    showLocationClick: () => void;
 }
 
 const MapSettingForm: React.FC<MapSettingPropsType> = ({ 
         currentLocation, 
         address,
-        setResetLocation
- 
+        setResetLocation,
+        showLocationClick
      }) => {
     return (
         <>
-            <LocationSet />
+            <div className="flex">
+                <LocationSet />
+                <AiOutlineClose onClick={showLocationClick} />
+            </div>
             <SearchLocation  />
             <CurrentLocationBtn 
                 setResetLocation={setResetLocation}

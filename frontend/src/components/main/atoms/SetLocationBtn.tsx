@@ -1,4 +1,5 @@
 import React from "react";
+import { IoIosArrowDown } from "react-icons/io";
 
 interface SetLocationBtnPropsType {
     showLocationClick: () => void;
@@ -7,11 +8,8 @@ interface SetLocationBtnPropsType {
 const SetLocationBtn: React.FC<SetLocationBtnPropsType> = ({ showLocationClick }) => {
     return (
         <div>
-            <img 
-                src="/images/setlocationicon.png" 
-                alt="setlocation" 
+            <IoIosArrowDown
                 onClick={showLocationClick}
-                width={20}
             />
         </div>
     )
