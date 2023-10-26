@@ -1,27 +1,30 @@
-package com.ssafy.moeutto.domain.clothes.entity;
+package com.ssafy.moeutto.domain.clothes.dto.response;
 
+import com.ssafy.moeutto.domain.member.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-@Entity
+
 @Getter
 @NoArgsConstructor
-public class Clothes {
+public class ClothesRegistResponseDto {
+
 
     @Id
     @NotNull
     private Integer id;
     @NotNull
-    private UUID memberId;
+    private Member member;
     @NotNull
     private String middleCategoryId;
+    @NotNull
+    private String largeCategoryId;
     @NotNull
     private String name;
     @NotNull
@@ -50,10 +53,11 @@ public class Clothes {
 
 
     @Builder(toBuilder = true)
-    public Clothes(Integer id, UUID memberId, String middleCategoryId, String name, String season, String color, Integer thickness, Integer price, String shop, String textile, Integer frequency, Integer star, String imageUrl, Timestamp regDate, Timestamp recentDate) {
+    public ClothesRegistResponseDto(Integer id, Member member, String middleCategoryId, String largeCategoryId, String name, String season, String color, Integer thickness, Integer price, String shop, String textile, Integer frequency, Integer star, String imageUrl, Timestamp regDate, Timestamp recentDate) {
         this.id = id;
-        this.memberId = memberId;
+        this.member = member;
         this.middleCategoryId = middleCategoryId;
+        this.largeCategoryId = largeCategoryId;
         this.name = name;
         this.season = season;
         this.color = color;
@@ -67,4 +71,8 @@ public class Clothes {
         this.regDate = regDate;
         this.recentDate = recentDate;
     }
+
+
+
+
 }

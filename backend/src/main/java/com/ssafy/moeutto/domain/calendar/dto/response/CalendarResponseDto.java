@@ -3,6 +3,7 @@ package com.ssafy.moeutto.domain.calendar.dto.response;
 
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString
 public class CalendarResponseDto {
+    @NotNull
     private Integer id;
     private String imageUrl;
     private Integer likeOutfit;
