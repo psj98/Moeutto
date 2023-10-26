@@ -20,5 +20,7 @@ public interface CalendarRepository extends JpaRepository<Calendar, Integer> {
      * @param memberId
      * @param id : 착장 Id
      */
-    void deleteByIdAndMemberId(UUID memberId, Integer id);
+    void deleteByIdAndMemberId(Integer id, UUID memberId);
+
+    Optional<Calendar> findByIdAndMemberId(Integer id, UUID memberId);
 }
