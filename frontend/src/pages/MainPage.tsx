@@ -4,7 +4,8 @@ import MainInfo from "../components/main/organisms/MainInfo"
 import CurrentLocationBtn from "../components/main/atoms/CurrentLocationBtn";
 import ShowMap from "../components/main/atoms/ShowMap";
 import PickButtonTap from "../components/main/organisms/PickButtonTap";
-
+import RecommendList from "../components/main/organisms/RecommendList";
+// 아토믹 디자인 패턴 확인용
 
 interface KakaoMap extends Window {
     kakao: any; // Kakao Maps 라이브러리의 타입에 따라 조정
@@ -86,6 +87,18 @@ const MainPage = () => {
         }
     }
 
+    // 오늘 몇일인지 구하기
+    // const today = new Date();
+    // const day = today.getDate();
+    // let dayList: Array<string> = [];
+    
+    // // 요일 문자로 변환하기
+    // const daysOfWeek: Array<string> = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+    
+    // dayList = daysOfWeek.slice(day, day+3);   
+      
+   
+
     useEffect(() => {
         const container = document.getElementById('map'); // 지도를 담을 영역의 DOM
         const options = {
@@ -111,6 +124,11 @@ const MainPage = () => {
             <div>
                 <MainInfo currentLocation={currentLocation} address={address} showLocationClick={showLocationClick} />
                 <CurrentLocationBtn resetToCurrentLocation={resetToCurrentLocation}  />
+                <br />
+                {/* 날씨 기반 추천 리스트 */}
+                <RecommendList />
+                <br />
+                {/* 버튼 탭 */}
                 <PickButtonTap />
                 <ShowMap />
             </div>
