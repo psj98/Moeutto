@@ -1,13 +1,10 @@
-import React from "react";
+import { BsGlobe } from "react-icons/bs";
 
-interface CurrentLocationBtnProps {
-    // resetToCurrentLocation: () => void;
-}
-
-const CurrentLocationBtn: React.FC<CurrentLocationBtnProps> = () => {
+const CurrentLocationBtn = () => {
     return (
         <div className="flex">
-            <img src="/images/location.png" alt="map" />
+            <BsGlobe />
+            <button>현재 위치로 설정</button>
             {/* <button onClick={resetToCurrentLocation}>현재 위치로 설정</button> */}
         </div>
     )

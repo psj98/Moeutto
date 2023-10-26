@@ -1,4 +1,5 @@
 import React from "react";
+import { BiSearchAlt2 } from "react-icons/bi";
 
 interface SearchLocationPropsType {
  
@@ -15,7 +16,7 @@ const SearchLocation: React.FC<SearchLocationPropsType> = () => {
 
     return (
         <div className="flex">
-            <img src="/images/search.png" alt="" />
+            <BiSearchAlt2 />
             <input type="text" className="border border-black"   />
         </div>
       

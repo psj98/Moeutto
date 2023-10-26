@@ -8,21 +8,20 @@ interface MapSettingPropsType {
     // resetToCurrentLocation: () => void;
     currentLocation: any;
     address: string;
-
 }
 
 const MapSettingForm: React.FC<MapSettingPropsType> = ({ 
         // resetToCurrentLocation, 
         currentLocation, 
         address,
-
+ 
      }) => {
     return (
         <>
             <LocationSet />
             <SearchLocation  />
             <CurrentLocationBtn 
-            // resetToCurrentLocation={resetToCurrentLocation} 
+            // resetToCurrentLocation={resetToCurrentLocation}
             />
             <UserLocation currentLocation={currentLocation} address={address} />
         </>
