@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import MainInfo from "../components/main/organisms/MainInfo"
  import PickButtonTap from "../components/main/organisms/PickButtonTap";
@@ -36,6 +36,10 @@ const MainPage = () => {
     // const handleInputChange = (newValue: any) => {
     //     setNewLocation(newValue);
     // }
+
+    useEffect(() => {
+        console.log('버튼 클릭', resetLocation);
+    }, [resetLocation])
 
     return (
         <>

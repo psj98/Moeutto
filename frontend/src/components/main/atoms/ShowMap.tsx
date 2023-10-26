@@ -15,9 +15,10 @@ declare const window: KakaoMap;
 interface ShowMapPropsType {
     setCurrentLocation: Dispatch<SetStateAction<{ latitude: number; longitude: number } | null>>;
     setAddress: Dispatch<React.SetStateAction<string>>;
+    resetLocation: boolean;
 }
 
-const ShowMap: React.FC<ShowMapPropsType> = ({ setCurrentLocation, setAddress }) => {
+const ShowMap: React.FC<ShowMapPropsType> = ({ setCurrentLocation, setAddress, resetLocation }) => {
     // 지도 객체를 생성할 ref
     const mapRef = useRef<HTMLDivElement>(null);
 
@@ -72,7 +73,6 @@ const ShowMap: React.FC<ShowMapPropsType> = ({ setCurrentLocation, setAddress })
 
 
     useEffect(() => {
-    
         if (mapRef.current) {
             const container = mapRef.current; // 지도를 담을 영역의 DOM
            
@@ -94,11 +94,12 @@ const ShowMap: React.FC<ShowMapPropsType> = ({ setCurrentLocation, setAddress })
         // 현재위치 불러오기
         resetToCurrentLocation();
 
-    }, [])
+    }, [resetLocation])
+
+
 
     return (
         <>
-        <button>현재 위치로 설정</button>
             <div ref={mapRef} style={{
                 width: '200px',
                 height: '300px'
