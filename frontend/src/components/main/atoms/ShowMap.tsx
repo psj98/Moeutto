@@ -76,8 +76,6 @@ const ShowMap: React.FC<ShowMapPropsType> = ({ setCurrentLocation, setAddress, r
         if (mapRef.current) {
             const container = mapRef.current; // 지도를 담을 영역의 DOM
            
-            console.log('컨테이너', container)
-
             const options = {
                 center: new window.kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
                 level: 3 // 지도의 확대, 축소 레벨

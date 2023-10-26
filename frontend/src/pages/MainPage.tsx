@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import MainInfo from "../components/main/organisms/MainInfo"
  import PickButtonTap from "../components/main/organisms/PickButtonTap";
@@ -26,6 +26,13 @@ const MainPage = () => {
         setLocationState(!locationState);
     }
 
+    // 지도 끄기
+    const closedLocationClick = () => {
+        if (locationState === true) {
+            setLocationState(false);
+        }
+    }
+
     // 지도 다시 불러오기
     const [resetLocation, setResetLocation] = useState<boolean>(false);
 
@@ -37,13 +44,9 @@ const MainPage = () => {
     //     setNewLocation(newValue);
     // }
 
-    useEffect(() => {
-        console.log('버튼 클릭', resetLocation);
-    }, [resetLocation])
-
     return (
         <>
-            <div>
+            <div className="flex flex-col" onClick={closedLocationClick}>
                 <MainInfo currentLocation={currentLocation} address={address} showLocationClick={showLocationClick} />
                 <br />
                 {/* 날씨 기반 추천 리스트 */}
@@ -52,16 +55,18 @@ const MainPage = () => {
                 {/* 버튼 탭 */}
                 <PickButtonTap />
                 {/* 지도  */}
-                <MapModal 
-                    // resetToCurrentLocation={resetToCurrentLocation} 
-                    currentLocation={currentLocation} 
-                    address={address} 
-                    locationState={locationState}
-                    setCurrentLocation={setCurrentLocation}
-                    setAddress={setAddress}
-                    resetLocation={resetLocation}
-                    setResetLocation={setResetLocation}
-                />
+                <div className="absolute z-50 bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <MapModal 
+                        currentLocation={currentLocation} 
+                        address={address} 
+                        locationState={locationState}
+                        setCurrentLocation={setCurrentLocation}
+                        setAddress={setAddress}
+                        resetLocation={resetLocation}
+                        setResetLocation={setResetLocation}
+                        showLocationClick={showLocationClick}
+                    />
+                </div>
             </div>
         </>
     )
