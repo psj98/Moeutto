@@ -7,13 +7,15 @@ interface MapModalPropsType {
     address: string;
     locationState: boolean;
     setCurrentLocation: Dispatch<SetStateAction<{ latitude: number; longitude: number } | null>>;
+    setAddress: Dispatch<React.SetStateAction<string>>;
 }
 
 const MapModal: React.FC<MapModalPropsType> = ({ 
         currentLocation, 
         address, 
         locationState,
-        setCurrentLocation
+        setCurrentLocation,
+        setAddress
     }) => {
 console.log('전달이 잘 되는지', locationState)
     return (
@@ -26,7 +28,7 @@ console.log('전달이 잘 되는지', locationState)
                 address={address} 
   
             />
-            <ShowMap setCurrentLocation={setCurrentLocation}  />
+            <ShowMap setCurrentLocation={setCurrentLocation} setAddress={setAddress}  />
         </div>
         }
         </>
