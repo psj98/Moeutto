@@ -12,6 +12,7 @@ interface MapModalPropsType {
     resetLocation: boolean;
     showLocationClick: () => void;
     handleInputChange: (newValue: any) => void;
+    newLocation: string;
 }
 
 const MapModal: React.FC<MapModalPropsType> = ({ 
@@ -23,7 +24,8 @@ const MapModal: React.FC<MapModalPropsType> = ({
         setResetLocation,
         resetLocation,
         showLocationClick,
-        handleInputChange
+        handleInputChange,
+        newLocation
     }) => {
 
     return (
@@ -41,6 +43,7 @@ const MapModal: React.FC<MapModalPropsType> = ({
                 setCurrentLocation={setCurrentLocation} 
                 setAddress={setAddress}  
                 resetLocation={resetLocation}
+                newLocation={newLocation}
             />
         </div>
         }
