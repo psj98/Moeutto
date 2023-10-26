@@ -1,14 +1,14 @@
 package com.ssafy.moeutto.domain.member.service;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
+import com.google.gson.stream.JsonReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -19,8 +19,6 @@ public class MemberLoginServiceImpl implements MemberLoginService {
     // kakao api key and redirect url
     @Value("${kakao.api.key}")
     private String apiKey;
-    @Value("${kakao.redirect.url}")
-    private String redirectURL;
     @Value("${kakao.secret}")
     private String secret;
 
@@ -28,12 +26,60 @@ public class MemberLoginServiceImpl implements MemberLoginService {
     @Override
     public String getKakaoPermissionCode() {
         String requestURL = "https://kauth.kakao.com/oauth/authorize";
+        String redirectURL = "http://localhost:8080/api/members/check";
         String code = "";
 
+        try{
+            URL url = new URL(requestURL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            connection.setRequestMethod("GET");
+//            connection.setDoOutput(true);
+
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
+
+            String str = "response_type=code"+
+                    "&client_id="+apiKey+
+                    "&redirect_uri="+redirectURL
+                    ;
+//                    +"&scope=profile_nickname,profile_image,account_email";
+
+            bw.write(str);
+            bw.flush();
+
+            int responseCode = connection.getResponseCode();
+            System.out.println("인가코드 responseCode : "+responseCode );
+
+            // 요청 통해 얻어온 데이터 읽어옴
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line = "";
+            StringBuilder result = new StringBuilder();
+
+            while((line = br.readLine()) != null){
+                    result.append(line);
+            }
+
+            // 확인용
+            System.out.println("response body : "+result);
+
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(result.toString());
+
+            code = element.getAsJsonObject().get("code").getAsString();
+
+            // 확인용
+            System.out.println("Permission code : "+ code);
+
+            br.close();
+            bw.close();
+
+            return code;
 
 
-
-        return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -42,17 +88,20 @@ public class MemberLoginServiceImpl implements MemberLoginService {
      * @return accessToken
      */
     @Override
-    public String getKakaoAccessToken(String code) {
+    public String KakaoAccessToken(String code) {
 
         String accessToken = "";
         String refreshToken = "";
         String requestURL = "https://kauth.kakao.com/oauth/token";
-
+        String redirectURL = "http://localhost:8080/api/members/check";
+//        String redirectURL = "http://localhost:8080/api/oauth/kakao";
         try{
             URL url = new URL(requestURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-type","application/x-www-form-urlencoded;charset=utf-8");
+
             // OutputStream으로 POST 데이터 넘기는 옵션
             // POST 요청을 하려면 true 로 설정
             connection.setDoOutput(true);
@@ -62,16 +111,18 @@ public class MemberLoginServiceImpl implements MemberLoginService {
             String str = "grant_type=authorization_code"+
                     "&client_id="+apiKey+
                     "&redirect_uri="+redirectURL+
-                    "&response_type=code"+
-                    "&client_secret="+ secret;
+//                    "&response_type=code"+
+                    "&code="+code+
+                    "&client_secret="+secret;
+
+            System.out.println("URL : "+url.toString()+"?"+str);
 
             bw.write(str);
             bw.flush();
 
-            // 302 코드가 와야 로그인이 작동된다
             int responseCode = connection.getResponseCode();
             // 확인용
-            System.out.println("responseCode : "+responseCode);
+            System.out.println("토근 발급 responseCode : "+responseCode);
 
             // 요청 통해 얻어온 데이터 읽어옴
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -85,7 +136,8 @@ public class MemberLoginServiceImpl implements MemberLoginService {
             // 확인용
             System.out.println("response body : "+result);
 
-            JsonElement element = JsonParser.parseString(result.toString());
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(result.toString());
 
             accessToken = element.getAsJsonObject().get("access_token").getAsString();
             refreshToken = element.getAsJsonObject().get("refresh_token").getAsString();
@@ -110,51 +162,51 @@ public class MemberLoginServiceImpl implements MemberLoginService {
      * @param accessToken
      * @return
      */
-    @Override
-    public HashMap<String, Object> getUserInfo(String accessToken) {
-
-        HashMap<String, Object> userInfo = new HashMap<>();
-        String postURL = "https://kapi.kakao.com/v2/user/me";
-
-        try{
-            URL url = new URL(postURL);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-
-            connection.setRequestProperty("Authorization","Bearer "+accessToken);
-
-            int responseCode = connection.getResponseCode();
-
-            // 상태 코드 확인용
-            System.out.println("responseCode : "+responseCode);
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String line = "";
-            StringBuilder result = new StringBuilder();
-
-            while((line = br.readLine()) != null){
-                result.append(line);
-            }
-
-            JsonElement element = JsonParser.parseString(result.toString());
-            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
-            JsonObject kakaoAccount = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-
-            String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-            // 에러나면 얘때문임
-            String profileImage = properties.getAsJsonObject().get("image").getAsString();
-            String email = kakaoAccount.getAsJsonObject().get("email").getAsString();
-
-            userInfo.put("nickname",nickname);
-            userInfo.put("email", email);
-
-            System.out.println("profileImage : "+profileImage);
-            userInfo.put("profileImage",profileImage);
-
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-
-        return userInfo;
-    }
+//    @Override
+//    public HashMap<String, Object> getUserInfo(String accessToken) {
+//
+//        HashMap<String, Object> userInfo = new HashMap<>();
+//        String postURL = "https://kapi.kakao.com/v2/user/me";
+//
+//        try{
+//            URL url = new URL(postURL);
+//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//            connection.setRequestMethod("GET");
+//
+//            connection.setRequestProperty("Authorization","Bearer "+accessToken);
+//
+//            int responseCode = connection.getResponseCode();
+//
+//            // 상태 코드 확인용
+//            System.out.println("responseCode : "+responseCode);
+//
+//            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//            String line = "";
+//            StringBuilder result = new StringBuilder();
+//
+//            while((line = br.readLine()) != null){
+//                result.append(line);
+//            }
+//
+//            JsonElement element = JsonParser.parseString(result.toString());
+//            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
+//            JsonObject kakaoAccount = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
+//
+//            String nickname = properties.getAsJsonObject().get("nickname").getAsString();
+//            // 에러나면 얘때문임
+//            String profileImage = properties.getAsJsonObject().get("image").getAsString();
+//            String email = kakaoAccount.getAsJsonObject().get("email").getAsString();
+//
+//            userInfo.put("nickname",nickname);
+//            userInfo.put("email", email);
+//
+//            System.out.println("profileImage : "+profileImage);
+//            userInfo.put("profileImage",profileImage);
+//
+//        }catch(IOException e){
+//            e.printStackTrace();
+//        }
+//
+//        return userInfo;
+//    }
 }
