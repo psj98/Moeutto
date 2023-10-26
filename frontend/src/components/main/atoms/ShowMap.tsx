@@ -14,15 +14,32 @@ declare const window: KakaoMap;
 
 interface ShowMapPropsType {
     setCurrentLocation: Dispatch<SetStateAction<{ latitude: number; longitude: number } | null>>;
-
+    setAddress: Dispatch<React.SetStateAction<string>>;
 }
 
-const ShowMap: React.FC<ShowMapPropsType> = ({ setCurrentLocation }) => {
+const ShowMap: React.FC<ShowMapPropsType> = ({ setCurrentLocation, setAddress }) => {
     // 지도 객체를 생성할 ref
     const mapRef = useRef<HTMLDivElement>(null);
 
     // map 변수를 함수 스코프 밖에서 정의
     let map: any;
+    let geocoder: any;
+
+    // 위도, 경도를 기반으로 현재 법정동 주소를 가져온다.
+    const reverseGeocoding = (lat: number, lng: number) => {
+        if (geocoder) {
+            geocoder.coord2RegionCode(lng, lat, (result: any, status: any) => {
+                if (status === window.kakao.maps.services.Status.OK) {
+                    if (result[0]) {
+                        // 법정동 주소를 출력
+                        setAddress(result[0].address_name);
+                    }
+                }
+            });
+        } else {
+            console.error("주소 바꾸는 것 에러남")
+        }
+    };
 
     const resetToCurrentLocation = () => {
         if (navigator.geolocation) {
@@ -48,7 +65,7 @@ const ShowMap: React.FC<ShowMapPropsType> = ({ setCurrentLocation }) => {
                     map.setCenter(new window.kakao.maps.LatLng(lat, lng));
                 }
 
-                // reverseGeocoding(lat, lng);
+                reverseGeocoding(lat, lng);
             });
         }
     } 
@@ -66,29 +83,21 @@ const ShowMap: React.FC<ShowMapPropsType> = ({ setCurrentLocation }) => {
                 level: 3 // 지도의 확대, 축소 레벨
             };
             
+            // 지도 객체 생성
             map = new window.kakao.maps.Map(container, options);
-            // resetToCurrentLocation();
+            // 위치 객체 생성
+            geocoder = new window.kakao.maps.services.Geocoder();
+            // 동적 변화 감지
             map.relayout();
-        
-
-            // window.kakao.maps.load(() => {
-            //     // 지도 객체 생성
-            //     map = new window.kakao.maps.Map(container, options);
-            //     map.relayout();
-            //     // 주소 변환 객체 생성
-            //     geocoder = new window.kakao.maps.services.Geocoder();
-
-            //     // 초기 실행시 현재 위치 띄워주기
-            //     resetToCurrentLocation();
-            // });
+            
         }
-
         // 현재위치 불러오기
         resetToCurrentLocation();
     }, [])
 
     return (
         <>
+            <button>현재 위치로 설정</button>
             <div ref={mapRef} style={{
                 width: '200px',
                 height: '300px'
