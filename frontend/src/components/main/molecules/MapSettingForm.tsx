@@ -11,13 +11,15 @@ interface MapSettingPropsType {
     address: string;
     setResetLocation: Dispatch<React.SetStateAction<boolean>>;
     showLocationClick: () => void;
+    handleInputChange: (newValue: any) => void;
 }
 
 const MapSettingForm: React.FC<MapSettingPropsType> = ({ 
         currentLocation, 
         address,
         setResetLocation,
-        showLocationClick
+        showLocationClick,
+        handleInputChange
      }) => {
     return (
         <>
@@ -25,7 +27,7 @@ const MapSettingForm: React.FC<MapSettingPropsType> = ({
                 <LocationSet />
                 <AiOutlineClose onClick={showLocationClick} />
             </div>
-            <SearchLocation  />
+            <SearchLocation handleInputChange={handleInputChange}  />
             <CurrentLocationBtn 
                 setResetLocation={setResetLocation}
             />
