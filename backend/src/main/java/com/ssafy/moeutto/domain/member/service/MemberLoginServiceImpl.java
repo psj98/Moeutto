@@ -134,7 +134,7 @@ public class MemberLoginServiceImpl implements MemberLoginService {
             }
 
             // 확인용
-            System.out.println("response body : "+result);
+//            System.out.println("response body : "+result);
 
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result.toString());
@@ -143,8 +143,8 @@ public class MemberLoginServiceImpl implements MemberLoginService {
             refreshToken = element.getAsJsonObject().get("refresh_token").getAsString();
 
             // 확인용
-            System.out.println("accessToken : "+ accessToken);
-            System.out.println("refreshToken : "+ refreshToken);
+            System.out.println("Kakao accessToken : "+ accessToken);
+//            System.out.println("refreshToken : "+ refreshToken);
 
             br.close();
             bw.close();
@@ -162,51 +162,52 @@ public class MemberLoginServiceImpl implements MemberLoginService {
      * @param accessToken
      * @return
      */
-//    @Override
-//    public HashMap<String, Object> getUserInfo(String accessToken) {
-//
-//        HashMap<String, Object> userInfo = new HashMap<>();
-//        String postURL = "https://kapi.kakao.com/v2/user/me";
-//
-//        try{
-//            URL url = new URL(postURL);
-//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//            connection.setRequestMethod("GET");
-//
-//            connection.setRequestProperty("Authorization","Bearer "+accessToken);
-//
-//            int responseCode = connection.getResponseCode();
-//
-//            // 상태 코드 확인용
-//            System.out.println("responseCode : "+responseCode);
-//
-//            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-//            String line = "";
-//            StringBuilder result = new StringBuilder();
-//
-//            while((line = br.readLine()) != null){
-//                result.append(line);
-//            }
-//
-//            JsonElement element = JsonParser.parseString(result.toString());
-//            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
-//            JsonObject kakaoAccount = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-//
-//            String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-//            // 에러나면 얘때문임
+    @Override
+    public HashMap<String, Object> getUserInfo(String accessToken) {
+
+        HashMap<String, Object> userInfo = new HashMap<>();
+        String postURL = "https://kapi.kakao.com/v2/user/me";
+
+        try{
+            URL url = new URL(postURL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            connection.setRequestProperty("Authorization","Bearer "+accessToken);
+
+            int responseCode = connection.getResponseCode();
+
+            // 상태 코드 확인용
+            System.out.println("responseCode : "+responseCode);
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line = "";
+            StringBuilder result = new StringBuilder();
+
+            while((line = br.readLine()) != null){
+                result.append(line);
+            }
+
+            JsonElement element = JsonParser.parseString(result.toString());
+            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
+            JsonObject kakaoAccount = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
+
+            String nickname = properties.getAsJsonObject().get("nickname").getAsString();
+            // 에러나면 얘때문임
 //            String profileImage = properties.getAsJsonObject().get("image").getAsString();
-//            String email = kakaoAccount.getAsJsonObject().get("email").getAsString();
-//
-//            userInfo.put("nickname",nickname);
-//            userInfo.put("email", email);
-//
+
+            String email = kakaoAccount.getAsJsonObject().get("email").getAsString();
+
+            userInfo.put("nickname",nickname);
+            userInfo.put("email", email);
+
 //            System.out.println("profileImage : "+profileImage);
 //            userInfo.put("profileImage",profileImage);
-//
-//        }catch(IOException e){
-//            e.printStackTrace();
-//        }
-//
-//        return userInfo;
-//    }
+
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
+        return userInfo;
+    }
 }
