@@ -1,5 +1,6 @@
 package com.ssafy.moeutto.domain.calendar.service;
 
+import com.ssafy.moeutto.domain.calendar.dto.request.CalendarRegistRequestDto;
 import com.ssafy.moeutto.domain.calendar.dto.response.CalendarListResponseDto;
 import com.ssafy.moeutto.domain.calendar.entity.Calendar;
 import com.ssafy.moeutto.global.response.BaseException;
@@ -10,6 +11,6 @@ import java.util.UUID;
 
 public interface CalendarService {
 
-    void registMyOutfit(UUID memberId, String calendar) throws BaseException;;
+    void registMyOutfit(UUID memberId,CalendarRegistRequestDto requestDto) throws BaseException;;
     CalendarListResponseDto getCalendarList(UUID memberId, Timestamp curDate) throws BaseException;
 }
