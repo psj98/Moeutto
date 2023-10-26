@@ -88,7 +88,7 @@ public class CalendarController {
         //토큰 정보로 받은 ID를 기반으로 삭제.
         try {
             UUID memberId =  validToken(token);
-
+            calendarService.deleteCalendar(memberId, id);
             return baseResponseService.getSuccessResponse();
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);

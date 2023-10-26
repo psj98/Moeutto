@@ -13,4 +13,6 @@ public interface CalendarService {
 
     void registMyOutfit(UUID memberId,CalendarRegistRequestDto requestDto) throws BaseException;;
     CalendarListResponseDto getCalendarList(UUID memberId, Timestamp curDate) throws BaseException;
+
+    void deleteCalendar(UUID memberId, Integer id) throws BaseException;
 }

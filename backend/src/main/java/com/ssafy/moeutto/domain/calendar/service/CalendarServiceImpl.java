@@ -68,10 +68,9 @@ public class CalendarServiceImpl implements CalendarService {
     @Override
     public CalendarListResponseDto getCalendarList(UUID memberId, Timestamp regDate) throws BaseException {
 
+        // 사용자 재 검증
+        memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
-        Optional<Member> memberOptional = memberRepository.findById(memberId);
-
-        Member member = memberOptional.orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
         //년 월 받아오기.
         Timestamp todayMonth = regDate;
@@ -102,5 +101,26 @@ public class CalendarServiceImpl implements CalendarService {
                 .build();
 
         return calendarListResponseDto;
+    }
+
+
+    /**
+     * 캘린더에 등록된 착장 정보를 삭제하는 서비스입니다.
+     * @param memberId
+     * @param id
+     * @throws BaseException
+     */
+    @Override
+    public void deleteCalendar(UUID memberId, Integer id) throws BaseException {
+
+
+        //사용자 재 검증
+        memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+
+        //캘린더 존재 여부
+        calendarRepository.findById(id).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_CALENDAR_INFO));
+
+        //삭제
+        calendarRepository.deleteByIdAndMemberId(memberId, id);
     }
 }
