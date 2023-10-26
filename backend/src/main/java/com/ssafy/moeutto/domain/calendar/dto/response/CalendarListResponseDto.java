@@ -1,18 +1,26 @@
 package com.ssafy.moeutto.domain.calendar.dto.response;
 
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
-@Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@ToString
 public class CalendarListResponseDto {
-    private Integer id;
-    private String imageUrl;
-    private Integer likeOutfit;
-    private LocalDateTime regDate;
+
+    @NotNull
+    private List<CalendarResponseDto> calendarList;
+
+
+
+
+    @Builder(toBuilder = true)
+    public CalendarListResponseDto(List<CalendarResponseDto> calendarList){
+        this.calendarList = calendarList;
+    }
+
 }
