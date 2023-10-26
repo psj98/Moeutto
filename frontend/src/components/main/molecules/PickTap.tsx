@@ -7,12 +7,10 @@ const PickTap = () => {
         <>
             <div className="flex">
                 <div className="bg-gray-button">
-                    <PickIcon title="camera" />
-                    <div>찍어찍어 당장 너를 찍어</div>
+                    <PickIcon title="camera" content="찍어찍어 당장 너를 찍어" />
                 </div>
                 <div className="bg-gray-button">
-                    <PickIcon title="closet" />
-                    <div>골라골라 옷장에서 골라</div>
+                    <PickIcon title="closet" content="골라골라 옷장에서 골라" />
                 </div>
             </div>
         </>
