@@ -58,9 +58,9 @@ const MainPage = () => {
                         setResetLocation={setResetLocation}
                         showLocationClick={showLocationClick}
                         handleInputChange={handleInputChange}
+                        newLocation={newLocation}
                     />
                 </div>
-                <div>검색 뭐라 했니?: {newLocation}</div>
             </div>
         </>
     )

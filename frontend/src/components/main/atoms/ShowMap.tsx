@@ -16,9 +16,15 @@ interface ShowMapPropsType {
     setCurrentLocation: Dispatch<SetStateAction<{ latitude: number; longitude: number } | null>>;
     setAddress: Dispatch<React.SetStateAction<string>>;
     resetLocation: boolean;
+    newLocation: string;
 }
 
-const ShowMap: React.FC<ShowMapPropsType> = ({ setCurrentLocation, setAddress, resetLocation }) => {
+const ShowMap: React.FC<ShowMapPropsType> = ({ 
+        setCurrentLocation, 
+        setAddress, 
+        resetLocation ,
+        newLocation
+    }) => {
     // 지도 객체를 생성할 ref
     const mapRef = useRef<HTMLDivElement>(null);
 
@@ -71,6 +77,24 @@ const ShowMap: React.FC<ShowMapPropsType> = ({ setCurrentLocation, setAddress, r
         }
     } 
 
+    // 키워드로 장소 검색하기
+    // const placesSearchCB = (data, status, pagination) => {
+    //     if (status === window.kakao.maps.services.Status.OK) {
+    //         const bounds = new window.kakao.maps.LatLngBounds();
+
+    //         for (let i=0; i<data.length; i++) { 
+    //             bounds.extend(new window.kakao.maps.LatLng(data[i].y, data[i].x));
+    //         } 
+
+    //         map.setBounds(bounds);
+    //     }
+    // }
+
+    // if (ps) {
+    //     ps.keywordSearch(newLocation, placesSearchCB);
+    // }
+
+
 
     useEffect(() => {
         if (mapRef.current) {
@@ -85,6 +109,8 @@ const ShowMap: React.FC<ShowMapPropsType> = ({ setCurrentLocation, setAddress, r
             map = new window.kakao.maps.Map(container, options);
             // 위치 객체 생성
             geocoder = new window.kakao.maps.services.Geocoder();
+            // 장소 검색 객체 생성
+            // ps = new window.kakao.maps.services.Places(); 
             // 동적 변화 감지
             map.relayout();
             
@@ -93,6 +119,8 @@ const ShowMap: React.FC<ShowMapPropsType> = ({ setCurrentLocation, setAddress, r
         resetToCurrentLocation();
 
     }, [resetLocation])
+
+
 
 
 
