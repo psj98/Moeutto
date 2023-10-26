@@ -1,9 +1,10 @@
 import React from 'react';
+import { FiMapPin } from "react-icons/fi";
 
 const MapIcon = () => {
     return (
         <>
-            <img src="/images/mapicon.png" alt="map" />
+            <FiMapPin />
         </>
     )
 }

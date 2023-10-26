@@ -17,7 +17,7 @@ const MainPage = () => {
     // 법정동 주소
     const [address, setAddress] = useState<string>("");
 
-    // 위치 다시 정하기 위한 클릭 이벤트 상태 값
+    // 지도 출력
     const [locationState, setLocationState] = useState<boolean>(false);
     
     // 지도 화면 출력 클릭 이벤트
@@ -26,6 +26,10 @@ const MainPage = () => {
         setLocationState(!locationState);
     }
 
+    // 지도 다시 불러오기
+    const [resetLocation, setResetLocation] = useState<boolean>(false);
+
+ 
     // 주소 검색 이벤트 핸들러
     // const [newLocation, setNewLocation] = useState<string>("");
 
@@ -51,8 +55,9 @@ const MainPage = () => {
                     locationState={locationState}
                     setCurrentLocation={setCurrentLocation}
                     setAddress={setAddress}
+                    resetLocation={resetLocation}
+                    setResetLocation={setResetLocation}
                 />
-               
             </div>
         </>
     )

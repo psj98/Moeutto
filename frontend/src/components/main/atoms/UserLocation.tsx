@@ -11,7 +11,7 @@ const UserLocation: React.FC<UserLocationPropsType> = ({ currentLocation, addres
             {currentLocation ? (
                 <div>{address}</div>
             ) : (
-                <div>현재 위치 정보가 없어요</div>
+                <div>위치를 설정하러 가볼까요?</div>
             )}
         </div>
     )

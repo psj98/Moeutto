@@ -93,11 +93,12 @@ const ShowMap: React.FC<ShowMapPropsType> = ({ setCurrentLocation, setAddress })
         }
         // 현재위치 불러오기
         resetToCurrentLocation();
+
     }, [])
 
     return (
         <>
-            <button>현재 위치로 설정</button>
+        <button>현재 위치로 설정</button>
             <div ref={mapRef} style={{
                 width: '200px',
                 height: '300px'
