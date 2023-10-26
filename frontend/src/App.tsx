@@ -1,15 +1,19 @@
-import * as React from "react";
-import { Link } from "react-router-dom";
+import * as React from 'react';
+import styled from 'styled-components';
 
-function App() {
+interface Props {
+  children: any;
+}
+
+const ContentContainer = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+function App({ children }: Props) {
   return (
-    <div className="App">
-      <Link to="/main">메인 페이지</Link>
-      <br />
-      <Link to="/mycloset">나의 옷장</Link>
-      <br />
-      <Link to="/mypage">마이 페이지 </Link>
-      <br />
+    <div className="App flex">
+      <ContentContainer>{children}</ContentContainer>
     </div>
   );
 }
