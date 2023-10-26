@@ -8,7 +8,7 @@ interface PickIconPropsType {
 const PickIcon: React.FC<PickIconPropsType> = ({ title, content }) => {
     return (
         <div>
-            <img src={`/images/${title}3d.png`} alt="icon" className="w-32 h-32" />
+            <img src={`/images/${title}3d.png`} alt="icon" className="w-32 h-32 hover:scale-105" />
             <div>{content}</div>
         </div>
     )

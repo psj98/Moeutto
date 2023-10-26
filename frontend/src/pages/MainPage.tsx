@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 
 import MainInfo from "../components/main/organisms/MainInfo"
  import PickButtonTap from "../components/main/organisms/PickButtonTap";
@@ -6,6 +6,7 @@ import RecommendList from "../components/main/organisms/RecommendList";
 import MapModal from "../components/main/organisms/MapModal";
 
 // 아토믹 디자인 패턴 확인용
+import ShowPreiveiwImg from "../components/main/atoms/ShowPrieveiwImg";
 
 const MainPage = () => {
     // 현재 위치
@@ -36,6 +37,24 @@ const MainPage = () => {
         setNewLocation(newValue);
     }
 
+    // 착장 검사 사진 찍는 경우 사진 확인하기
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files && e.target.files[0];
+
+        if (file) {
+        const reader = new FileReader();
+
+        reader.onload = (event) => {
+            setSelectedImage(event.target.result as string);
+        };
+        reader.readAsDataURL(file);
+        } else {
+        setSelectedImage(null);
+        }
+    };
+
     return (
         <>
             <div className="flex flex-col">
@@ -45,7 +64,7 @@ const MainPage = () => {
                 <RecommendList />
                 <br />
                 {/* 버튼 탭 */}
-                <PickButtonTap />
+                <PickButtonTap handleImageChange={handleImageChange} />
                 {/* 지도  */}
                 <div className="absolute z-50 bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <MapModal 
@@ -61,6 +80,13 @@ const MainPage = () => {
                         newLocation={newLocation}
                     />
                 </div>
+
+                {selectedImage && (
+                    <div>
+                        <ShowPreiveiwImg selectedImage={selectedImage} />
+                    </div>
+                )}
+                
             </div>
         </>
     )

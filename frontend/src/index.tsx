@@ -6,6 +6,7 @@ import App from './App';
 import Work from './pages/Work';
 
 import MainPage from './pages/MainPage';
+import PickPickPage from './pages/PickPickPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -15,6 +16,7 @@ root.render(
       <Routes>
         <Route path="/" element={<Work />} />
         <Route path="/main" element={<MainPage />} />
+        <Route path="/pickpick" element={<PickPickPage />} />
         <Route path="/mycloset" element={<App />} />
         <Route path="/notmycloset" element={<App />} />
         <Route path="/calendar" element={<App />} />
