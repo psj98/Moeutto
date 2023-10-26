@@ -18,21 +18,23 @@ const MapModal: React.FC<MapModalPropsType> = ({
         locationState,
         setCurrentLocation,
         setAddress,
+        setResetLocation,
+        resetLocation
     }) => {
-
 
     return (
         <>
         {locationState &&
         <div>
             <MapSettingForm 
-                // resetToCurrentLocation={resetToCurrentLocation} 
+                setResetLocation={setResetLocation}
                 currentLocation={currentLocation} 
                 address={address} 
             />
             <ShowMap 
                 setCurrentLocation={setCurrentLocation} 
                 setAddress={setAddress}  
+                resetLocation={resetLocation}
             />
         </div>
         }
