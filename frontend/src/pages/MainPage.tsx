@@ -22,15 +22,7 @@ const MainPage = () => {
     
     // 지도 화면 출력 클릭 이벤트
     const showLocationClick = () => {
-        console.log('클릭', locationState)
         setLocationState(!locationState);
-    }
-
-    // 지도 끄기
-    const closedLocationClick = () => {
-        if (locationState === true) {
-            setLocationState(false);
-        }
     }
 
     // 지도 다시 불러오기
@@ -38,15 +30,15 @@ const MainPage = () => {
 
  
     // 주소 검색 이벤트 핸들러
-    // const [newLocation, setNewLocation] = useState<string>("");
+    const [newLocation, setNewLocation] = useState<string>("");
 
-    // const handleInputChange = (newValue: any) => {
-    //     setNewLocation(newValue);
-    // }
+    const handleInputChange = (newValue: any) => {
+        setNewLocation(newValue);
+    }
 
     return (
         <>
-            <div className="flex flex-col" onClick={closedLocationClick}>
+            <div className="flex flex-col">
                 <MainInfo currentLocation={currentLocation} address={address} showLocationClick={showLocationClick} />
                 <br />
                 {/* 날씨 기반 추천 리스트 */}
@@ -65,8 +57,10 @@ const MainPage = () => {
                         resetLocation={resetLocation}
                         setResetLocation={setResetLocation}
                         showLocationClick={showLocationClick}
+                        handleInputChange={handleInputChange}
                     />
                 </div>
+                <div>검색 뭐라 했니?: {newLocation}</div>
             </div>
         </>
     )

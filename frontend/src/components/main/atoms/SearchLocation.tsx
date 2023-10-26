@@ -2,22 +2,20 @@ import React from "react";
 import { BiSearchAlt2 } from "react-icons/bi";
 
 interface SearchLocationPropsType {
- 
+    handleInputChange: (newValue: any) => void;
 }
 
-const SearchLocation: React.FC<SearchLocationPropsType> = () => {
+const SearchLocation: React.FC<SearchLocationPropsType> = ({ handleInputChange }) => {
+        const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = event.target.value;
 
-    // const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     const newValue: any = event.target.value;
-
-    //     onInputChange(newValue);
-    // };
-
+        handleInputChange(newValue);
+    }
 
     return (
         <div className="flex">
             <BiSearchAlt2 />
-            <input type="text" className="border border-black"   />
+            <input type="text" className="border border-black" onChange={handleSearch} />
         </div>
       
     )
