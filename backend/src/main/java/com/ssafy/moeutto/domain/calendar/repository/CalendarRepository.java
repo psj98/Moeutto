@@ -12,6 +12,6 @@ import java.util.UUID;
 public interface CalendarRepository extends JpaRepository<Calendar, Integer> {
 
 
-    @Query(value = "SELECT * FROM calendar" + "WHERE member_id = ?1 AND DATE_FORMAT(curDate, '%Y-%m')= DATE_FORMAT(?2, '%Y-%m')", nativeQuery = true)
+    @Query(value = "SELECT * FROM calendar " + "WHERE member_id = ?1 AND DATE_FORMAT(curDate, '%Y-%m')= DATE_FORMAT(?2, '%Y-%m')", nativeQuery = true)
     Optional<List<Calendar>> findAllByMemberIdTodayMonth(UUID memberId, Timestamp curDate);
 }

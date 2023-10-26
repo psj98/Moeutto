@@ -1,5 +1,6 @@
 package com.ssafy.moeutto.domain.calendar.service;
 
+import com.ssafy.moeutto.domain.calendar.dto.request.CalendarRegistRequestDto;
 import com.ssafy.moeutto.domain.calendar.dto.response.CalendarListResponseDto;
 import com.ssafy.moeutto.domain.calendar.dto.response.CalendarResponseDto;
 import com.ssafy.moeutto.domain.calendar.entity.Calendar;
@@ -31,11 +32,10 @@ public class CalendarServiceImpl implements CalendarService {
     /**
      * 캘린더에 착장을 등록하는 서비스입니다.
      * @param memberId
-     * @param imageUrl: S3에서 받아와야함.
+     * @param requestDto : 요소가 ImageUrl 하나 있음. S3에서 받아와야함.
      */
     @Override
-    public void registMyOutfit(UUID memberId, String imageUrl) throws BaseException {
-
+    public void registMyOutfit(UUID memberId,CalendarRegistRequestDto requestDto) throws BaseException {
 
         Optional<Member> member = memberRepository.findById(memberId);
 
@@ -47,12 +47,12 @@ public class CalendarServiceImpl implements CalendarService {
         Calendar calendar =
                 Calendar.builder()
                         .memberId(memberId)
-                        .imageUrl(imageUrl)
+                        .imageUrl(requestDto.getImageUrl())
                         .regDate(curDate)
                         .build();
 
 
-        calendarRepository.save(calendar);
+          calendarRepository.save(calendar);
 
     }
 
@@ -71,15 +71,13 @@ public class CalendarServiceImpl implements CalendarService {
 
         Optional<Member> memberOptional = memberRepository.findById(memberId);
 
-        if(!memberOptional.isPresent()){
-            throw new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER);
-        }
+        Member member = memberOptional.orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
         //년 월 받아오기.
         Timestamp todayMonth = regDate;
 
         /* 현재 연월로 캘린더 목록 가져오기 */
-        List<Calendar> calendarList = calendarRepository.findAllByMemberIdTodayMonth(memberId, regDate).get();
+        List<Calendar> calendarList = calendarRepository.findAllByMemberIdTodayMonth(memberId, todayMonth).get();
 
         List<CalendarResponseDto> dairayCalendarList = new ArrayList<>();
 
