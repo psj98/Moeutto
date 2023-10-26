@@ -1,14 +1,15 @@
 import React from "react";
 
 interface CurrentLocationBtnProps {
-    resetToCurrentLocation: () => void;
-  }
+    // resetToCurrentLocation: () => void;
+}
 
-const CurrentLocationBtn: React.FC<CurrentLocationBtnProps> = ({ resetToCurrentLocation }) => {
+const CurrentLocationBtn: React.FC<CurrentLocationBtnProps> = () => {
     return (
-        <>
-            <button onClick={resetToCurrentLocation} className="bg-pink-hot">현재 위치로 설정하기</button>
-        </>
+        <div className="flex">
+            <img src="/images/location.png" alt="map" />
+            {/* <button onClick={resetToCurrentLocation}>현재 위치로 설정</button> */}
+        </div>
     )
 }
 
