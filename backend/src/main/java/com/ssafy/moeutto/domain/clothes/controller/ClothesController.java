@@ -7,10 +7,12 @@ import com.ssafy.moeutto.domain.clothes.service.ClothesService;
 import com.ssafy.moeutto.global.response.BaseException;
 import com.ssafy.moeutto.global.response.BaseResponse;
 import com.ssafy.moeutto.global.response.BaseResponseService;
+import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/clothes")
@@ -115,15 +117,29 @@ public class ClothesController {
         }
     }
 
-//    @GetMapping("/analysis-color")
-//    public BaseResponse<Object> analysisColorClothes() {
-//        try {
-//            return null;
-//        } catch (BaseException e) {
-//            return null;
-//        }
-//    }
-//
+    /**
+     * 옷장을 색상 기준으로 분석합니다.
+     *
+     * @param token
+     * @return ClothesAnalysisColorResponseDto
+     */
+    @GetMapping("/analysis-color")
+    public BaseResponse<Object> analysisColorClothes(@RequestHeader(value = "accessToken", required = false) String token) {
+        try {
+            // 토큰 정보 체크
+            if (token == null || token.equals("")) {
+                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
+            }
+
+            UUID memberId = null; // 사용자 체크
+
+            ClothesAnalysisColorResponseDto clothesAnalysisColorResponseDto = clothesService.analysisColor(memberId);
+            return baseResponseService.getSuccessResponse(clothesAnalysisColorResponseDto);
+        } catch (BaseException e) {
+            return baseResponseService.getFailureResponse(e.status);
+        }
+    }
+
 //    @GetMapping("/analysis-season")
 //    public BaseResponse<Object> analysisSeasonClothes() {
 //        try {
