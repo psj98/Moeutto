@@ -19,9 +19,9 @@ public class MemberLoginServiceImpl implements MemberLoginService {
     // kakao api key and redirect url
     @Value("${kakao.api.key}")
     private String apiKey;
+
     @Value("${kakao.secret}")
     private String secret;
-
 
     @Override
     public String getKakaoPermissionCode() {
@@ -29,7 +29,7 @@ public class MemberLoginServiceImpl implements MemberLoginService {
         String redirectURL = "http://localhost:8080/api/members/check";
         String code = "";
 
-        try{
+        try {
             URL url = new URL(requestURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -38,29 +38,28 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
 
-            String str = "response_type=code"+
-                    "&client_id="+apiKey+
-                    "&redirect_uri="+redirectURL
-                    ;
+            String str = "response_type=code" +
+                    "&client_id=" + apiKey +
+                    "&redirect_uri=" + redirectURL;
 //                    +"&scope=profile_nickname,profile_image,account_email";
 
             bw.write(str);
             bw.flush();
 
             int responseCode = connection.getResponseCode();
-            System.out.println("인가코드 responseCode : "+responseCode );
+            System.out.println("인가코드 responseCode : " + responseCode);
 
             // 요청 통해 얻어온 데이터 읽어옴
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line = "";
             StringBuilder result = new StringBuilder();
 
-            while((line = br.readLine()) != null){
-                    result.append(line);
+            while ((line = br.readLine()) != null) {
+                result.append(line);
             }
 
             // 확인용
-            System.out.println("response body : "+result);
+            System.out.println("response body : " + result);
 
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result.toString());
@@ -68,14 +67,12 @@ public class MemberLoginServiceImpl implements MemberLoginService {
             code = element.getAsJsonObject().get("code").getAsString();
 
             // 확인용
-            System.out.println("Permission code : "+ code);
+            System.out.println("Permission code : " + code);
 
             br.close();
             bw.close();
 
             return code;
-
-
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -84,6 +81,7 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 
     /**
      * 인가코드를 사용하여 토큰 발급 ( 일단 accessToken만 반환 )
+     *
      * @param
      * @return accessToken
      */
@@ -95,12 +93,13 @@ public class MemberLoginServiceImpl implements MemberLoginService {
         String requestURL = "https://kauth.kakao.com/oauth/token";
         String redirectURL = "http://localhost:8080/api/members/check";
 //        String redirectURL = "http://localhost:8080/api/oauth/kakao";
-        try{
+
+        try {
             URL url = new URL(requestURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-type","application/x-www-form-urlencoded;charset=utf-8");
+            connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
             // OutputStream으로 POST 데이터 넘기는 옵션
             // POST 요청을 하려면 true 로 설정
@@ -108,28 +107,28 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
 
-            String str = "grant_type=authorization_code"+
-                    "&client_id="+apiKey+
-                    "&redirect_uri="+redirectURL+
+            String str = "grant_type=authorization_code" +
+                    "&client_id=" + apiKey +
+                    "&redirect_uri=" + redirectURL +
 //                    "&response_type=code"+
-                    "&code="+code+
-                    "&client_secret="+secret;
+                    "&code=" + code +
+                    "&client_secret=" + secret;
 
-            System.out.println("URL : "+url.toString()+"?"+str);
+            System.out.println("URL : " + url.toString() + "?" + str);
 
             bw.write(str);
             bw.flush();
 
             int responseCode = connection.getResponseCode();
             // 확인용
-            System.out.println("토근 발급 responseCode : "+responseCode);
+            System.out.println("토근 발급 responseCode : " + responseCode);
 
             // 요청 통해 얻어온 데이터 읽어옴
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line = "";
             StringBuilder result = new StringBuilder();
 
-            while((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 result.append(line);
             }
 
@@ -143,12 +142,11 @@ public class MemberLoginServiceImpl implements MemberLoginService {
             refreshToken = element.getAsJsonObject().get("refresh_token").getAsString();
 
             // 확인용
-            System.out.println("Kakao accessToken : "+ accessToken);
+            System.out.println("Kakao accessToken : " + accessToken);
 //            System.out.println("refreshToken : "+ refreshToken);
 
             br.close();
             bw.close();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -156,9 +154,9 @@ public class MemberLoginServiceImpl implements MemberLoginService {
         return accessToken;
     }
 
-
     /**
      * 발급받은 토큰으로 사용자 정보를 불러와 기존 회원인지 판단, 기존회원 -> 로그인(식별자,JWT반환) , 기존회원 아닐시 -> 회원가입
+     *
      * @param accessToken
      * @return
      */
@@ -168,23 +166,23 @@ public class MemberLoginServiceImpl implements MemberLoginService {
         HashMap<String, Object> userInfo = new HashMap<>();
         String postURL = "https://kapi.kakao.com/v2/user/me";
 
-        try{
+        try {
             URL url = new URL(postURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
-            connection.setRequestProperty("Authorization","Bearer "+accessToken);
+            connection.setRequestProperty("Authorization", "Bearer " + accessToken);
 
             int responseCode = connection.getResponseCode();
 
             // 상태 코드 확인용
-            System.out.println("responseCode : "+responseCode);
+            System.out.println("responseCode : " + responseCode);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line = "";
             StringBuilder result = new StringBuilder();
 
-            while((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 result.append(line);
             }
 
@@ -198,13 +196,12 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 
             String email = kakaoAccount.getAsJsonObject().get("email").getAsString();
 
-            userInfo.put("nickname",nickname);
+            userInfo.put("nickname", nickname);
             userInfo.put("email", email);
 
 //            System.out.println("profileImage : "+profileImage);
 //            userInfo.put("profileImage",profileImage);
-
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
