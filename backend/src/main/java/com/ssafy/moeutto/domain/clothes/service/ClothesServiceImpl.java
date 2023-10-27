@@ -4,6 +4,7 @@ import com.ssafy.moeutto.domain.clothes.dto.request.ClothesRegistRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesUpdateRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.response.*;
 import com.ssafy.moeutto.domain.clothes.entity.Clothes;
+import com.ssafy.moeutto.domain.clothes.entity.IClothesAnalysisColor;
 import com.ssafy.moeutto.domain.clothes.repository.ClothesRepository;
 import com.ssafy.moeutto.domain.member.entity.Member;
 import com.ssafy.moeutto.domain.member.repository.MemberRepository;
@@ -19,6 +20,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -238,5 +240,35 @@ public class ClothesServiceImpl implements ClothesService {
                 .build();
 
         return clothesStarResponseDto;
+    }
+
+    /**
+     * 옷장을 색상 기준으로 분석합니다.
+     *
+     * @param memberId
+     * @return
+     * @throws BaseException
+     */
+    @Override
+    public ClothesAnalysisColorResponseDto analysisColor(UUID memberId) throws BaseException {
+        // 내 옷장 분석
+        List<IClothesAnalysisColor> clothesAnalysisColorMyList = clothesRepository.findByColorMember(memberId);
+        if (clothesAnalysisColorMyList.size() == 0) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_COLOR_ANALYSIS_INFO);
+        }
+
+        // 모든 사용자 옷장 분석
+        List<IClothesAnalysisColor> clothesAnalysisColorUserList = clothesRepository.findByColor();
+        if (clothesAnalysisColorUserList.size() == 0) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_COLOR_ANALYSIS_INFO);
+        }
+
+        // 분석 정보 반환
+        ClothesAnalysisColorResponseDto clothesAnalysisColorResponseDto = ClothesAnalysisColorResponseDto.builder()
+                .myAnalysisColor(clothesAnalysisColorMyList)
+                .userAnalysisColor(clothesAnalysisColorUserList)
+                .build();
+
+        return clothesAnalysisColorResponseDto;
     }
 }

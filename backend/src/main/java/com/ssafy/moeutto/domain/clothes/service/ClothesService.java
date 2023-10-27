@@ -6,6 +6,7 @@ import com.ssafy.moeutto.domain.clothes.dto.response.*;
 import com.ssafy.moeutto.global.response.BaseException;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface ClothesService {
 
@@ -60,4 +61,12 @@ public interface ClothesService {
      * @throws BaseException
      */
     ClothesStarResponseDto starClothes(Integer id) throws BaseException;
+
+    /**
+     * 옷장을 색상 기준으로 분석합니다.
+     *
+     * @return
+     * @throws BaseException
+     */
+    ClothesAnalysisColorResponseDto analysisColor(UUID memberId) throws BaseException;
 }
