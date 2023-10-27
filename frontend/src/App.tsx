@@ -1,19 +1,25 @@
 import * as React from 'react';
 import styled from 'styled-components';
-
-interface Props {
-  children: any;
-}
+import { Outlet } from 'react-router-dom'; 
+import Sidebar from './components/common/SideNav';
 
 const ContentContainer = styled.div`
   width: 100%;
   height: 100%;
+  padding-left: 30px; // nav bar와 컨텐츠 사이의 간격
+  padding-top: 10px; // 컨텐츠와 상단 사이의 간격
 `;
 
-function App({ children }: Props) {
+
+function App() {
   return (
     <div className="App flex">
-      <ContentContainer>{children}</ContentContainer>
+      <Sidebar path=""/>
+      <ContentContainer>
+        {/* // v6 outlet 은 // children과 같은 효과 */}
+        <Outlet /> 
+      </ContentContainer>
+
     </div>
   );
 }

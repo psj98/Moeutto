@@ -8,7 +8,6 @@ import { CgDetailsMore } from 'react-icons/cg';
 import ProfileImage from './Profile';
 
 interface Props {
-  children: any; // 컨텐츠 내용
   menuName?: string;
   path: string;
 }
@@ -17,22 +16,12 @@ interface ContainerProps {
   focus: boolean;
 }
 
-// const ContentContainer = styled.div`
-//   width: 100%;
-//   height: 100%;
-// `;
-
 const Container = styled.div<ContainerProps>`
-  width: 100%;
+  width: 250px;
   height: 100vh;
-  display: flex;
+  // display: flex;
   &:hover {
     cursor: pointer;
-  }
-
-  a {
-    text-decoration: none;
-    color: ${({ theme }) => theme.textColor};
   }
 `;
 
@@ -43,7 +32,6 @@ const NavBar = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* background-color: 'pink-light'; */
   background: rgb(255, 235, 246);
   background: linear-gradient(
     180deg,
@@ -55,11 +43,21 @@ const NavBar = styled.div`
 
 const Menu = styled.div`
   width: 100%;
-  /* height: 100%; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  align-contents: center;
+
+  a {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-contents: center;
+  }
+
   li {
     width: 80%;
     height: 50px;
@@ -71,6 +69,8 @@ const Menu = styled.div`
     vertical-align: middle;
     margin-top: 5px;
     color: grey;
+    text-decoration: none;
+    &.focused,
     &:hover,
     &:focus,
     &:active {
@@ -83,32 +83,33 @@ const Menu = styled.div`
   }
 `;
 
+// 메뉴에 필요한 데이터 리스트를 생성
 const menuList = [
   { menuName: '메인', path: '/main', icon: <BiHomeHeart /> },
   { menuName: '나의 옷장', path: '/mycloset', icon: <BiCloset /> },
   { menuName: '옷장 구경', path: '/notmycloset', icon: <MdPeopleAlt /> },
   { menuName: '캘린더', path: '/calendar', icon: <BiCalendar /> },
-  { menuName: '더보기', path: '/mypage', icon: <CgDetailsMore /> },
+  { menuName: '더보기', path: '/mypage', icon: <CgDetailsMore /> }
 ];
 
 const Sidebar = ({ path }: Props) => {
   const { pathname } = useLocation();
 
-  const focus = pathname === path;
-
   return (
-    <Container focus={focus}>
+    <Container focus={pathname === path}>
       <NavBar>
         <ProfileImage imgUrl="sample" />
         <Menu>
-          {menuList.map(menu => (
-            <li key={menu.menuName}>
-              {menu.icon}
-              <Link className="ps-9" to={menu.path}>
-                {menu.menuName}
+          {menuList.map(menu => {
+            return (
+              <Link to={menu.path}>
+                <li key={menu.menuName} className={menu.path === pathname ? 'focused' : ''}>
+                  {menu.icon}
+                  <span className="ps-9">{menu.menuName}</span>
+                </li>
               </Link>
-            </li>
-          ))}
+            );
+          })}
         </Menu>
       </NavBar>
     </Container>
