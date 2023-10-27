@@ -4,6 +4,7 @@ import com.ssafy.moeutto.domain.calendar.dto.request.CalendarRegistRequestDto;
 import com.ssafy.moeutto.domain.calendar.dto.request.CalendarScoreRequestDto;
 import com.ssafy.moeutto.domain.calendar.dto.response.CalendarListResponseDto;
 import com.ssafy.moeutto.domain.calendar.service.CalendarService;
+import com.ssafy.moeutto.domain.member.jwt.JwtTokenProvider;
 import com.ssafy.moeutto.global.response.BaseException;
 import com.ssafy.moeutto.global.response.BaseResponse;
 import com.ssafy.moeutto.global.response.BaseResponseService;
@@ -21,7 +22,7 @@ public class CalendarController {
 
     private final CalendarService calendarService;
     private final BaseResponseService baseResponseService;
-    private final JwtService jwtService;
+    private final JwtTokenProvider jwtService;
 
 
     /**
@@ -125,12 +126,9 @@ public class CalendarController {
         if (token == null || token.equals("")) {
             throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
         }
-
-
 //        jwtUtil.validToken(token);
 
-
-        UUID memberIdFromToken = jwtService.getMemberIdFrom;                                                                                                                                                                                                                                                Token(token);
+        UUID memberIdFromToken = UUID.fromString(jwtService.extractSubject(token));                                                                                                                                                                                                                                                Token(token);
         return memberIdFromToken;
 
     }
