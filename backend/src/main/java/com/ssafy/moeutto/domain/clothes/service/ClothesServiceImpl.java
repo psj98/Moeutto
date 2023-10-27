@@ -15,8 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Slf4j
@@ -28,16 +26,26 @@ public class ClothesServiceImpl implements ClothesService {
     private final MemberRepository memberRepository;
     private final MiddleCategoryRepository middleCategoryRepository;
 
+    /**
+     * 옷 정보를 등록합니다.
+     *
+     * @param clothesRegistRequestDto
+     * @return ClothesRegistResponseDto
+     * @throws BaseException
+     */
     @Override
     public ClothesRegistResponseDto registClothes(ClothesRegistRequestDto clothesRegistRequestDto) throws BaseException {
         Optional<MiddleCategory> middleCategoryOptional = middleCategoryRepository.findById(clothesRegistRequestDto.getMiddleCategoryId());
 
+        // 중분류 카테고리 체크
         if (!middleCategoryOptional.isPresent()) {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_MIDDLE_CATEGORY);
         }
 
-        Optional<Member> memberOptional = memberRepository.findByName("test");
+        // 사용자 체크
+        Optional<Member> memberOptional = memberRepository.findById(1L);
 
+        // 옷 정보 저장
         Clothes clothes = Clothes.builder()
                 .member(memberOptional.get())
                 .middleCategory(middleCategoryOptional.get())
@@ -54,21 +62,15 @@ public class ClothesServiceImpl implements ClothesService {
 
         Clothes newClothes = clothesRepository.save(clothes);
 
+        // 저장된 옷 정보 체크
+        Optional<Clothes> clothesOptional = clothesRepository.findById(newClothes.getId());
+        if (!clothesOptional.isPresent()) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES);
+        }
+
+        // 옷 정보 반환
         ClothesRegistResponseDto clothesRegistResponseDto = ClothesRegistResponseDto.builder()
-                .id(newClothes.getId())
-                .member(newClothes.getMember())
-                .middleCategory(newClothes.getMiddleCategory())
-                .name(newClothes.getName())
-                .season(newClothes.getSeason())
-                .color(newClothes.getColor())
-                .thickness(newClothes.getThickness())
-                .price(newClothes.getPrice())
-                .shop(newClothes.getShop())
-                .textile(newClothes.getTextile())
-                .frequency(newClothes.getFrequency())
-                .star(newClothes.getStar())
-                .regDate(newClothes.getRegDate())
-                .recentDate(newClothes.getRecentDate())
+                .clothes(clothesOptional.get())
                 .build();
 
         return clothesRegistResponseDto;
