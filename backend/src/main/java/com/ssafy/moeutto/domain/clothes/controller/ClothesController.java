@@ -6,11 +6,11 @@ import com.ssafy.moeutto.domain.clothes.service.ClothesService;
 import com.ssafy.moeutto.global.response.BaseException;
 import com.ssafy.moeutto.global.response.BaseResponse;
 import com.ssafy.moeutto.global.response.BaseResponseService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/clothes")
@@ -20,6 +20,12 @@ public class ClothesController {
     private final ClothesService clothesService;
     private final BaseResponseService baseResponseService;
 
+    /**
+     * 옷 정보를 등록합니다.
+     *
+     * @param clothesRegistRequestDto
+     * @return ClothesRegistResponseDto
+     */
     @PostMapping("/regist")
     public BaseResponse<Object> registClothes(@RequestBody ClothesRegistRequestDto clothesRegistRequestDto) {
         try {
