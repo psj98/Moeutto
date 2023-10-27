@@ -22,13 +22,13 @@ public class JwtTokenProvider {
 
     private final Key key;
 
-    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey){
+    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
     // JWT 토큰 발급
-    public String generate(String subject, Date expiredAt){
+    public String generate(String subject, Date expiredAt) {
         return Jwts.builder()
                 .setSubject(subject)
                 .setExpiration(expiredAt)
@@ -37,22 +37,21 @@ public class JwtTokenProvider {
     }
 
     // subject(memberId) 추출
-    public String extractSubject(String accessToken){
+    public String extractSubject(String accessToken) {
         Claims claims = parseClaims(accessToken);
         return claims.getSubject();
     }
 
     // Claims Parsing
-    private Claims parseClaims(String accessToken){
-        try{
+    private Claims parseClaims(String accessToken) {
+        try {
             return Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(accessToken)
                     .getBody();
-        } catch (ExpiredJwtException e){
+        } catch (ExpiredJwtException e) {
             return e.getClaims();
         }
     }
-
 }
