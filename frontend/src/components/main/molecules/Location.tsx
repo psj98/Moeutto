@@ -13,8 +13,8 @@ interface LocationPropsType {
 const Location: React.FC<LocationPropsType> = ({ currentLocation, address, showLocationClick }) => {
     return (
         <div className="flex items-center gap-1 -mt-2">
-            <MapIcon />
-            <UserLocation currentLocation={currentLocation} address={address} />
+            <MapIcon color={"DCDCDC"} />
+            <UserLocation currentLocation={currentLocation} address={address} color={'[#DCDCDC]'} />
             <SetLocationBtn showLocationClick={showLocationClick} />
         </div>
     )

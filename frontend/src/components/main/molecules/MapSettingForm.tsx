@@ -5,6 +5,7 @@ import SearchLocation from "../atoms/SearchLocation";
 import UserLocation from "../atoms/UserLocation";
 import CurrentLocationBtn from "../atoms/CurrentLocationBtn";
 import LocationSet from "../atoms/LocationSet";
+import MapIcon from "../atoms/MapIcon";
 
 interface MapSettingPropsType {
     currentLocation: any;
@@ -23,15 +24,20 @@ const MapSettingForm: React.FC<MapSettingPropsType> = ({
      }) => {
     return (
         <>
-            <div className="flex">
-                <LocationSet />
-                <AiOutlineClose onClick={showLocationClick} />
+            <div className="flex justify-center items-center w-full">
+                    <LocationSet />
+                <div className="flex items-center justify-end">
+                    <AiOutlineClose onClick={showLocationClick} />
+                </div>
             </div>
             <SearchLocation handleInputChange={handleInputChange}  />
             <CurrentLocationBtn 
                 setResetLocation={setResetLocation}
             />
-            <UserLocation currentLocation={currentLocation} address={address} />
+            <div className="flex gap-1">
+                <MapIcon color={'black'} />
+                <UserLocation currentLocation={currentLocation} address={address} color={'black'} />
+            </div>
         </>
     )
 };

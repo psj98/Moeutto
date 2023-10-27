@@ -1,10 +1,14 @@
 import React from 'react';
 import { FiMapPin } from "react-icons/fi";
 
-const MapIcon = () => {
+interface colorPropsType {
+    color: string;
+}
+
+const MapIcon: React.FC<colorPropsType> = ({ color }) => {
     return (
         <>
-            <FiMapPin color="DCDCDC" size={25} />
+            <FiMapPin color={`${color}`} size={25} />
         </>
     )
 }
