@@ -128,7 +128,8 @@ public class CalendarController {
         }
 //        jwtUtil.validToken(token);
 
-        UUID memberIdFromToken = UUID.fromString(jwtService.extractSubject(token));                                                                                                                                                                                                                                                Token(token);
+        UUID memberIdFromToken = UUID.randomUUID();
+//        UUID memberIdFromToken = UUID.fromString(jwtService.extractSubject(token));                                                                                                                                                                                                                                                 Token(token);
         return memberIdFromToken;
 
     }
