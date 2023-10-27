@@ -9,23 +9,24 @@ interface PropsType {
     maxTemperature: any;
     minTemperature: any;
     weather: any;
+    day: any;
 }
 
 const RecommendItem: React.FC<PropsType> = ({
     maxTemperature,
     minTemperature,
     weather,
-    clothesListData
+    clothesListData,
+    day
 }) => {
+
     // console.log('옷 리스트 순회', clothesInAIOutfit)
     const clothesArray1: any = clothesListData.slice(0, 2);
     const clothesArray2: any = clothesListData.slice(2, 4);
     
-    console.log('옷 리스트 마지막 단계', clothesArray1);
-
     return (
         <div className="flex flex-col justify-center items-center p-4 gap-y-2">
-            <RecommendListDay />
+            <RecommendListDay day={day} />
             <TodayDayWeather weather={weather} />
             <RecommendListTemp maxTemperature={maxTemperature} minTemperature={minTemperature} />
             <div className="flex justify-center">

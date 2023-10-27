@@ -12,10 +12,23 @@ const RecommendList: React.FC<PropsType> = ({
     weatherListData
 }) => {
 
+    // 요일 리스트
+    // 오늘
+    const today = new Date(); 
+    const week: Array<string> = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+
+    const daysList = [
+        week[today.getDay()], // 오늘
+        week[(today.getDay() + 1) % 7], // 내일
+        week[(today.getDay() + 2) % 7], // 모레
+      ];
+
+
     // 2개 배열 하나로 합치기 (하나의 컴포넌트에 전달하기 위함)
     // 상태로 combinedList를 저장
     const [combinedList, setCombinedList] = useState<any>([]);
 
+    
     useEffect(() => {
         // clothesListData와 weatherListData를 합쳐서 combinedList 생성
         const newCombinedList = clothesListData.map((clothesItem, index) => ({
@@ -23,11 +36,12 @@ const RecommendList: React.FC<PropsType> = ({
             ...weatherListData[index],
         }));
 
+        
         // combinedList 상태 업데이트
         setCombinedList(newCombinedList);
+        
 
     }, [clothesListData, weatherListData]);
-
 
     return (
         <>
@@ -43,6 +57,7 @@ const RecommendList: React.FC<PropsType> = ({
                             maxTemperature={item.maxTemperature}
                             minTemperature={item.minTemperature}
                             weather={item.weather}
+                            day={daysList[index]}
                         />
                     </div>
                 </div>
