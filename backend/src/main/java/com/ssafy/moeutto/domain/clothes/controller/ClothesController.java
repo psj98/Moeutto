@@ -1,16 +1,16 @@
 package com.ssafy.moeutto.domain.clothes.controller;
 
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesRegistRequestDto;
-import com.ssafy.moeutto.domain.clothes.dto.response.ClothesRegistResponseDto;
+import com.ssafy.moeutto.domain.clothes.dto.request.ClothesUpdateRequestDto;
+import com.ssafy.moeutto.domain.clothes.dto.response.*;
 import com.ssafy.moeutto.domain.clothes.service.ClothesService;
 import com.ssafy.moeutto.global.response.BaseException;
 import com.ssafy.moeutto.global.response.BaseResponse;
 import com.ssafy.moeutto.global.response.BaseResponseService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/clothes")
@@ -36,51 +36,85 @@ public class ClothesController {
         }
     }
 
-//    @GetMapping("/{id}")
-//    public BaseResponse<Object> getClothes(@PathVariable("id") Integer id) {
-//        try {
-//            return null;
-//        } catch (BaseException e) {
-//            return null;
-//        }
-//    }
-//
-//    @GetMapping("/list")
-//    public BaseResponse<Object> getListClothes() {
-//        try {
-//            return null;
-//        } catch (BaseException e) {
-//            return null;
-//        }
-//    }
-//
-//    @PutMapping("/{id}")
-//    public BaseResponse<Object> updateClothes(@PathVariable("id") Integer id) {
-//        try {
-//            return null;
-//        } catch (BaseException e) {
-//            return null;
-//        }
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public BaseResponse<Object> deleteClothes(@PathVariable("id") Integer id) {
-//        try {
-//            return null;
-//        } catch (BaseException e) {
-//            return null;
-//        }
-//    }
-//
-//    @GetMapping("/star/{id}")
-//    public BaseResponse<Object> starClothes(@PathVariable("id") Integer id) {
-//        try {
-//            return null;
-//        } catch (BaseException e) {
-//            return null;
-//        }
-//    }
-//
+    /**
+     * 옷 정보를 조회합니다.
+     *
+     * @param id
+     * @return ClothesDetailResponseDto
+     */
+    @GetMapping("/{id}")
+    public BaseResponse<Object> getClothes(@PathVariable("id") Integer id) {
+        try {
+            ClothesDetailResponseDto clothesDetailResponseDto = clothesService.detailClothes(id);
+            return baseResponseService.getSuccessResponse(clothesDetailResponseDto);
+        } catch (BaseException e) {
+            return baseResponseService.getFailureResponse(e.status);
+        }
+    }
+
+    /**
+     * 옷 목록을 조회합니다.
+     *
+     * @return
+     */
+    @GetMapping("/list")
+    public BaseResponse<Object> getListClothes() {
+        try {
+            List<ClothesListResponseDto> clothesListResponseDtoList = clothesService.listClothes();
+            return baseResponseService.getSuccessResponse(clothesListResponseDtoList);
+        } catch (BaseException e) {
+            return baseResponseService.getFailureResponse(e.status);
+        }
+    }
+
+    /**
+     * 옷 정보를 수정합니다.
+     *
+     * @param clothesUpdateRequestDto
+     * @return ClothesUpdateResponseDto
+     */
+    @PutMapping("/")
+    public BaseResponse<Object> updateClothes(@RequestBody ClothesUpdateRequestDto clothesUpdateRequestDto) {
+        try {
+            ClothesUpdateResponseDto clothesUpdateResponseDto = clothesService.updateClothes(clothesUpdateRequestDto);
+            return baseResponseService.getSuccessResponse(clothesUpdateResponseDto);
+        } catch (BaseException e) {
+            return baseResponseService.getFailureResponse(e.status);
+        }
+    }
+
+    /**
+     * 옷 정보를 삭제합니다.
+     *
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/{id}")
+    public BaseResponse<Object> deleteClothes(@PathVariable("id") Integer id) {
+        try {
+            clothesService.deleteClothes(id);
+            return baseResponseService.getSuccessResponse();
+        } catch (BaseException e) {
+            return baseResponseService.getFailureResponse(e.status);
+        }
+    }
+
+    /**
+     * 옷 즐겨찾기를 등록 / 해제합니다.
+     *
+     * @param id
+     * @return ClothesStarResponseDto
+     */
+    @GetMapping("/star/{id}")
+    public BaseResponse<Object> starClothes(@PathVariable("id") Integer id) {
+        try {
+            ClothesStarResponseDto clothesStarResponseDto = clothesService.starClothes(id);
+            return baseResponseService.getSuccessResponse(clothesStarResponseDto);
+        } catch (BaseException e) {
+            return baseResponseService.getFailureResponse(e.status);
+        }
+    }
+
 //    @GetMapping("/analysis-color")
 //    public BaseResponse<Object> analysisColorClothes() {
 //        try {
