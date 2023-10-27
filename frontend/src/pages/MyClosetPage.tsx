@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import AddClothForm from '../components/mycloset/add/organisms/AddClothForm';
 
 function MyCloset() {
   return (
@@ -10,6 +11,7 @@ function MyCloset() {
       <Link to="/mycloset">나의 옷장</Link>
       <br />
       <Link to="/mypage">마이 페이지 </Link>
+      <AddClothForm></AddClothForm>
     </div>
   );
 }
