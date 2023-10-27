@@ -6,7 +6,8 @@ import RecommendList from "../components/main/organisms/RecommendList";
 import MapModal from "../components/main/organisms/MapModal";
 
 // 아토믹 디자인 패턴 확인용
-import ShowPreiveiwImg from "../components/main/atoms/ShowPrieveiwImg";
+import PhotoCheckModal from "../components/main/organisms/PhotoCheckModal";
+
 
 const MainPage = () => {
     // 현재 위치
@@ -82,8 +83,8 @@ const MainPage = () => {
                 </div>
 
                 {selectedImage && (
-                    <div>
-                        <ShowPreiveiwImg selectedImage={selectedImage} />
+                    <div className="absolute z-50 bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <PhotoCheckModal selectedImage={selectedImage} handleImageChange={handleImageChange} />
                     </div>
                 )}
                 
