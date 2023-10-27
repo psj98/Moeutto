@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * AuthTokens를 발급하는 클래스
@@ -24,7 +25,7 @@ public class AuthTokensGenerator {
      * @param memberId
      * @return
      */
-    public AuthTokens generate(Long memberId){
+    public AuthTokens generate(UUID memberId){
         long now = (new Date()).getTime();
         Date accessTokenExpiresAt = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         Date refreshTokenExpiredAt = new Date(now + REFRESH_TOKEN_EXPIRE_TIME);
@@ -44,8 +45,8 @@ public class AuthTokensGenerator {
      * @param accessToken
      * @return
      */
-    public Long extractMemberId(String accessToken){
-        return Long.valueOf(jwtTokenProvider.extractSubject(accessToken));
+    public UUID extractMemberId(String accessToken){
+        return UUID.fromString(jwtTokenProvider.extractSubject(accessToken));
     }
 
 }
