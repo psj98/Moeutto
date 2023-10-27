@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -238,5 +239,27 @@ public class ClothesServiceImpl implements ClothesService {
                 .build();
 
         return clothesStarResponseDto;
+    }
+
+
+
+    @Override
+    public ClothesAnalysisCostResponseDto analysisCost(UUID memberId) {
+
+        ClothesAnalysisCostResponseDto responseDto;
+
+        //내 옷장 총 가격
+        Integer myTotalCost = clothesRepository.findPriceByMemberId(memberId);
+        //모든 회원의 옷 가격 평균
+        Integer avgOfMembers = clothesRepository.findAvgOfPrice();
+
+
+
+
+
+
+
+
+        return null;
     }
 }

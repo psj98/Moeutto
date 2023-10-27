@@ -7,10 +7,12 @@ import com.ssafy.moeutto.domain.clothes.service.ClothesService;
 import com.ssafy.moeutto.global.response.BaseException;
 import com.ssafy.moeutto.global.response.BaseResponse;
 import com.ssafy.moeutto.global.response.BaseResponseService;
+import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/clothes")
@@ -142,14 +144,17 @@ public class ClothesController {
 //        }
 //    }
 //
-//    @GetMapping("/analysis-cost")
-//    public BaseResponse<Object> analysisCostClothes() {
-//        try {
-//            return null;
-//        } catch (BaseException e) {
-//            return null;
-//        }
-//    }
+    @GetMapping("/analysis-cost")
+    public BaseResponse<Object> analysisCostClothes(@RequestHeader(value = "accessToken") String token) {
+        try {
+
+            UUID memberId = getMemberIdFromToken(token);
+            ClothesAnalysisCostResponseDto responseDto = clothesService.analysisCost(memberId);
+            return null;
+        } catch (BaseException e) {
+            return null;
+        }
+    }
 //
 //    @GetMapping("/analysis-amount")
 //    public BaseResponse<Object> analysisAmountClothes() {
@@ -168,4 +173,20 @@ public class ClothesController {
 //            return null;
 //        }
 //    }
+
+
+
+    public UUID getMemberIdFromToken(String token) throws BaseException {
+        // 토큰이 null이거나 없으면 세션 만료 메시지 전달
+        // 문제 없으면 memberId 반환
+        if (token == null || token.equals("")) {
+            throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
+        }
+//        jwtUtil.validToken(token);
+
+        UUID memberIdFromToken = UUID.randomUUID();
+//        UUID memberIdFromToken = UUID.fromString(jwtService.extractSubject(token));                                                                                                                                                                                                                                                 Token(token);
+        return memberIdFromToken;
+
+    }
 }
