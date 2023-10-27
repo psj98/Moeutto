@@ -1,19 +1,18 @@
-import PickIcon from "../atoms/PickIcon"
-
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import PickCloset from "../atoms/PickCloset";
 
 
 const PickTap = () => {
+    const navigate = useNavigate();
+
     return (
-        <>
-            <div className="flex">
-                <div className="bg-gray-button">
-                    <PickIcon title="camera" content="찍어찍어 당장 너를 찍어" />
-                </div>
-                <div className="bg-gray-button">
-                    <PickIcon title="closet" content="골라골라 옷장에서 골라" />
-                </div>
+        <div className="flex mt-3 h-[28vh]">
+            <div className="bg-gray-button w-1/2 rounded-2xl shadow-md flex justify-center items-center min-w-[300px]" onClick={() => navigate('/pickpick')}>
+                <PickCloset />
             </div>
-        </>
+        </div>
+     
     )
 }
 
