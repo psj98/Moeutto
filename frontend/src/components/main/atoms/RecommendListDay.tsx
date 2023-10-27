@@ -1,10 +1,14 @@
 import React from "react";
 
-const RecommendListDay = () => {
+interface PropsType {
+    day: any;
+}
+
+const RecommendListDay: React.FC<PropsType> = ({ day }) => {
 
     return (
         <div className="font-bold text-WebBody2">
-            MON
+           { day }
         </div>
     )
 }
