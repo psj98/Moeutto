@@ -47,8 +47,8 @@ public class ClothesServiceImpl implements ClothesService {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_MIDDLE_CATEGORY);
         }
 
-        // 사용자 체크
-        Optional<Member> memberOptional = memberRepository.findById(1L);
+        // 사용자 체크 ( 임시로 랜덤 )
+        Optional<Member> memberOptional = memberRepository.findById(UUID.randomUUID());
 
         // 옷 정보 저장
         Clothes clothes = Clothes.builder()
