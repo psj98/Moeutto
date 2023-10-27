@@ -2,7 +2,7 @@ import React, { ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import PickCamera from "../atoms/PickCamera";
 import PickCloset from "../atoms/PickCloset";
-import CheckPhotoImgFile from "../atoms/CheckPhotoImgFile";
+// import CheckPhotoImgFile from "../atoms/CheckPhotoImgFile";
 
 interface PickTapPropsType {
     handleImageChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -15,8 +15,8 @@ const PickTap: React.FC<PickTapPropsType> = ({ handleImageChange }) => {
         <>
             <div className="flex">
                 <div className="bg-gray-button">
-                    <PickCamera />
-                    <CheckPhotoImgFile handleImageChange={handleImageChange} />
+                    <PickCamera handleImageChange={handleImageChange} />
+                    {/* <CheckPhotoImgFile handleImageChange={handleImageChange} /> */}
                 </div>
                 <div className="bg-gray-button" onClick={() => navigate('/pickpick')}>
                     <PickCloset />
