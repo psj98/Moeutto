@@ -1,6 +1,5 @@
 package com.ssafy.moeutto.domain.clothes.dto.response;
 
-import com.ssafy.moeutto.domain.clothes.entity.IClothesAnalysisColor;
 import com.ssafy.moeutto.domain.clothes.entity.IClothesAnalysisSeason;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,23 +12,23 @@ import java.util.List;
 @NoArgsConstructor
 public class ClothesAnalysisSeasonResponseDto {
 
-//    @NotNull
-//    private List<IClothesAnalysisSeason> springClothes; // 내 옷장 분석
-//
-//    @NotNull
-//    private List<IClothesAnalysisSeason> summerClothes; // 내 옷장 분석
-//
-//    @NotNull
-//    private List<IClothesAnalysisSeason> autumnClothes; // 내 옷장 분석
-//
-//    @NotNull
-//    private List<IClothesAnalysisSeason> winterClothes; // 내 옷장 분석
+    @NotNull
+    private List<IClothesAnalysisSeason> springClothes; // 봄 옷
 
     @NotNull
-    private List<List<IClothesAnalysisSeason>> seasonClothes;
+    private List<IClothesAnalysisSeason> summerClothes; // 여름 옷
+
+    @NotNull
+    private List<IClothesAnalysisSeason> autumnClothes; // 가을 옷
+
+    @NotNull
+    private List<IClothesAnalysisSeason> winterClothes; // 겨울 옷
 
     @Builder(toBuilder = true)
-    public ClothesAnalysisSeasonResponseDto(List<List<IClothesAnalysisSeason>> seasonClothes) {
-        this.seasonClothes = seasonClothes;
+    public ClothesAnalysisSeasonResponseDto(List<IClothesAnalysisSeason> springClothes, List<IClothesAnalysisSeason> summerClothes, List<IClothesAnalysisSeason> autumnClothes, List<IClothesAnalysisSeason> winterClothes) {
+        this.springClothes = springClothes;
+        this.summerClothes = summerClothes;
+        this.autumnClothes = autumnClothes;
+        this.winterClothes = winterClothes;
     }
 }

@@ -54,13 +54,13 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
      * @param memberId
      * @return
      */
-    @Query(value = "SELECT l.id AS large_category_id, ifnull(season.amount, 0) AS amount " +
+    @Query(value = "SELECT l.id AS largeCategoryId, ifnull(season.amount, 0) AS amount " +
             "FROM ( " +
             "        SELECT SUBSTRING(m.id, 1, 3) AS id, COUNT(*) AS amount " +
-            "        FROM clothes AS c INNER JOIN mid_category AS m ON c.mid_category_id = m.id " +
+            "        FROM clothes AS c INNER JOIN middle_category AS m ON c.middle_category_id = m.id " +
             "        WHERE SUBSTRING(c.season, ?1, 1) = '1' " +
             "        AND c.member_id = ?2" +
-            "        GRUOP BY SUBSTRING(m.id, 1, 3)) AS season " +
+            "        GROUP BY SUBSTRING(m.id, 1, 3)) AS season " +
             "RIGHT JOIN large_category l ON season.id = l.id;", nativeQuery = true)
-    List<IClothesAnalysisSeason> findBySeasonMember(Integer seasonNum, UUID memberId);
+    List<IClothesAnalysisSeason> findBySeasonMember(String seasonNum, UUID memberId);
 }

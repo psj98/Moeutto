@@ -31,7 +31,7 @@ public class ClothesController {
      * @return ClothesRegistResponseDto
      */
     @PostMapping("/regist")
-    public BaseResponse<Object> registClothes(@RequestHeader(value = "Authorization", required = false) String token,
+    public BaseResponse<Object> registClothes(@RequestHeader(value = "accessToken", required = false) String token,
                                               @RequestBody ClothesRegistRequestDto clothesRegistRequestDto) {
         try {
             // 토큰 정보 체크
@@ -100,7 +100,7 @@ public class ClothesController {
      * @param clothesUpdateRequestDto
      * @return ClothesUpdateResponseDto
      */
-    @PutMapping("/")
+    @PutMapping("")
     public BaseResponse<Object> updateClothes(@RequestHeader(value = "accessToken", required = false) String token,
                                               @RequestBody ClothesUpdateRequestDto clothesUpdateRequestDto) {
         try {
@@ -189,6 +189,12 @@ public class ClothesController {
         }
     }
 
+    /**
+     * 옷장을 계절 기준으로 분석합니다.
+     * 
+     * @param token
+     * @return
+     */
     @GetMapping("/analysis-season")
     public BaseResponse<Object> analysisSeasonClothes(@RequestHeader(value = "accessToken", required = false) String token) {
         try {
@@ -199,6 +205,7 @@ public class ClothesController {
 
             UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
 
+            // 계절 기준으로 분석
             ClothesAnalysisSeasonResponseDto clothesAnalysisSeasonResponseDto = clothesService.analysisSeason(memberId);
             return baseResponseService.getSuccessResponse(clothesAnalysisSeasonResponseDto);
         } catch (BaseException e) {

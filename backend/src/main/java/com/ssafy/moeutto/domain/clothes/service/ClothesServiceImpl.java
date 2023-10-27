@@ -66,6 +66,8 @@ public class ClothesServiceImpl implements ClothesService {
                 .price(clothesRegistRequestDto.getPrice())
                 .shop(clothesRegistRequestDto.getShop())
                 .textile(clothesRegistRequestDto.getTextile())
+                .frequency(0)
+                .star(0)
                 .regDate(new Date(System.currentTimeMillis()))
                 .recentDate(new Date(System.currentTimeMillis()))
                 .build();
@@ -140,6 +142,8 @@ public class ClothesServiceImpl implements ClothesService {
     @Override
     public List<ClothesListResponseDto> listClothes(UUID memberId) throws BaseException {
         List<Clothes> clothesList = clothesRepository.findAllByMemberId(memberId); // 옷 목록 조회
+
+        System.out.println(clothesList.size());
 
         // 옷 목록 정보 반환 (필요한 정보만 추출)
         List<ClothesListResponseDto> clothesListResponseDtoList = new ArrayList<>();
@@ -222,7 +226,7 @@ public class ClothesServiceImpl implements ClothesService {
      * 옷 즐겨찾기를 등록 / 해제합니다.
      *
      * @param id
-     * @return
+     * @return ClothesStarResponseDto
      * @throws BaseException
      */
     @Override
@@ -258,7 +262,7 @@ public class ClothesServiceImpl implements ClothesService {
      * 옷장을 색상 기준으로 분석합니다.
      *
      * @param memberId
-     * @return
+     * @return ClothesAnalysisColorResponseDto
      * @throws BaseException
      */
     @Override
@@ -284,27 +288,26 @@ public class ClothesServiceImpl implements ClothesService {
         return clothesAnalysisColorResponseDto;
     }
 
+    /**
+     * 옷장을 계절 기준으로 분석합니다.
+     *
+     * @param memberId
+     * @return ClothesAnalysisSeasonResponseDto
+     * @throws BaseException
+     */
     @Override
     public ClothesAnalysisSeasonResponseDto analysisSeason(UUID memberId) throws BaseException {
-        List<List<IClothesAnalysisSeason>> seasonClothes = new ArrayList<>();
+        List<IClothesAnalysisSeason> springClothes = clothesRepository.findBySeasonMember("1", memberId); // 봄 옷 분석
+        List<IClothesAnalysisSeason> summerClothes = clothesRepository.findBySeasonMember("2", memberId); // 여름 옷 분석
+        List<IClothesAnalysisSeason> autumnClothes = clothesRepository.findBySeasonMember("3", memberId); // 가을 옷 분석
+        List<IClothesAnalysisSeason> winterClothes = clothesRepository.findBySeasonMember("4", memberId); // 겨울 옷 분석
 
-        List<IClothesAnalysisSeason> springClothes = new ArrayList<>();
-        List<IClothesAnalysisSeason> summerClothes = new ArrayList<>();
-        List<IClothesAnalysisSeason> autumnClothes = new ArrayList<>();
-        List<IClothesAnalysisSeason> winterClothes = new ArrayList<>();
-
-        seasonClothes.add(springClothes);
-        seasonClothes.add(summerClothes);
-        seasonClothes.add(autumnClothes);
-        seasonClothes.add(winterClothes);
-
-        for (int i = 0; i < 4; i++) {
-            List<IClothesAnalysisSeason> iClothesAnalysisSeasonList = clothesRepository.findBySeasonMember(i + 1, memberId);
-            seasonClothes.add(i, iClothesAnalysisSeasonList);
-        }
-
+        // 계절 옷 분석 정보 반환
         ClothesAnalysisSeasonResponseDto clothesAnalysisSeasonResponseDto = ClothesAnalysisSeasonResponseDto.builder()
-                .seasonClothes(seasonClothes)
+                .springClothes(springClothes)
+                .summerClothes(summerClothes)
+                .autumnClothes(autumnClothes)
+                .winterClothes(winterClothes)
                 .build();
 
         return clothesAnalysisSeasonResponseDto;
