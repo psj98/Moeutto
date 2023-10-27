@@ -80,18 +80,18 @@ public class CalendarController {
      * @return
      * @throws BaseException
      */
-    @DeleteMapping("/${id}")
-    public BaseResponse<Object> deleteCalendar(@RequestHeader(value = "accessToken", required = false) String token,
-                                               @PathVariable("id") Integer id) {
-        //토큰 정보로 받은 ID를 기반으로 삭제.
-        try {
-            UUID memberId =  getMemberIdFromToken(token);
-            calendarService. deleteCalendar(memberId, id);
-            return baseResponseService.getSuccessResponse();
-        } catch (BaseException e) {
-            return baseResponseService.getFailureResponse(e.status);
-        }
-    }
+//    @DeleteMapping("/${id}")
+//    public BaseResponse<Object> deleteCalendar(@RequestHeader(value = "accessToken", required = false) String token,
+//                                               @PathVariable("id") Integer id) {
+//        //토큰 정보로 받은 ID를 기반으로 삭제.
+//        try {
+//            UUID memberId =  getMemberIdFromToken(token);
+//            calendarService. deleteCalendar(memberId, id);
+//            return baseResponseService.getSuccessResponse();
+//        } catch (BaseException e) {
+//            return baseResponseService.getFailureResponse(e.status);
+//        }
+//    }
 
     /**
      * 착장에 대한 사용자의 평가를 위한 컨트롤러 입니다.

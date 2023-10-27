@@ -5,6 +5,7 @@ import com.ssafy.moeutto.domain.clothes.dto.request.ClothesUpdateRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.response.*;
 import com.ssafy.moeutto.domain.clothes.entity.Clothes;
 import com.ssafy.moeutto.domain.clothes.entity.IClothesAnalysisColor;
+import com.ssafy.moeutto.domain.clothes.entity.IClothesAnalysisSeason;
 import com.ssafy.moeutto.domain.clothes.repository.ClothesRepository;
 import com.ssafy.moeutto.domain.member.entity.Member;
 import com.ssafy.moeutto.domain.member.repository.MemberRepository;
@@ -39,16 +40,20 @@ public class ClothesServiceImpl implements ClothesService {
      * @throws BaseException
      */
     @Override
-    public ClothesRegistResponseDto registClothes(ClothesRegistRequestDto clothesRegistRequestDto) throws BaseException {
+    public ClothesRegistResponseDto registClothes(ClothesRegistRequestDto clothesRegistRequestDto, UUID memberId) throws BaseException {
+        Optional<Member> memberOptional = memberRepository.findById(memberId);
+
+        // 사용자 체크
+        if (!memberOptional.isPresent()) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER);
+        }
+
         Optional<MiddleCategory> middleCategoryOptional = middleCategoryRepository.findById(clothesRegistRequestDto.getMiddleCategoryId());
 
         // 중분류 카테고리 체크
         if (!middleCategoryOptional.isPresent()) {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_MIDDLE_CATEGORY);
         }
-
-        // 사용자 체크 ( 임시로 랜덤 )
-        Optional<Member> memberOptional = memberRepository.findById(UUID.randomUUID());
 
         // 옷 정보 저장
         Clothes clothes = Clothes.builder()
@@ -89,8 +94,15 @@ public class ClothesServiceImpl implements ClothesService {
      * @throws BaseException
      */
     @Override
-    public ClothesDetailResponseDto detailClothes(Integer id) throws BaseException {
-        Optional<Clothes> clothesOptional = clothesRepository.findById(id);
+    public ClothesDetailResponseDto detailClothes(Integer id, UUID memberId) throws BaseException {
+        Optional<Member> memberOptional = memberRepository.findById(memberId);
+
+        // 사용자 체크
+        if (!memberOptional.isPresent()) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER);
+        }
+
+        Optional<Clothes> clothesOptional = clothesRepository.findByIdAndMemberId(id, memberId);
 
         // 옷 정보 체크
         if (!clothesOptional.isPresent()) {
@@ -126,8 +138,8 @@ public class ClothesServiceImpl implements ClothesService {
      * @throws BaseException
      */
     @Override
-    public List<ClothesListResponseDto> listClothes() throws BaseException {
-        List<Clothes> clothesList = clothesRepository.findAll(); // 옷 목록 조회
+    public List<ClothesListResponseDto> listClothes(UUID memberId) throws BaseException {
+        List<Clothes> clothesList = clothesRepository.findAllByMemberId(memberId); // 옷 목록 조회
 
         // 옷 목록 정보 반환 (필요한 정보만 추출)
         List<ClothesListResponseDto> clothesListResponseDtoList = new ArrayList<>();
@@ -156,7 +168,7 @@ public class ClothesServiceImpl implements ClothesService {
      * @throws BaseException
      */
     @Override
-    public ClothesUpdateResponseDto updateClothes(ClothesUpdateRequestDto clothesUpdateRequestDto) throws BaseException {
+    public ClothesUpdateResponseDto updateClothes(ClothesUpdateRequestDto clothesUpdateRequestDto, UUID memberId) throws BaseException {
         Integer id = clothesUpdateRequestDto.getId();
 
         // 옷 정보 체크
@@ -202,7 +214,7 @@ public class ClothesServiceImpl implements ClothesService {
      * @throws BaseException
      */
     @Override
-    public void deleteClothes(Integer id) throws BaseException {
+    public void deleteClothes(Integer id, UUID memberId) throws BaseException {
         clothesRepository.deleteById(id); // 옷 정보 삭제
     }
 
@@ -214,7 +226,7 @@ public class ClothesServiceImpl implements ClothesService {
      * @throws BaseException
      */
     @Override
-    public ClothesStarResponseDto starClothes(Integer id) throws BaseException {
+    public ClothesStarResponseDto starClothes(Integer id, UUID memberId) throws BaseException {
         Optional<Clothes> clothesOptional = clothesRepository.findById(id);
 
         // 옷 정보 체크
@@ -270,5 +282,31 @@ public class ClothesServiceImpl implements ClothesService {
                 .build();
 
         return clothesAnalysisColorResponseDto;
+    }
+
+    @Override
+    public ClothesAnalysisSeasonResponseDto analysisSeason(UUID memberId) throws BaseException {
+        List<List<IClothesAnalysisSeason>> seasonClothes = new ArrayList<>();
+
+        List<IClothesAnalysisSeason> springClothes = new ArrayList<>();
+        List<IClothesAnalysisSeason> summerClothes = new ArrayList<>();
+        List<IClothesAnalysisSeason> autumnClothes = new ArrayList<>();
+        List<IClothesAnalysisSeason> winterClothes = new ArrayList<>();
+
+        seasonClothes.add(springClothes);
+        seasonClothes.add(summerClothes);
+        seasonClothes.add(autumnClothes);
+        seasonClothes.add(winterClothes);
+
+        for (int i = 0; i < 4; i++) {
+            List<IClothesAnalysisSeason> iClothesAnalysisSeasonList = clothesRepository.findBySeasonMember(i + 1, memberId);
+            seasonClothes.add(i, iClothesAnalysisSeasonList);
+        }
+
+        ClothesAnalysisSeasonResponseDto clothesAnalysisSeasonResponseDto = ClothesAnalysisSeasonResponseDto.builder()
+                .seasonClothes(seasonClothes)
+                .build();
+
+        return clothesAnalysisSeasonResponseDto;
     }
 }
