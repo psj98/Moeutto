@@ -1,12 +1,19 @@
 import React from "react";
 
 interface RecommendListClothesItemPropsType {
-    number: number;
+    imgUrl: any;
+    clothesId: any;
+    number: any;
 }
 
-const RecommendListClothesItem: React.FC<RecommendListClothesItemPropsType> = ({ number }) => {
+const RecommendListClothesItem: React.FC<RecommendListClothesItemPropsType> = ({ 
+    imgUrl,
+    clothesId,
+    number
+ }) => {
+  
     return (
-        <img src={`/images/clothes${number}.png`} alt="" className="w-1/3" />
+        <img src={`${imgUrl}`} alt="옷 이미지" className="w-1/3" />
     )
 }
 
