@@ -1,14 +1,14 @@
 import React from "react";
 
-// interface RecommendListDayPropsType {
-//     day: string[];
-// }
+interface PropsType {
+    day: any;
+}
 
-const RecommendListDay = () => {
+const RecommendListDay: React.FC<PropsType> = ({ day }) => {
 
     return (
-        <div>
-            MON
+        <div className="font-bold text-WebBody2">
+           { day }
         </div>
     )
 }
