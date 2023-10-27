@@ -1,12 +1,9 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState } from "react";
 
 import MainInfo from "../components/main/organisms/MainInfo"
  import PickButtonTap from "../components/main/organisms/PickButtonTap";
 import RecommendList from "../components/main/organisms/RecommendList";
 import MapModal from "../components/main/organisms/MapModal";
-
-// 아토믹 디자인 패턴 확인용
-import PhotoCheckModal from "../components/main/organisms/PhotoCheckModal";
 
 
 const MainPage = () => {
@@ -38,42 +35,16 @@ const MainPage = () => {
         setNewLocation(newValue);
     }
 
-    // 착장 검사 사진 찍는 경우 사진 확인하기
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    // 사진 제출 컨트롤
-    const [submitState, setSubmitState] = useState<boolean>(false);
-
-    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files && e.target.files[0];
-
-        if (file) {
-        const reader = new FileReader();
-
-        reader.onload = (event) => {
-            setSelectedImage(event.target.result as string);
-        };
-        reader.readAsDataURL(file);
-        } else {
-        setSelectedImage(null);
-        }
-
-        // 제출하기 버튼 누른 경우 파일 request에 담아 넘기기
-        if (submitState) {
-            console.log('사진 파일', file)
-        }
-    };
-
-
     return (
         <>
-            <div className="flex flex-col">
+            <div className="flex flex-col p-4">
                 <MainInfo currentLocation={currentLocation} address={address} showLocationClick={showLocationClick} />
                 <br />
                 {/* 날씨 기반 추천 리스트 */}
                 <RecommendList />
                 <br />
                 {/* 버튼 탭 */}
-                <PickButtonTap handleImageChange={handleImageChange} />
+                <PickButtonTap />
                 {/* 지도  */}
                 <div className="absolute z-50 bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <MapModal 
@@ -89,17 +60,6 @@ const MainPage = () => {
                         newLocation={newLocation}
                     />
                 </div>
-
-                {selectedImage && (
-                    <div className="absolute z-50 bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                        <PhotoCheckModal 
-                            selectedImage={selectedImage} 
-                            handleImageChange={handleImageChange} 
-                            setSubmitState={setSubmitState}
-                        />
-                    </div>
-                )}
-                
             </div>
         </>
     )

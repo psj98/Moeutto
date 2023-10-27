@@ -5,12 +5,14 @@ interface SetLocationBtnPropsType {
     showLocationClick: () => void;
 }
 
+
 const SetLocationBtn: React.FC<SetLocationBtnPropsType> = ({ showLocationClick }) => {
     return (
         <div>
-            <IoIosArrowDown
-                onClick={showLocationClick}
-            />
+                <IoIosArrowDown
+                    onClick={showLocationClick}
+                    color="FAA0BF"
+                />
         </div>
     )
 }

@@ -6,7 +6,7 @@ interface RecommendListClothesItemPropsType {
 
 const RecommendListClothesItem: React.FC<RecommendListClothesItemPropsType> = ({ number }) => {
     return (
-        <img src={`/images/clothes${number}.png`} alt="" className="w-16 h-16" />
+        <img src={`/images/clothes${number}.png`} alt="" className="w-1/3" />
     )
 }
 

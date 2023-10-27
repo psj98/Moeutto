@@ -4,7 +4,7 @@ import { FiMapPin } from "react-icons/fi";
 const MapIcon = () => {
     return (
         <>
-            <FiMapPin />
+            <FiMapPin color="DCDCDC" size={25} />
         </>
     )
 }

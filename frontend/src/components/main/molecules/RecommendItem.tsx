@@ -9,21 +9,22 @@ const RecommendItem = () => {
     const clothesArray2: Array<number> = [3, 4];
     
     return (
-        <>
+        <div className="flex flex-col justify-center items-center gap-y-2">
             <RecommendListDay />
             <TodayDayWeather />
             <RecommendListTemp />
-            <div className="flex">
+            <div className="flex justify-center">
                 {clothesArray1.map((number, index) => (
                     <RecommendListClothesItem key={index} number={number} />
                 ))}
             </div>
-            <div className="flex">
+            <div className="flex justify-center">
                 {clothesArray2.map((number, index) => (
                     <RecommendListClothesItem key={index} number={number} />
                 ))}
             </div>
-        </>
+      
+        </div>
     )
 }
 
