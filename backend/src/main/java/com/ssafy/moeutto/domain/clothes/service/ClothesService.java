@@ -6,6 +6,7 @@ import com.ssafy.moeutto.domain.clothes.dto.response.*;
 import com.ssafy.moeutto.global.response.BaseException;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface ClothesService {
 
@@ -16,7 +17,7 @@ public interface ClothesService {
      * @return ClothesRegistResponseDto
      * @throws BaseException
      */
-    ClothesRegistResponseDto registClothes(ClothesRegistRequestDto clothesRegistRequestDto) throws BaseException;
+    ClothesRegistResponseDto registClothes(ClothesRegistRequestDto clothesRegistRequestDto, UUID memberId) throws BaseException;
 
     /**
      * 옷 정보를 조회합니다.
@@ -25,15 +26,15 @@ public interface ClothesService {
      * @return ClothesDetailResponseDto
      * @throws BaseException
      */
-    ClothesDetailResponseDto detailClothes(Integer id) throws BaseException;
+    ClothesDetailResponseDto detailClothes(Integer id, UUID memberId) throws BaseException;
 
     /**
      * 옷 목록을 조회합니다.
-     * 
+     *
      * @return List<ClothesListResponseDto>
      * @throws BaseException
      */
-    List<ClothesListResponseDto> listClothes() throws BaseException;
+    List<ClothesListResponseDto> listClothes(UUID memberId) throws BaseException;
 
     /**
      * 옷 정보를 수정합니다.
@@ -42,7 +43,7 @@ public interface ClothesService {
      * @return ClothesUpdateResponseDto
      * @throws BaseException
      */
-    ClothesUpdateResponseDto updateClothes(ClothesUpdateRequestDto clothesUpdateRequestDto) throws BaseException;
+    ClothesUpdateResponseDto updateClothes(ClothesUpdateRequestDto clothesUpdateRequestDto, UUID memberId) throws BaseException;
 
     /**
      * 옷 정보를 해제합니다.
@@ -50,7 +51,7 @@ public interface ClothesService {
      * @param id
      * @throws BaseException
      */
-    void deleteClothes(Integer id) throws BaseException;
+    void deleteClothes(Integer id, UUID memberId) throws BaseException;
 
     /**
      * 옷 즐겨찾기를 등록 / 삭제합니다.
@@ -59,5 +60,22 @@ public interface ClothesService {
      * @return
      * @throws BaseException
      */
-    ClothesStarResponseDto starClothes(Integer id) throws BaseException;
+    ClothesStarResponseDto starClothes(Integer id, UUID memberId) throws BaseException;
+
+    /**
+     * 옷장을 색상 기준으로 분석합니다.
+     *
+     * @return
+     * @throws BaseException
+     */
+    ClothesAnalysisColorResponseDto analysisColor(UUID memberId) throws BaseException;
+
+    /**
+     * 옷장을 계절 기준으로 분석합니다.
+     *
+     * @param memberId
+     * @return ClothesAnalysisSeasonResponseDto
+     * @throws BaseException
+     */
+    ClothesAnalysisSeasonResponseDto analysisSeason(UUID memberId) throws BaseException;
 }
