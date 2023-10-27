@@ -40,6 +40,8 @@ const MainPage = () => {
 
     // 착장 검사 사진 찍는 경우 사진 확인하기
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    // 사진 제출 컨트롤
+    const [submitState, setSubmitState] = useState<boolean>(false);
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files && e.target.files[0];
@@ -54,7 +56,13 @@ const MainPage = () => {
         } else {
         setSelectedImage(null);
         }
+
+        // 제출하기 버튼 누른 경우 파일 request에 담아 넘기기
+        if (submitState) {
+            console.log('사진 파일', file)
+        }
     };
+
 
     return (
         <>
@@ -84,7 +92,11 @@ const MainPage = () => {
 
                 {selectedImage && (
                     <div className="absolute z-50 bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                        <PhotoCheckModal selectedImage={selectedImage} handleImageChange={handleImageChange} />
+                        <PhotoCheckModal 
+                            selectedImage={selectedImage} 
+                            handleImageChange={handleImageChange} 
+                            setSubmitState={setSubmitState}
+                        />
                     </div>
                 )}
                 
