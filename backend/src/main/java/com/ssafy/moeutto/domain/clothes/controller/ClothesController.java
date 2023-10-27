@@ -4,6 +4,7 @@ import com.ssafy.moeutto.domain.clothes.dto.request.ClothesRegistRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesUpdateRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.response.*;
 import com.ssafy.moeutto.domain.clothes.service.ClothesService;
+import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
 import com.ssafy.moeutto.global.response.BaseException;
 import com.ssafy.moeutto.global.response.BaseResponse;
 import com.ssafy.moeutto.global.response.BaseResponseService;
@@ -21,6 +22,7 @@ public class ClothesController {
 
     private final ClothesService clothesService;
     private final BaseResponseService baseResponseService;
+    private final AuthTokensGenerator authTokensGenerator;
 
     /**
      * 옷 정보를 등록합니다.
@@ -29,12 +31,20 @@ public class ClothesController {
      * @return ClothesRegistResponseDto
      */
     @PostMapping("/regist")
-    public BaseResponse<Object> registClothes(@RequestBody ClothesRegistRequestDto clothesRegistRequestDto) {
+    public BaseResponse<Object> registClothes(@RequestHeader(value = "Authorization", required = false) String token,
+                                              @RequestBody ClothesRegistRequestDto clothesRegistRequestDto) {
         try {
-            ClothesRegistResponseDto clothesRegistResponseDto = clothesService.registClothes(clothesRegistRequestDto);
+            // 토큰 정보 체크
+            if (token == null || token.equals("")) {
+                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
+            }
+
+            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
+
+            ClothesRegistResponseDto clothesRegistResponseDto = clothesService.registClothes(clothesRegistRequestDto, memberId);
             return baseResponseService.getSuccessResponse(clothesRegistResponseDto);
         } catch (BaseException e) {
-            return null;
+            return baseResponseService.getFailureResponse(e.status);
         }
     }
 
@@ -45,9 +55,17 @@ public class ClothesController {
      * @return ClothesDetailResponseDto
      */
     @GetMapping("/{id}")
-    public BaseResponse<Object> getClothes(@PathVariable("id") Integer id) {
+    public BaseResponse<Object> getClothes(@RequestHeader(value = "accessToken", required = false) String token,
+                                           @PathVariable("id") Integer id) {
         try {
-            ClothesDetailResponseDto clothesDetailResponseDto = clothesService.detailClothes(id);
+            // 토큰 정보 체크
+            if (token == null || token.equals("")) {
+                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
+            }
+
+            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
+
+            ClothesDetailResponseDto clothesDetailResponseDto = clothesService.detailClothes(id, memberId);
             return baseResponseService.getSuccessResponse(clothesDetailResponseDto);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
@@ -60,9 +78,16 @@ public class ClothesController {
      * @return
      */
     @GetMapping("/list")
-    public BaseResponse<Object> getListClothes() {
+    public BaseResponse<Object> getListClothes(@RequestHeader(value = "accessToken", required = false) String token) {
         try {
-            List<ClothesListResponseDto> clothesListResponseDtoList = clothesService.listClothes();
+            // 토큰 정보 체크
+            if (token == null || token.equals("")) {
+                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
+            }
+
+            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
+
+            List<ClothesListResponseDto> clothesListResponseDtoList = clothesService.listClothes(memberId);
             return baseResponseService.getSuccessResponse(clothesListResponseDtoList);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
@@ -76,9 +101,17 @@ public class ClothesController {
      * @return ClothesUpdateResponseDto
      */
     @PutMapping("/")
-    public BaseResponse<Object> updateClothes(@RequestBody ClothesUpdateRequestDto clothesUpdateRequestDto) {
+    public BaseResponse<Object> updateClothes(@RequestHeader(value = "accessToken", required = false) String token,
+                                              @RequestBody ClothesUpdateRequestDto clothesUpdateRequestDto) {
         try {
-            ClothesUpdateResponseDto clothesUpdateResponseDto = clothesService.updateClothes(clothesUpdateRequestDto);
+            // 토큰 정보 체크
+            if (token == null || token.equals("")) {
+                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
+            }
+
+            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
+
+            ClothesUpdateResponseDto clothesUpdateResponseDto = clothesService.updateClothes(clothesUpdateRequestDto, memberId);
             return baseResponseService.getSuccessResponse(clothesUpdateResponseDto);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
@@ -92,9 +125,17 @@ public class ClothesController {
      * @return
      */
     @DeleteMapping("/{id}")
-    public BaseResponse<Object> deleteClothes(@PathVariable("id") Integer id) {
+    public BaseResponse<Object> deleteClothes(@RequestHeader(value = "accessToken", required = false) String token,
+                                              @PathVariable("id") Integer id) {
         try {
-            clothesService.deleteClothes(id);
+            // 토큰 정보 체크
+            if (token == null || token.equals("")) {
+                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
+            }
+
+            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
+
+            clothesService.deleteClothes(id, memberId);
             return baseResponseService.getSuccessResponse();
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
@@ -108,9 +149,17 @@ public class ClothesController {
      * @return ClothesStarResponseDto
      */
     @GetMapping("/star/{id}")
-    public BaseResponse<Object> starClothes(@PathVariable("id") Integer id) {
+    public BaseResponse<Object> starClothes(@RequestHeader(value = "accessToken", required = false) String token,
+                                            @PathVariable("id") Integer id) {
         try {
-            ClothesStarResponseDto clothesStarResponseDto = clothesService.starClothes(id);
+            // 토큰 정보 체크
+            if (token == null || token.equals("")) {
+                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
+            }
+
+            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
+
+            ClothesStarResponseDto clothesStarResponseDto = clothesService.starClothes(id, memberId);
             return baseResponseService.getSuccessResponse(clothesStarResponseDto);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
@@ -131,7 +180,7 @@ public class ClothesController {
                 throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
             }
 
-            UUID memberId = null; // 사용자 체크
+            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
 
             ClothesAnalysisColorResponseDto clothesAnalysisColorResponseDto = clothesService.analysisColor(memberId);
             return baseResponseService.getSuccessResponse(clothesAnalysisColorResponseDto);
@@ -140,15 +189,23 @@ public class ClothesController {
         }
     }
 
-//    @GetMapping("/analysis-season")
-//    public BaseResponse<Object> analysisSeasonClothes() {
-//        try {
-//            return null;
-//        } catch (BaseException e) {
-//            return null;
-//        }
-//    }
-//
+    @GetMapping("/analysis-season")
+    public BaseResponse<Object> analysisSeasonClothes(@RequestHeader(value = "accessToken", required = false) String token) {
+        try {
+            // 토큰 정보 체크
+            if (token == null || token.equals("")) {
+                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
+            }
+
+            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
+
+            ClothesAnalysisSeasonResponseDto clothesAnalysisSeasonResponseDto = clothesService.analysisSeason(memberId);
+            return baseResponseService.getSuccessResponse(clothesAnalysisSeasonResponseDto);
+        } catch (BaseException e) {
+            return baseResponseService.getFailureResponse(e.status);
+        }
+    }
+
 //    @GetMapping("/analysis-frequency")
 //    public BaseResponse<Object> analysisFrequencyClothes() {
 //        try {
