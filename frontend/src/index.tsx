@@ -1,20 +1,20 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import "./index.css";
-import App from "./App";
-import Work from "./pages/Work";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import './index.css';
+import App from './App';
+import Work from './pages/Work';
 
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
-);
+import MainPage from './pages/MainPage';
+
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Work />} />
-        <Route path="/main" element={<App />} />
+        <Route path="/main" element={<MainPage />} />
         <Route path="/mycloset" element={<App />} />
         <Route path="/notmycloset" element={<App />} />
         <Route path="/calendar" element={<App />} />
