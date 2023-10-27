@@ -9,9 +9,9 @@ const UserLocation: React.FC<UserLocationPropsType> = ({ currentLocation, addres
     return (
         <div>
             {currentLocation ? (
-                <div>{address}</div>
+                <div className="text-[#DCDCDC]">{address}</div>
             ) : (
-                <div>위치를 설정하러 가볼까요?</div>
+                <div className="text-[#DCDCDC]">위치를 설정하러 가볼까요?</div>
             )}
         </div>
     )

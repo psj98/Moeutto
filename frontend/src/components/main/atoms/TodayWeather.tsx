@@ -1,7 +1,7 @@
 const TodayDayWeather = () => {
     return (
-       <div>
-            <img src={`/images/weather${1}.png`} alt="weather" className="w-24 h-24" />
+       <div className="flex justify-center">
+            <img src={`/images/weather${1}.png`} alt="weather" className="w-2/3" />
        </div> 
     )
 };

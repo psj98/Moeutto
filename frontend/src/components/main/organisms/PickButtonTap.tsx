@@ -1,16 +1,13 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
 import PickTap from "../molecules/PickTap";
 import TodayDateComment from "../atoms/TodayDateComment";
 
-interface PickButtonTapPropsType {
-    handleImageChange: (e: ChangeEvent<HTMLInputElement>) => void;
-}
 
-const PickButtonTap: React.FC<PickButtonTapPropsType> = ({ handleImageChange }) => {
+const PickButtonTap = () => {
     return (
         <div>
             <TodayDateComment />
-            <PickTap handleImageChange={handleImageChange} />
+            <PickTap />
         </div>
     )
 }

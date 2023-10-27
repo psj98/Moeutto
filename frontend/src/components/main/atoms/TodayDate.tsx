@@ -5,7 +5,7 @@ const TodayDate = () => {
     const formattedDate = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
     
     return (
-        <div>{formattedDate}</div>
+        <div className="font-bold text-WebBody3 ms-6">{formattedDate}</div>
     )
 }
 

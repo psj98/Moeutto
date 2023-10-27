@@ -1,13 +1,9 @@
 import React from "react";
 
-// interface RecommendListDayPropsType {
-//     day: string[];
-// }
-
 const RecommendListDay = () => {
 
     return (
-        <div>
+        <div className="font-bold text-WebBody2">
             MON
         </div>
     )

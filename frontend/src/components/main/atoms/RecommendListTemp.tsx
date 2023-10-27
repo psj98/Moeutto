@@ -1,7 +1,7 @@
 const RecommendListTemp = () => {
     return (
         <>
-            <div>8℃/15℃</div>
+            <div className="font-WebBody3">8℃/15℃</div>
         </>
     )
 }
