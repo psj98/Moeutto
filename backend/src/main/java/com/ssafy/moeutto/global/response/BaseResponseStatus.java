@@ -14,7 +14,8 @@ public enum BaseResponseStatus {
      * Member
      * Code : 2000번대
      */
-    // ex) NOT_FOUND_MEMBER(false, 2001, "일치하는 사용자가 없습니다."), ...
+    NOT_FOUND_MEMBER(false, 2001, "일치하는 사용자가 없습니다."),
+    SESSION_EXPIRATION(false, 2002, "세션이 만료되었습니다"),
 
     /**
      * Clothes
@@ -26,6 +27,10 @@ public enum BaseResponseStatus {
      * Calendar
      * Code : 4000번대
      */
+
+    NOT_FOUND_CALENDAR_INFO(false, 4001, "캘린더가 존재하지 않습니다."),
+    NOT_FOUND_CALENDAR_FOR_DATE(false, 4002, "해당 날짜에 캘린더가 존재하지 않습니다."),
+    DUPLICATED_CALENDAR_INFO(false, 4003, "해당 날짜에 이미 캘린더가 존재합니다."),
 
 
     /**
