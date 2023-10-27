@@ -60,4 +60,7 @@ public interface ClothesService {
      * @throws BaseException
      */
     ClothesStarResponseDto starClothes(Integer id) throws BaseException;
+
+
+
 }

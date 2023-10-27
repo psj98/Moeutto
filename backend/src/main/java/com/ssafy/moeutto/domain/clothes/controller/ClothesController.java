@@ -133,15 +133,18 @@ public class ClothesController {
 //        }
 //    }
 //
+
 //    @GetMapping("/analysis-frequency")
-//    public BaseResponse<Object> analysisFrequencyClothes() {
+//    public BaseResponse<Object> analysisFrequencyClothes(@RequestHeader("Authorization") String accessToken) {
 //        try {
+//
 //            return null;
 //        } catch (BaseException e) {
 //            return null;
 //        }
 //    }
-//
+
+
 //    @GetMapping("/analysis-cost")
 //    public BaseResponse<Object> analysisCostClothes() {
 //        try {

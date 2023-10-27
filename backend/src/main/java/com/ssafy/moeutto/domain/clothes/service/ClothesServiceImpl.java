@@ -240,4 +240,8 @@ public class ClothesServiceImpl implements ClothesService {
 
         return clothesStarResponseDto;
     }
+
+
+
+
 }

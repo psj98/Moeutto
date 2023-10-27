@@ -3,6 +3,7 @@ package com.ssafy.moeutto.domain.member.controller;
 import com.ssafy.moeutto.domain.member.auth.AuthTokens;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
 import com.ssafy.moeutto.domain.member.entity.Member;
+import com.ssafy.moeutto.domain.member.repository.MemberRepository;
 import com.ssafy.moeutto.domain.member.service.MemberLoginService;
 import com.ssafy.moeutto.domain.member.service.OAuthLoginService;
 import com.ssafy.moeutto.global.response.BaseResponse;
@@ -26,6 +27,8 @@ public class MemberController {
     private final OAuthLoginService oAuthLoginService;
     private final AuthTokensGenerator authTokensGenerator;
     private final BaseResponseService baseResponseService;
+    private final MemberRepository memberRepository;
+
     /**
      * 카카오 로그인 : 선택사항 체크 후 인가 코드 발급
      * @return
@@ -68,6 +71,8 @@ public class MemberController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization",tokens.getGrantType()+" "+tokens.getAccessToken());
+
+        System.out.println("DB UUID : "+memberRepository.findMemberByEmail(email).getId());
 
         return ResponseEntity.ok()
                 .headers(headers)
