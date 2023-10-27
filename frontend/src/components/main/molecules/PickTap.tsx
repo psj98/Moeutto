@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import PickIcon from "../atoms/PickIcon"
+import PickCamera from "../atoms/PickCamera";
+import PickCloset from "../atoms/PickCloset";
 import CheckPhotoImgFile from "../atoms/CheckPhotoImgFile";
 
 interface PickTapPropsType {
@@ -14,11 +15,11 @@ const PickTap: React.FC<PickTapPropsType> = ({ handleImageChange }) => {
         <>
             <div className="flex">
                 <div className="bg-gray-button">
-                    <PickIcon title="camera" content="찍어찍어 당장 너를 찍어" />
+                    <PickCamera />
                     <CheckPhotoImgFile handleImageChange={handleImageChange} />
                 </div>
                 <div className="bg-gray-button" onClick={() => navigate('/pickpick')}>
-                    <PickIcon title="closet" content="골라골라 옷장에서 골라" />
+                    <PickCloset />
                 </div>
             </div>
         </>
