@@ -27,7 +27,7 @@ const MapSettingForm: React.FC<MapSettingPropsType> = ({
             <div className="flex justify-center items-center w-full">
                     <LocationSet />
                 <div className="flex items-center justify-end">
-                    <AiOutlineClose onClick={showLocationClick} />
+                    <AiOutlineClose onClick={showLocationClick} size={25} />
                 </div>
             </div>
             <SearchLocation handleInputChange={handleInputChange}  />

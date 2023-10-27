@@ -14,7 +14,7 @@ const SearchLocation: React.FC<SearchLocationPropsType> = ({ handleInputChange }
 
     return (
         <div className="flex">
-            <BiSearchAlt2 />
+            <BiSearchAlt2 size={25} />
             <input type="text" className="border border-black" onChange={handleSearch} />
         </div>
       
