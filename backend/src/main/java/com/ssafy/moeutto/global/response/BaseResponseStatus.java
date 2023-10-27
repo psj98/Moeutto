@@ -21,7 +21,7 @@ public enum BaseResponseStatus {
      * Clothes
      * Code : 3000번대
      */
-
+    NOT_FOUND_CLOTHES(false, 3001, "옷 정보가 존재하지 않습니다."),
 
     /**
      * Calendar
