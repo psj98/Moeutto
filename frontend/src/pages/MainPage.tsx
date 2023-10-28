@@ -14,7 +14,15 @@ const MainPage = () => {
     } | null>(null);
     
     // 법정동 주소
-    const [address, setAddress] = useState<string>("");
+    const [address, setAddress] = useState<string>(() => {
+        return window.localStorage.getItem('address') || '';
+    });
+
+    // 주소 로컬 스토리지에 저장하기
+    useEffect(() => {
+        window.localStorage.setItem('address', address);
+    }, [address]);
+    
 
     // 지도 출력
     const [locationState, setLocationState] = useState<boolean>(false);
