@@ -11,9 +11,11 @@ const RecommendListClothesItem: React.FC<RecommendListClothesItemPropsType> = ({
     clothesId,
     number
  }) => {
+
+    
   
     return (
-        <img src={`${imgUrl}`} alt="옷 이미지" className="w-1/3" />
+        <img src={`${imgUrl}`} alt="옷 이미지" className="w-1/3 hover:cursor-pointer hover:scale-105" />
     )
 }
 

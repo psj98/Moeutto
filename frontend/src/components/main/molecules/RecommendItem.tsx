@@ -20,9 +20,13 @@ const RecommendItem: React.FC<PropsType> = ({
     day
 }) => {
 
-    // console.log('옷 리스트 순회', clothesInAIOutfit)
     const clothesArray1: any = clothesListData.slice(0, 2);
-    const clothesArray2: any = clothesListData.slice(2, 4);
+    let clothesArray2: any = clothesListData.slice(2, 4);
+
+    // 추천 아이템이 3가지인 경우
+    if (clothesListData.length === 3) {
+        clothesArray2 = clothesListData.slice(2, 3);
+    }
     
     return (
         <div className="flex flex-col justify-center items-center p-4 gap-y-2">

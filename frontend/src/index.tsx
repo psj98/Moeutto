@@ -8,6 +8,7 @@ import App from './App';
 
 import MainPage from './pages/MainPage';
 import PickPickPage from './pages/PickPickPage';
+import ClothesDetailPage from './pages/ClothesDetailPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -23,6 +24,7 @@ root.render(
           {/* <Route path="/notmycloset" element={<NotMyCloset />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/mypage" element={<Mypage />} />  */}
+          <Route path="/mycloset/detail/:id" element={<ClothesDetailPage />} />  // 라우팅 매칭 다시 해야됨 * 사용하기? 
         </Route>
       </Routes>
     </BrowserRouter>
