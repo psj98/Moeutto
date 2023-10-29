@@ -9,6 +9,7 @@ interface LabelProps {
 const Labelsection = styled.div`
   width: 100%;
   text-align: left;
+  margin: 10px 0 5px 0;
 `;
 
 const Label = ({ id, value }: LabelProps) => {

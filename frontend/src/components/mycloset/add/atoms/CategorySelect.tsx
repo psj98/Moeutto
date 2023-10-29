@@ -38,8 +38,8 @@ const Select = styled.div`
 const CategorySelect = ({ id, value, onChange }: CategoryProps) => {
   return (
     <Select>
-      <select id={id} value={value} onChange={onChange}>
-        <option disabled selected hidden>
+      <select id={id} value={value} defaultValue="0" onChange={onChange}>
+        <option value="0" disabled hidden>
           기본값입니다.
         </option>
         <optgroup label="상의">

@@ -1,5 +1,5 @@
-// Checkbox.tsx < SeasonInput.tsx
-import React, { SetStateAction } from 'react';
+// Checkbox.tsx < SeasonInput.tsx < AddClothForm.tsx
+import React, { ChangeEvent } from 'react';
 import styled from 'styled-components';
 
 interface Option {
@@ -10,17 +10,20 @@ interface Option {
 interface CheckInputProps {
   option: Option;
   type: string;
-  value: string; // 라디오나 체크박스의 범위를 체크하기위해 필수적임
-  onChange: (event: SetStateAction<string>) => void;
+  value: string; // 이 값은 <input type="radio" value="계절" 의 value이다. 라디오나 체크박스의 범위를 체크하기위해 필수적이므로 잊지말자
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Check = styled.div`
   display: flex;
   justify-content: start;
+  margin-bottom: 3px;
 
-  input[type='checkbox'] {
+  input[type='checkbox'],
+  input[type='radio'] {
     display: none;
   }
+
   label {
     display: inline-block;
     width: 60px;
@@ -31,7 +34,8 @@ const Check = styled.div`
     border-radius: 30px;
     margin-right: 10px;
   }
-  input[type='checkbox']:checked + label {
+  input[type='checkbox']:checked + label,
+  input[type='radio']:checked + label {
     background-color: black;
     color: white;
     box-shadow: 0 4px 4px 4px rgba(0, 0, 0, 0.2);

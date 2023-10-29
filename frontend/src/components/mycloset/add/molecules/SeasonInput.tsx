@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { SetStateAction, useState, useEffect } from 'react';
 import Label from '../atoms/Label';
 import CheckInput from '../atoms/CheckInput';
 
@@ -8,7 +8,7 @@ interface Option {
 }
 
 interface SeasonInputProps {
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (value: SetStateAction<string>) => void;
 }
 
 const optionList: Option[] = [
@@ -38,22 +38,38 @@ const SeasonInput = ({ onChange }: SeasonInputProps) => {
   const [fall, setFall] = useState<string>('0');
   const [winter, setWinter] = useState<string>('0');
 
+  useEffect(() => {
+    const seasonArray: string[] = [spring, summer, fall, winter];
+    const seasonValue = seasonArray.join(''); // 계절값들을 string으로 변환하고
+
+    onChange(seasonValue); // 폼의 계절 상태를 업데이터합니다.
+  }, [spring, summer, fall, winter]);
+
   return (
     <>
       <Label id="season" value="옷의 계절" />
-      {spring},{summer},{fall},{winter}
-      <CheckInput type="checkbox" option={optionList[0]} value="season" onChange={setSpring}></CheckInput>
-      <CheckInput type="checkbox" option={optionList[1]} value="season" onChange={setSummer}></CheckInput>
-      <CheckInput type="checkbox" option={optionList[2]} value="season" onChange={setFall}></CheckInput>
-      <CheckInput type="checkbox" option={optionList[3]} value="season" onChange={setWinter}></CheckInput>
-      {/* {optionList?.map(option => {
-        return (
-          <span key={option.name}>
-            <CheckInput type="checkbox" option={option} value="season" onChange={set`{option.value}`}></CheckInput>
-          </span>
-        );
-      })} */}
-      {/* <CheckInput type="checkbox" optionList={OptionList} value="season" onChange={onChange}></CheckInput> */}
+      <div className="flex flex-wrap">
+        <CheckInput
+          type="checkbox"
+          option={optionList[0]}
+          value="season"
+          onChange={event => setSpring(event.target.checked ? '1' : '0')}></CheckInput>
+        <CheckInput
+          type="checkbox"
+          option={optionList[1]}
+          value="season"
+          onChange={event => setSummer(event.target.checked ? '1' : '0')}></CheckInput>
+        <CheckInput
+          type="checkbox"
+          option={optionList[2]}
+          value="season"
+          onChange={event => setFall(event.target.checked ? '1' : '0')}></CheckInput>
+        <CheckInput
+          type="checkbox"
+          option={optionList[3]}
+          value="season"
+          onChange={event => setWinter(event.target.checked ? '1' : '0')}></CheckInput>
+      </div>
     </>
   );
 };
