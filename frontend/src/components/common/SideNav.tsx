@@ -19,7 +19,7 @@ interface ContainerProps {
 const Container = styled.div<ContainerProps>`
   width: 250px;
   height: 100vh;
-  // display: flex;
+  position: fixed; // 메뉴 스크롤시 항상 보이도록
   &:hover {
     cursor: pointer;
   }
