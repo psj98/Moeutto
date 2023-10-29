@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch } from "react";
 
 import MainCategory from "../atoms/MainCategory";
 import MiddleCategory from "../atoms/MiddleCategoryTop";
 import SortedCategory from "../atoms/SortedCategory";
 
-const SelectedCategory = () => {
-    // 대분류
-    const [selectedOptionMain, setSelectedOptionMain] = useState<string | null>(null);
-    // 중분류
-    const [selectedOptionMiddle, setSelectedOptionMiddle] = useState<string | null>(null);
-    // 정렬순
-    const [selectedOptionSort, setSelectedOptionSort] = useState<string | null>(null);
+interface PropsType {
+    selectedOptionMain: string;
+    setSelectedOptionMain: Dispatch<React.SetStateAction<string>>;
+    selectedOptionMiddle: string;
+    setSelectedOptionMiddle: Dispatch<React.SetStateAction<string>>;
+    selectedOptionSort: string;
+    setSelectedOptionSort: Dispatch<React.SetStateAction<string>>;
+  }
 
-    useEffect(() => {
-        // 전체를 클릭하면 중분류 초기화
-        if (selectedOptionMain === "전체") {
-            setSelectedOptionMiddle(null);
-        }
-        console.log(selectedOptionMain, selectedOptionMiddle, selectedOptionSort);
-    }, [selectedOptionMain, selectedOptionMiddle, selectedOptionSort])
-
+const SelectedCategory: React.FC<PropsType> = ({
+    selectedOptionMain,
+    setSelectedOptionMain,
+    selectedOptionMiddle,
+    setSelectedOptionMiddle,
+    selectedOptionSort,
+    setSelectedOptionSort
+}) => {
     return (
         <>
             <MainCategory selectedOption={selectedOptionMain} setSelectedOption={setSelectedOptionMain} />
