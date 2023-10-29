@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Dispatch } from 'react';
 import styled from 'styled-components';
 
 const RadioWrapper = styled.div`
@@ -22,12 +22,11 @@ const BoldLabel = styled.label<{ selected: boolean }>`
 `;
 
 interface SortedCategoryProps {
-
+    selectedOption: string;
+    setSelectedOption: Dispatch<React.SetStateAction<string>>;
 }
 
-const SortedCategory: React.FC<SortedCategoryProps> = () => {
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
-
+const SortedCategory: React.FC<SortedCategoryProps> = ({ selectedOption, setSelectedOption }) => {
   const categories: string[] = ["정렬", "등록순", "많이 입은 순", "적게 입은 순", "색깔 순"];
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +41,7 @@ const SortedCategory: React.FC<SortedCategoryProps> = () => {
             type="radio"
             id={category.toLowerCase()}
             name="category"
-            checked={selectedOption === category.toLowerCase()} // Checking based on the selected category
+            checked={selectedOption === category.toLowerCase()}
             onChange={handleOptionChange}
           />
           <BoldLabel htmlFor={category.toLowerCase()} selected={selectedOption === category.toLowerCase()}>
