@@ -4,6 +4,8 @@ const ClothesDetailPage = () => {
     // 옷 id 가져오기
     const params = useParams();
 
+    console.log(typeof(params.id));
+
     return (
         <div className="ClothesDetailPage">
             <p>여긴 {params.id}번 옷의 상세 페이지 입니다.</p>
