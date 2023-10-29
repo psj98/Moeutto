@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Dispatch } from 'react';
 import styled from 'styled-components';
 
 const RadioWrapper = styled.div`
@@ -22,10 +22,11 @@ const BoldLabel = styled.label<{ selected: boolean }>`
 
 interface MiddleCategoryTopProps {
   categories: string[]; // ['반팔', '긴팔', '민소매']
+  selectedOption: string;
+  setSelectedOption: Dispatch<React.SetStateAction<string>>;
 }
 
-const MiddleCategory: React.FC<MiddleCategoryTopProps> = ({ categories }) => {
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+const MiddleCategory: React.FC<MiddleCategoryTopProps> = ({ categories, selectedOption, setSelectedOption }) => {
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(e.target.id);
