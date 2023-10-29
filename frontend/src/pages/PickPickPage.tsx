@@ -1,7 +1,12 @@
+// 아토믹 디자인 패턴 확인하기
+import PickTitle from "../components/pickpick/atoms/PickTitle";
+import MainCategory from "../components/pickpick/atoms/MainCategory";
+
 const PickPickPage = () => {
     return (
         <>
-            여기는 옷장에서 선택해서 착장 검사를 받을 수 있는 페이지 입니다
+            <PickTitle />
+            <MainCategory />
         </>
     )
 }
