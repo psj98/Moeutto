@@ -1,20 +1,13 @@
 package com.ssafy.moeutto.domain.clothes.repository;
 
-import com.ssafy.moeutto.domain.clothes.dto.response.ClothesAnalysisCostResponseDto;
 import com.ssafy.moeutto.domain.clothes.entity.*;
-import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
-import javax.persistence.SqlResultSetMapping;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import java.util.UUID;
-
-@Repository
 public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
 
     /**
@@ -301,4 +294,10 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
             "ORDER BY SUBSTRING(c.middle_category_id, 1, 3)) AS minmax RIGHT JOIN large_category l " +
             "ON minmax.id = l.id", nativeQuery = true)
     List<IClothesAnalysisAmount> findByMinMaxMember(UUID memberId);
+
+    @Query(value = "SELECT frequency, season, color, thickness, price, textile, middle_category_id as middleCategoryId FROM clothes WHERE member_id = ?1 ORDER BY frequency DESC LIMIT 3", nativeQuery = true)
+    List<IClothesAnalysisFrequency> findByFrequencyMax(UUID memberId);
+
+    @Query(value = "SELECT frequency, season, color, thickness, price, textile, middle_category_id as middleCategoryId FROM clothes WHERE member_id = ?1 ORDER BY frequency ASC LIMIT 3", nativeQuery = true)
+    List<IClothesAnalysisFrequency> findByFrequencyMin(UUID memberId);
 }
