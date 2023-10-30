@@ -280,7 +280,7 @@ public class ClothesServiceImpl implements ClothesService {
         //모든 회원의 옷 가격 평균
         Integer avgOfMembers = clothesRepository.findAvgOfPrice();
         //카데고리별 정보 받아오기
-        List<ClothesAnalysisCostResponseDto.AnalysisCostItem> itemList = clothesRepository.findCostOfMyClothesByCategory();
+        List<ClothesAnalysisCostResponseDto.AnalysisCostItem> itemList = clothesRepository.findCostOfMyClothesByCategory(memberId);
         if(itemList.size() == 0 ){
             throw new BaseException(BaseResponseStatus.NOT_FOUND_CATEGORY_ANALYSIS_INFO);
         }

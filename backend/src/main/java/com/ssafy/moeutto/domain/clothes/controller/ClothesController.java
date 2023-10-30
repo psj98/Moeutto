@@ -228,9 +228,9 @@ public class ClothesController {
 
             UUID memberId = getMemberIdFromToken(token);
             ClothesAnalysisCostResponseDto responseDto = clothesService.analysisCost(memberId);
-            return null;
+            return baseResponseService.getSuccessResponse(responseDto);
         } catch (BaseException e) {
-            return null;
+            return baseResponseService.getFailureResponse(e.getStatus());
         }
     }
 //

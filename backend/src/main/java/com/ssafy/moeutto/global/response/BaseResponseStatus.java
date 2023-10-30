@@ -23,7 +23,7 @@ public enum BaseResponseStatus {
      */
     NOT_FOUND_CLOTHES(false, 3001, "옷 정보가 존재하지 않습니다."),
     NOT_FOUND_COLOR_ANALYSIS_INFO(false, 3002, "색상 별 옷 정보가 존재하지 않습니다."),
-    NOT_FOUND_CATEGORY_ANALYSIS_INFO(false, 3003, "카테고리별 옷 정 보가 존재하지 않습니다."),
+    NOT_FOUND_CATEGORY_ANALYSIS_INFO(false, 3003, "카테고리별 옷 정보가 존재하지 않습니다."),
 
     /**
      * Calendar
