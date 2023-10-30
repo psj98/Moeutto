@@ -14,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +46,7 @@ public class CalendarServiceImpl implements CalendarService {
         if (!member.isPresent()) {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER);
         }
-        Timestamp curDate = Timestamp.valueOf(LocalDateTime.now());
+        Date curDate = Date.valueOf(LocalDate.now());
 
         Calendar calendar =
                 Calendar.builder()
@@ -69,20 +71,22 @@ public class CalendarServiceImpl implements CalendarService {
      * @throws BaseException
      */
     @Override
-    public CalendarListResponseDto getCalendarList(UUID memberId, Timestamp regDate) throws BaseException {
+    public CalendarListResponseDto getCalendarList(UUID memberId, Date regDate) throws BaseException {
 
         // 사용자 재 검증
         memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
 
         //년 월 받아오기.
-        Timestamp todayMonth = regDate;
+        System.out.println(regDate);
+
 
         /* 현재 연월로 캘린더 목록 가져오기 */
-        List<Calendar> calendarList = calendarRepository.findAllByMemberIdTodayMonth(memberId, todayMonth).get();
+        List<Calendar> calendarList = calendarRepository.findAllByMemberIdTodayMonth(memberId, regDate).get();
+
+        System.out.println("calendarList.toString() = " + calendarList.toString());
 
         List<CalendarResponseDto> dairayCalendarList = new ArrayList<>();
-
 
         /* 캘린더 정보들 불러와서 리스트에 저장 */
         for (Calendar calendar : calendarList) {
@@ -125,7 +129,7 @@ public class CalendarServiceImpl implements CalendarService {
         calendarRepository.findById(id).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_CALENDAR_INFO));
 
         /* 삭제 */
-        calendarRepository.deleteByIdAndMemberId(id, memberId);
+        calendarRepository.deleteById(id);
     }
 
     /**
