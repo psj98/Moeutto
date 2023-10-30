@@ -380,11 +380,6 @@ public class ClothesServiceImpl implements ClothesService {
         clothesRepository.deleteById(id); // 옷 정보 삭제
     }
 
-    @Override
-    public ClothesStarResponseDto starClothes(Integer id) throws BaseException {
-        return null;
-    }
-
     /**
      * 옷 즐겨찾기를 등록 / 해제합니다.
      *
@@ -426,41 +421,6 @@ public class ClothesServiceImpl implements ClothesService {
                 .build();
 
         return clothesStarResponseDto;
-    }
-
-
-    /**
-     * 카테고리별 가격 분석 서비스 입니다.
-     * @param memberId
-     * @return
-     * @throws BaseException
-     */
-    @Override
-    public ClothesAnalysisCostResponseDto analysisCost(UUID memberId) throws BaseException {
-
-        ClothesAnalysisCostResponseDto responseDto;
-
-        //내 옷장 총 가격
-        Integer myTotalCost = clothesRepository.findPriceByMemberId(memberId);
-
-        //모든 회원의 옷 가격 평균
-        Integer avgOfMembers = clothesRepository.findAvgOfPrice();
-        //카데고리별 정보 받아오기
-        List<IAnalysisCostItem> itemList = clothesRepository.findCostOfMyClothesByCategory(memberId);
-
-        System.out.println("itemList = " + myTotalCost + " " + avgOfMembers + " " + itemList.toString());
-
-        if(itemList.size() == 0 ){
-            throw new BaseException(BaseResponseStatus.NOT_FOUND_CATEGORY_ANALYSIS_INFO);
-        }
-
-        responseDto = ClothesAnalysisCostResponseDto.builder()
-                .myAnalysisCost(itemList)
-                .myTotalCost(myTotalCost)
-                .userTotalAvgCost(avgOfMembers)
-                .build();
-
-        return responseDto;
     }
 
     /**
@@ -533,6 +493,66 @@ public class ClothesServiceImpl implements ClothesService {
     }
 
     /**
+     * 옷의 빈도를 기준으로 가장 자주 입은 옷, 가장 가끔 입은 옷 3 개씩 반환
+     *
+     * @param memberId
+     * @return ClothesAnalysisFrequencyResponseDto
+     * @throws BaseException
+     */
+    @Override
+    public ClothesAnalysisFrequencyResponseDto analysisFrequency(UUID memberId) throws BaseException {
+        Optional<Member> memberOptional = memberRepository.findById(memberId);
+
+        // 사용자 체크
+        if (!memberOptional.isPresent()) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER);
+        }
+
+        List<IClothesAnalysisFrequency> maxList = clothesRepository.findByFrequencyMax(memberId);
+        List<IClothesAnalysisFrequency> minList = clothesRepository.findByFrequencyMin(memberId);
+
+        ClothesAnalysisFrequencyResponseDto clothesAnalysisFrequencyResponseDto = ClothesAnalysisFrequencyResponseDto.builder()
+                .myMostFrequency(maxList)
+                .myLeastFrequency(minList)
+                .build();
+
+        return clothesAnalysisFrequencyResponseDto;
+    }
+
+    /**
+     * 카테고리별 가격 분석 서비스 입니다.
+     *
+     * @param memberId
+     * @return
+     * @throws BaseException
+     */
+    @Override
+    public ClothesAnalysisCostResponseDto analysisCost(UUID memberId) throws BaseException {
+
+        ClothesAnalysisCostResponseDto responseDto;
+
+        //내 옷장 총 가격
+        Integer myTotalCost = clothesRepository.findPriceByMemberId(memberId);
+
+        //모든 회원의 옷 가격 평균
+        Integer avgOfMembers = clothesRepository.findAvgOfPrice();
+        //카데고리별 정보 받아오기
+        List<IAnalysisCostItem> itemList = clothesRepository.findCostOfMyClothesByCategory(memberId);
+
+        if (itemList.size() == 0) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_CATEGORY_ANALYSIS_INFO);
+        }
+
+        responseDto = ClothesAnalysisCostResponseDto.builder()
+                .myAnalysisCost(itemList)
+                .myTotalCost(myTotalCost)
+                .userTotalAvgCost(avgOfMembers)
+                .build();
+
+        return responseDto;
+    }
+
+    /**
      * 옷장을 미니멀 / 맥시멀 기준으로 분석합니다.
      *
      * @param memberId
@@ -565,34 +585,6 @@ public class ClothesServiceImpl implements ClothesService {
                 .build();
 
         return clothesAnalysisMinMaxResponseDto;
-    }
-
-    /**
-     * 옷의 빈도를 기준으로 가장 자주 입은 옷, 가장 가끔 입은 옷 3 개씩 반환
-     * @param memberId
-     * @return ClothesAnalysisFrequencyResponseDto
-     * @throws BaseException
-     */
-    @Override
-    public ClothesAnalysisFrequencyResponseDto analysisFrequency(UUID memberId) throws BaseException {
-        Optional<Member> memberOptional = memberRepository.findById(memberId);
-
-        // 사용자 체크
-        if (!memberOptional.isPresent()) {
-            throw new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER);
-        }
-
-        List<IClothesAnalysisFrequency> maxList = clothesRepository.findByFrequencyMax(memberId);
-        System.out.println("maxList 갯수 : "+maxList.size());
-        List<IClothesAnalysisFrequency> minList = clothesRepository.findByFrequencyMin(memberId);
-        System.out.println("minList 갯수 : "+minList.size());
-
-        ClothesAnalysisFrequencyResponseDto clothesAnalysisFrequencyResponseDto = ClothesAnalysisFrequencyResponseDto.builder()
-                .myMostFrequency(maxList)
-                .myLeastFrequency(minList)
-                .build();
-
-        return clothesAnalysisFrequencyResponseDto;
     }
 }
 
