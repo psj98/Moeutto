@@ -96,7 +96,6 @@ public class ClothesController {
             return baseResponseService.getFailureResponse(e.status);
         }
     }
-
     /**
      * 옷 정보를 수정합니다.
      *
@@ -194,9 +193,9 @@ public class ClothesController {
 
     /**
      * 옷장을 계절 기준으로 분석합니다.
-     *
+     * 
      * @param token
-     * @return ClothesAnalysisSeasonResponseDto
+     * @return
      */
     @GetMapping("/analysis-season")
     public BaseResponse<Object> analysisSeasonClothes(@RequestHeader(value = "accessToken", required = false) String token) {
@@ -225,6 +224,26 @@ public class ClothesController {
 //        }
 //    }
 //
+    @GetMapping("/analysis-cost")
+    public BaseResponse<Object> analysisCostClothes(@RequestHeader(value = "accessToken") String token) {
+        try {
+
+            UUID memberId = getMemberIdFromToken(token);
+            ClothesAnalysisCostResponseDto responseDto = clothesService.analysisCost(memberId);
+            return baseResponseService.getSuccessResponse(responseDto);
+        } catch (BaseException e) {
+            return baseResponseService.getFailureResponse(e.getStatus());
+        }
+    }
+//
+//    @GetMapping("/analysis-amount")
+//    public BaseResponse<Object> analysisAmountClothes() {
+//        try {
+//            return null;
+//        } catch (BaseException e) {
+//            return null;
+//        }
+//    }
 //    @GetMapping("/analysis-cost")
 //    public BaseResponse<Object> analysisCostClothes() {
 //        try {
@@ -266,4 +285,20 @@ public class ClothesController {
 //            return null;
 //        }
 //    }
+
+
+
+    public UUID getMemberIdFromToken(String token) throws BaseException {
+        // 토큰이 null이거나 없으면 세션 만료 메시지 전달
+        // 문제 없으면 memberId 반환
+        if (token == null || token.equals("")) {
+            throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
+        }
+//        jwtUtil.validToken(token);
+
+        UUID memberIdFromToken = UUID.randomUUID();
+//        UUID memberIdFromToken = UUID.fromString(jwtService.extractSubject(token));                                                                                                                                                                                                                                                 Token(token);
+        return memberIdFromToken;
+
+    }
 }
