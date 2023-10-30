@@ -29,8 +29,10 @@ public class ClothesController {
     /**
      * 옷 정보를 등록합니다.
      *
+     * @param token
      * @param clothesRegistRequestDto
-     * @return ClothesRegistResponseDto
+     * @param file
+     * @return
      */
     @PostMapping("/regist")
     public BaseResponse<Object> registClothes(@RequestHeader(value = "accessToken", required = false) String token,
