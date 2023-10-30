@@ -48,3 +48,4 @@ root.render(
     </React.StrictMode>
   </PersistGate>
   </Provider>
+)
