@@ -1,6 +1,5 @@
 package com.ssafy.moeutto.domain.calendar.dto.response;
 
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,12 +14,8 @@ public class CalendarListResponseDto {
     @NotNull
     private List<CalendarResponseDto> calendarList;
 
-
-
-
     @Builder(toBuilder = true)
-    public CalendarListResponseDto(List<CalendarResponseDto> calendarList){
+    public CalendarListResponseDto(List<CalendarResponseDto> calendarList) {
         this.calendarList = calendarList;
     }
-
 }

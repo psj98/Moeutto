@@ -101,18 +101,15 @@ public interface ClothesService {
      * 옷 즐겨찾기를 등록 / 삭제합니다.
      *
      * @param id
-     * @return
+     * @return ClothesStarResponseDto
      * @throws BaseException
      */
-    ClothesStarResponseDto starClothes(Integer id) throws BaseException;
-
-    ClothesAnalysisCostResponseDto analysisCost(UUID memberId) throws BaseException;
     ClothesStarResponseDto starClothes(Integer id, UUID memberId) throws BaseException;
 
     /**
      * 옷장을 색상 기준으로 분석합니다.
      *
-     * @return
+     * @return ClothesAnalysisColorResponseDto
      * @throws BaseException
      */
     ClothesAnalysisColorResponseDto analysisColor(UUID memberId) throws BaseException;
@@ -127,13 +124,30 @@ public interface ClothesService {
     ClothesAnalysisSeasonResponseDto analysisSeason(UUID memberId) throws BaseException;
 
     /**
+     * 옷장을 빈도 기준으로 분석합니다.
+     *
+     * @param memberId
+     * @return ClothesAnalysisFrequencyResponseDto
+     * @throws BaseException
+     */
+    ClothesAnalysisFrequencyResponseDto analysisFrequency(UUID memberId) throws BaseException;
+
+    /**
+     * 옷장을 가격 기준으로 분석합니다.
+     *
+     * @param memberId
+     * @return ClothesAnalysisCostResponseDto
+     * @throws BaseException
+     */
+    ClothesAnalysisCostResponseDto analysisCost(UUID memberId) throws BaseException;
+
+
+    /**
      * 옷장을 미니멀 / 맥시멀 기준으로 분석합니다.
      *
      * @param memberId
-     * @return
+     * @return ClothesAnalysisMinMaxResponseDto
      * @throws BaseException
      */
     ClothesAnalysisMinMaxResponseDto analysisAmount(UUID memberId) throws BaseException;
-
-    ClothesAnalysisFrequencyResponseDto analysisFrequency(UUID memberId) throws BaseException;
 }

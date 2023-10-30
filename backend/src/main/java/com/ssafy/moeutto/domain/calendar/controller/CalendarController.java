@@ -35,48 +35,42 @@ public class CalendarController {
      * 캘린더 목록을 불러오는 메서드 입니다.
      *
      * @param token
-     * @param date: 날짜정보
-     * @return
+     * @param calendarListRequestDto
+     * @return CalendarListResponseDto
      */
-
-        @PostMapping("/list")
-        public BaseResponse<Object> calendarList(@RequestHeader(value = "accessToken", required = false) String token,
-                                                 @RequestBody CalendarListRequestDto calendarListRequestDto) {
-            try {
-                UUID memberId = getMemberIdFromToken(token);
-                CalendarListResponseDto calendarListResponseDto = calendarService.getCalendarList(memberId, Date.valueOf(calendarListRequestDto.getRegDate()));
-                return baseResponseService.getSuccessResponse(calendarListResponseDto);
-            } catch (BaseException e) {
-                return baseResponseService.getFailureResponse(e.status);
-            }
+    @PostMapping("/list")
+    public BaseResponse<Object> calendarList(@RequestHeader(value = "accessToken", required = false) String token,
+                                             @RequestBody CalendarListRequestDto calendarListRequestDto) {
+        try {
+            UUID memberId = getMemberIdFromToken(token);
+            CalendarListResponseDto calendarListResponseDto = calendarService.getCalendarList(memberId, Date.valueOf(calendarListRequestDto.getRegDate()));
+            return baseResponseService.getSuccessResponse(calendarListResponseDto);
+        } catch (BaseException e) {
+            return baseResponseService.getFailureResponse(e.status);
         }
-
+    }
 
     /**
      * 캘린더에 착장을 등록하는 메서드 입니다.
      * <p>
      * ToDo - S3에서 이미지 받아오는 부분 수정 해야함.
      *
-     * @param token    =  JWT TOKEN
+     * @param token      =  JWT TOKEN
      * @param requestDto = 저장한 착장 사진 전체 ImageUrl을 담고있는 Dto 입니다.
      * @return
      */
     @PostMapping("/regist")
     public BaseResponse<Object> registCalendar(@RequestHeader(value = "accessToken", required = false) String token,
                                                @RequestBody CalendarRegistRequestDto requestDto) {
-//         토큰 검증
         try {
-            UUID memberId =  getMemberIdFromToken(token);
+            UUID memberId = getMemberIdFromToken(token);
             calendarService.registMyOutfit(memberId, requestDto);
             return baseResponseService.getSuccessResponse();
 
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
         }
-
-
     }
-
 
     /**
      * 착장을 삭제하는 컨트롤러입니다.
@@ -101,26 +95,26 @@ public class CalendarController {
 
     /**
      * 착장에 대한 사용자의 평가를 위한 컨트롤러 입니다.
+     *
      * @param token
      * @param requestDto : 착장 id, 좋아요 종류 0,1,2,3 ...
      * @return
      */
     @PutMapping("/score")
-    public BaseResponse<Object> scoreOfMyOutfit (@RequestHeader(value = "accessToken") String token,
-                                                 @RequestBody CalendarScoreRequestDto requestDto){
-        try{
+    public BaseResponse<Object> scoreOfMyOutfit(@RequestHeader(value = "accessToken") String token,
+                                                @RequestBody CalendarScoreRequestDto requestDto) {
+        try {
             UUID memberId = getMemberIdFromToken(token);
             calendarService.scoreOutfit(memberId, requestDto);
             return baseResponseService.getSuccessResponse();
-        }catch(BaseException e){
+        } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.getStatus());
         }
-
     }
-
 
     /**
      * 토큰 유효성 검사 메서드 입니다.
+     *
      * @param token
      * @return
      * @throws BaseException
@@ -131,15 +125,11 @@ public class CalendarController {
         if (token == null || token.equals("")) {
             throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
         }
-//        jwtUtil.validToken(token);
 
-//        UUID memberIdFromToken = UUID.randomUUID();
         UUID memberIdFromToken = authTokensGenerator.extractMemberId(token);
+
         return memberIdFromToken;
-
     }
-
-
 }
 
 
