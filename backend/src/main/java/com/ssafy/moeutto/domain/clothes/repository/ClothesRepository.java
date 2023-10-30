@@ -1,8 +1,10 @@
 package com.ssafy.moeutto.domain.clothes.repository;
 
 import com.ssafy.moeutto.domain.clothes.entity.Clothes;
+import com.ssafy.moeutto.domain.clothes.entity.IClothesAnalysisAmount;
 import com.ssafy.moeutto.domain.clothes.entity.IClothesAnalysisColor;
 import com.ssafy.moeutto.domain.clothes.entity.IClothesAnalysisSeason;
+import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -61,6 +63,36 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
             "        WHERE SUBSTRING(c.season, ?1, 1) = '1' " +
             "        AND c.member_id = ?2" +
             "        GROUP BY SUBSTRING(m.id, 1, 3)) AS season " +
-            "RIGHT JOIN large_category l ON season.id = l.id;", nativeQuery = true)
+            "RIGHT JOIN large_category l ON season.id = l.id", nativeQuery = true)
     List<IClothesAnalysisSeason> findBySeasonMember(String seasonNum, UUID memberId);
+
+    /**
+     * 사용자가 소유한 옷 개수를 셉니다.
+     *
+     * @param memberId
+     * @return Long
+     */
+    Long countByMemberId(UUID memberId);
+
+    /**
+     * 모든 사용자의 옷 개수를 셉니다.
+     *
+     * @return Long
+     */
+    Long countBy();
+
+    /**
+     * 옷장을 미니멀 / 맥시멀 기준으로 분석합니다.
+     *
+     * @param memberId
+     * @return
+     */
+    @Query(value = "SELECT l.id AS largeCategoryId, IFNULL(minmax.amount, 0) AS amount " +
+            "from (SELECT SUBSTRING(c.middle_category_id, 1, 3) AS id, COUNT(*) AS amount " +
+            "FROM clothes c " +
+            "WHERE c.member_id = ?1 " +
+            "GROUP BY SUBSTRING(c.middle_category_id, 1, 3) " +
+            "ORDER BY SUBSTRING(c.middle_category_id, 1, 3)) AS minmax RIGHT JOIN large_category l " +
+            "ON minmax.id = l.id", nativeQuery = true)
+    List<IClothesAnalysisAmount> findByMinMaxMember(UUID memberId);
 }
