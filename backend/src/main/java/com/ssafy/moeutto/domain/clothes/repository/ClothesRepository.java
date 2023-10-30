@@ -23,6 +23,7 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
      */
     @Query(value = "SELECT SUBSTRING(c.middle_category_id, 1, 3) as largeCategoryId, SUM(c.price) as price, COUNT(*) as amount\n" +
             "FROM clothes c\n" +
+            "WHERE member_id = 1?"+
             "GROUP BY substring(c.middle_category_id, 1, 3)\n" +
             "ORDER BY substring(c.middle_category_id, 1, 3)", nativeQuery = true)
     List<ClothesAnalysisCostResponseDto.AnalysisCostItem> findCostOfMyClothesByCategory();

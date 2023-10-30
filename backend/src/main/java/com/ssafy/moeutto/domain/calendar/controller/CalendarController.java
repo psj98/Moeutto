@@ -1,11 +1,11 @@
 
 package com.ssafy.moeutto.domain.calendar.controller;
 
+import com.ssafy.moeutto.domain.calendar.dto.request.CalendarListRequestDto;
 import com.ssafy.moeutto.domain.calendar.dto.request.CalendarRegistRequestDto;
 import com.ssafy.moeutto.domain.calendar.dto.request.CalendarScoreRequestDto;
 import com.ssafy.moeutto.domain.calendar.dto.response.CalendarListResponseDto;
 import com.ssafy.moeutto.domain.calendar.service.CalendarService;
-import com.ssafy.moeutto.domain.member.auth.AuthTokens;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
 import com.ssafy.moeutto.domain.member.jwt.JwtTokenProvider;
 import com.ssafy.moeutto.global.response.BaseException;
@@ -13,14 +13,16 @@ import com.ssafy.moeutto.global.response.BaseResponse;
 import com.ssafy.moeutto.global.response.BaseResponseService;
 import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/calendars")
 @RequiredArgsConstructor
+@Slf4j
 public class CalendarController {
 
     private final CalendarService calendarService;
@@ -33,21 +35,21 @@ public class CalendarController {
      * 캘린더 목록을 불러오는 메서드 입니다.
      *
      * @param token
-     * @param curDate
+     * @param date: 날짜정보
      * @return
      */
 
-    @PostMapping("/list")
-    public BaseResponse<Object> calendarList(@RequestHeader(value = "accessToken", required = false) String token,
-                                             @RequestBody Timestamp curDate) {
-        try {
-            UUID memberId = getMemberIdFromToken(token);
-            CalendarListResponseDto calendarListResponseDto = calendarService.getCalendarList(memberId, curDate);
-            return baseResponseService.getSuccessResponse(calendarListResponseDto);
-        } catch (BaseException e) {
-            return baseResponseService.getFailureResponse(e.status);
+        @PostMapping("/list")
+        public BaseResponse<Object> calendarList(@RequestHeader(value = "accessToken", required = false) String token,
+                                                 @RequestBody CalendarListRequestDto calendarListRequestDto) {
+            try {
+                UUID memberId = getMemberIdFromToken(token);
+                CalendarListResponseDto calendarListResponseDto = calendarService.getCalendarList(memberId, Date.valueOf(calendarListRequestDto.getRegDate()));
+                return baseResponseService.getSuccessResponse(calendarListResponseDto);
+            } catch (BaseException e) {
+                return baseResponseService.getFailureResponse(e.status);
+            }
         }
-    }
 
 
     /**
