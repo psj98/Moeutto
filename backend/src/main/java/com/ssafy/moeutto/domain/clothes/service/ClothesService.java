@@ -1,8 +1,10 @@
 package com.ssafy.moeutto.domain.clothes.service;
 
+import com.ssafy.moeutto.domain.clothes.dto.request.ClothesListRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesRegistRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesUpdateRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.response.*;
+import com.ssafy.moeutto.domain.clothes.entity.Clothes;
 import com.ssafy.moeutto.global.response.BaseException;
 
 import java.util.List;
@@ -31,10 +33,52 @@ public interface ClothesService {
     /**
      * 옷 목록을 조회합니다.
      *
+     * @param memberId
+     * @param clothesListRequestDto
      * @return List<ClothesListResponseDto>
      * @throws BaseException
      */
-    List<ClothesListResponseDto> listClothes(UUID memberId) throws BaseException;
+    List<ClothesListResponseDto> listClothes(UUID memberId, ClothesListRequestDto clothesListRequestDto) throws BaseException;
+
+    /**
+     * 사용자 id로 목록을 조회합니다.
+     *
+     * @param memberId
+     * @param sortBy
+     * @param orderBy
+     * @return List<Clothes>
+     */
+    List<Clothes> listClothesAll(UUID memberId, String sortBy, Integer orderBy);
+
+    /**
+     * 사용자 id와 대분류 카테고리 id로 목록을 조회합니다.
+     *
+     * @param memberId
+     * @param categoryId
+     * @param sortBy
+     * @param orderBy
+     * @return List<Clothes>
+     */
+    List<Clothes> listClothesByLargeCategoryId(UUID memberId, String categoryId, String sortBy, Integer orderBy);
+
+    /**
+     * 사용자 id와 중분류 카테고리 id로 목록을 조회합니다.
+     *
+     * @param memberId
+     * @param categoryId
+     * @param sortBy
+     * @param orderBy
+     * @return List<Clothes>
+     */
+    List<Clothes> listClothesByMiddleCategoryId(UUID memberId, String categoryId, String sortBy, Integer orderBy);
+
+    /**
+     * 조회한 목록에서 필요한 속성을 추출합니다.
+     *
+     * @param clothesList
+     * @return List<ClothesListResponseDto>
+     */
+    List<ClothesListResponseDto> getClothesListResponseDto(List<Clothes> clothesList);
 
     /**
      * 옷 정보를 수정합니다.
@@ -60,6 +104,9 @@ public interface ClothesService {
      * @return
      * @throws BaseException
      */
+    ClothesStarResponseDto starClothes(Integer id) throws BaseException;
+
+    ClothesAnalysisCostResponseDto analysisCost(UUID memberId) throws BaseException;
     ClothesStarResponseDto starClothes(Integer id, UUID memberId) throws BaseException;
 
     /**

@@ -11,7 +11,7 @@ public interface MemberRepository extends JpaRepository<Member, UUID> {
 
     /**
      * 사용자 수를 세는 메서드
-     * 
+     *
      * @return
      */
     Long countBy();

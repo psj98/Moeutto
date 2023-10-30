@@ -1,5 +1,6 @@
 package com.ssafy.moeutto.domain.clothes.service;
 
+import com.ssafy.moeutto.domain.clothes.dto.request.ClothesListRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesRegistRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesUpdateRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.response.*;
@@ -134,11 +135,13 @@ public class ClothesServiceImpl implements ClothesService {
     /**
      * 옷 목록을 조회합니다.
      *
+     * @param memberId
+     * @param clothesListRequestDto
      * @return List<ClothesListResponseDto>
      * @throws BaseException
      */
     @Override
-    public List<ClothesListResponseDto> listClothes(UUID memberId) throws BaseException {
+    public List<ClothesListResponseDto> listClothes(UUID memberId, ClothesListRequestDto clothesListRequestDto) throws BaseException {
         Optional<Member> memberOptional = memberRepository.findById(memberId);
 
         // 사용자 체크
@@ -146,8 +149,146 @@ public class ClothesServiceImpl implements ClothesService {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER);
         }
 
-        List<Clothes> clothesList = clothesRepository.findAllByMemberId(memberId); // 옷 목록 조회
+        String categoryId = clothesListRequestDto.getCategoryId(); // 카테고리 id
+        String largeCategoryId = categoryId.substring(0, 3); // 대분류 카테고리 id
+        String middleCategoryId = categoryId.substring(3); // 중분류 카테고리 id
+        String sortBy = clothesListRequestDto.getSortBy(); // 정렬 기준
+        Integer orderBy = clothesListRequestDto.getOrderBy(); // 정렬 순서
 
+        List<Clothes> clothesList; // 옷 목록 정보
+
+        // 조회 조건에 따른 조건문
+        if (largeCategoryId.equals("000")) { // 전체 조회
+            clothesList = listClothesAll(memberId, sortBy, orderBy);
+        } else if (middleCategoryId.equals("000")) { // 대분류 카테고리 조회
+            clothesList = listClothesByLargeCategoryId(memberId, largeCategoryId, sortBy, orderBy);
+        } else { // 중분류 카테고리 조회
+            clothesList = listClothesByMiddleCategoryId(memberId, categoryId, sortBy, orderBy);
+        }
+
+        if (clothesList == null || clothesList.size() == 0) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES_LIST);
+        }
+
+        // 필요한 속성 추출 및 옷 정보 반환
+        return getClothesListResponseDto(clothesList);
+    }
+
+    /**
+     * 사용자 id로 목록을 조회합니다.
+     *
+     * @param memberId
+     * @param sortBy
+     * @param orderBy
+     * @return List<Clothes>
+     */
+    @Override
+    public List<Clothes> listClothesAll(UUID memberId, String sortBy, Integer orderBy) {
+        if (sortBy.equals("initial")) { // 기본 정렬
+            return clothesRepository.findAllByMemberId(memberId);
+        } else if (sortBy.equals("regDate")) { // 등록일 순 정렬
+            if (orderBy == 0) { // 오름차순 정렬
+                return clothesRepository.findAllByMemberIdOrderByRegDateAsc(memberId);
+            } else if (orderBy == 1) { // 내림차순 정렬
+                return clothesRepository.findAllByMemberIdOrderByRegDateDesc(memberId);
+            }
+        } else if (sortBy.equals("frequency")) { // 빈도 순 정렬
+            if (orderBy == 0) { // 오름차순 정렬
+                return clothesRepository.findAllByMemberIdOrderByFrequencyAsc(memberId);
+            } else if (orderBy == 1) { // 내림차순 정렬
+                return clothesRepository.findAllByMemberIdOrderByFrequencyDesc(memberId);
+            }
+        } else if (sortBy.equals("color")) { // 색상 순 정렬
+            if (orderBy == 0) { // 오름차순 정렬
+                return clothesRepository.findAllByMemberIdOrderByColorAsc(memberId);
+            } else if (orderBy == 1) { // 내림차순 정렬
+                return clothesRepository.findAllByMemberIdOrderByColorDesc(memberId);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * 사용자 id와 대분류 카테고리 id로 목록을 조회합니다.
+     *
+     * @param memberId
+     * @param categoryId
+     * @param sortBy
+     * @param orderBy
+     * @return List<Clothes>
+     */
+    @Override
+    public List<Clothes> listClothesByLargeCategoryId(UUID memberId, String categoryId, String sortBy, Integer orderBy) {
+        if (sortBy.equals("initial")) { // 기본 정렬
+            return clothesRepository.findAllByMemberIdAndMiddleCategoryIdStartingWith(memberId, categoryId);
+        } else if (sortBy.equals("regDate")) { // 등록일 순 정렬
+            if (orderBy == 0) { // 오름차순 정렬
+                return clothesRepository.findAllByMemberIdAndMiddleCategoryIdStartingWithOrderByRegDateAsc(memberId, categoryId);
+            } else if (orderBy == 1) { // 내림차순 정렬
+                return clothesRepository.findAllByMemberIdAndMiddleCategoryIdStartingWithOrderByRegDateDesc(memberId, categoryId);
+            }
+        } else if (sortBy.equals("frequency")) { // 빈도 순 정렬
+            if (orderBy == 0) { // 오름차순 정렬
+                return clothesRepository.findAllByMemberIdAndMiddleCategoryIdStartingWithOrderByFrequencyAsc(memberId, categoryId);
+            } else if (orderBy == 1) { // 내림차순 정렬
+                return clothesRepository.findAllByMemberIdAndMiddleCategoryIdStartingWithOrderByFrequencyDesc(memberId, categoryId);
+            }
+        } else if (sortBy.equals("color")) { // 색상 순 정렬
+            if (orderBy == 0) { // 오름차순 정렬
+                return clothesRepository.findAllByMemberIdAndMiddleCategoryIdStartingWithOrderByColorAsc(memberId, categoryId);
+            } else if (orderBy == 1) { // 내림차순 정렬
+                return clothesRepository.findAllByMemberIdAndMiddleCategoryIdStartingWithOrderByColorDesc(memberId, categoryId);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * 사용자 id와 중분류 카테고리 id로 목록을 조회합니다.
+     *
+     * @param memberId
+     * @param categoryId
+     * @param sortBy
+     * @param orderBy
+     * @return List<Clothes>
+     */
+    @Override
+    public List<Clothes> listClothesByMiddleCategoryId(UUID memberId, String categoryId, String sortBy, Integer orderBy) {
+        if (sortBy.equals("initial")) { // 기본 정렬
+            return clothesRepository.findAllByMemberIdAndMiddleCategoryId(memberId, categoryId);
+        } else if (sortBy.equals("regDate")) { // 등록일 순 정렬
+            if (orderBy == 0) { // 오름차순 정렬
+                return clothesRepository.findAllByMemberIdAndMiddleCategoryIdOrderByRegDateAsc(memberId, categoryId);
+            } else if (orderBy == 1) { // 내림차순 정렬
+                return clothesRepository.findAllByMemberIdAndMiddleCategoryIdOrderByRegDateDesc(memberId, categoryId);
+            }
+        } else if (sortBy.equals("frequency")) { // 빈도 순 정렬
+            if (orderBy == 0) { // 오름차순 정렬
+                return clothesRepository.findAllByMemberIdAndMiddleCategoryIdOrderByFrequencyAsc(memberId, categoryId);
+            } else if (orderBy == 1) { // 내림차순 정렬
+                return clothesRepository.findAllByMemberIdAndMiddleCategoryIdOrderByFrequencyDesc(memberId, categoryId);
+            }
+        } else if (sortBy.equals("color")) { // 색상 순 정렬
+            if (orderBy == 0) { // 오름차순 정렬
+                return clothesRepository.findAllByMemberIdAndMiddleCategoryIdOrderByColorAsc(memberId, categoryId);
+            } else if (orderBy == 1) { // 내림차순 정렬
+                return clothesRepository.findAllByMemberIdAndMiddleCategoryIdOrderByColorDesc(memberId, categoryId);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * 조회한 목록에서 필요한 속성을 추출합니다.
+     *
+     * @param clothesList
+     * @return List<ClothesListResponseDto>
+     */
+    @Override
+    public List<ClothesListResponseDto> getClothesListResponseDto(List<Clothes> clothesList) {
         // 옷 목록 정보 반환 (필요한 정보만 추출)
         List<ClothesListResponseDto> clothesListResponseDtoList = new ArrayList<>();
         for (Clothes clothes : clothesList) {
@@ -239,6 +380,11 @@ public class ClothesServiceImpl implements ClothesService {
         clothesRepository.deleteById(id); // 옷 정보 삭제
     }
 
+    @Override
+    public ClothesStarResponseDto starClothes(Integer id) throws BaseException {
+        return null;
+    }
+
     /**
      * 옷 즐겨찾기를 등록 / 해제합니다.
      *
@@ -280,6 +426,41 @@ public class ClothesServiceImpl implements ClothesService {
                 .build();
 
         return clothesStarResponseDto;
+    }
+
+
+    /**
+     * 카테고리별 가격 분석 서비스 입니다.
+     * @param memberId
+     * @return
+     * @throws BaseException
+     */
+    @Override
+    public ClothesAnalysisCostResponseDto analysisCost(UUID memberId) throws BaseException {
+
+        ClothesAnalysisCostResponseDto responseDto;
+
+        //내 옷장 총 가격
+        Integer myTotalCost = clothesRepository.findPriceByMemberId(memberId);
+
+        //모든 회원의 옷 가격 평균
+        Integer avgOfMembers = clothesRepository.findAvgOfPrice();
+        //카데고리별 정보 받아오기
+        List<IAnalysisCostItem> itemList = clothesRepository.findCostOfMyClothesByCategory(memberId);
+
+        System.out.println("itemList = " + myTotalCost + " " + avgOfMembers + " " + itemList.toString());
+
+        if(itemList.size() == 0 ){
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_CATEGORY_ANALYSIS_INFO);
+        }
+
+        responseDto = ClothesAnalysisCostResponseDto.builder()
+                .myAnalysisCost(itemList)
+                .myTotalCost(myTotalCost)
+                .userTotalAvgCost(avgOfMembers)
+                .build();
+
+        return responseDto;
     }
 
     /**
@@ -414,3 +595,4 @@ public class ClothesServiceImpl implements ClothesService {
         return clothesAnalysisFrequencyResponseDto;
     }
 }
+

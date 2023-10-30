@@ -14,6 +14,6 @@ const CurrentLocationBtn: React.FC<CurrentLocationBtnPropsType> = ({ setResetLoc
             }}>현재 위치로 설정</button>
         </div>
     )
-}
+};
 
 export default CurrentLocationBtn;
