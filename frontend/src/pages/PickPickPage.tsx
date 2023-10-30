@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../redux/store";
 import PickComponent from "../components/common/category/organisms/PickComponent";
+import Scroll from "../components/common/scroll/molecules/Scroll";
 
 // 아토믹 디자인 패턴 확인하기
 
@@ -77,6 +78,106 @@ const PickPickPage = () => {
         },
         {
             "id": 4, // 옷 등록 id
+            "middleCategoryId": "String", // 중분류 카테고리 id
+            "largeCategoryId": "String", // 대분류 카테고리 id
+            "color": "String", // 색상
+            "frequency": 0, // 빈도
+            "star": 0, // 즐겨찾기 여부
+            "image": "/images/clothes1.png", // 이미지
+            "regDate": "DateTime", // 등록 날짜
+        },
+        {
+            "id": 5, // 옷 등록 id
+            "middleCategoryId": "String", // 중분류 카테고리 id
+            "largeCategoryId": "String", // 대분류 카테고리 id
+            "color": "String", // 색상
+            "frequency": 0, // 빈도
+            "star": 0, // 즐겨찾기 여부
+            "image": "/images/clothes1.png", // 이미지
+            "regDate": "DateTime", // 등록 날짜
+        },
+        {
+            "id": 5, // 옷 등록 id
+            "middleCategoryId": "String", // 중분류 카테고리 id
+            "largeCategoryId": "String", // 대분류 카테고리 id
+            "color": "String", // 색상
+            "frequency": 0, // 빈도
+            "star": 0, // 즐겨찾기 여부
+            "image": "/images/clothes1.png", // 이미지
+            "regDate": "DateTime", // 등록 날짜
+        },
+        {
+            "id": 5, // 옷 등록 id
+            "middleCategoryId": "String", // 중분류 카테고리 id
+            "largeCategoryId": "String", // 대분류 카테고리 id
+            "color": "String", // 색상
+            "frequency": 0, // 빈도
+            "star": 0, // 즐겨찾기 여부
+            "image": "/images/clothes1.png", // 이미지
+            "regDate": "DateTime", // 등록 날짜
+        },
+        {
+            "id": 5, // 옷 등록 id
+            "middleCategoryId": "String", // 중분류 카테고리 id
+            "largeCategoryId": "String", // 대분류 카테고리 id
+            "color": "String", // 색상
+            "frequency": 0, // 빈도
+            "star": 0, // 즐겨찾기 여부
+            "image": "/images/clothes1.png", // 이미지
+            "regDate": "DateTime", // 등록 날짜
+        },
+        {
+            "id": 5, // 옷 등록 id
+            "middleCategoryId": "String", // 중분류 카테고리 id
+            "largeCategoryId": "String", // 대분류 카테고리 id
+            "color": "String", // 색상
+            "frequency": 0, // 빈도
+            "star": 0, // 즐겨찾기 여부
+            "image": "/images/clothes1.png", // 이미지
+            "regDate": "DateTime", // 등록 날짜
+        },
+        {
+            "id": 5, // 옷 등록 id
+            "middleCategoryId": "String", // 중분류 카테고리 id
+            "largeCategoryId": "String", // 대분류 카테고리 id
+            "color": "String", // 색상
+            "frequency": 0, // 빈도
+            "star": 0, // 즐겨찾기 여부
+            "image": "/images/clothes1.png", // 이미지
+            "regDate": "DateTime", // 등록 날짜
+        },
+        {
+            "id": 5, // 옷 등록 id
+            "middleCategoryId": "String", // 중분류 카테고리 id
+            "largeCategoryId": "String", // 대분류 카테고리 id
+            "color": "String", // 색상
+            "frequency": 0, // 빈도
+            "star": 0, // 즐겨찾기 여부
+            "image": "/images/clothes1.png", // 이미지
+            "regDate": "DateTime", // 등록 날짜
+        },
+        {
+            "id": 5, // 옷 등록 id
+            "middleCategoryId": "String", // 중분류 카테고리 id
+            "largeCategoryId": "String", // 대분류 카테고리 id
+            "color": "String", // 색상
+            "frequency": 0, // 빈도
+            "star": 0, // 즐겨찾기 여부
+            "image": "/images/clothes1.png", // 이미지
+            "regDate": "DateTime", // 등록 날짜
+        },
+        {
+            "id": 5, // 옷 등록 id
+            "middleCategoryId": "String", // 중분류 카테고리 id
+            "largeCategoryId": "String", // 대분류 카테고리 id
+            "color": "String", // 색상
+            "frequency": 0, // 빈도
+            "star": 0, // 즐겨찾기 여부
+            "image": "/images/clothes1.png", // 이미지
+            "regDate": "DateTime", // 등록 날짜
+        },
+        {
+            "id": 5, // 옷 등록 id
             "middleCategoryId": "String", // 중분류 카테고리 id
             "largeCategoryId": "String", // 대분류 카테고리 id
             "color": "String", // 색상
@@ -175,6 +276,11 @@ const PickPickPage = () => {
                 handleSubmit={handleSubmit}
                 clothesData={clothesData}
              />
+             
+             <div className="fixed bottom-1/3 right-0 me-[5vw]">
+                <Scroll />
+             </div>
+             
         </>
     )
 }
