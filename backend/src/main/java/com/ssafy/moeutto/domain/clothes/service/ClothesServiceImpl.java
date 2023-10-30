@@ -1,5 +1,7 @@
 package com.ssafy.moeutto.domain.clothes.service;
 
+import com.ssafy.moeutto.domain.S3.dto.response.S3ResponseDto;
+import com.ssafy.moeutto.domain.S3.service.S3Service;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesListRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesRegistRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesUpdateRequestDto;
@@ -15,7 +17,9 @@ import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +34,7 @@ public class ClothesServiceImpl implements ClothesService {
     private final ClothesRepository clothesRepository;
     private final MemberRepository memberRepository;
     private final MiddleCategoryRepository middleCategoryRepository;
+    private final S3Service s3Service;
 
     /**
      * 옷 정보를 등록합니다.
@@ -39,9 +44,9 @@ public class ClothesServiceImpl implements ClothesService {
      * @throws BaseException
      */
     @Override
-    public ClothesRegistResponseDto registClothes(ClothesRegistRequestDto clothesRegistRequestDto, UUID memberId) throws BaseException {
+    public ClothesRegistResponseDto registClothes(ClothesRegistRequestDto clothesRegistRequestDto, UUID memberId, String token, MultipartFile file) throws BaseException {
         Optional<Member> memberOptional = memberRepository.findById(memberId);
-
+        S3ResponseDto s3ResponseDto;
         // 사용자 체크
         if (!memberOptional.isPresent()) {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER);
@@ -52,6 +57,13 @@ public class ClothesServiceImpl implements ClothesService {
         // 중분류 카테고리 체크
         if (!middleCategoryOptional.isPresent()) {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_MIDDLE_CATEGORY);
+        }
+
+        // 옷 사진 S3에 등록
+        try {
+            s3ResponseDto = s3Service.uploadImage(token, file);
+        } catch (IOException e) {
+            throw new BaseException(BaseResponseStatus.S3_FILE_IO_ERROR);
         }
 
         // 옷 정보 저장
@@ -69,6 +81,7 @@ public class ClothesServiceImpl implements ClothesService {
                 .star(0)
                 .regDate(new Date(System.currentTimeMillis()))
                 .recentDate(new Date(System.currentTimeMillis()))
+                .imageUrl(s3ResponseDto.getAccessUrl())
                 .build();
 
         Clothes newClothes = clothesRepository.save(clothes);
