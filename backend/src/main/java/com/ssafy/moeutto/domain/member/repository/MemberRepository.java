@@ -5,6 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<Member, UUID> {
+
     Member findMemberByEmail(String email);
+
+    /**
+     * 사용자 수를 세는 메서드
+     *
+     * @return
+     */
+    Long countBy();
 }
