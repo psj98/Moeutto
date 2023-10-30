@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
+
 const axiosWithAuth = (accessToken?: string): AxiosInstance => {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
