@@ -2,13 +2,17 @@ package com.ssafy.moeutto.domain.member.repository;
 
 import com.ssafy.moeutto.domain.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
-import java.util.Optional;
 import java.util.UUID;
 
 public interface MemberRepository extends JpaRepository<Member, UUID> {
+
     Member findMemberByEmail(String email);
 
-
+    /**
+     * 사용자 수를 세는 메서드
+     *
+     * @return
+     */
+    Long countBy();
 }
