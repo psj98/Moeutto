@@ -13,13 +13,13 @@ interface Props {
 }
 
 interface ContainerProps {
-  focus: boolean;
+  focus?: boolean;
 }
 
 const Container = styled.div<ContainerProps>`
   width: 250px;
   height: 100vh;
-  // display: flex;
+  position: fixed; // 메뉴 스크롤시 항상 보이도록
   &:hover {
     cursor: pointer;
   }
@@ -47,7 +47,6 @@ const Menu = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  align-contents: center;
 
   a {
     width: 100%;
@@ -55,7 +54,6 @@ const Menu = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    align-contents: center;
   }
 
   li {
@@ -89,21 +87,21 @@ const menuList = [
   { menuName: '나의 옷장', path: '/mycloset', icon: <BiCloset /> },
   { menuName: '옷장 구경', path: '/notmycloset', icon: <MdPeopleAlt /> },
   { menuName: '캘린더', path: '/calendar', icon: <BiCalendar /> },
-  { menuName: '더보기', path: '/mypage', icon: <CgDetailsMore /> }
+  { menuName: '더보기', path: '/mypage', icon: <CgDetailsMore /> },
 ];
 
 const Sidebar = ({ path }: Props) => {
   const { pathname } = useLocation();
 
   return (
-    <Container focus={pathname === path}>
+    <Container>
       <NavBar>
         <ProfileImage imgUrl="sample" />
         <Menu>
           {menuList.map(menu => {
             return (
-              <Link to={menu.path}>
-                <li key={menu.menuName} className={menu.path === pathname ? 'focused' : ''}>
+              <Link key={menu.menuName} to={menu.path}>
+                <li className={menu.path === pathname ? 'focused' : ''}>
                   {menu.icon}
                   <span className="ps-9">{menu.menuName}</span>
                 </li>
