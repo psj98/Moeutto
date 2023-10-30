@@ -6,6 +6,7 @@ import MyCloset from './pages/MyClosetPage';
 import Work from './pages/Work';
 import App from './App';
 import MainPage from './pages/MainPage';
+import AnalysisPage from './pages/AnalysisPage';
 import PickPickPage from './pages/PickPickPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -21,6 +22,7 @@ root.render(
           <Route path="/main" element={<MainPage />}/>
           <Route path="/pickpick" element={<PickPickPage />} />
           <Route path="/mycloset/*" element={<MyCloset />} /> // 여러 라우팅을 매칭하고 싶은 경우 *가 필요합니다
+          <Route path="/analysis" element={<AnalysisPage />} />
           {/* <Route path="/notmycloset" element={<NotMyCloset />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/mypage" element={<Mypage />} />  */}
