@@ -14,7 +14,15 @@ const MainPage = () => {
     } | null>(null);
     
     // 법정동 주소
-    const [address, setAddress] = useState<string>("");
+    const [address, setAddress] = useState<string>(() => {
+        return window.localStorage.getItem('address') || '';
+    });
+
+    // 주소 로컬 스토리지에 저장하기
+    useEffect(() => {
+        window.localStorage.setItem('address', address);
+    }, [address]);
+    
 
     // 지도 출력
     const [locationState, setLocationState] = useState<boolean>(false);
@@ -143,20 +151,22 @@ const MainPage = () => {
                 {/* 버튼 탭 */}
                 <PickButtonTap />
                 {/* 지도  */}
-                <div className="absolute z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-[60vh] w-[50vw] max-w-[400px] min-w-[300px]">
-                    <MapModal 
-                        currentLocation={currentLocation} 
-                        address={address} 
-                        locationState={locationState}
-                        setCurrentLocation={setCurrentLocation}
-                        setAddress={setAddress}
-                        resetLocation={resetLocation}
-                        setResetLocation={setResetLocation}
-                        showLocationClick={showLocationClick}
-                        handleInputChange={handleInputChange}
-                        newLocation={newLocation}
-                    />
-                </div>
+                {locationState && (
+                    <div className="absolute z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-[60vh] w-[50vw] max-w-[400px] min-w-[300px]">
+                        <MapModal 
+                            currentLocation={currentLocation} 
+                            address={address} 
+                            locationState={locationState}
+                            setCurrentLocation={setCurrentLocation}
+                            setAddress={setAddress}
+                            resetLocation={resetLocation}
+                            setResetLocation={setResetLocation}
+                            showLocationClick={showLocationClick}
+                            handleInputChange={handleInputChange}
+                            newLocation={newLocation}
+                        />
+                    </div>
+                )}
             </div>
         </>
     )
