@@ -4,15 +4,25 @@ import { useSelector } from "react-redux";
 // axios
 // import { useQuery } from 'react-query';
 // import axiosWithAuth from "../api/api";
+import { useNavigate } from "react-router-dom";
 import { RootState } from "../redux/store";
-
+import PickComponent from "../components/common/category/organisms/PickComponent";
 
 // 아토믹 디자인 패턴 확인하기
-import PickTitle from "../components/pickpick/atoms/PickTitle";
-import SelectedCategory from "../components/common/category/molecules/SelectedCategory";
-import SelectedClothesItem from "../components/clothes/SelectedClothesItem";
+
+export interface ClothesItem {
+    id: number; // 옷 등록 id
+    middleCategoryId: string; // 중분류 카테고리 id
+    largeCategoryId: string; // 대분류 카테고리 id
+    color: string; // 색상
+    frequency: number; // 빈도
+    star: number; // 즐겨찾기 여부
+    image: string; // 이미지
+    regDate: string; // 등록 날짜 (DateTime 타입으로 변경 가능)
+}
 
 const PickPickPage = () => {
+    const navigate = useNavigate();
     // 카테고리
     // 대분류
     const [selectedOptionMain, setSelectedOptionMain] = useState<string | null>(null);
@@ -33,8 +43,59 @@ const PickPickPage = () => {
     // 선택한 옷 리스트
     const selectedClosetIds = useSelector((state: RootState) => state.closet.selectedClosetIds);
     
-    // 옷 목록 조회 api
-    const clothesData: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    // 옷 목록 조회 더미 api
+    const clothesData: ClothesItem[] = [
+        {
+            "id": 1, // 옷 등록 id
+            "middleCategoryId": "String", // 중분류 카테고리 id
+            "largeCategoryId": "String", // 대분류 카테고리 id
+            "color": "String", // 색상
+            "frequency": 0, // 빈도
+            "star": 0, // 즐겨찾기 여부
+            "image": "/images/clothes1.png", // 이미지
+            "regDate": "DateTime", // 등록 날짜
+        },
+        {
+            "id": 2, // 옷 등록 id
+            "middleCategoryId": "String", // 중분류 카테고리 id
+            "largeCategoryId": "String", // 대분류 카테고리 id
+            "color": "String", // 색상
+            "frequency": 0, // 빈도
+            "star": 0, // 즐겨찾기 여부
+            "image": "/images/clothes1.png", // 이미지
+            "regDate": "DateTime", // 등록 날짜
+        },
+        {
+            "id": 3, // 옷 등록 id
+            "middleCategoryId": "String", // 중분류 카테고리 id
+            "largeCategoryId": "String", // 대분류 카테고리 id
+            "color": "String", // 색상
+            "frequency": 0, // 빈도
+            "star": 0, // 즐겨찾기 여부
+            "image": "/images/clothes1.png", // 이미지
+            "regDate": "DateTime", // 등록 날짜
+        },
+        {
+            "id": 4, // 옷 등록 id
+            "middleCategoryId": "String", // 중분류 카테고리 id
+            "largeCategoryId": "String", // 대분류 카테고리 id
+            "color": "String", // 색상
+            "frequency": 0, // 빈도
+            "star": 0, // 즐겨찾기 여부
+            "image": "/images/clothes1.png", // 이미지
+            "regDate": "DateTime", // 등록 날짜
+        },
+        {
+            "id": 5, // 옷 등록 id
+            "middleCategoryId": "String", // 중분류 카테고리 id
+            "largeCategoryId": "String", // 대분류 카테고리 id
+            "color": "String", // 색상
+            "frequency": 0, // 빈도
+            "star": 0, // 즐겨찾기 여부
+            "image": "/images/clothes1.png", // 이미지
+            "regDate": "DateTime", // 등록 날짜
+        },
+    ]
     // let clothesData: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
     // const accessToken: string = window.sessionStorage.getItem("accessToken");
@@ -82,26 +143,38 @@ const PickPickPage = () => {
     // }
 
 
+    // 제출하기 api 필요
+    const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+        // 기본 동작 방지
+        event.preventDefault();
+        // request에 담을 데이터
+        const requestData = {
+            selectedClosetIds
+        }
+
+        console.log('제출 함수 실행 성공', requestData);
+        if (requestData) {
+            navigate('/mycloset/reports');
+        }
+    }
+
+
     useEffect(() => {
         console.log('선택된 옷 리스트', selectedClosetIds);
     }, [selectedClosetIds])
 
     return (
         <>
-            <PickTitle />
-            <SelectedCategory
+            <PickComponent
                 selectedOptionMain={selectedOptionMain}
                 setSelectedOptionMain={setSelectedOptionMain}
                 selectedOptionMiddle={selectedOptionMiddle}
                 setSelectedOptionMiddle={setSelectedOptionMiddle}
                 selectedOptionSort={selectedOptionSort}
                 setSelectedOptionSort={setSelectedOptionSort}
-            />
-            <div className="flex flex-wrap gap-3.5 mt-4">
-                {clothesData.map((item, index) => (
-                    <SelectedClothesItem imgUrl={'/images/clothes1.png'} clothesId={index.toString()} />
-                ))}
-            </div>
+                handleSubmit={handleSubmit}
+                clothesData={clothesData}
+             />
         </>
     )
 }
