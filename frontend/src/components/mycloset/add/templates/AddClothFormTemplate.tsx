@@ -1,8 +1,8 @@
 import React from 'react';
 import AddClothForm from '../organisms/AddClothForm';
 
-const AddClothFormPage = () => {
+const AddClothFormTemplate = () => {
   return <AddClothForm />;
 };
 
-export default AddClothFormPage;
+export default AddClothFormTemplate;
