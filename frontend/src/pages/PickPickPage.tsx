@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 // 아토믹 디자인 패턴 확인하기
 import PickTitle from "../components/pickpick/atoms/PickTitle";
@@ -26,6 +28,13 @@ const PickPickPage = () => {
     // 옷 목록 조회 api
     const clothesData: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
+    // 선택한 옷 리스트
+    const selectedClosetIds = useSelector((state: RootState) => state.closet.selectedClosetIds);
+    
+    useEffect(() => {
+        console.log('선택된 옷 리스트', selectedClosetIds);
+    }, [selectedClosetIds])
+
     return (
         <>
             <PickTitle />
@@ -39,7 +48,7 @@ const PickPickPage = () => {
             />
             <div className="flex flex-wrap gap-3.5 mt-4">
                 {clothesData.map((item, index) => (
-                    <SelectedClothesItem imgUrl={'/images/clothes1.png'} clothesId={"1"} />
+                    <SelectedClothesItem imgUrl={'/images/clothes1.png'} clothesId={index.toString()} />
                 ))}
             </div>
         </>
