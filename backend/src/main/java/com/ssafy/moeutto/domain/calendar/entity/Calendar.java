@@ -1,14 +1,9 @@
 package com.ssafy.moeutto.domain.calendar.entity;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,20 +12,23 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor
+@ToString
 public class Calendar {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(columnDefinition = "BINARY(16)")
     private UUID memberId;
     private Integer likeOutfit;
     private String imageUrl;
-    private Timestamp regDate;
+    private Date regDate;
 
 
     @Builder(toBuilder = true)
     public Calendar(Integer id, UUID memberId, Integer likeOutfit,
-                    String imageUrl, Timestamp regDate) {
+                    String imageUrl, Date regDate) {
         this.id = id;
         this.imageUrl = imageUrl;
         this.memberId = memberId;
