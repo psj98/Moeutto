@@ -1,12 +1,12 @@
 import * as React from 'react';
 // import { Link } from 'react-router-dom';
-import AddClothForm from '../components/mycloset/add/organisms/AddClothForm';
+import AddClothFormPage from '../components/mycloset/add/templates/AddClothFormPage';
 
 function MyCloset() {
   return (
     <div className="myCloset">
       <div className="font-bold text-pink text-WebBody1">My Closet page</div>
-      <AddClothForm></AddClothForm>
+      <AddClothFormPage />
     </div>
   );
 }
