@@ -122,7 +122,6 @@ public class CalendarController {
     /**
      * 토큰 유효성 검사 메서드 입니다.
      * @param token
-     * @Todo: 토큰 검증 메서드 JWT Directory 에 추가한 후 메서드 쓰기.
      * @return
      * @throws BaseException
      */
