@@ -383,6 +383,11 @@ public class ClothesServiceImpl implements ClothesService {
         clothesRepository.deleteById(id); // 옷 정보 삭제
     }
 
+    @Override
+    public ClothesStarResponseDto starClothes(Integer id) throws BaseException {
+        return null;
+    }
+
     /**
      * 옷 즐겨찾기를 등록 / 해제합니다.
      *
@@ -424,6 +429,37 @@ public class ClothesServiceImpl implements ClothesService {
                 .build();
 
         return clothesStarResponseDto;
+    }
+
+
+    /**
+     * 카테고리별 가격 분석 서비스 입니다.
+     * @param memberId
+     * @return
+     * @throws BaseException
+     */
+    @Override
+    public ClothesAnalysisCostResponseDto analysisCost(UUID memberId) throws BaseException {
+
+        ClothesAnalysisCostResponseDto responseDto;
+
+        //내 옷장 총 가격
+        Integer myTotalCost = clothesRepository.findPriceByMemberId(memberId);
+        //모든 회원의 옷 가격 평균
+        Integer avgOfMembers = clothesRepository.findAvgOfPrice();
+        //카데고리별 정보 받아오기
+        List<ClothesAnalysisCostResponseDto.AnalysisCostItem> itemList = clothesRepository.findCostOfMyClothesByCategory(memberId);
+        if(itemList.size() == 0 ){
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_CATEGORY_ANALYSIS_INFO);
+        }
+
+        responseDto = ClothesAnalysisCostResponseDto.builder()
+                .myAnalysisCost(itemList)
+                .myTotalCost(myTotalCost)
+                .userTotalAvgCost(avgOfMembers)
+                .build();
+
+        return responseDto;
     }
 
     /**
@@ -530,3 +566,4 @@ public class ClothesServiceImpl implements ClothesService {
         return clothesAnalysisMinMaxResponseDto;
     }
 }
+
