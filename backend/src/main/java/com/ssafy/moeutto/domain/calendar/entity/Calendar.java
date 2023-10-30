@@ -1,12 +1,12 @@
 package com.ssafy.moeutto.domain.calendar.entity;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -25,7 +25,6 @@ public class Calendar {
     private String imageUrl;
     private Date regDate;
 
-
     @Builder(toBuilder = true)
     public Calendar(Integer id, UUID memberId, Integer likeOutfit,
                     String imageUrl, Date regDate) {
@@ -34,6 +33,5 @@ public class Calendar {
         this.memberId = memberId;
         this.likeOutfit = likeOutfit;
         this.regDate = regDate;
-
     }
 }

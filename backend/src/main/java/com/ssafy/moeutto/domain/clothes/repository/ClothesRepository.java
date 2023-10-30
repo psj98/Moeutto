@@ -11,35 +11,6 @@ import java.util.UUID;
 public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
 
     /**
-     * 내 옷장 카테고리 별 가격
-     *
-     * @return
-     */
-    @Query(value = "SELECT SUBSTRING(c.middle_category_id, 1, 3) as largeCategoryId, SUM(c.price) as price, COUNT(*) as amount " +
-            "FROM clothes c " +
-            "WHERE c.member_id = ?1 " +
-            "GROUP BY substring(c.middle_category_id, 1, 3) " +
-            "ORDER BY substring(c.middle_category_id, 1, 3)", nativeQuery = true)
-    List<IAnalysisCostItem> findCostOfMyClothesByCategory(UUID memberId);
-
-    /**
-     * 내 옷장 총 가격
-     *
-     * @param memberId
-     * @return
-     */
-    @Query(value = "SELECT ROUND(SUM(price)) FROM Clothes " + "WHERE member_id = ?1 ", nativeQuery = true)
-    Integer findPriceByMemberId(UUID memberId);
-
-    /**
-     * 모든 사용자 옷장 평균 가격.
-     *
-     * @return
-     */
-    @Query(value = "SELECT AVG(price) FROM Clothes", nativeQuery = true)
-    Integer findAvgOfPrice();
-
-    /**
      * 옷 id와 사용자 id로 옷을 조회합니다.
      *
      * @param id
@@ -266,6 +237,61 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
     List<IClothesAnalysisSeason> findBySeasonMember(String seasonNum, UUID memberId);
 
     /**
+     * 내 옷장을 빈도별로 분석합니다. (가장 많이 입은 옷 3개)
+     *
+     * @param memberId
+     * @return
+     */
+    @Query(value = "SELECT frequency, season, color, thickness, price, textile, middle_category_id as middleCategoryId " +
+            "FROM clothes " +
+            "WHERE member_id = ?1 " +
+            "ORDER BY frequency " +
+            "DESC LIMIT 3 ", nativeQuery = true)
+    List<IClothesAnalysisFrequency> findByFrequencyMax(UUID memberId);
+
+    /**
+     * 내 옷장을 빈도별로 분석합니다. (가장 적게 입은 옷 3개)
+     *
+     * @param memberId
+     * @return
+     */
+    @Query(value = "SELECT frequency, season, color, thickness, price, textile, middle_category_id as middleCategoryId " +
+            "FROM clothes " +
+            "WHERE member_id = ?1 " +
+            "ORDER BY frequency " +
+            "ASC LIMIT 3 ", nativeQuery = true)
+    List<IClothesAnalysisFrequency> findByFrequencyMin(UUID memberId);
+
+    /**
+     * 내 옷장 카테고리 별 가격
+     *
+     * @return
+     */
+    @Query(value = "SELECT SUBSTRING(c.middle_category_id, 1, 3) as largeCategoryId, SUM(c.price) as price, COUNT(*) as amount " +
+            "FROM clothes c " +
+            "WHERE c.member_id = ?1 " +
+            "GROUP BY substring(c.middle_category_id, 1, 3) " +
+            "ORDER BY substring(c.middle_category_id, 1, 3)", nativeQuery = true)
+    List<IAnalysisCostItem> findCostOfMyClothesByCategory(UUID memberId);
+
+    /**
+     * 내 옷장 총 가격
+     *
+     * @param memberId
+     * @return
+     */
+    @Query(value = "SELECT ROUND(SUM(price)) FROM Clothes " + "WHERE member_id = ?1 ", nativeQuery = true)
+    Integer findPriceByMemberId(UUID memberId);
+
+    /**
+     * 모든 사용자 옷장 평균 가격
+     *
+     * @return
+     */
+    @Query(value = "SELECT AVG(price) FROM Clothes", nativeQuery = true)
+    Integer findAvgOfPrice();
+
+    /**
      * 사용자가 소유한 옷 개수를 셉니다.
      *
      * @param memberId
@@ -294,10 +320,4 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
             "ORDER BY SUBSTRING(c.middle_category_id, 1, 3)) AS minmax RIGHT JOIN large_category l " +
             "ON minmax.id = l.id", nativeQuery = true)
     List<IClothesAnalysisAmount> findByMinMaxMember(UUID memberId);
-
-    @Query(value = "SELECT frequency, season, color, thickness, price, textile, middle_category_id as middleCategoryId FROM clothes WHERE member_id = ?1 ORDER BY frequency DESC LIMIT 3", nativeQuery = true)
-    List<IClothesAnalysisFrequency> findByFrequencyMax(UUID memberId);
-
-    @Query(value = "SELECT frequency, season, color, thickness, price, textile, middle_category_id as middleCategoryId FROM clothes WHERE member_id = ?1 ORDER BY frequency ASC LIMIT 3", nativeQuery = true)
-    List<IClothesAnalysisFrequency> findByFrequencyMin(UUID memberId);
 }

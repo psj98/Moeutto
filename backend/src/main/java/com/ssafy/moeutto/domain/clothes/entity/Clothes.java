@@ -25,7 +25,7 @@ public class Clothes {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member; // 사용자 정보
-    
+
     @OneToOne
     @JoinColumn(name = "middle_category_id")
     private MiddleCategory middleCategory; // 중분류 카테고리 정보
@@ -60,6 +60,7 @@ public class Clothes {
     private Integer star; // 즐겨찾기 여부
 
     // 사진 url 추가
+
     private Date regDate; // 등록 날짜
 
     private Date recentDate; // 최근 입은 날짜
