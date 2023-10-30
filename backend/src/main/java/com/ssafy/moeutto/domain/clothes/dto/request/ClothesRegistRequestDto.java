@@ -29,6 +29,6 @@ public class ClothesRegistRequestDto {
     private String shop; // 구매처
 
     private String textile; // 소재
-    
+
     // 이미지 추가
 }

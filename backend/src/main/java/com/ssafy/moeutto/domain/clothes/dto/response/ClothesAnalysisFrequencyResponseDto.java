@@ -11,11 +11,12 @@ import java.util.List;
 @NoArgsConstructor
 public class ClothesAnalysisFrequencyResponseDto {
 
-    List<IClothesAnalysisFrequency> myMostFrequency;
-    List<IClothesAnalysisFrequency> myLeastFrequency;
+    private List<IClothesAnalysisFrequency> myMostFrequency;
+
+    private List<IClothesAnalysisFrequency> myLeastFrequency;
 
     @Builder(toBuilder = true)
-    public ClothesAnalysisFrequencyResponseDto(List<IClothesAnalysisFrequency> myMostFrequency, List<IClothesAnalysisFrequency> myLeastFrequency){
+    public ClothesAnalysisFrequencyResponseDto(List<IClothesAnalysisFrequency> myMostFrequency, List<IClothesAnalysisFrequency> myLeastFrequency) {
         this.myMostFrequency = myMostFrequency;
         this.myLeastFrequency = myLeastFrequency;
     }
