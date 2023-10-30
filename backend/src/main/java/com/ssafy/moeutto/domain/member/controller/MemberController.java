@@ -4,6 +4,7 @@ import com.ssafy.moeutto.domain.member.auth.AuthTokens;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
 import com.ssafy.moeutto.domain.member.service.MemberLoginService;
 import com.ssafy.moeutto.domain.member.service.OAuthLoginService;
+import com.ssafy.moeutto.global.response.BaseException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -48,7 +49,7 @@ public class MemberController {
      */
     @ResponseBody
     @PostMapping("check")
-    public ResponseEntity kakaoCheck(@RequestParam(required = false) String code) {
+    public ResponseEntity kakaoCheck(@RequestParam(required = false) String code) throws BaseException {
 
         // URL에 포함된 code를 이용하여 Access Token 발급
         String accessToken = memberLoginService.KakaoAccessToken(code);
