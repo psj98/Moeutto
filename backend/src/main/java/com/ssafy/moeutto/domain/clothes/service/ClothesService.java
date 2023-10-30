@@ -104,6 +104,9 @@ public interface ClothesService {
      * @return
      * @throws BaseException
      */
+    ClothesStarResponseDto starClothes(Integer id) throws BaseException;
+
+    ClothesAnalysisCostResponseDto analysisCost(UUID memberId) throws BaseException;
     ClothesStarResponseDto starClothes(Integer id, UUID memberId) throws BaseException;
 
     /**
