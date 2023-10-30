@@ -151,20 +151,22 @@ const MainPage = () => {
                 {/* 버튼 탭 */}
                 <PickButtonTap />
                 {/* 지도  */}
-                <div className="absolute z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-[60vh] w-[50vw] max-w-[400px] min-w-[300px]">
-                    <MapModal 
-                        currentLocation={currentLocation} 
-                        address={address} 
-                        locationState={locationState}
-                        setCurrentLocation={setCurrentLocation}
-                        setAddress={setAddress}
-                        resetLocation={resetLocation}
-                        setResetLocation={setResetLocation}
-                        showLocationClick={showLocationClick}
-                        handleInputChange={handleInputChange}
-                        newLocation={newLocation}
-                    />
-                </div>
+                {locationState && (
+                    <div className="absolute z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-[60vh] w-[50vw] max-w-[400px] min-w-[300px]">
+                        <MapModal 
+                            currentLocation={currentLocation} 
+                            address={address} 
+                            locationState={locationState}
+                            setCurrentLocation={setCurrentLocation}
+                            setAddress={setAddress}
+                            resetLocation={resetLocation}
+                            setResetLocation={setResetLocation}
+                            showLocationClick={showLocationClick}
+                            handleInputChange={handleInputChange}
+                            newLocation={newLocation}
+                        />
+                    </div>
+                )}
             </div>
         </>
     )
