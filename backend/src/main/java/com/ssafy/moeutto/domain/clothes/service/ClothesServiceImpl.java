@@ -566,5 +566,33 @@ public class ClothesServiceImpl implements ClothesService {
 
         return clothesAnalysisMinMaxResponseDto;
     }
+
+    /**
+     * 옷의 빈도를 기준으로 가장 자주 입은 옷, 가장 가끔 입은 옷 3 개씩 반환
+     * @param memberId
+     * @return ClothesAnalysisFrequencyResponseDto
+     * @throws BaseException
+     */
+    @Override
+    public ClothesAnalysisFrequencyResponseDto analysisFrequency(UUID memberId) throws BaseException {
+        Optional<Member> memberOptional = memberRepository.findById(memberId);
+
+        // 사용자 체크
+        if (!memberOptional.isPresent()) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER);
+        }
+
+        List<IClothesAnalysisFrequency> maxList = clothesRepository.findByFrequencyMax(memberId);
+        System.out.println("maxList 갯수 : "+maxList.size());
+        List<IClothesAnalysisFrequency> minList = clothesRepository.findByFrequencyMin(memberId);
+        System.out.println("minList 갯수 : "+minList.size());
+
+        ClothesAnalysisFrequencyResponseDto clothesAnalysisFrequencyResponseDto = ClothesAnalysisFrequencyResponseDto.builder()
+                .myMostFrequency(maxList)
+                .myLeastFrequency(minList)
+                .build();
+
+        return clothesAnalysisFrequencyResponseDto;
+    }
 }
 
