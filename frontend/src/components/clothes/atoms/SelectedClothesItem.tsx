@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from 'react-redux';
-import { selectCloset } from "../../redux/features/closet/selectClosetSlice";
+import { selectCloset } from "../../../redux/features/closet/selectClosetSlice";
 
 
 interface ItemPropsType {
