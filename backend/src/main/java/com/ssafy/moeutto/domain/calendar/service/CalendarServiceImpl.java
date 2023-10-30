@@ -15,9 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +28,6 @@ public class CalendarServiceImpl implements CalendarService {
 
     private final CalendarRepository calendarRepository;
     private final MemberRepository memberRepository;
-
 
     /**
      * 캘린더에 착장을 등록하는 서비스입니다.
@@ -46,6 +43,7 @@ public class CalendarServiceImpl implements CalendarService {
         if (!member.isPresent()) {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER);
         }
+
         Date curDate = Date.valueOf(LocalDate.now());
 
         Calendar calendar =
@@ -55,9 +53,7 @@ public class CalendarServiceImpl implements CalendarService {
                         .regDate(curDate)
                         .build();
 
-
         calendarRepository.save(calendar);
-
     }
 
     /**
@@ -76,15 +72,8 @@ public class CalendarServiceImpl implements CalendarService {
         // 사용자 재 검증
         memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
-
-        //년 월 받아오기.
-        System.out.println(regDate);
-
-
         /* 현재 연월로 캘린더 목록 가져오기 */
         List<Calendar> calendarList = calendarRepository.findAllByMemberIdTodayMonth(memberId, regDate).get();
-
-        System.out.println("calendarList.toString() = " + calendarList.toString());
 
         List<CalendarResponseDto> dairayCalendarList = new ArrayList<>();
 
@@ -98,7 +87,6 @@ public class CalendarServiceImpl implements CalendarService {
                             .regDate(calendar.getRegDate())
                             .build();
 
-
             dairayCalendarList.add((calendarListResponseDto));
         }
 
@@ -110,7 +98,6 @@ public class CalendarServiceImpl implements CalendarService {
         return calendarListResponseDto;
     }
 
-
     /**
      * 캘린더에 등록된 착장 정보를 삭제하는 서비스입니다.
      *
@@ -120,7 +107,6 @@ public class CalendarServiceImpl implements CalendarService {
      */
     @Override
     public void deleteCalendar(UUID memberId, Integer id) throws BaseException {
-
 
         /* 사용자 재 검증 */
         memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
@@ -134,6 +120,7 @@ public class CalendarServiceImpl implements CalendarService {
 
     /**
      * 착장에 대한 평가 여부 저장 서비스 입니다.
+     *
      * @param memberId
      * @param requestDto
      * @throws BaseException
@@ -160,6 +147,5 @@ public class CalendarServiceImpl implements CalendarService {
 
         /* 수정 */
         calendarRepository.save(calendar1);
-
     }
 }

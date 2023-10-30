@@ -1,6 +1,5 @@
 package com.ssafy.moeutto.domain.calendar.dto.request;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
