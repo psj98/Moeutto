@@ -14,8 +14,10 @@ public class ClothesAnalysisCostResponseDto {
 
     @NotNull
     private Integer myTotalCost;
+
     @NotNull
     private List<IAnalysisCostItem> myAnalysisCost;
+
     @NotNull
     private Integer userTotalAvgCost;
 
@@ -26,7 +28,4 @@ public class ClothesAnalysisCostResponseDto {
         this.myAnalysisCost = myAnalysisCost;
         this.userTotalAvgCost = userTotalAvgCost;
     }
-
-
-
 }

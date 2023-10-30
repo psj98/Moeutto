@@ -35,12 +35,7 @@ public class ClothesController {
     public BaseResponse<Object> registClothes(@RequestHeader(value = "accessToken", required = false) String token,
                                               @RequestBody ClothesRegistRequestDto clothesRegistRequestDto) {
         try {
-            // 토큰 정보 체크
-            if (token == null || token.equals("")) {
-                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
-            }
-
-            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
+            UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
             ClothesRegistResponseDto clothesRegistResponseDto = clothesService.registClothes(clothesRegistRequestDto, memberId);
             return baseResponseService.getSuccessResponse(clothesRegistResponseDto);
@@ -59,12 +54,7 @@ public class ClothesController {
     public BaseResponse<Object> getClothes(@RequestHeader(value = "accessToken", required = false) String token,
                                            @PathVariable("id") Integer id) {
         try {
-            // 토큰 정보 체크
-            if (token == null || token.equals("")) {
-                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
-            }
-
-            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
+            UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
             ClothesDetailResponseDto clothesDetailResponseDto = clothesService.detailClothes(id, memberId);
             return baseResponseService.getSuccessResponse(clothesDetailResponseDto);
@@ -83,12 +73,7 @@ public class ClothesController {
     @PostMapping("/list")
     public BaseResponse<Object> getListClothes(@RequestHeader(value = "accessToken", required = false) String token, @RequestBody ClothesListRequestDto clothesListRequestDto) {
         try {
-            // 토큰 정보 체크
-            if (token == null || token.equals("")) {
-                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
-            }
-
-            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
+            UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
             List<ClothesListResponseDto> clothesListResponseDtoList = clothesService.listClothes(memberId, clothesListRequestDto);
             return baseResponseService.getSuccessResponse(clothesListResponseDtoList);
@@ -96,6 +81,7 @@ public class ClothesController {
             return baseResponseService.getFailureResponse(e.status);
         }
     }
+
     /**
      * 옷 정보를 수정합니다.
      *
@@ -106,12 +92,7 @@ public class ClothesController {
     public BaseResponse<Object> updateClothes(@RequestHeader(value = "accessToken", required = false) String token,
                                               @RequestBody ClothesUpdateRequestDto clothesUpdateRequestDto) {
         try {
-            // 토큰 정보 체크
-            if (token == null || token.equals("")) {
-                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
-            }
-
-            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
+            UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
             ClothesUpdateResponseDto clothesUpdateResponseDto = clothesService.updateClothes(clothesUpdateRequestDto, memberId);
             return baseResponseService.getSuccessResponse(clothesUpdateResponseDto);
@@ -130,12 +111,7 @@ public class ClothesController {
     public BaseResponse<Object> deleteClothes(@RequestHeader(value = "accessToken", required = false) String token,
                                               @PathVariable("id") Integer id) {
         try {
-            // 토큰 정보 체크
-            if (token == null || token.equals("")) {
-                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
-            }
-
-            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
+            UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
             clothesService.deleteClothes(id, memberId);
             return baseResponseService.getSuccessResponse();
@@ -154,12 +130,7 @@ public class ClothesController {
     public BaseResponse<Object> starClothes(@RequestHeader(value = "accessToken", required = false) String token,
                                             @PathVariable("id") Integer id) {
         try {
-            // 토큰 정보 체크
-            if (token == null || token.equals("")) {
-                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
-            }
-
-            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
+            UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
             ClothesStarResponseDto clothesStarResponseDto = clothesService.starClothes(id, memberId);
             return baseResponseService.getSuccessResponse(clothesStarResponseDto);
@@ -177,12 +148,7 @@ public class ClothesController {
     @GetMapping("/analysis-color")
     public BaseResponse<Object> analysisColorClothes(@RequestHeader(value = "accessToken", required = false) String token) {
         try {
-            // 토큰 정보 체크
-            if (token == null || token.equals("")) {
-                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
-            }
-
-            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
+            UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
             ClothesAnalysisColorResponseDto clothesAnalysisColorResponseDto = clothesService.analysisColor(memberId);
             return baseResponseService.getSuccessResponse(clothesAnalysisColorResponseDto);
@@ -193,19 +159,14 @@ public class ClothesController {
 
     /**
      * 옷장을 계절 기준으로 분석합니다.
-     * 
+     *
      * @param token
      * @return
      */
     @GetMapping("/analysis-season")
     public BaseResponse<Object> analysisSeasonClothes(@RequestHeader(value = "accessToken", required = false) String token) {
         try {
-            // 토큰 정보 체크
-            if (token == null || token.equals("")) {
-                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
-            }
-
-            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
+            UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
             // 계절 기준으로 분석
             ClothesAnalysisSeasonResponseDto clothesAnalysisSeasonResponseDto = clothesService.analysisSeason(memberId);
@@ -219,12 +180,7 @@ public class ClothesController {
     public BaseResponse<Object> analysisFrequencyClothes(@RequestHeader(value = "accessToken", required = false) String token) {
 
         try {
-            // 토큰 정보 체크
-            if (token == null || token.equals("")) {
-                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
-            }
-
-            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
+            UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
             ClothesAnalysisFrequencyResponseDto clothesAnalysisFrequencyResponseDto = clothesService.analysisFrequency(memberId);
             return baseResponseService.getSuccessResponse(clothesAnalysisFrequencyResponseDto);
@@ -232,35 +188,19 @@ public class ClothesController {
             return baseResponseService.getFailureResponse(e.status);
         }
     }
-//
+
     @GetMapping("/analysis-cost")
     public BaseResponse<Object> analysisCostClothes(@RequestHeader(value = "accessToken") String token) {
         try {
+            UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
-            UUID memberId = getMemberIdFromToken(token);
+            // 가격 기준으로 분석
             ClothesAnalysisCostResponseDto responseDto = clothesService.analysisCost(memberId);
             return baseResponseService.getSuccessResponse(responseDto);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.getStatus());
         }
     }
-//
-//    @GetMapping("/analysis-amount")
-//    public BaseResponse<Object> analysisAmountClothes() {
-//        try {
-//            return null;
-//        } catch (BaseException e) {
-//            return null;
-//        }
-//    }
-//    @GetMapping("/analysis-cost")
-//    public BaseResponse<Object> analysisCostClothes() {
-//        try {
-//            return null;
-//        } catch (BaseException e) {
-//            return null;
-//        }
-//    }
 
     /**
      * 옷장을 미니멀 / 맥시멀 기준으로 분석합니다.
@@ -271,12 +211,7 @@ public class ClothesController {
     @GetMapping("/analysis-amount")
     public BaseResponse<Object> analysisAmountClothes(@RequestHeader(value = "accessToken", required = false) String token) {
         try {
-            // 토큰 정보 체크
-            if (token == null || token.equals("")) {
-                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
-            }
-
-            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
+            UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
             // 미니멀 / 맥시멀 기준으로 분석
             ClothesAnalysisMinMaxResponseDto clothesAnalysisMinMaxResponseDto = clothesService.analysisAmount(memberId);
@@ -285,7 +220,7 @@ public class ClothesController {
             return baseResponseService.getFailureResponse(e.status);
         }
     }
-//
+
 //    @GetMapping("/analysis-use")
 //    public BaseResponse<Object> analysisUseClothes() {
 //        try {
@@ -295,19 +230,21 @@ public class ClothesController {
 //        }
 //    }
 
-
-
+    /**
+     * accessToken으로 사용자 정보를 체크합니다.
+     *
+     * @param token
+     * @return UUID
+     * @throws BaseException
+     */
     public UUID getMemberIdFromToken(String token) throws BaseException {
-        // 토큰이 null이거나 없으면 세션 만료 메시지 전달
-        // 문제 없으면 memberId 반환
+        // 토큰 정보 체크
         if (token == null || token.equals("")) {
             throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
         }
-//        jwtUtil.validToken(token);
 
-        UUID memberIdFromToken = authTokensGenerator.extractMemberId(token);
-//        UUID memberIdFromToken = UUID.fromString(jwtService.extractSubject(token));                                                                                                                                                                                                                                                 Token(token);
+        UUID memberIdFromToken = authTokensGenerator.extractMemberId(token); // 사용자 체크
+
         return memberIdFromToken;
-
     }
 }
