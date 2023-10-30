@@ -1,15 +1,13 @@
 package com.ssafy.moeutto.domain.clothes.repository;
 
 import com.ssafy.moeutto.domain.clothes.dto.response.ClothesAnalysisCostResponseDto;
-import com.ssafy.moeutto.domain.clothes.entity.Clothes;
-import com.ssafy.moeutto.domain.clothes.entity.IClothesAnalysisAmount;
-import com.ssafy.moeutto.domain.clothes.entity.IClothesAnalysisColor;
-import com.ssafy.moeutto.domain.clothes.entity.IClothesAnalysisSeason;
+import com.ssafy.moeutto.domain.clothes.entity.*;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.SqlResultSetMapping;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,17 +19,19 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
 
     /**
      * 내 옷장 카테고리 별 가격
+     *
      * @return
      */
     @Query(value = "SELECT SUBSTRING(c.middle_category_id, 1, 3) as largeCategoryId, SUM(c.price) as price, COUNT(*) as amount " +
             "FROM clothes c " +
-            "WHERE member_id = ?1 "+
+            "WHERE c.member_id = ?1 " +
             "GROUP BY substring(c.middle_category_id, 1, 3) " +
             "ORDER BY substring(c.middle_category_id, 1, 3)", nativeQuery = true)
-    List<ClothesAnalysisCostResponseDto.AnalysisCostItem> findCostOfMyClothesByCategory(UUID memberId);
+    List<IAnalysisCostItem> findCostOfMyClothesByCategory(UUID memberId);
 
     /**
      * 내 옷장 총 가격
+     *
      * @param memberId
      * @return
      */
@@ -40,10 +40,12 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
 
     /**
      * 모든 사용자 옷장 평균 가격.
+     *
      * @return
      */
     @Query(value = "SELECT AVG(price) FROM Clothes", nativeQuery = true)
     Integer findAvgOfPrice();
+
     /**
      * 옷 id와 사용자 id로 옷을 조회합니다.
      *

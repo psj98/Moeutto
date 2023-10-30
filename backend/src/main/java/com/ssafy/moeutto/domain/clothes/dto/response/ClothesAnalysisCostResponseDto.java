@@ -1,5 +1,6 @@
 package com.ssafy.moeutto.domain.clothes.dto.response;
 
+import com.ssafy.moeutto.domain.clothes.entity.IAnalysisCostItem;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,38 +15,16 @@ public class ClothesAnalysisCostResponseDto {
     @NotNull
     private Integer myTotalCost;
     @NotNull
-    private List<AnalysisCostItem> myAnalysisCost;
+    private List<IAnalysisCostItem> myAnalysisCost;
     @NotNull
     private Integer userTotalAvgCost;
 
 
     @Builder(toBuilder = true)
-    public ClothesAnalysisCostResponseDto(Integer myTotalCost, List<AnalysisCostItem> myAnalysisCost, Integer userTotalAvgCost) {
+    public ClothesAnalysisCostResponseDto(Integer myTotalCost, List<IAnalysisCostItem> myAnalysisCost, Integer userTotalAvgCost) {
         this.myTotalCost = myTotalCost;
         this.myAnalysisCost = myAnalysisCost;
         this.userTotalAvgCost = userTotalAvgCost;
-    }
-
-    @Getter
-    @NoArgsConstructor
-    public static class AnalysisCostItem {
-
-        @NotNull
-        private String largeCategoryId;
-        @NotNull
-        private Integer price;
-        @NotNull
-        private Integer amount;
-
-
-        @Builder(toBuilder = true)
-        public AnalysisCostItem(String largeCategoryId, Integer price, Integer amount) {
-            this.largeCategoryId = largeCategoryId;
-            this.price = price;
-            this.amount = amount;
-        }
-
-
     }
 
 
