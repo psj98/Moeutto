@@ -1,5 +1,6 @@
 package com.ssafy.moeutto.domain.clothes.controller;
 
+import com.ssafy.moeutto.domain.clothes.dto.request.ClothesListRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesRegistRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesUpdateRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.response.*;
@@ -75,10 +76,12 @@ public class ClothesController {
     /**
      * 옷 목록을 조회합니다.
      *
-     * @return
+     * @param token
+     * @param clothesListRequestDto
+     * @return List<ClothesListResponseDto>
      */
-    @GetMapping("/list")
-    public BaseResponse<Object> getListClothes(@RequestHeader(value = "accessToken", required = false) String token) {
+    @PostMapping("/list")
+    public BaseResponse<Object> getListClothes(@RequestHeader(value = "accessToken", required = false) String token, @RequestBody ClothesListRequestDto clothesListRequestDto) {
         try {
             // 토큰 정보 체크
             if (token == null || token.equals("")) {
@@ -87,13 +90,12 @@ public class ClothesController {
 
             UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
 
-            List<ClothesListResponseDto> clothesListResponseDtoList = clothesService.listClothes(memberId);
+            List<ClothesListResponseDto> clothesListResponseDtoList = clothesService.listClothes(memberId, clothesListRequestDto);
             return baseResponseService.getSuccessResponse(clothesListResponseDtoList);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
         }
     }
-
     /**
      * 옷 정보를 수정합니다.
      *
@@ -213,7 +215,7 @@ public class ClothesController {
         }
     }
 
-//    @GetMapping("/analysis-frequency")
+    //    @GetMapping("/analysis-frequency")
 //    public BaseResponse<Object> analysisFrequencyClothes() {
 //        try {
 //            return null;
@@ -222,14 +224,17 @@ public class ClothesController {
 //        }
 //    }
 //
-//    @GetMapping("/analysis-cost")
-//    public BaseResponse<Object> analysisCostClothes() {
-//        try {
-//            return null;
-//        } catch (BaseException e) {
-//            return null;
-//        }
-//    }
+    @GetMapping("/analysis-cost")
+    public BaseResponse<Object> analysisCostClothes(@RequestHeader(value = "accessToken") String token) {
+        try {
+
+            UUID memberId = getMemberIdFromToken(token);
+            ClothesAnalysisCostResponseDto responseDto = clothesService.analysisCost(memberId);
+            return baseResponseService.getSuccessResponse(responseDto);
+        } catch (BaseException e) {
+            return baseResponseService.getFailureResponse(e.getStatus());
+        }
+    }
 //
 //    @GetMapping("/analysis-amount")
 //    public BaseResponse<Object> analysisAmountClothes() {
@@ -239,6 +244,38 @@ public class ClothesController {
 //            return null;
 //        }
 //    }
+//    @GetMapping("/analysis-cost")
+//    public BaseResponse<Object> analysisCostClothes() {
+//        try {
+//            return null;
+//        } catch (BaseException e) {
+//            return null;
+//        }
+//    }
+
+    /**
+     * 옷장을 미니멀 / 맥시멀 기준으로 분석합니다.
+     *
+     * @param token
+     * @return ClothesAnalysisMinMaxResponseDto
+     */
+    @GetMapping("/analysis-amount")
+    public BaseResponse<Object> analysisAmountClothes(@RequestHeader(value = "accessToken", required = false) String token) {
+        try {
+            // 토큰 정보 체크
+            if (token == null || token.equals("")) {
+                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
+            }
+
+            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
+
+            // 미니멀 / 맥시멀 기준으로 분석
+            ClothesAnalysisMinMaxResponseDto clothesAnalysisMinMaxResponseDto = clothesService.analysisAmount(memberId);
+            return baseResponseService.getSuccessResponse(clothesAnalysisMinMaxResponseDto);
+        } catch (BaseException e) {
+            return baseResponseService.getFailureResponse(e.status);
+        }
+    }
 //
 //    @GetMapping("/analysis-use")
 //    public BaseResponse<Object> analysisUseClothes() {
@@ -248,4 +285,20 @@ public class ClothesController {
 //            return null;
 //        }
 //    }
+
+
+
+    public UUID getMemberIdFromToken(String token) throws BaseException {
+        // 토큰이 null이거나 없으면 세션 만료 메시지 전달
+        // 문제 없으면 memberId 반환
+        if (token == null || token.equals("")) {
+            throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
+        }
+//        jwtUtil.validToken(token);
+
+        UUID memberIdFromToken = UUID.randomUUID();
+//        UUID memberIdFromToken = UUID.fromString(jwtService.extractSubject(token));                                                                                                                                                                                                                                                 Token(token);
+        return memberIdFromToken;
+
+    }
 }
