@@ -2,6 +2,7 @@ package com.ssafy.moeutto.domain.calendar.repository;
 
 import com.ssafy.moeutto.domain.calendar.entity.Calendar;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.sql.Date;
@@ -21,7 +22,7 @@ public interface CalendarRepository extends JpaRepository<Calendar, Integer> {
      * @param memberId
      * @param id : 착장 Id
      */
-    void deleteByIdAndMemberId(Integer id, UUID memberId);
+//    void deleteByIdAndMemberId(Integer id, UUID memberId);
 
     Optional<Calendar> findByIdAndMemberId(Integer id, UUID memberId);
 }

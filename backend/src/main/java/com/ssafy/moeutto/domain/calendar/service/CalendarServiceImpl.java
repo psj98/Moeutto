@@ -129,7 +129,7 @@ public class CalendarServiceImpl implements CalendarService {
         calendarRepository.findById(id).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_CALENDAR_INFO));
 
         /* 삭제 */
-        calendarRepository.deleteByIdAndMemberId(id, memberId);
+        calendarRepository.deleteById(id);
     }
 
     /**
