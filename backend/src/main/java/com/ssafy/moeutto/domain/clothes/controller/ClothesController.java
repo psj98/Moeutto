@@ -193,7 +193,7 @@ public class ClothesController {
      * 옷장을 계절 기준으로 분석합니다.
      *
      * @param token
-     * @return
+     * @return ClothesAnalysisSeasonResponseDto
      */
     @GetMapping("/analysis-season")
     public BaseResponse<Object> analysisSeasonClothes(@RequestHeader(value = "accessToken", required = false) String token) {
@@ -230,7 +230,13 @@ public class ClothesController {
 //            return null;
 //        }
 //    }
-//
+
+    /**
+     * 옷장을 미니멀 / 맥시멀 기준으로 분석합니다.
+     *
+     * @param token
+     * @return ClothesAnalysisMinMaxResponseDto
+     */
     @GetMapping("/analysis-amount")
     public BaseResponse<Object> analysisAmountClothes(@RequestHeader(value = "accessToken", required = false) String token) {
         try {
