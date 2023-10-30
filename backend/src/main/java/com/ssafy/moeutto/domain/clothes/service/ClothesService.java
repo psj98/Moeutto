@@ -78,4 +78,13 @@ public interface ClothesService {
      * @throws BaseException
      */
     ClothesAnalysisSeasonResponseDto analysisSeason(UUID memberId) throws BaseException;
+
+    /**
+     * 옷장을 미니멀 / 맥시멀 기준으로 분석합니다.
+     *
+     * @param memberId
+     * @return
+     * @throws BaseException
+     */
+    ClothesAnalysisMinMaxResponseDto analysisAmount(UUID memberId) throws BaseException;
 }
