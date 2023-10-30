@@ -1,9 +1,13 @@
 package com.ssafy.moeutto.domain.member.service;
 
+import com.ssafy.moeutto.domain.S3.service.S3Service;
 import com.ssafy.moeutto.domain.member.auth.AuthTokens;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
 import com.ssafy.moeutto.domain.member.entity.Member;
 import com.ssafy.moeutto.domain.member.repository.MemberRepository;
+import com.ssafy.moeutto.global.response.BaseException;
+import com.ssafy.moeutto.global.response.BaseResponseService;
+import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,7 @@ public class OAuthLoginService {
 
     private final MemberRepository memberRepository;
     private final AuthTokensGenerator authTokensGenerator;
+    private final S3Service s3Service;
 
     /**
      * 우리 서비스에 로그인 시키기
@@ -23,7 +28,7 @@ public class OAuthLoginService {
      * @param nickname
      * @return
      */
-    public AuthTokens login(String email, String nickname) {
+    public AuthTokens login(String email, String nickname) throws BaseException {
         UUID memberId = findOrCreateMember(email, nickname);
         return authTokensGenerator.generate(memberId);
     }
@@ -35,7 +40,7 @@ public class OAuthLoginService {
      * @param nickname
      * @return
      */
-    private UUID findOrCreateMember(String email, String nickname) {
+    private UUID findOrCreateMember(String email, String nickname) throws BaseException {
 
         Member findMember = memberRepository.findMemberByEmail(email);
 
@@ -55,12 +60,20 @@ public class OAuthLoginService {
      * @param nickname
      * @return
      */
-    private UUID newMember(String email, String nickname) {
+    private UUID newMember(String email, String nickname) throws BaseException {
+        UUID id = UUID.randomUUID();
+
         Member regist = Member.builder()
-                .id(UUID.randomUUID())
+                .id(id)
                 .email(email)
                 .nickname(nickname)
                 .build();
+
+        try {
+            s3Service.createFolder(id.toString());
+        } catch (BaseException e) {
+            throw new BaseException(BaseResponseStatus.S3_FOLDER_MAKE_ERROR);
+        }
 
         return memberRepository.save(regist).getId();
     }
