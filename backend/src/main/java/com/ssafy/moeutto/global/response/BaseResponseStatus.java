@@ -40,12 +40,20 @@ public enum BaseResponseStatus {
      */
     NOT_FOUND_LARGE_CATEGORY(false, 5001, "대분류 카테고리가 존재하지 않습니다."),
     NOT_FOUND_MIDDLE_CATEGORY(false, 5002, "중분류 카테고리가 존재하지 않습니다."),
-    NOT_FOUND_MIDDLE_CATEGORY_BY_LARGE_CATEGORY(false, 5003, "대분류 카테고리에 해당하는 중분류 카테고리 목록이 존재하지 않습니다.");
+    NOT_FOUND_MIDDLE_CATEGORY_BY_LARGE_CATEGORY(false, 5003, "대분류 카테고리에 해당하는 중분류 카테고리 목록이 존재하지 않습니다."),
 
     /**
      * AICheckOutfit
      * Code : 6000번대
      */
+
+
+    /**
+     * S3 Image Upload
+     * Code : 7000번대
+     */
+    S3_FILE_IO_ERROR(false,7001,"S3 업로드 중 에러가 발생."),
+    S3_FOLDER_MAKE_ERROR(false,7002,"S3 사용자 폴더 생성 에러");
 
     // -------- 필요한 에러 코드 추가 => Code 만들 때 안겹치게 몇번대 사용할 건지 얘기할 것  -------- //
 
