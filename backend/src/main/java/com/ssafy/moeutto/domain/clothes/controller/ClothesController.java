@@ -296,7 +296,7 @@ public class ClothesController {
         }
 //        jwtUtil.validToken(token);
 
-        UUID memberIdFromToken = UUID.randomUUID();
+        UUID memberIdFromToken = authTokensGenerator.extractMemberId(token);
 //        UUID memberIdFromToken = UUID.fromString(jwtService.extractSubject(token));                                                                                                                                                                                                                                                 Token(token);
         return memberIdFromToken;
 

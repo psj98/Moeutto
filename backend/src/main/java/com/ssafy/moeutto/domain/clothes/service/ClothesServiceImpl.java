@@ -4,10 +4,7 @@ import com.ssafy.moeutto.domain.clothes.dto.request.ClothesListRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesRegistRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesUpdateRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.response.*;
-import com.ssafy.moeutto.domain.clothes.entity.Clothes;
-import com.ssafy.moeutto.domain.clothes.entity.IClothesAnalysisAmount;
-import com.ssafy.moeutto.domain.clothes.entity.IClothesAnalysisColor;
-import com.ssafy.moeutto.domain.clothes.entity.IClothesAnalysisSeason;
+import com.ssafy.moeutto.domain.clothes.entity.*;
 import com.ssafy.moeutto.domain.clothes.repository.ClothesRepository;
 import com.ssafy.moeutto.domain.member.entity.Member;
 import com.ssafy.moeutto.domain.member.repository.MemberRepository;
@@ -445,10 +442,14 @@ public class ClothesServiceImpl implements ClothesService {
 
         //내 옷장 총 가격
         Integer myTotalCost = clothesRepository.findPriceByMemberId(memberId);
+
         //모든 회원의 옷 가격 평균
         Integer avgOfMembers = clothesRepository.findAvgOfPrice();
         //카데고리별 정보 받아오기
-        List<ClothesAnalysisCostResponseDto.AnalysisCostItem> itemList = clothesRepository.findCostOfMyClothesByCategory(memberId);
+        List<IAnalysisCostItem> itemList = clothesRepository.findCostOfMyClothesByCategory(memberId);
+
+        System.out.println("itemList = " + myTotalCost + " " + avgOfMembers + " " + itemList.toString());
+
         if(itemList.size() == 0 ){
             throw new BaseException(BaseResponseStatus.NOT_FOUND_CATEGORY_ANALYSIS_INFO);
         }
