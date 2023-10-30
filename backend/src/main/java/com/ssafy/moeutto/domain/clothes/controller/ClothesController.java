@@ -215,14 +215,23 @@ public class ClothesController {
         }
     }
 
-    //    @GetMapping("/analysis-frequency")
-//    public BaseResponse<Object> analysisFrequencyClothes() {
-//        try {
-//            return null;
-//        } catch (BaseException e) {
-//            return null;
-//        }
-//    }
+    @GetMapping("/analysis-frequency")
+    public BaseResponse<Object> analysisFrequencyClothes(@RequestHeader(value = "accessToken", required = false) String token) {
+
+        try {
+            // 토큰 정보 체크
+            if (token == null || token.equals("")) {
+                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
+            }
+
+            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
+
+            ClothesAnalysisFrequencyResponseDto clothesAnalysisFrequencyResponseDto = clothesService.analysisFrequency(memberId);
+            return baseResponseService.getSuccessResponse(clothesAnalysisFrequencyResponseDto);
+        } catch (BaseException e) {
+            return baseResponseService.getFailureResponse(e.status);
+        }
+    }
 //
     @GetMapping("/analysis-cost")
     public BaseResponse<Object> analysisCostClothes(@RequestHeader(value = "accessToken") String token) {
