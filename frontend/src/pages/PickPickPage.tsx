@@ -255,7 +255,7 @@ const PickPickPage = () => {
 
         console.log('제출 함수 실행 성공', requestData);
         if (requestData) {
-            navigate('/mycloset/reports');
+            navigate('/analysis');
         }
     }
 
