@@ -134,4 +134,6 @@ public interface ClothesService {
      * @throws BaseException
      */
     ClothesAnalysisMinMaxResponseDto analysisAmount(UUID memberId) throws BaseException;
+
+    ClothesAnalysisFrequencyResponseDto analysisFrequency(UUID memberId) throws BaseException;
 }
