@@ -1,5 +1,6 @@
 package com.ssafy.moeutto.domain.clothes.controller;
 
+import com.ssafy.moeutto.domain.clothes.dto.request.ClothesListRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesRegistRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesUpdateRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.response.*;
@@ -75,10 +76,12 @@ public class ClothesController {
     /**
      * 옷 목록을 조회합니다.
      *
-     * @return
+     * @param token
+     * @param clothesListRequestDto
+     * @return List<ClothesListResponseDto>
      */
-    @GetMapping("/list")
-    public BaseResponse<Object> getListClothes(@RequestHeader(value = "accessToken", required = false) String token) {
+    @PostMapping("/list")
+    public BaseResponse<Object> getListClothes(@RequestHeader(value = "accessToken", required = false) String token, @RequestBody ClothesListRequestDto clothesListRequestDto) {
         try {
             // 토큰 정보 체크
             if (token == null || token.equals("")) {
@@ -87,7 +90,7 @@ public class ClothesController {
 
             UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
 
-            List<ClothesListResponseDto> clothesListResponseDtoList = clothesService.listClothes(memberId);
+            List<ClothesListResponseDto> clothesListResponseDtoList = clothesService.listClothes(memberId, clothesListRequestDto);
             return baseResponseService.getSuccessResponse(clothesListResponseDtoList);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
