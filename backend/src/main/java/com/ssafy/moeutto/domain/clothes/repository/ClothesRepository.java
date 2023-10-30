@@ -21,12 +21,12 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
      * 내 옷장 카테고리 별 가격
      * @return
      */
-    @Query(value = "SELECT SUBSTRING(c.middle_category_id, 1, 3) as largeCategoryId, SUM(c.price) as price, COUNT(*) as amount\n" +
-            "FROM clothes c\n" +
-            "WHERE member_id = 1?"+
-            "GROUP BY substring(c.middle_category_id, 1, 3)\n" +
+    @Query(value = "SELECT SUBSTRING(c.middle_category_id, 1, 3) as largeCategoryId, SUM(c.price) as price, COUNT(*) as amount " +
+            "FROM clothes c " +
+            "WHERE member_id = ?1 "+
+            "GROUP BY substring(c.middle_category_id, 1, 3) " +
             "ORDER BY substring(c.middle_category_id, 1, 3)", nativeQuery = true)
-    List<ClothesAnalysisCostResponseDto.AnalysisCostItem> findCostOfMyClothesByCategory();
+    List<ClothesAnalysisCostResponseDto.AnalysisCostItem> findCostOfMyClothesByCategory(UUID memberId);
 
     /**
      * 내 옷장 총 가격
