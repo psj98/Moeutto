@@ -191,7 +191,7 @@ public class ClothesController {
 
     /**
      * 옷장을 계절 기준으로 분석합니다.
-     * 
+     *
      * @param token
      * @return
      */
@@ -213,7 +213,7 @@ public class ClothesController {
         }
     }
 
-//    @GetMapping("/analysis-frequency")
+    //    @GetMapping("/analysis-frequency")
 //    public BaseResponse<Object> analysisFrequencyClothes() {
 //        try {
 //            return null;
@@ -231,14 +231,23 @@ public class ClothesController {
 //        }
 //    }
 //
-//    @GetMapping("/analysis-amount")
-//    public BaseResponse<Object> analysisAmountClothes() {
-//        try {
-//            return null;
-//        } catch (BaseException e) {
-//            return null;
-//        }
-//    }
+    @GetMapping("/analysis-amount")
+    public BaseResponse<Object> analysisAmountClothes(@RequestHeader(value = "accessToken", required = false) String token) {
+        try {
+            // 토큰 정보 체크
+            if (token == null || token.equals("")) {
+                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
+            }
+
+            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
+
+            // 미니멀 / 맥시멀 기준으로 분석
+            ClothesAnalysisMinMaxResponseDto clothesAnalysisMinMaxResponseDto = clothesService.analysisAmount(memberId);
+            return baseResponseService.getSuccessResponse(clothesAnalysisMinMaxResponseDto);
+        } catch (BaseException e) {
+            return baseResponseService.getFailureResponse(e.status);
+        }
+    }
 //
 //    @GetMapping("/analysis-use")
 //    public BaseResponse<Object> analysisUseClothes() {
