@@ -80,6 +80,7 @@ const AddClothForm = () => {
     <FormContainer>
       <Form>
         <PictureInput />
+        <div className="text-WebBody2 text-center mt-[28px]">옷의 정보</div>
         <CategoryInput onChange={handleClothCategory} />
         카테고리 {clothCategory}
         <SeasonInput onChange={setClothSeason} />
