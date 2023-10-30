@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useDispatch } from 'react-redux';
+import { selectCloset } from "../../redux/features/closet/selectClosetSlice";
+
 
 interface ItemPropsType {
     imgUrl: string;
@@ -6,10 +9,13 @@ interface ItemPropsType {
 }
 
 const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId }) => {
+    const dispatch = useDispatch();
+
     const [isSelected, setIsSelected] = useState(false);
 
     const handleClick = (e) => {
         setIsSelected(!isSelected);
+        dispatch(selectCloset(e.target.id));
         console.log(e.target.id);
     };
 
