@@ -4,13 +4,14 @@ import com.ssafy.moeutto.domain.calendar.dto.request.CalendarRegistRequestDto;
 import com.ssafy.moeutto.domain.calendar.dto.request.CalendarScoreRequestDto;
 import com.ssafy.moeutto.domain.calendar.dto.response.CalendarListResponseDto;
 import com.ssafy.moeutto.global.response.BaseException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
 import java.util.UUID;
 
 public interface CalendarService {
 
-    void registMyOutfit(UUID memberId, CalendarRegistRequestDto requestDto) throws BaseException;
+    void registMyOutfit(UUID memberId, String token, MultipartFile file) throws BaseException;
 
     CalendarListResponseDto getCalendarList(UUID memberId, Date regDate) throws BaseException;
 
