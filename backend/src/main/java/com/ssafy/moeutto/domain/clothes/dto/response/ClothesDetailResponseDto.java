@@ -47,13 +47,14 @@ public class ClothesDetailResponseDto {
     @NotNull
     private Integer star; // 즐겨찾기 여부
 
-    // 이미지
+    @NotNull
+    private String imageUrl; // 이미지 url
 
     @NotNull
     private Date recentDate; // 최근 입은 날짜
 
     @Builder(toBuilder = true)
-    public ClothesDetailResponseDto(Integer id, String middleCategoryId, String largeCategoryId, String name, String season, String color, Integer thickness, Integer price, String shop, String textile, Integer frequency, Integer star, Date recentDate) {
+    public ClothesDetailResponseDto(Integer id, String middleCategoryId, String largeCategoryId, String name, String season, String color, Integer thickness, Integer price, String shop, String textile, Integer frequency, Integer star, String imageUrl, Date recentDate) {
         this.id = id;
         this.middleCategoryId = middleCategoryId;
         this.largeCategoryId = largeCategoryId;
@@ -66,6 +67,7 @@ public class ClothesDetailResponseDto {
         this.textile = textile;
         this.frequency = frequency;
         this.star = star;
+        this.imageUrl = imageUrl;
         this.recentDate = recentDate;
     }
 }
