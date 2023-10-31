@@ -1,9 +1,11 @@
 package com.ssafy.moeutto.domain.aiCheckOutfit.service;
 
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.AICheckOutfitClientRequestDto;
+import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.ClientRequestClothesListDto;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.PythonRequestClothesListItems;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitClientResponseDto;
 import com.ssafy.moeutto.domain.aiCheckOutfit.repository.AICheckOutfitRepository;
+import com.ssafy.moeutto.domain.clothes.entity.Clothes;
 import com.ssafy.moeutto.domain.clothes.repository.ClothesRepository;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
 import com.ssafy.moeutto.domain.member.entity.Member;
@@ -15,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -39,7 +42,27 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService{
             throw new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER);
         }
 
-        PythonRequestClothesListItems clothesItems = clothesRepository.find
+//        List<Clothes> findClothesList = null;
+
+        List<ClientRequestClothesListDto> arr = aiCheckOutfitClientRequestDto.getClothesList();
+
+        for(int i=0;i<arr.size();i++){
+            Clothes clothesInfo = clothesRepository.findByClothesId(arr.get(i).getId());
+
+            PythonRequestClothesListItems requestItems = PythonRequestClothesListItems.builder()
+                    .largeCategoryid(arr.get(i).getLargeCategoryId())
+                    .clothesId(arr.get(i).getId())
+                    .season(clothesInfo.getSeason())
+                    .color(clothesInfo.getColor())
+                    .thickness(clothesInfo.getThickness())
+                    .textile(clothesInfo.getTextile())
+                    .frequency(clothesInfo.getFrequency())
+                    .build();
+
+
+        }
+
+
 
 
         return null;

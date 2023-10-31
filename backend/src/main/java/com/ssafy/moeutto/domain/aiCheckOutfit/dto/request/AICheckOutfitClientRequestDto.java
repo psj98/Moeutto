@@ -10,11 +10,11 @@ import java.util.List;
 @NoArgsConstructor
 public class AICheckOutfitClientRequestDto {
 
-    List<Integer> clothesList;
+    List<ClientRequestClothesListDto> clothesList;
     ClientRequestWeatherInfo weatherInfo;
 
     @Builder(toBuilder = true)
-    public AICheckOutfitClientRequestDto(List<Integer> clothesList, ClientRequestWeatherInfo weatherInfo){
+    public AICheckOutfitClientRequestDto(List<ClientRequestClothesListDto> clothesList, ClientRequestWeatherInfo weatherInfo){
         this.clothesList = clothesList;
         this.weatherInfo = weatherInfo;
     }
