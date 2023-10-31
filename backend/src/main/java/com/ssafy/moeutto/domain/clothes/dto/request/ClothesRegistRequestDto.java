@@ -2,6 +2,7 @@ package com.ssafy.moeutto.domain.clothes.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 
@@ -30,5 +31,4 @@ public class ClothesRegistRequestDto {
 
     private String textile; // 소재
 
-    // 이미지 추가
 }
