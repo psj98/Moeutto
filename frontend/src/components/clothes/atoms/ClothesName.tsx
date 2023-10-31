@@ -1,7 +1,7 @@
-const ClothesName = () => {
+const ClothesName = ({ name }) => {
     return (
         <>
-            <div className="font-bold text-WebBody1">검정색 라이더 자켓</div>
+            <div className="font-bold text-WebBody1">{name}</div>
         </>
     )
 }

@@ -5,6 +5,7 @@ import { useState } from "react";
 import ClothesDetailImg from "../components/clothes/atoms/ClothesDetailImg";
 import ClothesInfo from "../components/clothes/organisms/ClothesInfo";
 import ClothesBtn from "../components/clothes/molecules/ClothesBtn";
+import Comment from "../components/clothes/atoms/Comment";
 
 const ClothesDetailPage = () => {
     // 옷 id 가져오기
@@ -25,7 +26,7 @@ const ClothesDetailPage = () => {
             "frequency": 23, // 빈도
             "star": 1, // 즐겨찾기 여부
             "image": "/images/clothes1.png", // 이미지
-            "recentDate": "DateTime" // 최근 입은 날짜
+            "recentDate": "20231020" // 최근 입은 날짜
         }
 
     console.log(params.id);
@@ -56,8 +57,12 @@ const ClothesDetailPage = () => {
                         textile={clothesDetailData.textile}
                         price={clothesDetailData.price} 
                         shop={clothesDetailData.shop}
+                        name={clothesDetailData.name}
                         />    
                 </div>
+            </div>
+            <div className="mt-10">
+                <Comment frequency={clothesDetailData.frequency} recentDate={clothesDetailData.recentDate} name={clothesDetailData.name} />
             </div>
             <div className="fixed right-6 bottom-6">
                 <ClothesBtn />
