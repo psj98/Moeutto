@@ -16,7 +16,7 @@ const ClothesDetailPage = () => {
             "largeCategoryId": "상의", // 대분류 카테고리 id
             "name": "검정색 라이더 자켓", // 이름
             "season": "1010", // 계절
-            "color": String, // 색상
+            "color": "검정", // 색상
             "thickness": 3, // 두께
             "price": 300000, // 가격
             "shop": "자라", // 구매처 (후순위)
@@ -31,15 +31,25 @@ const ClothesDetailPage = () => {
 
     // 즐겨찾기
     const [star, setStar] = useState<boolean>(clothesDetailData.star);
+    // 두께
+    let thickness: string = "";
+
+    if (clothesDetailData.thickness === 1) {
+        thickness = "얇음";
+    } else if (clothesDetailData.thickness === 2) {
+        thickness = "중간";
+    } else {
+        thickness = "두꺼움";
+    }
     
     return (
         <div className="flex">
             <ClothesDetailImg imgUrl={clothesDetailData.image} star={star} setStar={setStar} />
             <div>
                 <ClothesInfo 
-                    category={clothesDetailData.category} 
+                    category={clothesDetailData.middleCategoryId} 
                     season={clothesDetailData.season} 
-                    thickness={clothesDetailData.thickness} 
+                    thickness={thickness} 
                     color={clothesDetailData.color} 
                     textile={clothesDetailData.textile}
                     price={clothesDetailData.price} 
