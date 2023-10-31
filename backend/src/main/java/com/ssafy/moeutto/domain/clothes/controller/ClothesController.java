@@ -75,7 +75,8 @@ public class ClothesController {
      * @return List<ClothesListResponseDto>
      */
     @PostMapping("/list")
-    public BaseResponse<Object> getListClothes(@RequestHeader(value = "accessToken", required = false) String token, @RequestBody ClothesListRequestDto clothesListRequestDto) {
+    public BaseResponse<Object> getListClothes(@RequestHeader(value = "accessToken", required = false) String token,
+                                               @RequestBody ClothesListRequestDto clothesListRequestDto) {
         try {
             UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
@@ -94,11 +95,12 @@ public class ClothesController {
      */
     @PutMapping("")
     public BaseResponse<Object> updateClothes(@RequestHeader(value = "accessToken", required = false) String token,
-                                              @RequestBody ClothesUpdateRequestDto clothesUpdateRequestDto) {
+                                              @RequestPart ClothesUpdateRequestDto clothesUpdateRequestDto,
+                                              @RequestPart("file") MultipartFile file) {
         try {
             UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
-            ClothesUpdateResponseDto clothesUpdateResponseDto = clothesService.updateClothes(clothesUpdateRequestDto, memberId);
+            ClothesUpdateResponseDto clothesUpdateResponseDto = clothesService.updateClothes(clothesUpdateRequestDto, memberId, token, file);
             return baseResponseService.getSuccessResponse(clothesUpdateResponseDto);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);

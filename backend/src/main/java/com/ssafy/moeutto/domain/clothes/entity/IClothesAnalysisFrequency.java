@@ -2,7 +2,7 @@ package com.ssafy.moeutto.domain.clothes.entity;
 
 public interface IClothesAnalysisFrequency {
 
-    Integer getFrequency();
+    String getMiddleCategoryId();
 
     String getSeason();
 
@@ -14,5 +14,7 @@ public interface IClothesAnalysisFrequency {
 
     String getTextile();
 
-    String getMiddleCategoryId();
+    Integer getFrequency();
+
+    String getImageUrl();
 }

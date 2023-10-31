@@ -242,7 +242,7 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
      * @param memberId
      * @return
      */
-    @Query(value = "SELECT frequency, season, color, thickness, price, textile, middle_category_id as middleCategoryId " +
+    @Query(value = "SELECT middle_category_id AS middleCategoryId, season, color, thickness, price, textile, frequency, image_url AS imageUrl " +
             "FROM clothes " +
             "WHERE member_id = ?1 " +
             "ORDER BY frequency " +
@@ -255,7 +255,7 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
      * @param memberId
      * @return
      */
-    @Query(value = "SELECT frequency, season, color, thickness, price, textile, middle_category_id as middleCategoryId " +
+    @Query(value = "SELECT middle_category_id AS middleCategoryId, season, color, thickness, price, textile, frequency, image_url AS imageUrl " +
             "FROM clothes " +
             "WHERE member_id = ?1 " +
             "ORDER BY frequency " +
@@ -270,8 +270,8 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
     @Query(value = "SELECT SUBSTRING(c.middle_category_id, 1, 3) as largeCategoryId, SUM(c.price) as price, COUNT(*) as amount " +
             "FROM clothes c " +
             "WHERE c.member_id = ?1 " +
-            "GROUP BY substring(c.middle_category_id, 1, 3) " +
-            "ORDER BY substring(c.middle_category_id, 1, 3)", nativeQuery = true)
+            "GROUP BY SUBSTRING(c.middle_category_id, 1, 3) " +
+            "ORDER BY SUBSTRING(c.middle_category_id, 1, 3)", nativeQuery = true)
     List<IAnalysisCostItem> findCostOfMyClothesByCategory(UUID memberId);
 
     /**
