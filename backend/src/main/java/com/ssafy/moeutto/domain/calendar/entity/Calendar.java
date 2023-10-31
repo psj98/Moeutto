@@ -23,6 +23,7 @@ public class Calendar {
     @Column(columnDefinition = "BINARY(16)")
     private UUID memberId;
 
+    @Column(name = "like_outfit")
     @ColumnDefault("0")
     private Integer likeOutfit;
 
