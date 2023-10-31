@@ -10,6 +10,8 @@ function Work() {
       <Link to="/mycloset">나의 옷장</Link>
       <br />
       <Link to="/mypage">마이 페이지 </Link>
+      <br />
+      <Link to="/mycloset/list">나의 옷장 전체 목록</Link>
     </div>
   );
 }
