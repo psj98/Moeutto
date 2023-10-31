@@ -88,7 +88,7 @@ public interface ClothesService {
      * @return ClothesUpdateResponseDto
      * @throws BaseException
      */
-    ClothesUpdateResponseDto updateClothes(ClothesUpdateRequestDto clothesUpdateRequestDto, UUID memberId) throws BaseException;
+    ClothesUpdateResponseDto updateClothes(ClothesUpdateRequestDto clothesUpdateRequestDto, UUID memberId, String token, MultipartFile file) throws BaseException;
 
     /**
      * 옷 정보를 해제합니다.

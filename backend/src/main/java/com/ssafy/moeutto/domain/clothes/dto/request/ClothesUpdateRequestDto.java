@@ -37,10 +37,11 @@ public class ClothesUpdateRequestDto {
     @NotNull
     private String textile; // 소제
 
-    // 이미지
+    @NotNull
+    private String imageUrl; // 이미지 url
 
     @Builder(toBuilder = true)
-    public ClothesUpdateRequestDto(Integer id, String middleCategoryId, String name, String season, String color, Integer thickness, Integer price, String shop, String textile) {
+    public ClothesUpdateRequestDto(Integer id, String middleCategoryId, String name, String season, String color, Integer thickness, Integer price, String shop, String textile, String imageUrl) {
         this.id = id;
         this.middleCategoryId = middleCategoryId;
         this.name = name;
@@ -50,5 +51,6 @@ public class ClothesUpdateRequestDto {
         this.price = price;
         this.shop = shop;
         this.textile = textile;
+        this.imageUrl = imageUrl;
     }
 }
