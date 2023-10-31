@@ -1,5 +1,5 @@
 import TodayWeatherCard from '../molecules/TodayWeatherCard'; // 날씨 정보 카드
-import TotalScoreSection from '../molecules/TotalscoreSection'; // 총 점수 막대 그래프
+import TotalScoreSection from '../molecules/TotalScoreSection'; // 총 점수 막대 그래프
 import Graph from '../molecules/Graph'; // 하단 그래프
 import ClothScoreSection from '../molecules/ClothScoreSection';
 
