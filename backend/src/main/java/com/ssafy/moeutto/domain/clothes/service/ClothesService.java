@@ -6,6 +6,7 @@ import com.ssafy.moeutto.domain.clothes.dto.request.ClothesUpdateRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.response.*;
 import com.ssafy.moeutto.domain.clothes.entity.Clothes;
 import com.ssafy.moeutto.global.response.BaseException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,7 +20,7 @@ public interface ClothesService {
      * @return ClothesRegistResponseDto
      * @throws BaseException
      */
-    ClothesRegistResponseDto registClothes(ClothesRegistRequestDto clothesRegistRequestDto, UUID memberId) throws BaseException;
+    ClothesRegistResponseDto registClothes(ClothesRegistRequestDto clothesRegistRequestDto, UUID memberId, String token, MultipartFile file) throws BaseException;
 
     /**
      * 옷 정보를 조회합니다.

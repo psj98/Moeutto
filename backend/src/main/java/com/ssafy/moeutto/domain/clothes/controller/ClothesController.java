@@ -12,6 +12,7 @@ import com.ssafy.moeutto.global.response.BaseResponseService;
 import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,16 +29,19 @@ public class ClothesController {
     /**
      * 옷 정보를 등록합니다.
      *
+     * @param token
      * @param clothesRegistRequestDto
-     * @return ClothesRegistResponseDto
+     * @param file
+     * @return
      */
     @PostMapping("/regist")
     public BaseResponse<Object> registClothes(@RequestHeader(value = "accessToken", required = false) String token,
-                                              @RequestBody ClothesRegistRequestDto clothesRegistRequestDto) {
+                                              @RequestPart("clothesRegistRequestDto") ClothesRegistRequestDto clothesRegistRequestDto,
+                                              @RequestPart("file") MultipartFile file) {
         try {
             UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
-            ClothesRegistResponseDto clothesRegistResponseDto = clothesService.registClothes(clothesRegistRequestDto, memberId);
+            ClothesRegistResponseDto clothesRegistResponseDto = clothesService.registClothes(clothesRegistRequestDto, memberId, token, file);
             return baseResponseService.getSuccessResponse(clothesRegistResponseDto);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
