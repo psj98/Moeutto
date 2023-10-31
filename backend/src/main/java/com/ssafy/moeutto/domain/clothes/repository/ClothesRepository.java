@@ -320,4 +320,6 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
             "ORDER BY SUBSTRING(c.middle_category_id, 1, 3)) AS minmax RIGHT JOIN large_category l " +
             "ON minmax.id = l.id", nativeQuery = true)
     List<IClothesAnalysisAmount> findByMinMaxMember(UUID memberId);
+
+
 }
