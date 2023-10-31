@@ -65,6 +65,7 @@ public class CalendarServiceImpl implements CalendarService {
                         .memberId(memberId)
                         .imageUrl(s3ResponseDto.getAccessUrl())
                         .regDate(curDate)
+                        .likeOutfit(0)
                         .build();
 
         calendarRepository.save(calendar);
