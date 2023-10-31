@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -495,7 +494,7 @@ public class ClothesServiceImpl implements ClothesService {
         Integer avgOfMembers = clothesRepository.findAvgOfPrice();
 
         // 카데고리별 정보 받아오기
-        List<IAnalysisCostItem> itemList = clothesRepository.findCostOfMyClothesByCategory(memberId);
+        List<IClothesAnalysisCost> itemList = clothesRepository.findCostOfMyClothesByCategory(memberId);
         if (itemList.size() == 0) {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_CATEGORY_ANALYSIS_INFO);
         }

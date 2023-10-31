@@ -272,7 +272,7 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
             "WHERE c.member_id = ?1 " +
             "GROUP BY SUBSTRING(c.middle_category_id, 1, 3) " +
             "ORDER BY SUBSTRING(c.middle_category_id, 1, 3)", nativeQuery = true)
-    List<IAnalysisCostItem> findCostOfMyClothesByCategory(UUID memberId);
+    List<IClothesAnalysisCost> findCostOfMyClothesByCategory(UUID memberId);
 
     /**
      * 내 옷장 총 가격
