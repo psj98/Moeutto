@@ -59,6 +59,7 @@ public class Clothes {
     @Column(columnDefinition = "INTEGER DEFAULT 0")
     private Integer star; // 즐겨찾기 여부
 
+    @NotNull
     private String imageUrl; // 이미지 AccessURL
 
     private Date regDate; // 등록 날짜
@@ -66,7 +67,7 @@ public class Clothes {
     private Date recentDate; // 최근 입은 날짜
 
     @Builder(toBuilder = true)
-    public Clothes(Integer id, Member member, MiddleCategory middleCategory, String name, String season, String color, Integer thickness, Integer price, String shop, String textile, Integer frequency, Integer star, Date regDate, Date recentDate, String imageUrl) {
+    public Clothes(Integer id, Member member, MiddleCategory middleCategory, String name, String season, String color, Integer thickness, Integer price, String shop, String textile, Integer frequency, Integer star, String imageUrl, Date regDate, Date recentDate) {
         this.id = id;
         this.member = member;
         this.middleCategory = middleCategory;
@@ -79,8 +80,8 @@ public class Clothes {
         this.textile = textile;
         this.frequency = frequency;
         this.star = star;
+        this.imageUrl = imageUrl;
         this.regDate = regDate;
         this.recentDate = recentDate;
-        this.imageUrl = imageUrl;
     }
 }
