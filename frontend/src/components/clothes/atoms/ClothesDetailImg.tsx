@@ -1,5 +1,5 @@
 import React from "react";
-import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
+import { RxBookmark, RxBookmarkFilled } from "react-icons/rx";
 
 interface PropsType {
     imgUrl: any;
@@ -12,8 +12,6 @@ const ClothesDetailImg = ({ imgUrl, star, setStar }: PropsType ) => {
         setStar((prev) => !prev)
     }
 
-    
-
     return (
         <>
             <div>
@@ -22,11 +20,11 @@ const ClothesDetailImg = ({ imgUrl, star, setStar }: PropsType ) => {
                         src={imgUrl} alt="clothes" 
                         className="w-[38vw] border rounded-xl " 
                     />
-                    <div className="absolute top-0 left-[30vw]">
+                    <div className="absolute -top-3 left-[30vw] transform:translate(-50%,-50%)">
                         {star ? (
-                            <BsBookmark size={"7vw"} color="FAA0BF" onClick={onClickBookMark} />
+                            <RxBookmark size={"8vw"} color="FAA0BF" onClick={onClickBookMark} />
                         ) : (
-                            <BsBookmarkFill size={"7vw"} color="FAA0BF" onClick={onClickBookMark} />
+                            <RxBookmarkFilled size={"8vw"} color="FAA0BF" onClick={onClickBookMark} />
                         )}
                     </div>
                 </div>
