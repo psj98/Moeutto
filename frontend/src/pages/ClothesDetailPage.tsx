@@ -3,6 +3,7 @@ import { useState } from "react";
 
 // atomic 연습
 import ClothesDetailImg from "../components/clothes/atoms/ClothesDetailImg";
+import ClothesInfo from "../components/clothes/organisms/ClothesInfo";
 
 const ClothesDetailPage = () => {
     // 옷 id 가져오기
@@ -26,13 +27,25 @@ const ClothesDetailPage = () => {
             "recentDate": "DateTime" // 최근 입은 날짜
         }
 
+    console.log(params.id);
+
     // 즐겨찾기
     const [star, setStar] = useState<boolean>(clothesDetailData.star);
     
     return (
-        <div className="ClothesDetailPage">
-            <p>여긴 {params.id}번 옷의 상세 페이지 입니다.</p>
+        <div className="flex">
             <ClothesDetailImg imgUrl={clothesDetailData.image} star={star} setStar={setStar} />
+            <div>
+                <ClothesInfo 
+                    category={clothesDetailData.category} 
+                    season={clothesDetailData.season} 
+                    thickness={clothesDetailData.thickness} 
+                    color={clothesDetailData.color} 
+                    textile={clothesDetailData.textile}
+                    price={clothesDetailData.price} 
+                    shop={clothesDetailData.shop}
+                    />    
+            </div>
         </div>
     )
 }
