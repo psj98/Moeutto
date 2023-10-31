@@ -4,6 +4,7 @@ import { useState } from "react";
 // atomic 연습
 import ClothesDetailImg from "../components/clothes/atoms/ClothesDetailImg";
 import ClothesInfo from "../components/clothes/organisms/ClothesInfo";
+import ClothesBtn from "../components/clothes/molecules/ClothesBtn";
 
 const ClothesDetailPage = () => {
     // 옷 id 가져오기
@@ -43,20 +44,25 @@ const ClothesDetailPage = () => {
     }
     
     return (
-        <div className="flex">
-            <ClothesDetailImg imgUrl={clothesDetailData.image} star={star} setStar={setStar} />
-            <div>
-                <ClothesInfo 
-                    category={clothesDetailData.middleCategoryId} 
-                    season={clothesDetailData.season} 
-                    thickness={thickness} 
-                    color={clothesDetailData.color} 
-                    textile={clothesDetailData.textile}
-                    price={clothesDetailData.price} 
-                    shop={clothesDetailData.shop}
-                    />    
+        <>
+            <div className="flex">
+                <ClothesDetailImg imgUrl={clothesDetailData.image} star={star} setStar={setStar} />
+                <div>
+                    <ClothesInfo 
+                        category={clothesDetailData.middleCategoryId} 
+                        season={clothesDetailData.season} 
+                        thickness={thickness} 
+                        color={clothesDetailData.color} 
+                        textile={clothesDetailData.textile}
+                        price={clothesDetailData.price} 
+                        shop={clothesDetailData.shop}
+                        />    
+                </div>
             </div>
-        </div>
+            <div className="fixed right-6 bottom-6">
+                <ClothesBtn />
+            </div>
+        </>
     )
 }
 
