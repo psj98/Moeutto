@@ -29,19 +29,21 @@ public class ClothesListResponseDto {
     @NotNull
     private Integer star; // 즐겨찾기 여부
 
-    // 사진 url 추가
+    @NotNull
+    private String imageUrl; // 이미지 url
 
     @NotNull
     private Date regDate; // 등록 날짜
 
     @Builder(toBuilder = true)
-    public ClothesListResponseDto(Integer id, String middleCategoryId, String largeCategoryId, String color, Integer frequency, Integer star, Date regDate) {
+    public ClothesListResponseDto(Integer id, String middleCategoryId, String largeCategoryId, String color, Integer frequency, Integer star, String imageUrl, Date regDate) {
         this.id = id;
         this.middleCategoryId = middleCategoryId;
         this.largeCategoryId = largeCategoryId;
         this.color = color;
         this.frequency = frequency;
         this.star = star;
+        this.imageUrl = imageUrl;
         this.regDate = regDate;
     }
 }

@@ -1,6 +1,6 @@
 package com.ssafy.moeutto.domain.clothes.entity;
 
-public interface IAnalysisCostItem {
+public interface IClothesAnalysisCost {
 
     String getLargeCategoryId();
 
