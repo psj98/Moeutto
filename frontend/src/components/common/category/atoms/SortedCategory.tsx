@@ -30,6 +30,7 @@ const SortedCategory: React.FC<SortedCategoryProps> = ({ selectedOption, setSele
   const categories: string[] = ["정렬", "등록순", "많이 입은 순", "적게 입은 순", "색깔 순"];
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    
     setSelectedOption(e.target.id);
   };
 
