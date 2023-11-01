@@ -6,7 +6,7 @@ import RecommendList from "../components/main/organisms/RecommendList";
 import MapModal from "../components/main/organisms/MapModal";
 
 // 날씨 api 사용
-import Weather from "../api/Weather";
+// import Weather from "../api/Weather";
 
 const MainPage = () => {
     // 현재 위치
@@ -145,7 +145,6 @@ const MainPage = () => {
     return (
         <>
             <div className="flex flex-col p-4">
-                <Weather />
                 <MainInfo currentLocation={currentLocation} address={address} showLocationClick={showLocationClick} />
                 <br />
                 {/* 날씨 기반 추천 리스트 */}
