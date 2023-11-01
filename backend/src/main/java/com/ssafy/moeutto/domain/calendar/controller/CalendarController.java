@@ -53,10 +53,9 @@ public class CalendarController {
     /**
      * 캘린더에 착장을 등록하는 메서드 입니다.
      * <p>
-     * ToDo - S3에서 이미지 받아오는 부분 수정 해야함.
      *
-     * @param token      =  JWT TOKEN
-     * @param requestDto = 저장한 착장 사진 전체 ImageUrl을 담고있는 Dto 입니다.
+     * @param token =  JWT TOKEN
+     * @param file  = 이미지 파일 저장 하는 파라미터
      * @return
      */
     @PostMapping("/regist")
