@@ -320,4 +320,22 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
             "ORDER BY SUBSTRING(c.middle_category_id, 1, 3)) AS minmax RIGHT JOIN large_category l " +
             "ON minmax.id = l.id", nativeQuery = true)
     List<IClothesAnalysisAmount> findByMinMaxMember(UUID memberId);
+
+
+    /**
+     * 최근 N 개월간 입은 옷에 대한 갯수를 MemeberId로 대조해불러옵니다.
+     * @param memberId
+     * @return
+     */
+    @Query(value = "SELECT count(*) FROM Clothes " +
+            "WHERE recent_date >= NOW() - INTERVAL 3 MONTH AND recent_date <= NOW() AND frequency > 0 ANd member_id = ?1", nativeQuery = true)
+    Long findRecentDateForNMonthByMemberId(UUID memberId);
+
+    @Query(value = "SELECT SUBSTRING(c.middle_category_id, 1, 3) as largeCategoryId, (SELECT COUNT(*) from clothes c WHERE c.member_id = ?1) as totalAmount, " +
+            "(SELECT count(*) FROM clothes WHERE recent_date >= NOW() - INTERVAL 3 MONTH AND recent_date <= NOW() AND frequency > 0 AND member_id = ?1 ) as usedAmount " +
+            "FROM clothes c " +
+            "WHERE c.member_id = ?1 " +
+            "GROUP BY SUBSTRING(c.middle_category_id, 1, 3) " +
+            "ORDER BY SUBSTRING(c.middle_category_id, 1, 3) ", nativeQuery = true)
+    List<IMyAnalysisAmount> findMyAnalysisAmountByMemberId(UUID memberId);
 }
