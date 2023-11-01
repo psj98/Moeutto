@@ -2,6 +2,7 @@ package com.ssafy.moeutto.domain.aiCheckOutfit.service;
 
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.AICheckOutfitClientRequestDto;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.ClientRequestClothesListDto;
+import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.PythonRequestClothesList;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.PythonRequestClothesListItems;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitClientResponseDto;
 import com.ssafy.moeutto.domain.aiCheckOutfit.repository.AICheckOutfitRepository;
@@ -15,7 +16,9 @@ import com.ssafy.moeutto.global.response.BaseException;
 import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +34,9 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService{
     private final AuthTokensGenerator authTokensGenerator;
     private final MemberRepository memberRepository;
 
+    @Value("${python.check.request.url}")
+    private String checkRequestUrl;
+
     @Override
     public AICheckOutfitClientResponseDto checkOutfit(String token, AICheckOutfitClientRequestDto aiCheckOutfitClientRequestDto) throws BaseException {
 
@@ -42,15 +48,23 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService{
             throw new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER);
         }
 
-//        List<Clothes> findClothesList = null;
+        // 파이썬 서버로 보내기 위한 작업
+        PythonRequestClothesListItems outerTemp = null;
+        PythonRequestClothesListItems topTemp = null;
+        PythonRequestClothesListItems bottomTemp = null;
+        PythonRequestClothesListItems itemTemp = null;
 
         List<ClientRequestClothesListDto> arr = aiCheckOutfitClientRequestDto.getClothesList();
 
         for(int i=0;i<arr.size();i++){
             Clothes clothesInfo = clothesRepository.findByClothesId(arr.get(i).getId());
 
+            System.out.println("AICheckOutfitService Impl , clothesInfo id : "+clothesInfo.getId());
+            System.out.println("AICheckOutfitService Impl , arr.get(i).getId() : "+arr.get(i).getId());
+            System.out.println("AICheckOutfitService Impl , arr.get(i).getLargeCateogryId() : "+arr.get(i).getLargeCategoryId());
+
             PythonRequestClothesListItems requestItems = PythonRequestClothesListItems.builder()
-                    .largeCategoryid(arr.get(i).getLargeCategoryId())
+                    .largeCategoryId(arr.get(i).getLargeCategoryId())
                     .clothesId(arr.get(i).getId())
                     .season(clothesInfo.getSeason())
                     .color(clothesInfo.getColor())
@@ -59,8 +73,30 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService{
                     .frequency(clothesInfo.getFrequency())
                     .build();
 
+            System.out.println("AICheckOutfitService Impl , requestItems : "+requestItems);
+
+            if(requestItems.getLargeCategoryId().equals("001"))
+                outerTemp = requestItems;
+            else if(requestItems.getLargeCategoryId().equals("002"))
+                topTemp = requestItems;
+            else if(requestItems.getLargeCategoryId().equals("003"))
+                bottomTemp = requestItems;
+            else itemTemp = requestItems;
 
         }
+
+        PythonRequestClothesList pythonRequestClothesLists = PythonRequestClothesList.builder()
+                .outer(outerTemp)
+                .top(topTemp)
+                .bottom(bottomTemp)
+                .item(itemTemp)
+                .weatherInfo(aiCheckOutfitClientRequestDto.getWeatherInfo())
+                .build();
+
+        System.out.println(pythonRequestClothesLists);
+
+        // 파이썬 서버로 전달
+        RestTemplate restTemplate = new RestTemplate();
 
 
 

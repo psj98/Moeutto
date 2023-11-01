@@ -321,6 +321,11 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
             "ON minmax.id = l.id", nativeQuery = true)
     List<IClothesAnalysisAmount> findByMinMaxMember(UUID memberId);
 
+    /**
+     * 옷 번호로 옷을 찾아 Clothes 형태로 리턴
+     * @param clothesId
+     * @return Clothes
+     */
     @Query(value = "SELECT * FROM clothes WHERE id = ?1", nativeQuery = true)
     Clothes findByClothesId(int clothesId);
 }
