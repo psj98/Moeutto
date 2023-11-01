@@ -2,6 +2,7 @@ package com.ssafy.moeutto.domain.aiCheckOutfit.entity;
 
 import com.ssafy.moeutto.domain.clothes.entity.Clothes;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
@@ -14,17 +15,29 @@ import javax.persistence.*;
 @DynamicInsert
 public class ClothesInAiCheckOutfit {
 
-    // 외래키가 복합키이며 PK 인 테이블 구성
-    // 쭈니쭈니한테 채찍맞으면서 배워봐야할듯
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "clothes_id")
     private Clothes clothes;
 
-    @Id
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "ai_check_outfit_id")
     private AiCheckOutfit aiCheckOutfit;
 
+    private String result;
+
+    private Integer fitnessNum;
+
+    @Builder(toBuilder = true)
+    public ClothesInAiCheckOutfit(Integer id, Clothes clothes, AiCheckOutfit aiCheckOutfit, String result, Integer fitnessNum){
+        this.id = id;
+        this.clothes = clothes;
+        this.aiCheckOutfit = aiCheckOutfit;
+        this.result = result;
+        this.fitnessNum = fitnessNum;
+    }
 }
