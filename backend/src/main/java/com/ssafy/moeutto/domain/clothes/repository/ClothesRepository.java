@@ -331,8 +331,8 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
             "WHERE recent_date >= NOW() - INTERVAL 3 MONTH AND recent_date <= NOW() AND frequency > 0 ANd member_id = ?1", nativeQuery = true)
     Long findRecentDateForNMonthByMemberId(UUID memberId);
 
-    @Query(value = "SELECT SUBSTRING(c.middle_category_id, 1, 3) as largeCategoryId, (SELECT COUNT(*) from clothes c WHERE c.member_id = ?1) as totalAmount, " +
-            "(SELECT count(*) FROM clothes WHERE recent_date >= NOW() - INTERVAL 3 MONTH AND recent_date <= NOW() AND frequency > 0 AND member_id = ?1 ) as usedAmount " +
+    @Query(value = "SELECT SUBSTRING(c.middle_category_id, 1, 3) as largeCategoryId, count(*) as totalAmount, " +
+            "SUM(CASE WHEN c.recent_date >= NOW() - INTERVAL 3 MONTH AND c.recent_date <= NOW() AND c.frequency > 0 THEN 1 ELSE 0 END) as usedAmount " +
             "FROM clothes c " +
             "WHERE c.member_id = ?1 " +
             "GROUP BY SUBSTRING(c.middle_category_id, 1, 3) " +
