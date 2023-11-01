@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 @DynamicInsert
 public class ClothesInAiCheckOutfit {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

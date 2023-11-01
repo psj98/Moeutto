@@ -11,6 +11,8 @@ import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitPythonRe
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.ClientResponseClothesResult;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.PythonResponseClothesResult;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitPythonResponseClothesResult;
+import com.ssafy.moeutto.domain.aiCheckOutfit.entity.AiCheckOutfit;
+import com.ssafy.moeutto.domain.aiCheckOutfit.entity.ClothesInAiCheckOutfit;
 import com.ssafy.moeutto.domain.aiCheckOutfit.repository.AiCheckOutfitRepository;
 import com.ssafy.moeutto.domain.aiCheckOutfit.repository.ClothesInAiCheckOutfitRepsitory;
 import com.ssafy.moeutto.domain.clothes.entity.Clothes;
@@ -103,6 +105,10 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService{
 
         System.out.println(pythonRequestClothesLists);
 
+        /**
+         * 여기 아래부턴 테스트 필요
+         */
+        
         // 파이썬 서버로 전달
         RestTemplate restTemplate = new RestTemplate();
 
@@ -124,6 +130,8 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService{
         // Client로 Response보낼 Dto 준비
         List<ClientResponseClothesResult> clientClothesResult = null;
         List<PythonResponseClothesResult> pythonClothesResult = aiCheckOutfitPythonResponseDto.getClothesResult();
+            // clothes_ai_check_outfit 테이블을 위해서 선언
+        List<Integer> clothesIds = null;
 
         for(PythonResponseClothesResult pythonClothes : pythonClothesResult){
 
@@ -141,21 +149,56 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService{
                     .build();
 
             System.out.println("AICheckOutfitServiceImpl tempClientClothes : "+tempClientClothes);
-            
+
+            clothesIds.add(pythonClothes.getClothesId());
             clientClothesResult.add(tempClientClothes);
         }
 
-        // DB에 저장할 데이터 ( ai_check_outfit , clothes_in_ai_check_outfit 테이블 )
-
-        
-        
-        // Client에게 보낼 Response
+        // DB에 저장할 데이터 ( ai_check_outfit , clothes_in_ai_check_outfit 테이블 ) 준비 및 save
         DateTime now = DateTime.now();
 
         System.out.println("DateTime now() : "+now);
 
+        /**
+         * 이거 맞는건지 모르겠음.
+         * AiCheckOutfit이랑 ClothesAiCheckOutfit entity에 조인 컬럼 되어있다고 다른 타입을 엔티티로 넣어줘도 되나?
+         * 테스트 후에 안되거나 비효율 적이라 생각하면 바꿔야함
+         */
+        // ai_check_outfit 테이블에 저장
+        Member member = memberRepository.findMemberById(memberId);
+        
+        AiCheckOutfit aiCheckOutfit = AiCheckOutfit.builder()
+                .member(member)
+                .regDate(now)
+                .build();
+
+        System.out.println("ai_check_outfit 테이블에 저장할 데이터 : "+ aiCheckOutfit);
+
+            // 저장과 동시에 id 가져오기
+        int ai_check_outfit_id = aiCheckOutfitRepository.save(aiCheckOutfit).getId();
+            // clothes_in_ai_check_outfit entity에 넣어주기 위해 다시 불러옴
+        AiCheckOutfit recallAiCheckOutfit = aiCheckOutfitRepository.findAiCheckOutfitById(ai_check_outfit_id);
+
+        // clothes_in_ai_check_outfit 테이블에 저장 ( 리스트라서 저장 방법 다르게 )
+        // 136 line 과 같이 쓸 방법 모색해보자 너무 비효율적, 지금 코드도 꼬였음
+        for(int clothesId : clothesIds){
+
+            Clothes recallClothes = clothesRepository.findByClothesId(clothesId);
+
+            ClothesInAiCheckOutfit clothesInAiCheckOutfit = ClothesInAiCheckOutfit.builder()
+                    .clothes(recallClothes)
+                    .aiCheckOutfit(recallAiCheckOutfit)
+                    .result()
+                    .fitnessNum()
+                    .build();
+
+
+        }
+
+
+        // Client에게 보낼 Response
         AICheckOutfitClientResponseDto aiCheckOutfitClientResponseDto = AICheckOutfitClientResponseDto.builder()
-                .id(1) // 임시, 착장 저장 후 찾아서 반환해야함
+                .id(1) // 임시, ai_check_outfit 저장 후 착장 id 찾아서 반환해야함
                 .regDate(now)
                 .clothesResult(clientClothesResult)
                 .clothesFeature(aiCheckOutfitPythonResponseDto.getClothesFeature())
