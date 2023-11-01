@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, SetStateAction, Dispatch } from 'react';
 import styled from 'styled-components';
 import PictureInput from '../molecules/PictureInput';
 import CategoryInput from '../molecules/CategoryInput';
@@ -10,6 +10,11 @@ import NameInput from '../molecules/NameInput';
 import PriceInput from '../molecules/PriceInput';
 import BrandInput from '../molecules/BrandInput';
 import SubmitButton from '../molecules/SubmitButton';
+import { ClothInfoType } from '../../../pages/AddClothPage';
+
+interface Props {
+  setStateValue: Dispatch<SetStateAction<FormData>>;
+}
 
 const FormContainer = styled.div`
   width: 100%;
@@ -30,15 +35,15 @@ const Form = styled.div`
   }
 `;
 
-const AddClothFormOrganism = () => {
-  // const [clothPic, setClothPic] = useState<File | string | null>(null);
-  const [clothCategory, setClothCategory] = useState<number | string>(''); // String
+const AddClothFormOrganism = ({ setStateValue }: Props) => {
+  const [clothPic, setClothPic] = useState<File | null>(null);
+  const [clothCategory, setClothCategory] = useState<string>(''); // String
   const [clothSeason, setClothSeason] = useState<string>(''); // ex) string: 가을겨울옷이라면 0011
   const [clothThickness, setClothThickness] = useState<number | null>(); // ex) int: 얇음 , 중간 , 두꺼움
   const [clothTextile, setClothTextile] = useState<string | null>(''); // string
   const [clothColor, setClothColor] = useState<string>('');
   const [clothName, setClothName] = useState<string | null>(''); // string
-  const [clothPrice, setClothPrice] = useState<number | string | null>(); // int : null 허용
+  const [clothPrice, setClothPrice] = useState<number | null>(0); // int : null 허용
   const [clothBrand, setClothBrand] = useState<string>(''); // string
 
   // 옷 카테고리 입력 받는 함수
@@ -61,7 +66,7 @@ const AddClothFormOrganism = () => {
   // 옷 가격 입력 받는 함수
   const handleClothPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value) {
-      setClothPrice(e.target.value);
+      setClothPrice(Number(e.target.value));
     } else {
       setClothPrice(0);
     }
@@ -76,14 +81,51 @@ const AddClothFormOrganism = () => {
     }
   };
 
-  const handleSubmitOrganism = () => {
-    console.log('제출');
+  /* {"middleCategoryId": "001002",
+"name": "검은색 코트",
+"season": "0011",
+"color": "000000",
+"thickness": 3,
+"price": 250000,
+"shop": "무신사",
+"textile": "울"}*/
+
+  const handleSubmit = () => {
+    const data: ClothInfoType = {
+      middleCategoryId: clothCategory,
+      name: clothName,
+      season: clothSeason,
+      color: clothColor,
+      thickness: clothThickness,
+      price: clothPrice,
+      shop: clothBrand,
+      textile: clothTextile,
+    };
+    // FormData 에 넣기
+    /* eslint-disable prefer-const */
+    let formData: FormData = new FormData();
+
+    // file은 multipart/form-data
+    formData.append('file', clothPic as File);
+
+    // const dataString = JSON.stringify(data); // to append to the FormData object are either of type string or Blob.
+    // clothesRegistRequestDto는 application/json
+    // formData.append('clothesRegistRequestDto', dataString);
+
+    formData.append('clothesRegistRequestDto', new Blob([JSON.stringify(data)], { type: 'application/json' }));
+
+    /* 위 코드에서 formData에 파일('file')과 JSON 데이터
+    ('clothesRegistRequestDto')를 추가했고, FormData는 자동으로 multipart/
+    form-data Content-Type을 갖게 됩니다. 따라서 별도의 Content-Type 설정은 
+    필요하지 않습니다. */
+
+    setStateValue(formData);
   };
 
   return (
     <FormContainer>
       <Form>
-        <PictureInput />
+        <PictureInput setStateValue={setClothPic} />
         <div className="text-WebBody2 text-center mt-[28px]">옷의 정보</div>
         <CategoryInput onChange={handleClothCategory} />
         카테고리 {clothCategory}
@@ -101,7 +143,7 @@ const AddClothFormOrganism = () => {
         cloth price: {clothPrice}
         <BrandInput onChange={handleClothBrand} value={clothBrand} />
         cloth Brand: {clothBrand}
-        <SubmitButton onChange={handleSubmitOrganism} />
+        <SubmitButton onChange={handleSubmit} />
       </Form>
     </FormContainer>
   );
