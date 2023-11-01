@@ -7,7 +7,11 @@ interface ColorReportProps {
 }
 
 const ClosetReportOrganisms = ({ owner, colorProps }: ColorReportProps) => {
-  return <ColorAnalysisSection owner={'당신'} colorProps={colorProps} />;
+  return (
+    <div>
+      <ColorAnalysisSection owner={owner} colorProps={colorProps} />
+    </div>
+  );
 };
 
 export default ClosetReportOrganisms;

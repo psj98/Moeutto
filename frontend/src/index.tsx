@@ -18,7 +18,9 @@ import MainPage from './pages/MainPage';
 import AnalysisPage from './pages/AnalysisPage';
 import PickPickPage from './pages/PickPickPage';
 import ClothesDetailPage from './pages/ClothesDetailPage';
+
 import MyClosetReport from './pages/MyClosetReportPage';
+import ReportColorPage from './pages/ReportColorPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 const persistor = persistStore(store);
@@ -45,6 +47,7 @@ root.render(
                 <Route path="/mycloset/detail/:id" element={<ClothesDetailPage />} /> // 라우팅 매칭 다시 해야됨 *
                 사용하기?
                 <Route path="/mycloset/report" element={<MyClosetReport />} />
+                <Route path="/mycloset/report/color" element={<ReportColorPage />} />
               </Route>
             </Routes>
           </BrowserRouter>
