@@ -8,17 +8,20 @@ import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.PythonRequestClothesLi
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.PythonRequestClothesListItems;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitClientResponseDto;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitPythonResponseDto;
+import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.ClientResponseClothesResult;
+import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.PythonResponseClothesResult;
+import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitPythonResponseClothesResult;
 import com.ssafy.moeutto.domain.aiCheckOutfit.repository.AICheckOutfitRepository;
 import com.ssafy.moeutto.domain.clothes.entity.Clothes;
 import com.ssafy.moeutto.domain.clothes.repository.ClothesRepository;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
 import com.ssafy.moeutto.domain.member.entity.Member;
-import com.ssafy.moeutto.domain.member.jwt.JwtTokenProvider;
 import com.ssafy.moeutto.domain.member.repository.MemberRepository;
 import com.ssafy.moeutto.global.response.BaseException;
 import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -116,9 +119,48 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService{
             throw new BaseException(BaseResponseStatus.JSON_PARSE_ERROR);
         }
 
-        // Client로 Response보낼 Dto
+        // Client로 Response보낼 Dto 준비
+        List<ClientResponseClothesResult> clientClothesResult = null;
+        List<PythonResponseClothesResult> pythonClothesResult = aiCheckOutfitPythonResponseDto.getClothesResult();
 
+        for(PythonResponseClothesResult pythonClothes : pythonClothesResult){
 
-        return null;
+            AICheckOutfitPythonResponseClothesResult tempClothesResult =
+                    clothesRepository.findIdAndImageUrlAndLargeCategoryIdByClothesId(pythonClothes.getClothesId());
+
+            System.out.println("AICheckOutfitServiceImpl tempClothesResult : "+tempClothesResult);
+
+            ClientResponseClothesResult tempClientClothes = ClientResponseClothesResult.builder()
+                    .clothesId(pythonClothes.getClothesId())
+                    .largeCategoryId(tempClothesResult.getLargeCategoryId())
+                    .imageUrl(tempClothesResult.getImageUrl())
+                    .result(pythonClothes.getResult())
+                    .fitnessNum(pythonClothes.getFitnessNum())
+                    .build();
+
+            System.out.println("AICheckOutfitServiceImpl tempClientClothes : "+tempClientClothes);
+            
+            clientClothesResult.add(tempClientClothes);
+        }
+
+        // DB에 저장할 데이터
+        
+        
+        // Client에게 보낼 Response
+        DateTime now = DateTime.now();
+
+        System.out.println("DateTime now() : "+now);
+
+        AICheckOutfitClientResponseDto aiCheckOutfitClientResponseDto = AICheckOutfitClientResponseDto.builder()
+                .id(1) // 임시, 착장 저장 후 찾아서 반환해야함
+                .regDate(now)
+                .clothesResult(clientClothesResult)
+                .clothesFeature(aiCheckOutfitPythonResponseDto.getClothesFeature())
+                .weatherInfo(aiCheckOutfitPythonResponseDto.getWeatherInfo())
+                .build();
+
+        System.out.println("AICheckOutfitServiceImpl aiCheckOutfitClientResponseDto : "+aiCheckOutfitClientResponseDto);
+
+        return aiCheckOutfitClientResponseDto;
     }
 }
