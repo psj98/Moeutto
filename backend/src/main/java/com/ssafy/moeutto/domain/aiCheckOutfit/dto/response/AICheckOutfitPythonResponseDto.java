@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -12,12 +11,12 @@ import java.util.List;
 public class AICheckOutfitPythonResponseDto {
 
     List<PythonResponseClothesResult> clothesResult;
-    PythonResponseClothesFeature clothesFeature;
-    PythonResponseWeatherInfo weatherInfo;
+    ResponseClothesFeature clothesFeature;
+    ResponseWeatherInfo weatherInfo;
 
     @Builder(toBuilder = true)
-    public AICheckOutfitPythonResponseDto(List<PythonResponseClothesResult> clothesResult, PythonResponseClothesFeature clothesFeature,
-                                          PythonResponseWeatherInfo weatherInfo){
+    public AICheckOutfitPythonResponseDto(List<PythonResponseClothesResult> clothesResult, ResponseClothesFeature clothesFeature,
+                                          ResponseWeatherInfo weatherInfo){
         this.clothesResult = clothesResult;
         this.clothesFeature = clothesFeature;
         this.weatherInfo = weatherInfo;

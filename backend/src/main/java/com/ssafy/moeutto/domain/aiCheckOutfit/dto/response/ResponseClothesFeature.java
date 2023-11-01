@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class PythonResponseClothesFeature {
+public class ResponseClothesFeature {
 
     int temperature; // 따뜻한 정도 ( 낮을수록 시원 )
     int darkness; // 색상 밝기 정도 ( 낮을수록 밝음 )
@@ -14,7 +14,7 @@ public class PythonResponseClothesFeature {
     int seasonY; // 게절 정보 y좌표 (봄, 가을)
 
     @Builder(toBuilder = true)
-    public PythonResponseClothesFeature(int temperature, int darkness, int seasonX, int seasonY){
+    public ResponseClothesFeature(int temperature, int darkness, int seasonX, int seasonY){
         this.temperature = temperature;
         this.darkness = darkness;
         this.seasonX = seasonX;
