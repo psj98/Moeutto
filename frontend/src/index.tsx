@@ -18,6 +18,7 @@ import MainPage from './pages/MainPage';
 import AnalysisPage from './pages/AnalysisPage';
 import PickPickPage from './pages/PickPickPage';
 import ClothesDetailPage from './pages/ClothesDetailPage';
+import MyClosetListPage from './pages/MyClosetListPage';
 
 import MyClosetReport from './pages/MyClosetReportPage';
 import ReportColorPage from './pages/ReportColorPage';
@@ -29,19 +30,18 @@ const queryClient = new QueryClient();
 root.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <React.StrictMode>
-        <QueryClientProvider client={queryClient}>
-          <BrowserRouter>
-            <Routes>
-              {' '}
-              // v6부터 Switch가 Routes로 변경되었음
-              <Route element={<App />}>
-                <Route path="/" element={<Work />} />
-                <Route path="/main" element={<MainPage />} />
-                <Route path="/pickpick" element={<PickPickPage />} />
-                <Route path="/mycloset/*" element={<MyCloset />} /> // 여러 라우팅을 매칭하고 싶은 경우 *가 필요합니다
-                <Route path="/analysis" element={<AnalysisPage />} />
-                {/* <Route path="/notmycloset" element={<NotMyCloset />} />
+    <React.StrictMode>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Routes> // v6부터 Switch가 Routes로 변경되었음
+            <Route element={<App />}>
+              <Route path="/" element={<Work />}/>
+              <Route path="/main" element={<MainPage />}/>
+              <Route path="/pickpick" element={<PickPickPage />} />
+              <Route path="/mycloset/*" element={<MyCloset />} /> // 여러 라우팅을 매칭하고 싶은 경우 *가 필요합니다
+              <Route path="/mycloset/list" element={<MyClosetListPage />} />
+              <Route path="/analysis" element={<AnalysisPage />} />
+              {/* <Route path="/notmycloset" element={<NotMyCloset />} />
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/mypage" element={<Mypage />} />  */}
                 <Route path="/mycloset/detail/:id" element={<ClothesDetailPage />} /> // 라우팅 매칭 다시 해야됨 *

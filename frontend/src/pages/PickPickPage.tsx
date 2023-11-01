@@ -76,130 +76,9 @@ const PickPickPage = () => {
             "image": "/images/clothes1.png", // 이미지
             "regDate": "DateTime", // 등록 날짜
         },
-        {
-            "id": 4, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
     ]
-    // let clothesData: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-    // const accessToken: string = window.sessionStorage.getItem("accessToken");
+    // let clothesData: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
     // const fetchData = async () => {
     //     // 데이터 가져오기
@@ -208,7 +87,7 @@ const PickPickPage = () => {
     //     const orderBy: number = 0; // 0: 오름차순, 1: 내림차순
 
     //     try {
-    //         const axiosInstance = axiosWithAuth(accessToken);
+    //         const axiosInstance = axiosWithAuth();
     //         const response = await axiosInstance.get('/api/clothes/list', {
     //             params: {
     //                 categoryId,
