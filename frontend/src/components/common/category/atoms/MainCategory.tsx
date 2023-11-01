@@ -29,7 +29,11 @@ const MainCategory: React.FC<PropsType> = ({ selectedOption, setSelectedOption }
   const categories = ['전체', '상의', '하의', '아우터'];
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedOption(e.target.id);
+    if (e.target.id === '전체') {
+      setSelectedOption("000000")
+    } else {
+      setSelectedOption(e.target.id);
+    }
   };
 
   return (
