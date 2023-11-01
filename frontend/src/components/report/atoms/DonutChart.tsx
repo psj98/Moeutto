@@ -42,9 +42,20 @@ export function DonutChart({ colorAmountArray }: DonutChartProps) {
   };
 
   return (
-    <>
-      <Doughnut data={data} />
-    </>
+    <div className="flex justify-evenly w-[100%] h-[300px] mb-6">
+      <div className="w-[50%]">
+        <Doughnut data={data} />
+      </div>
+      <div className="rounded-[30px] my-auto p-4 bg-gray-dark flex flex-col justify-center w-[30%] h-[100%] text-center">
+        <div className="text-WebBody2 mb-5">가장 좋아하는 색은?</div>
+
+        {labels.map((item, index) => (
+          <div style={{ color: backgroundArray[index] }} className="block w-[100%]">
+            {item} {amount[index]}벌
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
