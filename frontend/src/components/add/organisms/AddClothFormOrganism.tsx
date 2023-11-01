@@ -10,9 +10,6 @@ import NameInput from '../molecules/NameInput';
 import PriceInput from '../molecules/PriceInput';
 import BrandInput from '../molecules/BrandInput';
 import SubmitButton from '../molecules/SubmitButton';
-// interface InputProps {
-//   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-// }
 
 const FormContainer = styled.div`
   width: 100%;
@@ -23,7 +20,6 @@ const FormContainer = styled.div`
 const Form = styled.div`
   width: 80%;
   max-width: 500px;
-  // background-color: #c434;
   input,
   select {
     min-height: 50px;
@@ -41,13 +37,14 @@ const AddClothForm = () => {
   const [clothThickness, setClothThickness] = useState<number | null>(); // ex) int: 얇음 , 중간 , 두꺼움
   const [clothTextile, setClothTextile] = useState<string | null>(''); // string
   const [clothColor, setClothColor] = useState<string>('');
-  const [clothName, setClothName] = useState<string>(''); // string
+  const [clothName, setClothName] = useState<string | null>(''); // string
   const [clothPrice, setClothPrice] = useState<number | string | null>(); // int : null 허용
   const [clothBrand, setClothBrand] = useState<string>(''); // string
+
   // 옷 카테고리 입력 받는 함수
   const handleClothCategory = (e: ChangeEvent<HTMLSelectElement>) => {
     if (e.target.value) {
-      setClothCategory(e.target.value as any);
+      setClothCategory(e.target.value);
     }
   };
 
@@ -55,6 +52,9 @@ const AddClothForm = () => {
   const handleClothNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value) {
       setClothName(e.target.value);
+    } else {
+      // 입력 값을 지울 때 맨 앞 한글자가 안 없어지는 에러 해결
+      setClothName('');
     }
   };
 
@@ -62,6 +62,8 @@ const AddClothForm = () => {
   const handleClothPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value) {
       setClothPrice(e.target.value);
+    } else {
+      setClothPrice(0);
     }
   };
 
@@ -69,6 +71,8 @@ const AddClothForm = () => {
   const handleClothBrand = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value) {
       setClothBrand(e.target.value);
+    } else {
+      setClothBrand('');
     }
   };
 
