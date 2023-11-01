@@ -156,16 +156,15 @@ const PickPickPage = () => {
     // }
 
 
-    // 제출하기 api 필요
+    // 제출하기 버튼 동작 시 -> 리덕스에 선택한 옷 정보 저장 후 분석 페이지로 이동
     const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = (event) => {
         // 기본 동작 방지
         event.preventDefault();
-        // request에 담을 데이터
+        // redux에 저장할 데이터
         const requestData = {
             selectedClosetIds
         }
 
-        console.log('제출 함수 실행 성공', requestData);
         if (requestData) {
             navigate('/analysis');
         }

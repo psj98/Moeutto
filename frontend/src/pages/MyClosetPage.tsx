@@ -4,6 +4,7 @@ import { authInstance } from "../api/api";
 import { ClothesItem } from "./PickPickPage";
 import SelectedCategory from "../components/common/category/molecules/SelectedCategory";
 import ClothesItemComponent from "../components/clothes/atoms/ClothesItem";
+import MyClosetBar from "../components/common/MyClosetBar";
 
 const MyClosetPage = () => {
     // 카테고리
@@ -109,6 +110,8 @@ const MyClosetPage = () => {
 
     return (
         <>
+            <div className="font-bold text-WebBody1">나의 옷장</div>
+            <MyClosetBar state={1} />
             <SelectedCategory 
                 selectedOptionMain={selectedOptionMain}
                 setSelectedOptionMain={setSelectedOptionMain}
