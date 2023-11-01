@@ -18,7 +18,7 @@ import MainPage from './pages/MainPage';
 import AnalysisPage from './pages/AnalysisPage';
 import PickPickPage from './pages/PickPickPage';
 import ClothesDetailPage from './pages/ClothesDetailPage';
-import MyClosetListPage from './pages/MyClosetListPage';
+import MyClosetPage from './pages/MyClosetPage';
 
 import MyClosetReport from './pages/MyClosetReportPage';
 import ReportColorPage from './pages/ReportColorPage';
@@ -43,7 +43,7 @@ root.render(
                 <Route path="/pickpick" element={<PickPickPage />} />
                 <Route path="/mycloset/*" element={<AddClothPage />} /> // 여러 라우팅을 매칭하고 싶은 경우 *가
                 필요합니다
-                <Route path="/mycloset/list" element={<MyClosetListPage />} />
+                <Route path="/mycloset" element={<MyClosetPage />} />
                 <Route path="/analysis" element={<AnalysisPage />} />
                 {/* <Route path="/notmycloset" element={<NotMyCloset />} />
               <Route path="/calendar" element={<Calendar />} />
