@@ -25,7 +25,7 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId }) => 
                 src={imgUrl} 
                 id={clothesId}
                 alt="옷" 
-                className={`w-[13vw] border border-gray rounded-3xl ${isSelected ? 'bg-gray-300' : ''}`}
+                className={`w-[13vw] h-[13vw] border border-gray rounded-3xl ${isSelected ? 'bg-gray-300 border-pink-hot' : ''}`}
                 onClick={handleClick}
             />
         </>

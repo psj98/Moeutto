@@ -22,7 +22,7 @@ const MyClosetListPage = () => {
             "color": "String", // 색상
             "frequency": 0, // 빈도
             "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
+            "imageUrl": "/images/clothes1.png", // 이미지
             "regDate": "DateTime", // 등록 날짜
         },
         {
@@ -32,7 +32,7 @@ const MyClosetListPage = () => {
             "color": "String", // 색상
             "frequency": 0, // 빈도
             "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
+            "imageUrl": "/images/clothes1.png", // 이미지
             "regDate": "DateTime", // 등록 날짜
         },
         {
@@ -42,7 +42,7 @@ const MyClosetListPage = () => {
             "color": "String", // 색상
             "frequency": 0, // 빈도
             "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
+            "imageUrl": "/images/clothes1.png", // 이미지
             "regDate": "DateTime", // 등록 날짜
         },
     ]
@@ -59,7 +59,7 @@ const MyClosetListPage = () => {
             />
             <div className="flex flex-wrap gap-3.5 mt-4">
                 {clothesData.map((item, index) => (
-                    <ClothesItemComponent imgUrl={item.image} clothesId={item.id.toString()} />
+                    <ClothesItemComponent imgUrl={item.imageUrl} clothesId={item.id.toString()} />
                 ))}
             </div>
             
