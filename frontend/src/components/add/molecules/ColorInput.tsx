@@ -12,7 +12,7 @@ interface AddClothFormProps {
   onChange: (value: SetStateAction<string>) => void;
 }
 
-const colorList: Color[] = [
+export const colorList: Color[] = [
   { name: '빨강', background: '#FFA7A7' },
   { name: '주황', background: '#FFA7A7' },
   { name: '노랑', background: '#FDFF9E' },
@@ -26,6 +26,7 @@ const colorList: Color[] = [
   { name: '회색', background: '#E2E2E2' },
   { name: '혼합', background: 'linear-gradient(180deg, #F19494 0%, #FFFCBC 51.56%, #22D7FF 86.98%, #DF18FF 100%)' },
 ];
+
 const ColorInput = ({ onChange }: AddClothFormProps) => {
   return (
     <>
