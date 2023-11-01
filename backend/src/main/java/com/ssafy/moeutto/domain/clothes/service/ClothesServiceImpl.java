@@ -538,5 +538,29 @@ public class ClothesServiceImpl implements ClothesService {
 
         return clothesAnalysisMinMaxResponseDto;
     }
+
+    @Override
+    public ClothesAnalysisAvailabilityResponseDto getAnalysisUseClothes(UUID memberId) throws BaseException {
+
+        //사용자 체크
+        memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+
+        //사용자 옷 개수
+        Long totalAmount = clothesRepository.countByMemberId(memberId);
+
+        // 최근 N 개월 내 한번이라도 입은 옷 찾기. 일단 임의의 값은 3일로 했음. 만약 ~월부터 ~월까지로 한다면 쿼리문 다시 짜야함.
+        Long usedAmount = clothesRepository.findRecentDateForNMonthByMemberId(memberId);
+
+        List<IMyAnalysisAmount> amountList = clothesRepository.findMyAnalysisAmountByMemberId(memberId);
+        
+        ClothesAnalysisAvailabilityResponseDto responseDto = ClothesAnalysisAvailabilityResponseDto.builder()
+                .totalAmount(totalAmount)
+                .usedAmount(usedAmount)
+                .analysisAmountList(amountList)
+                .build();
+
+
+        return responseDto;
+    }
 }
 
