@@ -29,9 +29,9 @@ public class AiCheckOutfit {
     private DateTime regDate;
 
     @Builder(toBuilder = true)
-    public AiCheckOutfit(Integer id, Member memeber, DateTime regDate) {
+    public AiCheckOutfit(Integer id, Member member, DateTime regDate) {
         this.id = id;
-        this.member = memeber;
+        this.member = member;
         this.regDate = regDate;
     }
 }

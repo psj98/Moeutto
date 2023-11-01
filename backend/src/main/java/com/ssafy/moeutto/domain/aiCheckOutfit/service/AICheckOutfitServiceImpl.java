@@ -11,7 +11,8 @@ import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitPythonRe
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.ClientResponseClothesResult;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.PythonResponseClothesResult;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitPythonResponseClothesResult;
-import com.ssafy.moeutto.domain.aiCheckOutfit.repository.AICheckOutfitRepository;
+import com.ssafy.moeutto.domain.aiCheckOutfit.repository.AiCheckOutfitRepository;
+import com.ssafy.moeutto.domain.aiCheckOutfit.repository.ClothesInAiCheckOutfitRepsitory;
 import com.ssafy.moeutto.domain.clothes.entity.Clothes;
 import com.ssafy.moeutto.domain.clothes.repository.ClothesRepository;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
@@ -35,7 +36,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AICheckOutfitServiceImpl implements AICheckOutfitService{
 
-    private final AICheckOutfitRepository aiCheckOutfitRepository;
+    private final AiCheckOutfitRepository aiCheckOutfitRepository;
+    private final ClothesInAiCheckOutfitRepsitory clothesInAiCheckOutfitRepsitory;
     private final ClothesRepository clothesRepository;
     private final AuthTokensGenerator authTokensGenerator;
     private final MemberRepository memberRepository;
@@ -143,7 +145,8 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService{
             clientClothesResult.add(tempClientClothes);
         }
 
-        // DB에 저장할 데이터
+        // DB에 저장할 데이터 ( ai_check_outfit , clothes_in_ai_check_outfit 테이블 )
+
         
         
         // Client에게 보낼 Response

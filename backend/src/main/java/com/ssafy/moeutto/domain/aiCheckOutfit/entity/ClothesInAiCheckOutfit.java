@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -28,8 +29,10 @@ public class ClothesInAiCheckOutfit {
     @JoinColumn(name = "ai_check_outfit_id")
     private AiCheckOutfit aiCheckOutfit;
 
+    @NotNull
     private String result;
 
+    @NotNull
     private Integer fitnessNum;
 
     @Builder(toBuilder = true)
