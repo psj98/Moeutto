@@ -5,24 +5,6 @@ import ColorPalette from '../../common/ColorPalette';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-/*
-{
-	"myAnalysisColor": [ // 내 옷장 분석
-		{
-			"color": String, // 색상
-			"amount": int, // 개수
-		}, ...
-	],
-	"userAnalysisColor": [ // 모든 사용자 평균 옷장 분석
-		{
-			"color": String, // 색상
-			"amount": int, // 개수
-		}, ...
-	],
-}
-
- */
-
 export interface ColorAmountProp {
   color: string;
   amount: number;
@@ -37,19 +19,16 @@ export function DonutChart({ colorAmountArray }: DonutChartProps) {
 
   const amount: number[] = colorAmountArray.map(row => row.amount);
 
-  // let backgroundColor: string[];
-  const backgroundColor: string[] = colorAmountArray.map(row => row.color);
+  // labels에 존재하는 컬러를 기준으로 backgroundArray를 동적으로 생성해야 합니다
+  const backgroundArray = labels.map(row => {
+    // labels = [ 'red', 'blue' ]
+    const color = row; // "red", "blue"
+    const record = ColorPalette.find(function (item, index, arr) {
+      return item.name === color; // return { name: 'red', kr: '빨강', background: '#FFA7A7' }
+    });
 
-  // function makeBackgroundColorArray() {
-  //   function isMatched(element: Array, color: string) {
-  //     if (element.name === color) {
-  //       return true;
-  //     }
-  //   }
-
-  //   backgroundColor = labels.map(color => ColorPalette.find(color);
-  // }
-  console.log(backgroundColor);
+    return record?.background; // '#FFA7A7'
+  });
 
   const data = {
     labels,
@@ -57,21 +36,16 @@ export function DonutChart({ colorAmountArray }: DonutChartProps) {
       {
         label: '#의 옷의 갯수',
         data: amount,
-        backgroundColor,
-        // borderColor: [
-        //   'rgba(255, 99, 132, 1)',
-        //   'rgba(54, 162, 235, 1)',
-        //   'rgba(255, 206, 86, 1)',
-        //   'rgba(75, 192, 192, 1)',
-        //   'rgba(153, 102, 255, 1)',
-        //   'rgba(255, 159, 64, 1)',
-        // ],
-        // borderWidth: 1,
+        backgroundColor: backgroundArray,
       },
     ],
   };
 
-  return <Doughnut data={data} />;
+  return (
+    <>
+      <Doughnut data={data} />
+    </>
+  );
 }
 
 export default DonutChart;
