@@ -330,6 +330,11 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
     @Query(value = "SELECT * FROM clothes WHERE id = ?1", nativeQuery = true)
     Clothes findByClothesId(int clothesId);
 
+    /**
+     * Python 서버에 착장 검사 요청 후 받은 Response에 옷의 largeCategoryId와 imageUrl을 추가해주기 위해
+     * @param clothesId
+     * @return AICheckOutfitPythonResponseClothesResult
+     */
     @Query(value="SELECT a.id, a.image_url, b.large_category_id" +
             "FROM clothes AS a LEFT JOIN middle_category AS b" +
             "ON a.middle_category_id = b.id" +
