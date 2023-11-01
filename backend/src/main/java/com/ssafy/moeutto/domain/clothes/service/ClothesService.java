@@ -88,7 +88,7 @@ public interface ClothesService {
      * @return ClothesUpdateResponseDto
      * @throws BaseException
      */
-    ClothesUpdateResponseDto updateClothes(ClothesUpdateRequestDto clothesUpdateRequestDto, UUID memberId) throws BaseException;
+    ClothesUpdateResponseDto updateClothes(ClothesUpdateRequestDto clothesUpdateRequestDto, UUID memberId, String token, MultipartFile file) throws BaseException;
 
     /**
      * 옷 정보를 해제합니다.
@@ -151,4 +151,11 @@ public interface ClothesService {
      * @throws BaseException
      */
     ClothesAnalysisMinMaxResponseDto analysisAmount(UUID memberId) throws BaseException;
+
+    /**
+     * 옷장의 사용도를 분석합니다.
+     * @param memberId
+     * @return
+     */
+    ClothesAnalysisAvailabilityResponseDto getAnalysisUseClothes(UUID memberId) throws BaseException;
 }
