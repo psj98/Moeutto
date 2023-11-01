@@ -1,9 +1,13 @@
 // input 컴포넌트와 프리뷰 컴포넌트가 합쳐져 이루어짐
-import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
+import React, { useState, useEffect, useRef, ChangeEvent, SetStateAction, Dispatch } from 'react';
 import styled from 'styled-components';
 import ImageInput from '../atoms/ImageInput';
 import PreviewImage from '../atoms/PreviewPicture';
 import StyledButton from '../atoms/Button';
+
+interface Props {
+  setStateValue: Dispatch<SetStateAction<File>>;
+}
 
 const Pic = styled.div`
   position: relative;
@@ -35,7 +39,7 @@ const Container = styled.div`
   }
 `;
 
-const PictureInput = () => {
+const PictureInput = ({ setStateValue }: Props) => {
   const [file, setFile] = useState<File | null>(null);
   // const [originFile, setOriginFile]= useState<File | null>(null); // 배경제거후 애니메이션을 위해 사용
   const [preview, setPreview] = useState<string | null>(null);
@@ -45,7 +49,6 @@ const PictureInput = () => {
     if (event.target.files[0]) {
       const selectedFile = event.target.files[0];
 
-      // console.log(event.target.files[0]);
       if (selectedFile && selectedFile.type.substring(0, 5)) {
         // 이미지 파일이면
         setFile(selectedFile);
@@ -71,6 +74,7 @@ const PictureInput = () => {
   };
 
   useEffect(() => {
+    // 파일이 제출되면 미리보기가 생성되어 인풋 칸에 이미지가 뜹니다
     if (file) {
       const reader = new FileReader();
 
@@ -82,6 +86,12 @@ const PictureInput = () => {
       setPreview(null);
     }
   }, [file]);
+
+  // 올가니즘에서 상태로 저장하기 위해 실행하는 코드
+  useEffect(() => {
+    setStateValue(file);
+  }, [file]);
+
   return (
     <>
       <Container>

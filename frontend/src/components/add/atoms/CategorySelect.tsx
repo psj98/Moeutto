@@ -2,6 +2,7 @@
 import React, { ChangeEvent } from 'react';
 import { BiSolidDownArrowCircle } from 'react-icons/bi';
 import styled from 'styled-components';
+import { middleCategory } from '../../common/CategoryType';
 
 interface CategoryProps {
   value?: number | string; // selected 된 아이템 식별 위해 필요함
@@ -36,30 +37,37 @@ const Select = styled.div`
 `;
 
 const CategorySelect = ({ id, value, onChange }: CategoryProps) => {
+  // 카테고리 셀렉트를 위한 중분류 카테고리 array 생성
+  const outerArray = middleCategory.filter(item => item.largeCategory.name === '아우터');
+  const topArray = middleCategory.filter(item => item.largeCategory.name === '상의');
+  const bottomArray = middleCategory.filter(item => item.largeCategory.name === '하의');
+  const itemArray = middleCategory.filter(item => item.largeCategory.name === '아이템');
+
   return (
     <Select>
       <select id={id} value={value} defaultValue="0" onChange={onChange}>
         <option value="0" disabled hidden>
-          기본값입니다.
+          카테고리를 선택하세요.
         </option>
+        <optgroup label="아우터">
+          {outerArray.map(item => (
+            <option value={item.id}>{item.name}</option>
+          ))}
+        </optgroup>
         <optgroup label="상의">
-          <option value="1">반팔</option>
-          <option value="2">긴팔</option>
-          <option value="3">민소매</option>
+          {topArray.map(item => (
+            <option value={item.id}>{item.name}</option>
+          ))}
         </optgroup>
         <optgroup label="하의">
-          <option className="option" value="4">
-            반바지
-          </option>
-          <option value="5">긴바지</option>
-          <option value="6">짧은치마</option>
-          <option value="7">긴치마</option>
+          {bottomArray.map(item => (
+            <option value={item.id}>{item.name}</option>
+          ))}
         </optgroup>
         <optgroup label="아이템">
-          <option value="4">반바지</option>
-          <option value="5">긴바지</option>
-          <option value="6">짧은치마</option>
-          <option value="7">긴치마</option>
+          {itemArray.map(item => (
+            <option value={item.id}>{item.name}</option>
+          ))}
         </optgroup>
       </select>
       <BiSolidDownArrowCircle className="arrow" />

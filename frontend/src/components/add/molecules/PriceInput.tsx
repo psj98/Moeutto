@@ -3,7 +3,7 @@ import Label from '../atoms/Label';
 import NumberInput from '../atoms/NumberInput';
 
 interface AddClothFormProps {
-  value?: string | number;
+  value?: number;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
