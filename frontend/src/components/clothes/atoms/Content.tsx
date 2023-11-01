@@ -1,4 +1,4 @@
-import { colorList } from "../../mycloset/add/molecules/ColorInput";
+import { colorList } from "../../add/molecules/ColorInput";
 import SeasonBtn from "./SeasonBtn";
 
 interface PropsType {

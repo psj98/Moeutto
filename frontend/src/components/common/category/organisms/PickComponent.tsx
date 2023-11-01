@@ -25,6 +25,7 @@ const PickComponent: React.FC<PropsType> = ({
     handleSubmit,
     clothesData
 }) => {
+    console.log('옷 데이터', clothesData)
     return (
         <>
             <TopComponent
@@ -37,9 +38,15 @@ const PickComponent: React.FC<PropsType> = ({
                 handleSubmit={handleSubmit}
              />
             <div className="flex flex-wrap gap-3.5 mt-4">
-                {clothesData.map((item, index) => (
-                    <SelectedClothesItem imgUrl={item.image} clothesId={item.id.toString()} />
-                ))}
+                {
+                    clothesData && clothesData.length > 0 ? (
+                        clothesData.map((item, index) => (
+                            <SelectedClothesItem imgUrl={item.imageUrl} clothesId={item.id.toString()} key={index} />
+                        ))
+                    ) : (
+                        <div>아무것도 없어요</div>
+                    )
+                }
             </div>
         </>
     )
