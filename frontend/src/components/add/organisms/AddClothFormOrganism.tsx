@@ -30,7 +30,7 @@ const Form = styled.div`
   }
 `;
 
-const AddClothForm = () => {
+const AddClothFormOrganism = () => {
   // const [clothPic, setClothPic] = useState<File | string | null>(null);
   const [clothCategory, setClothCategory] = useState<number | string>(''); // String
   const [clothSeason, setClothSeason] = useState<string>(''); // ex) string: 가을겨울옷이라면 0011
@@ -76,7 +76,7 @@ const AddClothForm = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmitOrganism = () => {
     console.log('제출');
   };
 
@@ -101,10 +101,10 @@ const AddClothForm = () => {
         cloth price: {clothPrice}
         <BrandInput onChange={handleClothBrand} value={clothBrand} />
         cloth Brand: {clothBrand}
-        <SubmitButton onChange={handleSubmit} />
+        <SubmitButton onChange={handleSubmitOrganism} />
       </Form>
     </FormContainer>
   );
 };
 
-export default AddClothForm;
+export default AddClothFormOrganism;

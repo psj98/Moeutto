@@ -1,8 +1,8 @@
 import React from 'react';
-import AddClothForm from '../organisms/AddClothForm';
+import AddClothFormOrganism from '../organisms/AddClothFormOrganism';
 
 const AddClothFormTemplate = () => {
-  return <AddClothForm />;
+  return <AddClothFormOrganism />;
 };
 
 export default AddClothFormTemplate;
