@@ -1,11 +1,12 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-// atomic 연습
+// atomic 연습 리팩토링 필요
 import ClothesDetailImg from "../components/clothes/atoms/ClothesDetailImg";
 import ClothesInfo from "../components/clothes/organisms/ClothesInfo";
 import ClothesBtn from "../components/clothes/molecules/ClothesBtn";
 import Comment from "../components/clothes/atoms/Comment";
+import { authInstance } from "../api/api";
 
 const ClothesDetailPage = () => {
     // 옷 id 가져오기
@@ -29,10 +30,49 @@ const ClothesDetailPage = () => {
             "recentDate": "20231020" // 최근 입은 날짜
         }
 
-    console.log(params.id);
 
-    // 즐겨찾기
-    const [star, setStar] = useState<boolean>(clothesDetailData.star);
+    // 옷 목록 조회
+    const [clothesData, setClothesData] = useState<any>();
+
+    const fetchData = async () => {
+
+        try {
+            // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
+            const axiosInstance = authInstance();
+            const response = await axiosInstance.get(`/clothes/${params.id}`);
+            
+            console.log('옷 상세 데이터 조회 성공', response.data.data);
+
+            if (response.data.data) {
+                setClothesData(response.data.data);
+            } else {
+                alert('이 옷 없는데?')
+            }
+
+            return response.data;
+        } catch (error) {
+            console.log('옷 상세 데이터 조회 실패', error);
+
+            throw new Error('옷 상세 데이터 조회 대 실패');
+        }
+    };
+
+    const [star, setStar] = useState<boolean>();
+
+    useEffect(() => {
+        fetchData();
+        console.log(clothesData)
+        console.log(clothesData.star)
+
+        // // 즐겨찾기
+        // if (clothesData.star && clothesData.star === 1) {
+        //     setStar(true)
+        // } else {
+        //     setStar(false)
+        // }
+    }, [])
+
+    
     // 두께
     let thickness: string = "";
 
