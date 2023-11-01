@@ -6,18 +6,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.GeneratorType;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
-public class AICheckOutfit {
+public class AiCheckOutfit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +29,7 @@ public class AICheckOutfit {
     private DateTime regDate;
 
     @Builder(toBuilder = true)
-    public AICheckOutfit(Integer id, Member memeber, DateTime regDate) {
+    public AiCheckOutfit(Integer id, Member memeber, DateTime regDate) {
         this.id = id;
         this.member = memeber;
         this.regDate = regDate;
