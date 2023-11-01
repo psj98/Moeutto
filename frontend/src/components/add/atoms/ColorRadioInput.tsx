@@ -1,11 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import styled from 'styled-components';
-
-interface Color {
-  name: string;
-  background: string;
-  number?: number;
-}
+import { Color } from '../../common/ColorPalette';
 
 interface ColorInputProps {
   option: Color;
@@ -48,7 +43,7 @@ const ColorRadioInput = ({ option, type, value, onChange }: ColorInputProps) => 
     <Check>
       <input type={type} id={option.name} name={value} value={value} onChange={onChange} />
       <label style={{ background: option.background }} htmlFor={option.name}></label>
-      <div>{option.name}</div>
+      <div>{option.kr}</div>
     </Check>
   );
 };

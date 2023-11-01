@@ -1,10 +1,10 @@
-interface Color {
+export interface Color {
   name: string;
   kr: string;
   background: string;
 }
 
-const ColorPalette: Color[] = [
+export const ColorPalette: Color[] = [
   { name: 'red', kr: '빨강', background: '#FFA7A7' },
   { name: 'orange', kr: '주황', background: '#FFA7A7' },
   { name: 'yellow', kr: '노랑', background: '#FDFF9E' },
