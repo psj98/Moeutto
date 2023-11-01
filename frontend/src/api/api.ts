@@ -1,5 +1,8 @@
 import axios, { AxiosInstance } from 'axios';
 
+const token: string = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhM2FiM2ExNS00M2I0LTQ4OTYtYjFlMi0wM2Q2YWJhNWM2NmMiLCJleHAiOjE2OTg4OTQ4NzJ9.M2lG-y8D3yWXpnjjGIik1qMq5H_7Xu4Nqn3-MXFmIWLdyC6ys8IOFZ1SG3Uka9i7st_TKFLNtaHqxK7e35LrzA";
+
+window.sessionStorage.setItem("accessToken", token);
 
 // 인증 값이 필요 없는 경우
 const axiosApi = () => {
@@ -20,7 +23,7 @@ const axiosWithAuth = (): AxiosInstance => {
   const accessToken: string = window.sessionStorage.getItem('accessToken');
 
   if (accessToken) {
-    headers.Authorization = `Bearer ${accessToken}`;
+    headers.accessToken = `${accessToken}`;
   }
 
   const instance: AxiosInstance = axios.create({
