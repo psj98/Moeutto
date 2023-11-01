@@ -1,10 +1,13 @@
 package com.ssafy.moeutto.domain.aiCheckOutfit.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.AICheckOutfitClientRequestDto;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.ClientRequestClothesListDto;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.PythonRequestClothesList;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.PythonRequestClothesListItems;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitClientResponseDto;
+import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitPythonResponseDto;
 import com.ssafy.moeutto.domain.aiCheckOutfit.repository.AICheckOutfitRepository;
 import com.ssafy.moeutto.domain.clothes.entity.Clothes;
 import com.ssafy.moeutto.domain.clothes.repository.ClothesRepository;
@@ -98,7 +101,22 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService{
         // 파이썬 서버로 전달
         RestTemplate restTemplate = new RestTemplate();
 
+        // 파이썬 서버로부터 반환된 데이터
+        String pythonResponse = restTemplate.postForObject(checkRequestUrl, pythonRequestClothesLists, String.class);
 
+        // AICheckOutfitPythonResponseDto 로 매핑
+        // ObjectMapper의 리플렉션을 이용하여 Json문자열로 부터 객체를 만드는 역직렬화 하여줌 ( 반대도 가능 )
+        ObjectMapper mapper = new ObjectMapper();
+        AICheckOutfitPythonResponseDto aiCheckOutfitPythonResponseDto;
+
+        try {
+            aiCheckOutfitPythonResponseDto =
+                    mapper.readValue(pythonResponse, AICheckOutfitPythonResponseDto.class);
+        } catch (JsonProcessingException e) {
+            throw new BaseException(BaseResponseStatus.JSON_PARSE_ERROR);
+        }
+
+        // Client로 Response보낼 Dto
 
 
         return null;
