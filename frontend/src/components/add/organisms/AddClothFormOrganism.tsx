@@ -81,15 +81,6 @@ const AddClothFormOrganism = ({ setStateValue }: Props) => {
     }
   };
 
-  /* {"middleCategoryId": "001002",
-"name": "검은색 코트",
-"season": "0011",
-"color": "000000",
-"thickness": 3,
-"price": 250000,
-"shop": "무신사",
-"textile": "울"}*/
-
   const handleSubmit = () => {
     const data: ClothInfoType = {
       middleCategoryId: clothCategory,
@@ -101,25 +92,29 @@ const AddClothFormOrganism = ({ setStateValue }: Props) => {
       shop: clothBrand,
       textile: clothTextile,
     };
-    // FormData 에 넣기
+
+    // formData를 생성하여 API를 호출하는 PAGE.TSX로 보낼 것이다.
     /* eslint-disable prefer-const */
     let formData: FormData = new FormData();
 
-    // file은 multipart/form-data
-    formData.append('file', clothPic as File);
+    if (clothPic && clothCategory && clothSeason && clothColor && clothThickness) {
+      // file은 컨텐츠 타입은 multipart/form-data
+      formData.append('file', clothPic as File);
+      // clothesRegistRequestDto는 컨텐츠 타입은 application/json
+      formData.append('clothesRegistRequestDto', new Blob([JSON.stringify(data)], { type: 'application/json' }));
 
-    // const dataString = JSON.stringify(data); // to append to the FormData object are either of type string or Blob.
-    // clothesRegistRequestDto는 application/json
-    // formData.append('clothesRegistRequestDto', dataString);
-
-    formData.append('clothesRegistRequestDto', new Blob([JSON.stringify(data)], { type: 'application/json' }));
-
-    /* 위 코드에서 formData에 파일('file')과 JSON 데이터
+      /* 위 코드에서 formData에 파일('file')과 JSON 데이터
     ('clothesRegistRequestDto')를 추가했고, FormData는 자동으로 multipart/
     form-data Content-Type을 갖게 됩니다. 따라서 별도의 Content-Type 설정은 
     필요하지 않습니다. */
 
-    setStateValue(formData);
+      setStateValue(formData);
+    } else {
+      // 필수 인풋 값이 하나라도 비어있다면
+
+      // eslint-disable-next-line no-alert
+      alert('사진, 카테고리, 색상, 계절, 두께 모두 입력해주세요.');
+    }
   };
 
   return (
@@ -128,21 +123,13 @@ const AddClothFormOrganism = ({ setStateValue }: Props) => {
         <PictureInput setStateValue={setClothPic} />
         <div className="text-WebBody2 text-center mt-[28px]">옷의 정보</div>
         <CategoryInput onChange={handleClothCategory} />
-        카테고리 {clothCategory}
         <SeasonInput onChange={setClothSeason} />
-        시즌 {clothSeason}
         <ThicknessInput onChange={setClothThickness} />
-        옷의 두께는 {clothThickness}
         <TextilInput onChange={setClothTextile} />
-        옷의 소재는 {clothTextile}
         <ColorInput onChange={setClothColor} />
-        옷의 컬러는 {clothColor}
         <NameInput onChange={handleClothNameChange} value={clothName} />
-        cloth name: {clothName}
         <PriceInput onChange={handleClothPriceChange} value={clothPrice} />
-        cloth price: {clothPrice}
         <BrandInput onChange={handleClothBrand} value={clothBrand} />
-        cloth Brand: {clothBrand}
         <SubmitButton onChange={handleSubmit} />
       </Form>
     </FormContainer>
