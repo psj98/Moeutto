@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PythonRequestClothesListItems {
 
-    String largeCategoryid;
+    String largeCategoryId;
     int clothesId;
     String season;
     String color;
@@ -18,8 +18,8 @@ public class PythonRequestClothesListItems {
     int frequency;
 
     @Builder(toBuilder = true)
-    public PythonRequestClothesListItems(String largeCategoryid, int clothesId, String season, String color, int thickness, String textile, int frequency){
-        this.largeCategoryid = largeCategoryid;
+    public PythonRequestClothesListItems(String largeCategoryId, int clothesId, String season, String color, int thickness, String textile, int frequency){
+        this.largeCategoryId = largeCategoryId;
         this.clothesId = clothesId;
         this.season = season;
         this.color = color;
