@@ -9,7 +9,7 @@ interface Props {
 const Button = styled.button`
   width: 100%;
   border-radius: 20px;
-  margin: 10px 0;
+  margin: 10px 0 50px 0;
   height: 60px;
   padding: 10px;
   background: var(--button-bg-gray, rgba(245, 245, 245, 0.64));
