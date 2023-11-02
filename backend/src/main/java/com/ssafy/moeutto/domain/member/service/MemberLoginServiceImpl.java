@@ -27,7 +27,7 @@ public class MemberLoginServiceImpl implements MemberLoginService {
     public String getKakaoPermissionCode() {
         String requestURL = "https://kauth.kakao.com/oauth/authorize";
 //        String redirectURL = "http://localhost:8080/api/members/check";
-        String redirectURL = "http://localhost:3000/login-redirect";
+        String redirectURL = "http://localhost:3000/login";
         String code = "";
 
         try {
