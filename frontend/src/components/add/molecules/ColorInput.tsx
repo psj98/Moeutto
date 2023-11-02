@@ -1,6 +1,7 @@
 import React, { SetStateAction } from 'react';
 import Label from '../atoms/Label';
 import ColorRadioInput from '../atoms/ColorRadioInput';
+import ColorPalette from '../../common/ColorPalette';
 
 interface Color {
   name: string;
@@ -12,6 +13,7 @@ interface AddClothFormProps {
   onChange: (value: SetStateAction<string>) => void;
 }
 
+// 서영의 코드에서 리팩토링하면 지울 data
 export const colorList: Color[] = [
   { name: '빨강', background: '#FFA7A7' },
   { name: '주황', background: '#FFA7A7' },
@@ -32,7 +34,7 @@ const ColorInput = ({ onChange }: AddClothFormProps) => {
     <>
       <Label id="color" value="옷의 색깔" />
       <div className="flex flex-wrap">
-        {colorList.map((option, index) => {
+        {ColorPalette.map((option, index) => {
           return (
             <ColorRadioInput
               key={index}
