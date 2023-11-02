@@ -539,28 +539,33 @@ public class ClothesServiceImpl implements ClothesService {
         return clothesAnalysisMinMaxResponseDto;
     }
 
+    /**
+     * 옷장을 활용도 기준으로 분석합니다.
+     *
+     * @param memberId
+     * @return
+     * @throws BaseException
+     */
     @Override
-    public ClothesAnalysisAvailabilityResponseDto getAnalysisUseClothes(UUID memberId) throws BaseException {
-
-        //사용자 체크
+    public ClothesAnalysisAvailabilityResponseDto analysisAvailability(UUID memberId) throws BaseException {
+        // 사용자 체크
         memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
-        //사용자 옷 개수
+        // 사용자 옷 개수
         Long totalAmount = clothesRepository.countByMemberId(memberId);
 
-        // 최근 N 개월 내 한번이라도 입은 옷 찾기. 일단 임의의 값은 3일로 했음. 만약 ~월부터 ~월까지로 한다면 쿼리문 다시 짜야함.
+        // 최근 n개월 내 한번이라도 입은 옷 찾기 - 일단 임의의 값은 3일로 했음. 만약 ~월부터 ~월까지로 한다면 쿼리문 다시 짜야함.
         Long usedAmount = clothesRepository.findRecentDateForNMonthByMemberId(memberId);
 
-        List<IMyAnalysisAmount> amountList = clothesRepository.findMyAnalysisAmountByMemberId(memberId);
-        
+        // 최근 n개월 내 입은 옷 분석 - 대분류 카테고리 별 분석
+        List<IClothesAnalysisAvailability> amountList = clothesRepository.findMyAnalysisAmountByMemberId(memberId);
+
         ClothesAnalysisAvailabilityResponseDto responseDto = ClothesAnalysisAvailabilityResponseDto.builder()
                 .totalAmount(totalAmount)
                 .usedAmount(usedAmount)
                 .analysisAmountList(amountList)
                 .build();
 
-
         return responseDto;
     }
 }
-
