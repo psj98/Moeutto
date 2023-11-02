@@ -62,6 +62,12 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
         List<LargeCategory> largeCategoryList = largeCategoryRepository.findAll();
         for (LargeCategory largeCategory : largeCategoryList) {
             List<IClothesAIRecOutfitCombine> clothesAIRecOutfitCombineList = clothesRepository.findAllByMemberIdAndMiddleCategory(memberId, largeCategory.getId());
+
+            // 옷이 적은 경우 추천 불가 => ERROR
+            if (clothesAIRecOutfitCombineList.size() == 0) {
+                throw new BaseException(BaseResponseStatus.TOO_LITTLE_CLOTHES);
+            }
+
             clothesList.add(clothesAIRecOutfitCombineList);
         }
 
@@ -222,23 +228,8 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
             clothesList.add(clothesAIRecOutfitCombineList);
         }
 
-        // 대분류 카테고리에 따라 값 저장
-        AiRecOutfitCombineClothesListByAIRequestDto aiRecOutfitCombineClothesListByAIRequestDto = AiRecOutfitCombineClothesListByAIRequestDto.builder()
-                .outer(clothesList.get(0))
-                .top(clothesList.get(1))
-                .bottom(clothesList.get(2))
-                .item(clothesList.get(3))
-                .build();
-
         // 아우터에서 랜덤으로 뽑기
         Random random = new Random();
-
-        // 파이썬에 전달할 정보
-        AiRecOutfitCombineByAIRequestDto aiRecOutfitCombineByAIRequestDto = AiRecOutfitCombineByAIRequestDto.builder()
-                .clothesList(aiRecOutfitCombineClothesListByAIRequestDto)
-                .weatherInfo(aiRecOutfitCombineRequestDtoList)
-                .build();
-
 
         List<AiRecOutfitCombineResponseDto> aiRecOutfitCombineResponseDtoList = new ArrayList<>(); // 클라이언트에 전달할 정보
 
@@ -246,6 +237,10 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
             List<AiRecOutfitCombineClothesInfoResponseDto> aiRecOutfitCombineClothesInfoResponseDtoList = new ArrayList<>();
 
             for (int i = 0; i < 4; i++) {
+                if (clothesList.get(i).size() == 0) {
+                    throw new BaseException(BaseResponseStatus.TOO_LITTLE_CLOTHES);
+                }
+
                 int randomNum = random.nextInt(clothesList.get(i).size());
 
                 Clothes clothes = clothesRepository.findById(clothesList.get(i).get(randomNum).getId()).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES));
