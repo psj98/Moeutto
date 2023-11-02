@@ -4,6 +4,7 @@ import MainInfo from "../components/main/organisms/MainInfo"
  import PickButtonTap from "../components/main/organisms/PickButtonTap";
 import RecommendList from "../components/main/organisms/RecommendList";
 import MapModal from "../components/main/organisms/MapModal";
+import { authInstance } from "../api/api";
 
 // 날씨 api 사용
 // import Weather from "../api/Weather";
@@ -130,6 +131,69 @@ const MainPage = () => {
         ],
     }
 
+    // interface ClothesRecommendation {
+    //     clothesInfo: {
+    //         clothesId: number;
+    //         largeCategoryId: string;
+    //         imageUrl: string; 
+    //     }[];
+    //     recDate: Date;
+    // }
+
+    // const [recommendList, setRecommendList] = useState<any>();
+
+    const clothesData = async () => {
+
+        const requesBody = [
+            {
+                // 날씨 정보
+                "sky": 0, // 하늘 상태
+                "pty": 0, // 강수 형태
+                "tmn": 0, // 일 최저 기온
+                "tmx": 0, // 일 최고 기온
+                "wsd": 0, // 풍속
+                "date": "2023-11-02", // 날짜 - "2023-11-02"
+            }, 
+            {
+                // 날씨 정보
+                "sky": 0, // 하늘 상태
+                "pty": 0, // 강수 형태
+                "tmn": 0, // 일 최저 기온
+                "tmx": 0, // 일 최고 기온
+                "wsd": 0, // 풍속
+                "date": "2023-11-03", // 날짜 - "2023-11-02"
+            }, 
+            {
+                // 날씨 정보
+                "sky": 0, // 하늘 상태
+                "pty": 0, // 강수 형태
+                "tmn": 0, // 일 최저 기온
+                "tmx": 0, // 일 최고 기온
+                "wsd": 0, // 풍속
+                "date": "2023-11-04", // 날짜 - "2023-11-02"
+            }
+        ]
+
+        try {
+            // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
+            const axiosInstance = authInstance({ ContentType: 'application/json' });
+            const response = await axiosInstance.post('/ai-rec-outfits/combine', requesBody);
+            
+            console.log('추천 착장 조회 성공', response.data);
+
+            return response.data;
+        } catch (error) {
+            console.log('옷 목록 데이터 조회 실패', error);
+
+            throw new Error('옷 목록 데이터 조회 실패');
+        }
+    };
+
+    useEffect(() => {
+        clothesData()
+    }, [])
+
+    
     // 옷 추천 리스트
     const [clothesListData, setClothesListData] = useState<any>([]);
 
