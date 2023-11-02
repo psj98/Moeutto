@@ -1,22 +1,23 @@
 import axios, { AxiosInstance } from 'axios';
 
-const token: string = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhM2FiM2ExNS00M2I0LTQ4OTYtYjFlMi0wM2Q2YWJhNWM2NmMiLCJleHAiOjE2OTg4OTQ4NzJ9.M2lG-y8D3yWXpnjjGIik1qMq5H_7Xu4Nqn3-MXFmIWLdyC6ys8IOFZ1SG3Uka9i7st_TKFLNtaHqxK7e35LrzA";
+const token: string =
+  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2YjE0YWU3My01MDk0LTQyZTAtOTYzMy0xY2NmNzNlODc0OGIiLCJleHAiOjE2OTg4OTA3MTN9.D8_wKCgkvgE5OXQ1dTyCaMay4NoO_eEnH6huxO_9HDFnA8HFcS-NKRwFnPuadea9xaAVPMCmIcpbUhWUu6fvEw';
 
-window.sessionStorage.setItem("accessToken", token);
+window.sessionStorage.setItem('accessToken', token);
 
 // 인증 값이 필요 없는 경우
 const axiosApi = () => {
   const instance: AxiosInstance = axios.create({
-    baseURL: "http://localhost:8080/api",
-  })
+    baseURL: 'http://localhost:8080/api',
+  });
 
   return instance;
-}
+};
 
 // 인증 값이 필요한 경우
-const axiosWithAuth = (): AxiosInstance => {
+const axiosWithAuth = ({ ContentType }: { ContentType: string }): AxiosInstance => {
   const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
+    'Content-Type': ContentType,
   };
 
   // 토큰 가져오기
