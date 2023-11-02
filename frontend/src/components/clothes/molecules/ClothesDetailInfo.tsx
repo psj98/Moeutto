@@ -11,7 +11,7 @@ const ClothesDetailInfo = ({ labelList, contentList }: PropsType) => {
         <div className="flex">
             <div className="space-y-[4vh] flex flex-col items-end">
                 {labelList.map((title, index) => (
-                    <LabelContent title={title} />
+                    <LabelContent title={title} index={index} />
                 ) )}
             </div>
             <div className="space-y-[4vh] flex flex-col ms-[5vw]">
