@@ -62,7 +62,6 @@ const ClothesDetailPage = () => {
     useEffect(() => {
         fetchData();
         console.log(clothesData)
-        console.log(clothesData.star)
 
         // // 즐겨찾기
         // if (clothesData.star && clothesData.star === 1) {
