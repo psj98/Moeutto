@@ -9,7 +9,7 @@ import java.sql.Date;
 
 @Getter
 @NoArgsConstructor
-public class AIRecOutfitCombineResponseDto {
+public class AiRecOutfitCombineResponseDto {
 
     @NotNull
     private Integer clothesId; // 옷 정보 id
@@ -24,7 +24,7 @@ public class AIRecOutfitCombineResponseDto {
     private Date recDate; // 추천 날짜
 
     @Builder(toBuilder = true)
-    public AIRecOutfitCombineResponseDto(Integer clothesId, String largeCategoryId, String imageUrl, Date recDate) {
+    public AiRecOutfitCombineResponseDto(Integer clothesId, String largeCategoryId, String imageUrl, Date recDate) {
         this.clothesId = clothesId;
         this.largeCategoryId = largeCategoryId;
         this.imageUrl = imageUrl;

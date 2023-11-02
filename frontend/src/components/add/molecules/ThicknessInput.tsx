@@ -43,7 +43,7 @@ const ThicknessInput = ({ onChange }: ThicknessInputProps) => {
             type="radio"
             option={option}
             value="thickness"
-            onChange={event => setThickness(event.target.checked ? index : null)}
+            onChange={event => setThickness(event.target.checked ? index + 1 : null)}
           />
         ))}
       </div>

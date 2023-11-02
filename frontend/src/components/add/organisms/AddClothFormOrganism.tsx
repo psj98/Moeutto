@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, SetStateAction, Dispatch } from 'react';
 import styled from 'styled-components';
 import PictureInput from '../molecules/PictureInput';
 import CategoryInput from '../molecules/CategoryInput';
@@ -10,9 +10,11 @@ import NameInput from '../molecules/NameInput';
 import PriceInput from '../molecules/PriceInput';
 import BrandInput from '../molecules/BrandInput';
 import SubmitButton from '../molecules/SubmitButton';
-// interface InputProps {
-//   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-// }
+import { ClothInfoType  } from '../../../pages/AddClothPage';
+
+interface Props {
+  setStateValue: Dispatch<SetStateAction<FormData>>;
+}
 
 const FormContainer = styled.div`
   width: 100%;
@@ -23,7 +25,6 @@ const FormContainer = styled.div`
 const Form = styled.div`
   width: 80%;
   max-width: 500px;
-  // background-color: #c434;
   input,
   select {
     min-height: 50px;
@@ -34,20 +35,21 @@ const Form = styled.div`
   }
 `;
 
-const AddClothForm = () => {
-  // const [clothPic, setClothPic] = useState<File | string | null>(null);
-  const [clothCategory, setClothCategory] = useState<number | string>(''); // String
+const AddClothFormOrganism = ({ setStateValue }: Props) => {
+  const [clothPic, setClothPic] = useState<File | null>(null);
+  const [clothCategory, setClothCategory] = useState<string>(''); // String
   const [clothSeason, setClothSeason] = useState<string>(''); // ex) string: 가을겨울옷이라면 0011
   const [clothThickness, setClothThickness] = useState<number | null>(); // ex) int: 얇음 , 중간 , 두꺼움
   const [clothTextile, setClothTextile] = useState<string | null>(''); // string
   const [clothColor, setClothColor] = useState<string>('');
-  const [clothName, setClothName] = useState<string>(''); // string
-  const [clothPrice, setClothPrice] = useState<number | string | null>(); // int : null 허용
+  const [clothName, setClothName] = useState<string | null>(''); // string
+  const [clothPrice, setClothPrice] = useState<number | null>(0); // int : null 허용
   const [clothBrand, setClothBrand] = useState<string>(''); // string
+
   // 옷 카테고리 입력 받는 함수
   const handleClothCategory = (e: ChangeEvent<HTMLSelectElement>) => {
     if (e.target.value) {
-      setClothCategory(e.target.value as any);
+      setClothCategory(e.target.value);
     }
   };
 
@@ -55,13 +57,18 @@ const AddClothForm = () => {
   const handleClothNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value) {
       setClothName(e.target.value);
+    } else {
+      // 입력 값을 지울 때 맨 앞 한글자가 안 없어지는 에러 해결
+      setClothName('');
     }
   };
 
   // 옷 가격 입력 받는 함수
   const handleClothPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value) {
-      setClothPrice(e.target.value);
+      setClothPrice(Number(e.target.value));
+    } else {
+      setClothPrice(0);
     }
   };
 
@@ -69,38 +76,64 @@ const AddClothForm = () => {
   const handleClothBrand = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value) {
       setClothBrand(e.target.value);
+    } else {
+      setClothBrand('');
     }
   };
 
   const handleSubmit = () => {
-    console.log('제출');
+    const data: ClothInfoType = {
+      middleCategoryId: clothCategory,
+      name: clothName,
+      season: clothSeason,
+      color: clothColor,
+      thickness: clothThickness,
+      price: clothPrice,
+      shop: clothBrand,
+      textile: clothTextile,
+    };
+
+    // formData를 생성하여 API를 호출하는 PAGE.TSX로 보낼 것이다.
+    /* eslint-disable prefer-const */
+    let formData: FormData = new FormData();
+
+    if (clothPic && clothCategory && clothSeason && clothColor && clothThickness) {
+      // file은 컨텐츠 타입은 multipart/form-data
+      formData.append('file', clothPic as File);
+      // clothesRegistRequestDto는 컨텐츠 타입은 application/json
+      formData.append('clothesRegistRequestDto', new Blob([JSON.stringify(data)], { type: 'application/json' }));
+
+      /* 위 코드에서 formData에 파일('file')과 JSON 데이터
+    ('clothesRegistRequestDto')를 추가했고, FormData는 자동으로 multipart/
+    form-data Content-Type을 갖게 됩니다. 따라서 별도의 Content-Type 설정은 
+    필요하지 않습니다. */
+
+      setStateValue(formData);
+    } else {
+      // 필수 인풋 값이 하나라도 비어있다면
+
+      // eslint-disable-next-line no-alert
+      alert('사진, 카테고리, 색상, 계절, 두께 모두 입력해주세요.');
+    }
   };
 
   return (
     <FormContainer>
       <Form>
-        <PictureInput />
+        <PictureInput setStateValue={setClothPic} />
         <div className="text-WebBody2 text-center mt-[28px]">옷의 정보</div>
         <CategoryInput onChange={handleClothCategory} />
-        카테고리 {clothCategory}
         <SeasonInput onChange={setClothSeason} />
-        시즌 {clothSeason}
         <ThicknessInput onChange={setClothThickness} />
-        옷의 두께는 {clothThickness}
         <TextilInput onChange={setClothTextile} />
-        옷의 소재는 {clothTextile}
         <ColorInput onChange={setClothColor} />
-        옷의 컬러는 {clothColor}
         <NameInput onChange={handleClothNameChange} value={clothName} />
-        cloth name: {clothName}
         <PriceInput onChange={handleClothPriceChange} value={clothPrice} />
-        cloth price: {clothPrice}
         <BrandInput onChange={handleClothBrand} value={clothBrand} />
-        cloth Brand: {clothBrand}
         <SubmitButton onChange={handleSubmit} />
       </Form>
     </FormContainer>
   );
 };
 
-export default AddClothForm;
+export default AddClothFormOrganism;
