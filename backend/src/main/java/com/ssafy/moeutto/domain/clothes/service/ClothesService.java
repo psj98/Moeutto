@@ -151,4 +151,12 @@ public interface ClothesService {
      * @throws BaseException
      */
     ClothesAnalysisMinMaxResponseDto analysisAmount(UUID memberId) throws BaseException;
+
+    /**
+     * 옷장의 사용도를 분석합니다.
+     *
+     * @param memberId
+     * @return
+     */
+    ClothesAnalysisAvailabilityResponseDto analysisAvailability(UUID memberId) throws BaseException;
 }
