@@ -1,4 +1,3 @@
-// import axios from 'axios';
 // import { defaultInstance } from '../api/api';
 
 export interface Login {
@@ -8,13 +7,19 @@ export interface Login {
 }
 
 const LoginPage = () => {
-  const redirectUrl = 'http://localhost:8080/api/members/check&response_type=code';
+  //   const axiosInstance = defaultInstance();
+
+  //   const redirectUrl =
+  const redirectUrl = 'http://localhost:3000/login-redirect';
+
+  const code = '';
   const link = `https://kauth.kakao.com/oauth/authorize?client_id=bab90d2b24304bb1f5b4c07938ff0fcc&redirect_uri=${redirectUrl}&response_type=code`;
+
+  console.log(code);
 
   const loginHandler = async () => {
     window.location.href = link;
 
-    // const axiosInstance = defaultInstance();
     // const response = await axiosInstance.get('/members/login');
 
     // console.log(response);
