@@ -6,28 +6,21 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
 public class AiRecOutfitCombineResponseDto {
 
     @NotNull
-    private Integer clothesId; // 옷 정보 id
-
-    @NotNull
-    private String largeCategoryId; // 대분류 카테고리 id
-
-    @NotNull
-    private String imageUrl; // 이미지 url
+    private List<AiRecOutfitCombineClothesInfoResponseDto> clothesInfo;
 
     @NotNull
     private Date recDate; // 추천 날짜
 
     @Builder(toBuilder = true)
-    public AiRecOutfitCombineResponseDto(Integer clothesId, String largeCategoryId, String imageUrl, Date recDate) {
-        this.clothesId = clothesId;
-        this.largeCategoryId = largeCategoryId;
-        this.imageUrl = imageUrl;
+    public AiRecOutfitCombineResponseDto(List<AiRecOutfitCombineClothesInfoResponseDto> clothesInfo, Date recDate) {
+        this.clothesInfo = clothesInfo;
         this.recDate = recDate;
     }
 }
