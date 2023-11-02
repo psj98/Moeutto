@@ -1,7 +1,7 @@
 import ColorAnalysisSection from '../molecules/ColorAnalysisSection';
 import { ColorAmountProp } from '../atoms/DonutChart';
 
-interface ColorReportProps {
+export interface ColorReportProps {
   owner: string;
   colorProps: ColorAmountProp[];
 }

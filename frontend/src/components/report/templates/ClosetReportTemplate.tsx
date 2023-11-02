@@ -1,16 +1,11 @@
 import ClosetReportOrganisms from '../organisms/ClosetReportOrganisms';
+import { AnalysisData } from '../../../pages/ReportColorPage';
 
-import { ColorAmountProp } from '../atoms/DonutChart';
-
-interface ColorReportProps {
-  colorProps: ColorAmountProp[];
-}
-
-const ClosetReportTemplate = ({ colorProps }: ColorReportProps) => {
+const ClosetReportTemplate = ({ analysisData }: { analysisData: AnalysisData }) => {
   return (
     <div className="w-[100%] flex flex-col justify-center">
-      <ClosetReportOrganisms owner="당신" colorProps={colorProps} />
-      <ClosetReportOrganisms owner="모으또 평균 유저" colorProps={colorProps} />
+      <ClosetReportOrganisms owner="당신" colorProps={analysisData.myAnalysisColor} />
+      <ClosetReportOrganisms owner="모으또 평균 유저" colorProps={analysisData.otherAnalysisColor} />
     </div>
   );
 };
