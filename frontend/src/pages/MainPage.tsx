@@ -5,6 +5,8 @@ import MainInfo from "../components/main/organisms/MainInfo"
 import RecommendList from "../components/main/organisms/RecommendList";
 import MapModal from "../components/main/organisms/MapModal";
 
+// 날씨 api 사용
+// import Weather from "../api/Weather";
 
 const MainPage = () => {
     // 현재 위치
