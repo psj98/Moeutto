@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
 const token: string =
-  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2YjE0YWU3My01MDk0LTQyZTAtOTYzMy0xY2NmNzNlODc0OGIiLCJleHAiOjE2OTg4OTA3MTN9.D8_wKCgkvgE5OXQ1dTyCaMay4NoO_eEnH6huxO_9HDFnA8HFcS-NKRwFnPuadea9xaAVPMCmIcpbUhWUu6fvEw';
+  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhM2FiM2ExNS00M2I0LTQ4OTYtYjFlMi0wM2Q2YWJhNWM2NmMiLCJleHAiOjE2OTg5NzM5NjJ9.vZxmr2SzJHm0nfq6_0qwgu_fsmtgZHxJfDf6CfZBCQmTQejYA9mWDvOc7TRXx7oPbwcHC9zrkF1gAj-aGrIqmw';
 
 window.sessionStorage.setItem('accessToken', token);
 

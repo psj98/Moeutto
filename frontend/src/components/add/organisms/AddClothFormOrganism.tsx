@@ -10,7 +10,7 @@ import NameInput from '../molecules/NameInput';
 import PriceInput from '../molecules/PriceInput';
 import BrandInput from '../molecules/BrandInput';
 import SubmitButton from '../molecules/SubmitButton';
-import { ClothInfoType } from '../../../pages/AddClothPage';
+import { ClothInfoType  } from '../../../pages/AddClothPage';
 
 interface Props {
   setStateValue: Dispatch<SetStateAction<FormData>>;

@@ -36,20 +36,6 @@ const PickPickPage = () => {
   const [sortBy, setSortBy] = useState<string>('initial');
   const [orderBy, setOrderBy] = useState<number>(0); // 0: 오름차순, 1: 내림차순
 
-  // 카테고리 선택 확인
-  useEffect(() => {
-    console.log('전체 떠야됨', selectedOptionMain);
-
-    // 중분류
-    const [selectedOptionMiddle, setSelectedOptionMiddle] = useState<string | null>("000000");
-    // 정렬순
-    const [selectedOptionSort, setSelectedOptionSort] = useState<string | null>(null);
-
-
-    // 데이터 가져오기
-    const [categoryId, setCategoryId] = useState<string>("000000");
-    const [sortBy, setSortBy] = useState<string>('initial');
-    const [orderBy, setOrderBy] = useState<number>(0); // 0: 오름차순, 1: 내림차순
 
     // 카테고리 선택 확인
     useEffect(() => {
@@ -102,7 +88,6 @@ const PickPickPage = () => {
             setOrderBy(0);
         } 
 
-        console.log('body에 담을 것', categoryId, sortBy, orderBy)
     }, [selectedOptionMain, selectedOptionMiddle, selectedOptionSort])
 
     
@@ -113,11 +98,12 @@ const PickPickPage = () => {
     // 옷 목록 조회
     const [clothesData, setClothesData] = useState<ClothesItem[]>([]);
 
+
     const fetchData = async () => {
 
         try {
             // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
-            const axiosInstance = authInstance();
+            const axiosInstance = authInstance({ ContentType: 'application/json' });
             const response = await axiosInstance.post('/clothes/list', {
                 categoryId,
                 sortBy,
@@ -180,106 +166,8 @@ const PickPickPage = () => {
         if (requestData) {
             navigate('/analysis');
         }
-    }
-
-    if (selectedOptionSort === '정렬') {
-      setSortBy('initail');
-    } else if (selectedOptionSort === '등록순') {
-      setSortBy('regDate');
-    } else if (selectedOptionSort === '많이 입은 순') {
-      setSortBy('frequency');
-      setOrderBy(1);
-    } else if (selectedOptionSort === '적게 입은 순') {
-      setSortBy('frequency');
-    } else {
-      setSortBy('color');
-    }
-
-    // 대분류
-    if (selectedOptionMain === '000000') {
-      setCategoryId('000000');
-      setSortBy('initial');
-      setOrderBy(0);
-    }
-
-    console.log('body에 담을 것', categoryId, sortBy, orderBy);
-  }, [selectedOptionMain, selectedOptionMiddle, selectedOptionSort]);
-
-  // 선택한 옷 리스트
-  const selectedClosetIds = useSelector((state: RootState) => state.closet.selectedClosetIds);
-
-  // 옷 목록 조회
-  const [clothesData, setClothesData] = useState<ClothesItem[]>([]);
-
-  const fetchData = async () => {
-    try {
-      // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
-      const axiosInstance = authInstance({ ContentType: 'application/json' });
-      const response = await axiosInstance.post('/clothes/list', {
-        categoryId,
-        sortBy,
-        orderBy,
-      });
-
-      console.log('옷 목록 데이터 조회 성공', response.data);
-
-      if (response.data.data) {
-        setClothesData(response.data.data);
-      } else {
-        // alert('옷 목록이 없어요')
-        setClothesData([]);
-      }
-
-      return response.data;
-    } catch (error) {
-      console.log('옷 목록 데이터 조회 실패', error);
-
-      throw new Error('옷 목록 데이터 조회 대 실패');
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [categoryId, sortBy, orderBy]);
-
-  // const { isLoading, isError, data } = useQuery('selectcloset', fetchData, {
-  //     enabled: true, // 초기 데이터 요청을 활성화
-  //     refetchOnWindowFocus: false, // 윈도우 포커스 시 다시 요청하지 않도록 설정
-  // });
-
-  // let clothesData: number[] = [];
-
-  // if (data) {
-  //     clothesData = data as number[];
-  //     console.log('옷 데이터 목록', clothesData)
-  // }
-
-  // if (isLoading) {
-  //     return <div>로딩중</div>
-  // }
-
-  // if (isError) {
-  //     return <div>에러가 났어요</div>
-  // }
-
-  // 제출하기 api 필요
-  const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = event => {
-    // 기본 동작 방지
-    event.preventDefault();
-    // request에 담을 데이터
-    const requestData = {
-      selectedClosetIds,
-    };
-
-    console.log('제출 함수 실행 성공', requestData);
-    if (requestData) {
-      navigate('/analysis');
-    }
-  };
-
-  useEffect(() => {
-    console.log('선택된 옷 리스트', selectedClosetIds);
-  }, [selectedClosetIds]);
+    } 
+  
 
   return (
     <>
