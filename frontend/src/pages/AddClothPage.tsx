@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AddClothFormTemplate from '../components/add/templates/AddClothFormTemplate';
+import MyClosetBar from '../components/common/MyClosetBar';
 
 // api
 import { authInstance } from '../api/api';
@@ -66,6 +67,8 @@ function AddClothPage() {
   return (
     <div className="myCloset">
       <div className="font-bold text-pink text-WebBody1">My Closet page</div>
+      <MyClosetBar state={2} />
+
       <AddClothFormTemplate setStateValue={setPayload} />
     </div>
   );

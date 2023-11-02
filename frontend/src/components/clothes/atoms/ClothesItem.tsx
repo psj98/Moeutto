@@ -19,7 +19,7 @@ const ClothesItemComponent: React.FC<ItemPropsType> = ({ imgUrl, clothesId }) =>
                 src={imgUrl} 
                 id={clothesId}
                 alt="옷" 
-                className={`w-[13vw] border border-gray rounded-3xl`}
+                className={`w-[13vw] h-[13vw] border border-gray rounded-3xl`}
                 onClick={handleClick}
             />
         </>
