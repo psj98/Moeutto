@@ -3,6 +3,7 @@ import TotalScoreSection from '../molecules/TotalScoreSection'; // 총 점수 �
 import Graph from '../molecules/Graph'; // 하단 그래프
 import ClothScoreSection from '../molecules/ClothScoreSection';
 
+
 /*
 response
 {
@@ -31,6 +32,7 @@ response
 }
 
 */
+
 
 const ClothAnalysisOrganism = () => {
   // api 연결되면 idx는 동적으로 변함
