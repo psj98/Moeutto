@@ -1,5 +1,5 @@
 // import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { defaultInstance } from '../api/api';
 
 export interface LoginRedirect {
@@ -8,21 +8,23 @@ export interface LoginRedirect {
 }
 
 const LoginRedirectPage = () => {
-  const navigate = useNavigate();
+  //   const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get('code');
   const axiosInstance = defaultInstance();
 
   const kakaoLogin = async () => {
-    const response = await axiosInstance.post(`/members/check?code=${code}`);
+    const response = await axiosInstance.post(`members/check?code=${code}`);
 
     console.log(response);
 
-    if (response.data !== null) {
-      navigate('/main');
-    }
+    // if (response.data !== null) {
+    //   navigate('/main');
+    // }
   };
 
-  kakaoLogin();
+  console.log(kakaoLogin());
+
+  console.log(code);
 
   return (
     <div>
