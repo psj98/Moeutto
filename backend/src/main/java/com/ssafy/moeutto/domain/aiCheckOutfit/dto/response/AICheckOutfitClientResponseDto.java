@@ -13,13 +13,13 @@ import java.util.List;
 public class AICheckOutfitClientResponseDto {
 
     int id;
-    DateTime regDate;
+    Date regDate;
     List<ClientResponseClothesResult> clothesResult;
     ResponseClothesFeature clothesFeature;
     ResponseWeatherInfo weatherInfo;
 
     @Builder(toBuilder = true)
-    public AICheckOutfitClientResponseDto(int id, DateTime regDate, List<ClientResponseClothesResult> clothesResult,
+    public AICheckOutfitClientResponseDto(int id, Date regDate, List<ClientResponseClothesResult> clothesResult,
                                           ResponseClothesFeature clothesFeature, ResponseWeatherInfo weatherInfo){
         this.id = id;
         this.regDate = regDate;

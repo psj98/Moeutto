@@ -1,6 +1,7 @@
 package com.ssafy.moeutto.domain.clothes.repository;
 
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitPythonResponseClothesResult;
+import com.ssafy.moeutto.domain.aiCheckOutfit.entity.IAiCheckOutfitPythonResponseClothesResult;
 import com.ssafy.moeutto.domain.clothes.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -335,14 +336,14 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
      * @param clothesId
      * @return AICheckOutfitPythonResponseClothesResult
      */
-    @Query(value="SELECT a.id, a.image_url, b.large_category_id" +
-            "FROM clothes AS a LEFT JOIN middle_category AS b" +
-            "ON a.middle_category_id = b.id" +
-            "WHERE a.id = ?1" +
-            "UNION" +
-            "SELECT a.id, a.image_url, b.large_category_id" +
-            "FROM clothes AS a RIGHT JOIN middle_category AS b" +
-            "ON a.middle_category_id = b.id" +
-            "WHERE a.id = ?1", nativeQuery = true)
-    AICheckOutfitPythonResponseClothesResult findIdAndImageUrlAndLargeCategoryIdByClothesId(int clothesId);
+    @Query(value="SELECT a.id AS id , a.image_url AS imageUrl , b.large_category_id AS largeCategoryId " +
+            "FROM clothes AS a LEFT JOIN middle_category AS b " +
+            "ON a.middle_category_id = b.id " +
+            "WHERE a.id = :clothesId " +
+            "UNION " +
+            "SELECT a.id AS id , a.image_url AS imageUrl , b.large_category_id AS largeCategoryId " +
+            "FROM clothes AS a RIGHT JOIN middle_category AS b " +
+            "ON a.middle_category_id = b.id " +
+            "WHERE a.id = :clothesId ", nativeQuery = true)
+    IAiCheckOutfitPythonResponseClothesResult findIdAndImageUrlAndLargeCategoryIdByClothesId(int clothesId);
 }
