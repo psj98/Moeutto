@@ -379,4 +379,16 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
             "ON a.middle_category_id = b.id " +
             "WHERE a.id = :clothesId ", nativeQuery = true)
     IAiCheckOutfitPythonResponseClothesResult findIdAndImageUrlAndLargeCategoryIdByClothesId(int clothesId);
+
+    /**
+     * 대분류 카테고리 별 옷 목록을 조회합니다.
+     *
+     * @param memberId
+     * @param middleCategoryId
+     * @return List<IClothesAIRecOutfitCombine>
+     */
+    @Query(value = "SELECT * FROM clothes c " +
+            "WHERE c.member_id = ?1 " +
+            "AND SUBSTRING(c.middle_category_id, 1, 3) = ?2 ", nativeQuery = true)
+    List<IClothesAIRecOutfitCombine> findAllByMemberIdAndMiddleCategory(UUID memberId, String middleCategoryId);
 }
