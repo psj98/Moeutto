@@ -351,4 +351,16 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
             "GROUP BY SUBSTRING(c.middle_category_id, 1, 3) " +
             "ORDER BY SUBSTRING(c.middle_category_id, 1, 3) ", nativeQuery = true)
     List<IClothesAnalysisAvailability> findMyAnalysisAmountByMemberId(UUID memberId);
+
+    /**
+     * 대분류 카테고리 별 옷 목록을 조회합니다.
+     *
+     * @param memberId
+     * @param middleCategoryId
+     * @return List<IClothesAIRecOutfitCombine>
+     */
+    @Query(value = "SELECT * FROM clothes c " +
+            "WHERE c.member_id = ?1 " +
+            "AND SUBSTRING(c.middle_category_id, 1, 3) = ?2 ", nativeQuery = true)
+    List<IClothesAIRecOutfitCombine> findAllByMemberIdAndMiddleCategory(UUID memberId, String middleCategoryId);
 }
