@@ -25,8 +25,18 @@ public interface AiRecOutfitService {
      *
      * @param memberId
      * @param aiRecOutfitCombineRequestDtoList
-     * @return
+     * @return AiRecOutfitCombineByAIRequestDto
      * @throws BaseException
      */
-    AiRecOutfitCombineByAIRequestDto recommendOutfitTest(UUID memberId, List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) throws BaseException;
+    AiRecOutfitCombineByAIRequestDto recommendOutfitBackFrontTest(UUID memberId, List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) throws BaseException;
+
+    /**
+     * Python & Back & Front Test Code
+     *
+     * @param memberId
+     * @param aiRecOutfitCombineRequestDtoList
+     * @return List<AiRecOutfitCombineResponseDto>
+     * @throws BaseException
+     */
+    List<AiRecOutfitCombineResponseDto> recommendOutfitBackPythonFrontTest(UUID memberId, List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) throws BaseException;
 }
