@@ -52,19 +52,19 @@ const MainPage = () => {
             {
                 "clothesInAIOutfit": [ // 날짜별 AI 추천 옷 정보 리스트
                     {
-                        "clothesId": 1, // 옷 id
+                        "clothesId": 21, // 옷 id
                         "imageUrl": "/images/clothes1.png" // 옷 이미지
                     },
                     {
-                        "clothesId": 2, // 옷 id
+                        "clothesId": 22, // 옷 id
                         "imageUrl": "/images/clothes2.png" // 옷 이미지
                     },
                     {
-                        "clothesId": 3, // 옷 id
+                        "clothesId": 23, // 옷 id
                         "imageUrl": "/images/clothes3.png" // 옷 이미지
                     },
                     {
-                        "clothesId": 4, // 옷 id
+                        "clothesId": 24, // 옷 id
                         "imageUrl": "/images/clothes4.png" // 옷 이미지
                     },
                 ], 
