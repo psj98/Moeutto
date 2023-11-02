@@ -9,16 +9,16 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class AIRecOutfitCombineByAIRequestDto {
+public class AiRecOutfitCombineByAIRequestDto {
 
     @NotNull
-    private List<AIRecOutfitCombineClothesRequestDto> clothesList;
+    private AiRecOutfitCombineClothesListByAIRequestDto clothesList;
 
     @NotNull
-    private List<AIRecOutfitCombineRequestDto> weatherInfo;
+    private List<AiRecOutfitCombineRequestDto> weatherInfo;
 
     @Builder(toBuilder = true)
-    public AIRecOutfitCombineByAIRequestDto(List<AIRecOutfitCombineClothesRequestDto> clothesList, List<AIRecOutfitCombineRequestDto> weatherInfo) {
+    public AiRecOutfitCombineByAIRequestDto(AiRecOutfitCombineClothesListByAIRequestDto clothesList, List<AiRecOutfitCombineRequestDto> weatherInfo) {
         this.clothesList = clothesList;
         this.weatherInfo = weatherInfo;
     }
