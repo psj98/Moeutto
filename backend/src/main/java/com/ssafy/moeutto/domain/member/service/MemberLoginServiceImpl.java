@@ -92,11 +92,8 @@ public class MemberLoginServiceImpl implements MemberLoginService {
         String accessToken = "";
         String refreshToken = "";
         String requestURL = "https://kauth.kakao.com/oauth/token";
-//        String redirectURL = "http://localhost:8080/api/members/check";
+        String redirectURL = "http://localhost:8080/api/members/check";
 //        String redirectURL = "http://localhost:8080/api/oauth/kakao";
-        String redirectURL = "http://localhost:3000/main";
-
-        System.out.println("인가 코드 : "+code);
 
         try {
             URL url = new URL(requestURL);
