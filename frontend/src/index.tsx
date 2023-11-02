@@ -23,6 +23,8 @@ import MyClosetPage from './pages/MyClosetPage';
 import MyClosetReport from './pages/MyClosetReportPage';
 import ReportColorPage from './pages/ReportColorPage';
 
+import MyPage from './pages/MyPage';
+
 import ErrorPage from './pages/ErrorPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -53,6 +55,7 @@ root.render(
                 <Route path="/mycloset/add-cloth" element={<AddClothPage />} />
                 <Route path="/mycloset/report" element={<MyClosetReport />} />
                 <Route path="/mycloset/report/color" element={<ReportColorPage />} />
+                <Route path="/mypage" element={<MyPage />} />
                 <Route path="*" element={<ErrorPage />} /> // 404 페이지 추가
               </Route>
             </Routes>
