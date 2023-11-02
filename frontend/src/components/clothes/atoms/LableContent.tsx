@@ -1,10 +1,11 @@
 interface PropsType {
-    title: string
+    title: string;
+    index: number;
 }
 
-const LabelContent = ({ title }: PropsType) => {
+const LabelContent = ({ title, index }: PropsType) => {
     return (
-        <div className="text-WebBody2 font-bold">{title}</div>
+        <div className={`text-WebBody2 font-bold ${index === 3 ? 'h-[35px]' : ''}`}>{title}</div>
     )
 }
 
