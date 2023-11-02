@@ -1,5 +1,8 @@
 # 개요
 
+# 수정 사항
+- mask 합쳐서 하나의 이미지 생성
+- fast api wrapping
 
 ## 추가 구현 요구사항
 - 이미지 crop/resize (전처리)
