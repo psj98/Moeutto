@@ -34,11 +34,13 @@ public class MemberController {
         try {
             // 인가 코드 발급
             String code = memberLoginService.getKakaoPermissionCode();
+
+            return code;
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return "Permission OK";
+       return null;
     }
 
     /**
