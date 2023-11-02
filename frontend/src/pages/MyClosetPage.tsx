@@ -50,7 +50,7 @@ const MyClosetPage = () => {
         }
 
         if (selectedOptionSort === "정렬") {
-            setSortBy("initail")
+            setSortBy("initial")
         } else if (selectedOptionSort === "등록순") {
             setSortBy("regDate")
         } else if (selectedOptionSort === "많이 입은 순") {
