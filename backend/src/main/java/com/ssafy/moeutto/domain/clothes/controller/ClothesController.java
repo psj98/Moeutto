@@ -196,7 +196,8 @@ public class ClothesController {
     }
 
     /**
-     * 가격 분석 컨트롤러입니다.
+     * 옷장을 가격 기준으로 분석합니다.
+     *
      * @param token
      * @return
      */
@@ -235,13 +236,16 @@ public class ClothesController {
     /**
      * 옷장을 활용도 기준으로 분석합니다.
      * TODO: 개월 수 수정 해야함. 기준으로
+     *
      * @return
      */
     @GetMapping("/analysis-use")
     public BaseResponse<Object> analysisUseClothes(@RequestHeader(value = "accessToken") String token) {
         try {
-            UUID memberId = getMemberIdFromToken(token);
-            ClothesAnalysisAvailabilityResponseDto responseDto =  clothesService.getAnalysisUseClothes(memberId);
+            UUID memberId = getMemberIdFromToken(token); // 사용자 체크
+
+            // 활용도 기준으로 분석
+            ClothesAnalysisAvailabilityResponseDto responseDto = clothesService.analysisAvailability(memberId);
             return baseResponseService.getSuccessResponse(responseDto);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
