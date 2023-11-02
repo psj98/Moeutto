@@ -1,18 +1,28 @@
 # 개요
-- 착장 사진 segmentation - classification(keyword including category) - text - gpt(comment)
-# 개발 상황
-## 고려중인 모델
 
-- segmentation 
-  - sam (여러 segment 추출 가능, 빠른 속도) / 프롬프트 입력(위치) 필요
-  - ~~- matting - [MA](https://github.com/SHI-Labs/Matting-Anything)~~
-  - u2net_cloth
-- classification - fashionClip
-- generate text - chat gpt 
+# 개발 상황
+# 요구 사항
+
+## response 형식
+    {
+	"clothesResult": [ // 옷 적합도 결과
+		{ 
+			"clothesId": int, // 옷 id
+			"result": String, // 검사 결과
+			"fitnessNum": int // 적합도 수치
+		}, ...
+	],
+	"clothesFeature": {
+		"temperature": int, // 따뜻한 정도 (낮을수록 시원)
+		"darkness": int, // 색상 밝기 정도 (낮을수록 밝음)
+		"seasonX": int, // 계절 정보 x좌표 (여름, 겨울)
+		"seasonY": int // 계절 정보 y좌표 (봄, 가을)
+	}
+}
 
 
 ## 실행 매뉴얼 
-- 파이썬 버전 : 3.12 
+- 파이썬 버전 : 3.11
 ### 가상환경 생성, 적용
 - python -m venv myvenv
 - source myvenv/Scripts/activate
