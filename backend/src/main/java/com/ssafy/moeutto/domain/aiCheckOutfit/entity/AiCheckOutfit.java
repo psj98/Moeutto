@@ -10,6 +10,7 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.sql.Date;
 
 @Entity
 @Getter
@@ -26,10 +27,10 @@ public class AiCheckOutfit {
     private Member member;
 
     @NotNull
-    private DateTime regDate;
+    private Date regDate;
 
     @Builder(toBuilder = true)
-    public AiCheckOutfit(Integer id, Member member, DateTime regDate) {
+    public AiCheckOutfit(Integer id, Member member, Date regDate) {
         this.id = id;
         this.member = member;
         this.regDate = regDate;

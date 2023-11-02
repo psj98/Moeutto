@@ -6,13 +6,10 @@ import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.AICheckOutfitClientReq
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.ClientRequestClothesListDto;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.PythonRequestClothesList;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.PythonRequestClothesListItems;
-import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitClientResponseDto;
-import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitPythonResponseDto;
-import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.ClientResponseClothesResult;
-import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.PythonResponseClothesResult;
-import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitPythonResponseClothesResult;
+import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.*;
 import com.ssafy.moeutto.domain.aiCheckOutfit.entity.AiCheckOutfit;
 import com.ssafy.moeutto.domain.aiCheckOutfit.entity.ClothesInAiCheckOutfit;
+import com.ssafy.moeutto.domain.aiCheckOutfit.entity.IAiCheckOutfitPythonResponseClothesResult;
 import com.ssafy.moeutto.domain.aiCheckOutfit.repository.AiCheckOutfitRepository;
 import com.ssafy.moeutto.domain.aiCheckOutfit.repository.ClothesInAiCheckOutfitRepsitory;
 import com.ssafy.moeutto.domain.clothes.entity.Clothes;
@@ -29,6 +26,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -69,9 +68,9 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService{
         for(int i=0;i<arr.size();i++){
             Clothes clothesInfo = clothesRepository.findByClothesId(arr.get(i).getId());
 
-            System.out.println("AICheckOutfitService Impl , clothesInfo id : "+clothesInfo.getId());
-            System.out.println("AICheckOutfitService Impl , arr.get(i).getId() : "+arr.get(i).getId());
-            System.out.println("AICheckOutfitService Impl , arr.get(i).getLargeCateogryId() : "+arr.get(i).getLargeCategoryId());
+//            System.out.println("AICheckOutfitService Impl , clothesInfo id : "+clothesInfo.getId());
+//            System.out.println("AICheckOutfitService Impl , arr.get(i).getId() : "+arr.get(i).getId());
+//            System.out.println("AICheckOutfitService Impl , arr.get(i).getLargeCateogryId() : "+arr.get(i).getLargeCategoryId());
 
             PythonRequestClothesListItems requestItems = PythonRequestClothesListItems.builder()
                     .largeCategoryId(arr.get(i).getLargeCategoryId())
@@ -109,33 +108,68 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService{
          * 여기 아래부턴 테스트 필요
          */
         
-        // 파이썬 서버로 전달
-        RestTemplate restTemplate = new RestTemplate();
+//        // 파이썬 서버로 전달
+//        RestTemplate restTemplate = new RestTemplate();
+//
+//        // 파이썬 서버로부터 반환된 데이터
+//        String pythonResponse = restTemplate.postForObject(checkRequestUrl, pythonRequestClothesLists, String.class);
+//
+//        // AICheckOutfitPythonResponseDto 로 매핑
+//        // ObjectMapper의 리플렉션을 이용하여 Json문자열로 부터 객체를 만드는 역직렬화 하여줌 ( 반대도 가능 )
+//        ObjectMapper mapper = new ObjectMapper();
+//        AICheckOutfitPythonResponseDto aiCheckOutfitPythonResponseDto;
+//
+//        try {
+//            aiCheckOutfitPythonResponseDto =
+//                    mapper.readValue(pythonResponse, AICheckOutfitPythonResponseDto.class);
+//        } catch (JsonProcessingException e) {
+//            throw new BaseException(BaseResponseStatus.JSON_PARSE_ERROR);
+//        }
 
-        // 파이썬 서버로부터 반환된 데이터
-        String pythonResponse = restTemplate.postForObject(checkRequestUrl, pythonRequestClothesLists, String.class);
+        // AiCheckOutfitPythonResponseDto 임시 더미 데이터 Start ------
+        List<PythonResponseClothesResult> tempPythonResponseClothesResult = new ArrayList<>();
+        for(int i=1;i<=4;i++){
+            PythonResponseClothesResult item = new PythonResponseClothesResult(i, "무난해요", 50);
 
-        // AICheckOutfitPythonResponseDto 로 매핑
-        // ObjectMapper의 리플렉션을 이용하여 Json문자열로 부터 객체를 만드는 역직렬화 하여줌 ( 반대도 가능 )
-        ObjectMapper mapper = new ObjectMapper();
-        AICheckOutfitPythonResponseDto aiCheckOutfitPythonResponseDto;
+            System.out.println(i+" 번째 : "+item);
 
-        try {
-            aiCheckOutfitPythonResponseDto =
-                    mapper.readValue(pythonResponse, AICheckOutfitPythonResponseDto.class);
-        } catch (JsonProcessingException e) {
-            throw new BaseException(BaseResponseStatus.JSON_PARSE_ERROR);
+            tempPythonResponseClothesResult.add(item);
         }
 
+        ResponseClothesFeature tempClothesFeature = ResponseClothesFeature.builder()
+                .temperature(5)
+                .darkness(5)
+                .seasonX(5)
+                .seasonY(5)
+                .build();
+
+        System.out.println("tempClothesFeature : " + tempClothesFeature);
+
+        ResponseWeatherInfo tempWeatherInfo = ResponseWeatherInfo.builder()
+                .minTemperature(10)
+                .maxTemperature(20)
+                .weather(0)
+                .build();
+
+        System.out.println("tempWeatherInfo : "+tempWeatherInfo);
+
+        AICheckOutfitPythonResponseDto aiCheckOutfitPythonResponseDto = AICheckOutfitPythonResponseDto.builder()
+                .clothesResult(tempPythonResponseClothesResult)
+                .clothesFeature(tempClothesFeature)
+                .weatherInfo(tempWeatherInfo)
+                .build();
+        // AiCheckOutfitPythonResponseDto 임시 더미 데이터 End ------
+
+
         // Client로 Response보낼 Dto 준비
-        List<ClientResponseClothesResult> clientClothesResult = null;
+        List<ClientResponseClothesResult> clientClothesResult = new ArrayList<>();
         List<PythonResponseClothesResult> pythonClothesResult = aiCheckOutfitPythonResponseDto.getClothesResult();
             // clothes_ai_check_outfit 테이블을 위해서 선언
-        List<Integer> clothesIds = null;
+//        List<Integer> clothesIds = null;
 
         for(PythonResponseClothesResult pythonClothes : pythonClothesResult){
 
-            AICheckOutfitPythonResponseClothesResult tempClothesResult =
+            IAiCheckOutfitPythonResponseClothesResult tempClothesResult =
                     clothesRepository.findIdAndImageUrlAndLargeCategoryIdByClothesId(pythonClothes.getClothesId());
 
             System.out.println("AICheckOutfitServiceImpl tempClothesResult : "+tempClothesResult);
@@ -150,12 +184,12 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService{
 
             System.out.println("AICheckOutfitServiceImpl tempClientClothes : "+tempClientClothes);
 
-            clothesIds.add(pythonClothes.getClothesId());
+//            clothesIds.add(pythonClothes.getClothesId());
             clientClothesResult.add(tempClientClothes);
         }
 
         // DB에 저장할 데이터 ( ai_check_outfit , clothes_in_ai_check_outfit 테이블 ) 준비 및 save
-        DateTime now = DateTime.now();
+        Date now = new Date(System.currentTimeMillis());
 
         System.out.println("DateTime now() : "+now);
 
@@ -174,31 +208,29 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService{
 
         System.out.println("ai_check_outfit 테이블에 저장할 데이터 : "+ aiCheckOutfit);
 
-            // 저장과 동시에 id 가져오기
+            // 저장과 동시에 ai_check_outfit의 id 가져오기
         int ai_check_outfit_id = aiCheckOutfitRepository.save(aiCheckOutfit).getId();
-            // clothes_in_ai_check_outfit entity에 넣어주기 위해 다시 불러옴
+            // clothes_in_ai_check_outfit entity에 넣어주기 위해 ai_check_outfit 다시 불러옴
         AiCheckOutfit recallAiCheckOutfit = aiCheckOutfitRepository.findAiCheckOutfitById(ai_check_outfit_id);
 
         // clothes_in_ai_check_outfit 테이블에 저장 ( 리스트라서 저장 방법 다르게 )
-        // 136 line 과 같이 쓸 방법 모색해보자 너무 비효율적, 지금 코드도 꼬였음
-        for(int clothesId : clothesIds){
-
-            Clothes recallClothes = clothesRepository.findByClothesId(clothesId);
+        for(ClientResponseClothesResult item : clientClothesResult){
+            // 엔티티 양식때문에 clothes 불러옴
+            Clothes recallClothes = clothesRepository.findByClothesId(item.getClothesId());
 
             ClothesInAiCheckOutfit clothesInAiCheckOutfit = ClothesInAiCheckOutfit.builder()
                     .clothes(recallClothes)
                     .aiCheckOutfit(recallAiCheckOutfit)
-                    .result()
-                    .fitnessNum()
+                    .result(item.getResult())
+                    .fitnessNum(item.getFitnessNum())
                     .build();
 
-
+            clothesInAiCheckOutfitRepsitory.save(clothesInAiCheckOutfit);
         }
-
 
         // Client에게 보낼 Response
         AICheckOutfitClientResponseDto aiCheckOutfitClientResponseDto = AICheckOutfitClientResponseDto.builder()
-                .id(1) // 임시, ai_check_outfit 저장 후 착장 id 찾아서 반환해야함
+                .id(ai_check_outfit_id)
                 .regDate(now)
                 .clothesResult(clientClothesResult)
                 .clothesFeature(aiCheckOutfitPythonResponseDto.getClothesFeature())

@@ -1,6 +1,7 @@
 package com.ssafy.moeutto.domain.aiCheckOutfit.controller;
 
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.AICheckOutfitClientRequestDto;
+import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitClientResponseDto;
 import com.ssafy.moeutto.domain.aiCheckOutfit.service.AICheckOutfitService;
 import com.ssafy.moeutto.global.response.BaseException;
 import com.ssafy.moeutto.global.response.BaseResponse;
@@ -21,9 +22,10 @@ public class AICheckOutfitController {
                                               @RequestBody AICheckOutfitClientRequestDto aiCheckOutfitClientRequestDto){
 
         try {
-            aiCheckOutfitService.checkOutfit(token, aiCheckOutfitClientRequestDto);
+            AICheckOutfitClientResponseDto aiCheckOutfitClientResponseDto =
+                    aiCheckOutfitService.checkOutfit(token, aiCheckOutfitClientRequestDto);
 
-            return baseResponseService.getSuccessResponse(aiCheckOutfitClientRequestDto);
+            return baseResponseService.getSuccessResponse(aiCheckOutfitClientResponseDto);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
         }
