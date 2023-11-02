@@ -95,7 +95,7 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 //        String redirectURL = "http://localhost:8080/api/members/check";
 //        String redirectURL = "http://localhost:8080/api/oauth/kakao";
         String redirectURL = "http://localhost:3000/login-redirect";
-
+//        String redirectURL = "http://localhost:3000/main";
         try {
             URL url = new URL(requestURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -173,7 +173,7 @@ public class MemberLoginServiceImpl implements MemberLoginService {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
-            connection.setRequestProperty("accessToken", accessToken);
+            connection.setRequestProperty("Authorization","Bearer "+ accessToken);
 
             int responseCode = connection.getResponseCode();
 
