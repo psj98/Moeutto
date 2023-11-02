@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { CardProps } from '../../../pages/MyClosetReportPage';
 
 const Card = styled.div`
-  width: 366px;
+  width: 80%;
   height: 204px;
   flex-shrink: 0;
   border-radius: 10px;

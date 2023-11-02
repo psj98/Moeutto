@@ -10,8 +10,8 @@ const Container = styled.div`
 const ReportCardSection = ({ CardPropsArray }: { CardPropsArray: CardProps[] }) => {
   return (
     <Container>
-      {CardPropsArray.map(item => (
-        <ReportCard contents={item.contents} url={item.url} />
+      {CardPropsArray.map((item, index) => (
+        <ReportCard key={index} contents={item.contents} url={item.url} />
       ))}
     </Container>
   );

@@ -14,7 +14,7 @@ export const cardArray: CardProps[] = [
 
 function MyClosetReport() {
   return (
-    <div className="myCloset">
+    <div className="w-[100%]">
       <div className="font-bold text-pink text-WebBody1">My Closet page</div>
       {/* <AddClothFormTemplate /> */}
       <MyClosetBar state={3} />
