@@ -22,6 +22,30 @@ const otherAnalysisColor: ColorAmountProp[] = [
   { color: 'yellow', amount: 10 },
 ];
 
+// value 기준으로 내림차순 정렬
+myAnalysisColor.sort(function (a, b) {
+  if (a.amount > b.amount) {
+    return -1;
+  }
+  if (a.amount < b.amount) {
+    return 1;
+  }
+  // a must be equal to b
+  return 0;
+});
+
+// value 기준으로 내림차순 정렬
+otherAnalysisColor.sort(function (a, b) {
+  if (a.amount > b.amount) {
+    return -1;
+  }
+  if (a.amount < b.amount) {
+    return 1;
+  }
+  // a must be equal to b
+  return 0;
+});
+
 const analysisData: AnalysisData = { myAnalysisColor, otherAnalysisColor };
 
 function ReportColorPage() {
