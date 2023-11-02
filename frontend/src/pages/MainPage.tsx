@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import MainInfo from "../components/main/organisms/MainInfo"
  import PickButtonTap from "../components/main/organisms/PickButtonTap";
@@ -10,6 +11,7 @@ import { authInstance } from "../api/api";
 // import Weather from "../api/Weather";
 
 const MainPage = () => {
+    const navigate = useNavigate();
     // 현재 위치
     const [currentLocation, setCurrentLocation] = useState<{ 
         latitude: number; 
@@ -142,7 +144,7 @@ const MainPage = () => {
 
     // 옷 추천 리스트
     const [clothesListData, setClothesListData] = useState<any>([]);
-
+    // const navigate = useNavigate();
     const clothesData = async () => {
 
         const requesBody = [
@@ -186,10 +188,16 @@ const MainPage = () => {
             return response.data;
         } catch (error) {
             console.log('옷 목록 데이터 조회 실패', error);
+
+            // if (error.response.data.status === 500) {
+            //     navigate('/mycloset/add-cloth')
+            //     // alert('보유한 옷이 적어 추천이 불가능합니다. 옷을 등록해주세요.')
+            // }
             
             // 보유한 옷이 적어 추천이 불가능합니다.
             
-            throw new Error('옷 목록 데이터 조회 실패');
+            // throw new Error('옷 목록 데이터 조회 실패');
+            return null;
         }
     };
 
@@ -222,9 +230,15 @@ const MainPage = () => {
         <>
             <div className="flex flex-col p-4">
                 <MainInfo currentLocation={currentLocation} address={address} showLocationClick={showLocationClick} />
-                <br />
-                {/* 날씨 기반 추천 리스트 */}
-                <RecommendList clothesListData={clothesListData} weatherListData={weatherListData} />
+                {clothesListData.length > 0 ? (
+                    <div>
+                        <br />
+                        {/* 날씨 기반 추천 리스트 */}
+                        <RecommendList clothesListData={clothesListData} weatherListData={weatherListData} />
+                    </div>
+                ) : (
+                    <div className="border border-pink-hot w-1/4 h-[50px] flex items-center justify-center rounded-2xl font-WebBody1 font-bold text-pink" onClick={() => navigate('/mycloset/add-cloth')}>옷 등록하러 가기</div>
+                )}
                 <br />
                 {/* 버튼 탭 */}
                 <PickButtonTap />
