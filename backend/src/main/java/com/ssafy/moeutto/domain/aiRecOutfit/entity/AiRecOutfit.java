@@ -11,7 +11,7 @@ import java.sql.Date;
 @Entity
 @Getter
 @NoArgsConstructor
-public class AIRecOutfit {
+public class AiRecOutfit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public class AIRecOutfit {
     private Date recDate; // 등록 날짜
 
     @Builder(toBuilder = true)
-    public AIRecOutfit(Integer id, Member member, Date recDate) {
+    public AiRecOutfit(Integer id, Member member, Date recDate) {
         this.id = id;
         this.member = member;
         this.recDate = recDate;

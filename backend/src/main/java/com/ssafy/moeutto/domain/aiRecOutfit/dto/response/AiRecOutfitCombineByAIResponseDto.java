@@ -9,14 +9,14 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class AIRecOutfitCombineByAIResponseDto {
+public class AiRecOutfitCombineByAIResponseDto {
 
     private List<Integer> clothesId;
 
     private Date recDate;
 
     @Builder(toBuilder = true)
-    public AIRecOutfitCombineByAIResponseDto(List<Integer> clothesId, Date recDate) {
+    public AiRecOutfitCombineByAIResponseDto(List<Integer> clothesId, Date recDate) {
         this.clothesId = clothesId;
         this.recDate = recDate;
     }
