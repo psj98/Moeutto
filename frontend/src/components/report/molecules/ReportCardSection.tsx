@@ -4,7 +4,7 @@ import { CardProps } from '../../../pages/MyClosetReportPage';
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
 `;
 
 const ReportCardSection = ({ CardPropsArray }: { CardPropsArray: CardProps[] }) => {
