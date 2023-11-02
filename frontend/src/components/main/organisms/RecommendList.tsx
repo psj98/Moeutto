@@ -53,7 +53,7 @@ const RecommendList: React.FC<PropsType> = ({
                     <div style={{ marginTop: index === 0 ? '-5px' : '31px' }}>
                         <RecommendItem 
                             key={index} 
-                            clothesListData={item.clothesInAIOutfit}
+                            clothesListData={item.clothesInfo}
                             maxTemperature={item.maxTemperature}
                             minTemperature={item.minTemperature}
                             weather={item.weather}
