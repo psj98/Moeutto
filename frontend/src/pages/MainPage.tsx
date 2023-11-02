@@ -140,7 +140,8 @@ const MainPage = () => {
     //     recDate: Date;
     // }
 
-    // const [recommendList, setRecommendList] = useState<any>();
+    // 옷 추천 리스트
+    const [clothesListData, setClothesListData] = useState<any>([]);
 
     const clothesData = async () => {
 
@@ -179,32 +180,43 @@ const MainPage = () => {
             const axiosInstance = authInstance({ ContentType: 'application/json' });
             const response = await axiosInstance.post('/ai-rec-outfits/combine', requesBody);
             
-            console.log('추천 착장 조회 성공', response.data);
+            console.log('추천 착장 조회 성공', response.data.data);
+            setClothesListData(response.data.data);
 
             return response.data;
         } catch (error) {
             console.log('옷 목록 데이터 조회 실패', error);
-
+            
+            // 보유한 옷이 적어 추천이 불가능합니다.
+            
             throw new Error('옷 목록 데이터 조회 실패');
         }
     };
 
-    useEffect(() => {
-        clothesData()
-    }, [])
+    // 추천 리스트 하루에 한 번만 불러오기
+    // const ONE_HOUR = 60 * 60 * 1000;
 
-    
-    // 옷 추천 리스트
-    const [clothesListData, setClothesListData] = useState<any>([]);
+    useEffect(() => {
+        // const lastFetched = Number(localStorage.getItem('lastFetched'));
+        // const currentTime = new Date().getTime();
+
+        // if (!lastFetched || currentTime - lastFetched > ONE_HOUR) {
+        //     // If lastFetched is not set or more than a day has passed, fetch data
+        //     clothesData();
+
+        //     // Update the lastFetched time in localStorage
+        //     localStorage.setItem('lastFetched', currentTime.toString());
+        // }
+        clothesData();
+    }, []);
+  
 
     // 날씨 기반 리스트
     const [weatherListData, setWeatherListData] = useState<any>([]);
 
     useEffect(() => {
-        setClothesListData(RecommendClothesListData.recommenClothesInfo);
         setWeatherListData(RecommendClothesListData.recommenWeatherInfo);
     }, [])
-
 
     return (
         <>
