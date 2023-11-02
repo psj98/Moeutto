@@ -11,7 +11,7 @@ const MyClosetBar = ({ state }: propsType ) => {
 
     return (
         <>
-        <div className="flex gap-3 justify-center mt-4">
+        <div className="flex gap-3 justify-center mt-4 mb-4">
             <div 
                 className={`w-1/4 h-[60px] max-w-[250px] min-w-[120px] tracking-wider text-WebBody2 shadow-md flex items-center justify-center rounded-2xl bg-gray-button ${state === 1 ? 'bg-pink-light' : 'bg-gray-button'} hover:bg-pink-light`}
                 onClick={() => navigate('/mycloset')}
