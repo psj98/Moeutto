@@ -69,7 +69,7 @@ const PickPickPage = () => {
         }
 
         if (selectedOptionSort === "정렬") {
-            setSortBy("initail")
+            setSortBy("initial")
         } else if (selectedOptionSort === "등록순") {
             setSortBy("regDate")
         } else if (selectedOptionSort === "많이 입은 순") {
@@ -94,6 +94,10 @@ const PickPickPage = () => {
 
     // 선택한 옷 리스트
     const selectedClosetIds = useSelector((state: RootState) => state.closet.selectedClosetIds);
+
+    useEffect(() => {
+        console.log(selectedClosetIds)
+    }, [selectedClosetIds])
 
     // 옷 목록 조회
     const [clothesData, setClothesData] = useState<ClothesItem[]>([]);
@@ -124,7 +128,7 @@ const PickPickPage = () => {
         } catch (error) {
             console.log('옷 목록 데이터 조회 실패', error);
 
-            throw new Error('옷 목록 데이터 조회 대 실패');
+            throw new Error('옷 목록 데이터 조회 실패 토큰을 확인하세요');
         }
     };
 
@@ -164,7 +168,10 @@ const PickPickPage = () => {
         }
 
         if (requestData) {
+            localStorage.setItem('selectedClosetIds', JSON.stringify(selectedClosetIds));
             navigate('/analysis');
+        } else {
+            alert('선택한 옷이 없어요')
         }
     } 
   
