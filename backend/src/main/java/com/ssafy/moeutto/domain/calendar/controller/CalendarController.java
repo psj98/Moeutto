@@ -15,6 +15,7 @@ import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
 import java.util.UUID;
@@ -27,7 +28,6 @@ public class CalendarController {
 
     private final CalendarService calendarService;
     private final BaseResponseService baseResponseService;
-    private final JwtTokenProvider jwtService;
     private final AuthTokensGenerator authTokensGenerator;
 
 
@@ -53,18 +53,17 @@ public class CalendarController {
     /**
      * 캘린더에 착장을 등록하는 메서드 입니다.
      * <p>
-     * ToDo - S3에서 이미지 받아오는 부분 수정 해야함.
      *
-     * @param token      =  JWT TOKEN
-     * @param requestDto = 저장한 착장 사진 전체 ImageUrl을 담고있는 Dto 입니다.
+     * @param token =  JWT TOKEN
+     * @param file  = 이미지 파일 저장 하는 파라미터
      * @return
      */
     @PostMapping("/regist")
     public BaseResponse<Object> registCalendar(@RequestHeader(value = "accessToken", required = false) String token,
-                                               @RequestBody CalendarRegistRequestDto requestDto) {
+                                               @RequestPart("file") MultipartFile file) {
         try {
             UUID memberId = getMemberIdFromToken(token);
-            calendarService.registMyOutfit(memberId, requestDto);
+            calendarService.registMyOutfit(memberId, token, file);
             return baseResponseService.getSuccessResponse();
 
         } catch (BaseException e) {

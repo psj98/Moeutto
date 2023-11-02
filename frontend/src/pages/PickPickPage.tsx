@@ -1,238 +1,162 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 // axios
 // import { useQuery } from 'react-query';
-// import axiosWithAuth from "../api/api";
-import { useNavigate } from "react-router-dom";
-import { RootState } from "../redux/store";
-import PickComponent from "../components/common/category/organisms/PickComponent";
-import Scroll from "../components/common/scroll/molecules/Scroll";
+import { authInstance } from '../api/api';
 
-// 아토믹 디자인 패턴 확인하기
+import { RootState } from '../redux/store';
+import PickComponent from '../components/common/category/organisms/PickComponent';
+import Scroll from '../components/common/scroll/molecules/Scroll';
 
 export interface ClothesItem {
-    id: number; // 옷 등록 id
-    middleCategoryId: string; // 중분류 카테고리 id
-    largeCategoryId: string; // 대분류 카테고리 id
-    color: string; // 색상
-    frequency: number; // 빈도
-    star: number; // 즐겨찾기 여부
-    image: string; // 이미지
-    regDate: string; // 등록 날짜 (DateTime 타입으로 변경 가능)
+  id: number; // 옷 등록 id
+  middleCategoryId: string; // 중분류 카테고리 id
+  largeCategoryId: string; // 대분류 카테고리 id
+  color: string; // 색상
+  frequency: number; // 빈도
+  star: number; // 즐겨찾기 여부
+  imageUrl: string; // 이미지
+  regDate: string; // 등록 날짜 (DateTime 타입으로 변경 가능)
 }
 
 const PickPickPage = () => {
-    const navigate = useNavigate();
-    // 카테고리
-    // 대분류
-    const [selectedOptionMain, setSelectedOptionMain] = useState<string | null>(null);
+  const navigate = useNavigate();
+  // 카테고리
+  // 대분류
+  const [selectedOptionMain, setSelectedOptionMain] = useState<string | null>('전체');
+  // 중분류
+  const [selectedOptionMiddle, setSelectedOptionMiddle] = useState<string | null>('000000');
+  // 정렬순
+  const [selectedOptionSort, setSelectedOptionSort] = useState<string | null>(null);
+
+  // 데이터 가져오기
+  const [categoryId, setCategoryId] = useState<string>('000000');
+  const [sortBy, setSortBy] = useState<string>('initial');
+  const [orderBy, setOrderBy] = useState<number>(0); // 0: 오름차순, 1: 내림차순
+
+  // 카테고리 선택 확인
+  useEffect(() => {
+    console.log('전체 떠야됨', selectedOptionMain);
+
     // 중분류
-    const [selectedOptionMiddle, setSelectedOptionMiddle] = useState<string | null>(null);
+    const [selectedOptionMiddle, setSelectedOptionMiddle] = useState<string | null>("000000");
     // 정렬순
     const [selectedOptionSort, setSelectedOptionSort] = useState<string | null>(null);
 
+
+    // 데이터 가져오기
+    const [categoryId, setCategoryId] = useState<string>("000000");
+    const [sortBy, setSortBy] = useState<string>('initial');
+    const [orderBy, setOrderBy] = useState<number>(0); // 0: 오름차순, 1: 내림차순
+
     // 카테고리 선택 확인
     useEffect(() => {
-        // 전체를 클릭하면 중분류 초기화
-        if (selectedOptionMain === "전체") {
-            setSelectedOptionMiddle(null);
+        console.log("전체 떠야됨", selectedOptionMain)
+        
+        // 중분류
+        if (selectedOptionMiddle === "패딩") {
+            setCategoryId("001001");
+        } else if (selectedOptionMiddle === "코트") {
+            setCategoryId("001002");
+        } else if (selectedOptionMiddle === "자켓") {
+            setCategoryId("001003");
+        } else if (selectedOptionMiddle === "맨투맨") {
+            setCategoryId("002001");
+        } else if (selectedOptionMiddle === "후드") {
+            setCategoryId("002002");
+        } else if (selectedOptionMiddle === "반팔") {
+            setCategoryId("002003");
+        } else if (selectedOptionMiddle === "청바지") {
+            setCategoryId("003001");
+        } else if (selectedOptionMiddle === "반바지") {
+            setCategoryId("003002");
+        } else if (selectedOptionMiddle === "카고팬츠") {
+            setCategoryId("003003");
+        } else if (selectedOptionMiddle === "귀마개") {
+            setCategoryId("004001");
+        } else if (selectedOptionMiddle === "장갑") {
+            setCategoryId("004002");
+        } else if (selectedOptionMiddle === "목도리") {
+            setCategoryId("004003");
         }
-        console.log(selectedOptionMain, selectedOptionMiddle, selectedOptionSort);
+
+        if (selectedOptionSort === "정렬") {
+            setSortBy("initail")
+        } else if (selectedOptionSort === "등록순") {
+            setSortBy("regDate")
+        } else if (selectedOptionSort === "많이 입은 순") {
+            setSortBy("frequency");
+            setOrderBy(1);
+        } else if (selectedOptionSort === "적게 입은 순") {
+            setSortBy("frequency");
+        } else {
+            setSortBy("color");
+        }
+
+        // 대분류
+        if (selectedOptionMain === "000000") {
+            setCategoryId("000000");
+            setSortBy("initial");
+            setOrderBy(0);
+        } 
+
+        console.log('body에 담을 것', categoryId, sortBy, orderBy)
     }, [selectedOptionMain, selectedOptionMiddle, selectedOptionSort])
+
+    
 
     // 선택한 옷 리스트
     const selectedClosetIds = useSelector((state: RootState) => state.closet.selectedClosetIds);
-    
-    // 옷 목록 조회 더미 api
-    const clothesData: ClothesItem[] = [
-        {
-            "id": 1, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 2, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 3, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 4, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-        {
-            "id": 5, // 옷 등록 id
-            "middleCategoryId": "String", // 중분류 카테고리 id
-            "largeCategoryId": "String", // 대분류 카테고리 id
-            "color": "String", // 색상
-            "frequency": 0, // 빈도
-            "star": 0, // 즐겨찾기 여부
-            "image": "/images/clothes1.png", // 이미지
-            "regDate": "DateTime", // 등록 날짜
-        },
-    ]
-    // let clothesData: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-    // const accessToken: string = window.sessionStorage.getItem("accessToken");
+    // 옷 목록 조회
+    const [clothesData, setClothesData] = useState<ClothesItem[]>([]);
 
-    // const fetchData = async () => {
-    //     // 데이터 가져오기
-    //     const categoryId: string = 'yourCategoryId';
-    //     const sortBy: string = 'regDate'; // 또는 'frequency', 'color'
-    //     const orderBy: number = 0; // 0: 오름차순, 1: 내림차순
+    const fetchData = async () => {
 
-    //     try {
-    //         const axiosInstance = axiosWithAuth(accessToken);
-    //         const response = await axiosInstance.get('/api/clothes/list', {
-    //             params: {
-    //                 categoryId,
-    //                 sortBy,
-    //                 orderBy
-    //             }
-    //         });
+        try {
+            // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
+            const axiosInstance = authInstance();
+            const response = await axiosInstance.post('/clothes/list', {
+                categoryId,
+                sortBy,
+                orderBy
+                
+            });
             
-    //         console.log('옷 목록 데이터 조회 성공', response.data);
+            console.log('옷 목록 데이터 조회 성공', response.data);
 
-    //         return response.data;
-    //     } catch (error) {
-            
-    //         console.log('옷 목록 데이터 조회 실패', error);
+            if (response.data.data) {
+                setClothesData(response.data.data);
+            } else {
+                // alert('옷 목록이 없어요')
+                setClothesData([]);
+            }
 
-    //         throw new Error('Failed to fetch data');
-    //     }
-    // };
+            return response.data;
+        } catch (error) {
+            console.log('옷 목록 데이터 조회 실패', error);
 
-    // const { isLoading, isError, data } = useQuery('selectcloset', fetchData);
-    // const { isLoading, isError, data, error } = useQuery('selectcloset', fetchData);
+            throw new Error('옷 목록 데이터 조회 대 실패');
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, [categoryId, sortBy, orderBy])
+
+
+    // const { isLoading, isError, data } = useQuery('selectcloset', fetchData, {
+    //     enabled: true, // 초기 데이터 요청을 활성화
+    //     refetchOnWindowFocus: false, // 윈도우 포커스 시 다시 요청하지 않도록 설정
+    // });
+
+    // let clothesData: number[] = [];
 
     // if (data) {
     //     clothesData = data as number[];
+    //     console.log('옷 데이터 목록', clothesData)
     // }
 
     // if (isLoading) {
@@ -244,45 +168,137 @@ const PickPickPage = () => {
     // }
 
 
-    // 제출하기 api 필요
+    // 제출하기 버튼 동작 시 -> 리덕스에 선택한 옷 정보 저장 후 분석 페이지로 이동
     const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = (event) => {
         // 기본 동작 방지
         event.preventDefault();
-        // request에 담을 데이터
+        // redux에 저장할 데이터
         const requestData = {
             selectedClosetIds
         }
 
-        console.log('제출 함수 실행 성공', requestData);
         if (requestData) {
             navigate('/analysis');
         }
     }
 
+    if (selectedOptionSort === '정렬') {
+      setSortBy('initail');
+    } else if (selectedOptionSort === '등록순') {
+      setSortBy('regDate');
+    } else if (selectedOptionSort === '많이 입은 순') {
+      setSortBy('frequency');
+      setOrderBy(1);
+    } else if (selectedOptionSort === '적게 입은 순') {
+      setSortBy('frequency');
+    } else {
+      setSortBy('color');
+    }
 
-    useEffect(() => {
-        console.log('선택된 옷 리스트', selectedClosetIds);
-    }, [selectedClosetIds])
+    // 대분류
+    if (selectedOptionMain === '000000') {
+      setCategoryId('000000');
+      setSortBy('initial');
+      setOrderBy(0);
+    }
 
-    return (
-        <>
-            <PickComponent
-                selectedOptionMain={selectedOptionMain}
-                setSelectedOptionMain={setSelectedOptionMain}
-                selectedOptionMiddle={selectedOptionMiddle}
-                setSelectedOptionMiddle={setSelectedOptionMiddle}
-                selectedOptionSort={selectedOptionSort}
-                setSelectedOptionSort={setSelectedOptionSort}
-                handleSubmit={handleSubmit}
-                clothesData={clothesData}
-             />
-             
-             <div className="fixed bottom-1/3 right-0 me-[5vw]">
-                <Scroll />
-             </div>
-             
-        </>
-    )
-}
+    console.log('body에 담을 것', categoryId, sortBy, orderBy);
+  }, [selectedOptionMain, selectedOptionMiddle, selectedOptionSort]);
+
+  // 선택한 옷 리스트
+  const selectedClosetIds = useSelector((state: RootState) => state.closet.selectedClosetIds);
+
+  // 옷 목록 조회
+  const [clothesData, setClothesData] = useState<ClothesItem[]>([]);
+
+  const fetchData = async () => {
+    try {
+      // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
+      const axiosInstance = authInstance({ ContentType: 'application/json' });
+      const response = await axiosInstance.post('/clothes/list', {
+        categoryId,
+        sortBy,
+        orderBy,
+      });
+
+      console.log('옷 목록 데이터 조회 성공', response.data);
+
+      if (response.data.data) {
+        setClothesData(response.data.data);
+      } else {
+        // alert('옷 목록이 없어요')
+        setClothesData([]);
+      }
+
+      return response.data;
+    } catch (error) {
+      console.log('옷 목록 데이터 조회 실패', error);
+
+      throw new Error('옷 목록 데이터 조회 대 실패');
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [categoryId, sortBy, orderBy]);
+
+  // const { isLoading, isError, data } = useQuery('selectcloset', fetchData, {
+  //     enabled: true, // 초기 데이터 요청을 활성화
+  //     refetchOnWindowFocus: false, // 윈도우 포커스 시 다시 요청하지 않도록 설정
+  // });
+
+  // let clothesData: number[] = [];
+
+  // if (data) {
+  //     clothesData = data as number[];
+  //     console.log('옷 데이터 목록', clothesData)
+  // }
+
+  // if (isLoading) {
+  //     return <div>로딩중</div>
+  // }
+
+  // if (isError) {
+  //     return <div>에러가 났어요</div>
+  // }
+
+  // 제출하기 api 필요
+  const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = event => {
+    // 기본 동작 방지
+    event.preventDefault();
+    // request에 담을 데이터
+    const requestData = {
+      selectedClosetIds,
+    };
+
+    console.log('제출 함수 실행 성공', requestData);
+    if (requestData) {
+      navigate('/analysis');
+    }
+  };
+
+  useEffect(() => {
+    console.log('선택된 옷 리스트', selectedClosetIds);
+  }, [selectedClosetIds]);
+
+  return (
+    <>
+      <PickComponent
+        selectedOptionMain={selectedOptionMain}
+        setSelectedOptionMain={setSelectedOptionMain}
+        selectedOptionMiddle={selectedOptionMiddle}
+        setSelectedOptionMiddle={setSelectedOptionMiddle}
+        selectedOptionSort={selectedOptionSort}
+        setSelectedOptionSort={setSelectedOptionSort}
+        handleSubmit={handleSubmit}
+        clothesData={clothesData}
+      />
+
+      <div className="fixed bottom-1/3 right-0 me-[5vw]">
+        <Scroll />
+      </div>
+    </>
+  );
+};
 
 export default PickPickPage;

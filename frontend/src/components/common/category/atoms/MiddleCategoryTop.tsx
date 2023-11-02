@@ -28,8 +28,8 @@ interface MiddleCategoryTopProps {
 
 const MiddleCategory: React.FC<MiddleCategoryTopProps> = ({ categories, selectedOption, setSelectedOption }) => {
 
-  const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedOption(e.target.id);
+  const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => { 
+    setSelectedOption(e.target.id)
   };
 
   return (

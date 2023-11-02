@@ -2,6 +2,7 @@ package com.ssafy.moeutto.domain.clothes.repository;
 
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitPythonResponseClothesResult;
 import com.ssafy.moeutto.domain.aiCheckOutfit.entity.IAiCheckOutfitPythonResponseClothesResult;
+import com.ssafy.moeutto.domain.aiCheckOutfit.entity.IAiCheckOutfitPythonResponseClothesResult;
 import com.ssafy.moeutto.domain.clothes.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -324,7 +325,38 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
     List<IClothesAnalysisAmount> findByMinMaxMember(UUID memberId);
 
     /**
+     * 최근 n개월 내 입은 옷을 분석합니다. - 전체 활용도
+     *
+     * @param memberId
+     * @return
+     */
+    @Query(value = "SELECT COUNT(*) FROM Clothes " +
+            "WHERE recent_date >= NOW() - INTERVAL 3 MONTH AND recent_date <= NOW() " +
+            "AND frequency > 0 " +
+            "AND member_id = ?1", nativeQuery = true)
+    Long findRecentDateForNMonthByMemberId(UUID memberId);
+
+    /**
+     * 최근 n개월 내 입은 옷을 분석합니다. - 대분류 카테고리 별 활용도
+     *
+     * @param memberId
+     * @return
+     */
+    @Query(value = "SELECT SUBSTRING(c.middle_category_id, 1, 3) as largeCategoryId, COUNT(*) as totalAmount, " +
+            "SUM(CASE " +
+            "       WHEN c.recent_date >= NOW() - INTERVAL 3 MONTH AND c.recent_date <= NOW() AND c.frequency > 0 " +
+            "       THEN 1 " +
+            "       ELSE 0 " +
+            "   END) AS usedAmount " +
+            "FROM clothes c " +
+            "WHERE c.member_id = ?1 " +
+            "GROUP BY SUBSTRING(c.middle_category_id, 1, 3) " +
+            "ORDER BY SUBSTRING(c.middle_category_id, 1, 3) ", nativeQuery = true)
+    List<IClothesAnalysisAvailability> findMyAnalysisAmountByMemberId(UUID memberId);
+
+    /**
      * 옷 번호로 옷을 찾아 Clothes 형태로 리턴
+     *
      * @param clothesId
      * @return Clothes
      */
@@ -333,10 +365,11 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
 
     /**
      * Python 서버에 착장 검사 요청 후 받은 Response에 옷의 largeCategoryId와 imageUrl을 추가해주기 위해
+     *
      * @param clothesId
      * @return AICheckOutfitPythonResponseClothesResult
      */
-    @Query(value="SELECT a.id AS id , a.image_url AS imageUrl , b.large_category_id AS largeCategoryId " +
+    @Query(value = "SELECT a.id AS id , a.image_url AS imageUrl , b.large_category_id AS largeCategoryId " +
             "FROM clothes AS a LEFT JOIN middle_category AS b " +
             "ON a.middle_category_id = b.id " +
             "WHERE a.id = :clothesId " +

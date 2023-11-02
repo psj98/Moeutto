@@ -1,5 +1,7 @@
 package com.ssafy.moeutto.domain.calendar.service;
 
+import com.ssafy.moeutto.domain.S3.dto.response.S3ResponseDto;
+import com.ssafy.moeutto.domain.S3.service.S3Service;
 import com.ssafy.moeutto.domain.calendar.dto.request.CalendarRegistRequestDto;
 import com.ssafy.moeutto.domain.calendar.dto.request.CalendarScoreRequestDto;
 import com.ssafy.moeutto.domain.calendar.dto.response.CalendarListResponseDto;
@@ -13,7 +15,9 @@ import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,15 +32,16 @@ public class CalendarServiceImpl implements CalendarService {
 
     private final CalendarRepository calendarRepository;
     private final MemberRepository memberRepository;
+    private final S3Service s3Service;
 
     /**
      * 캘린더에 착장을 등록하는 서비스입니다.
      *
      * @param memberId
-     * @param requestDto : 요소가 ImageUrl 하나 있음. S3에서 받아와야함.
+     * @ToDo: CalendarRegistRequestDto 필요 없으면 삭제.ㅎ
      */
     @Override
-    public void registMyOutfit(UUID memberId, CalendarRegistRequestDto requestDto) throws BaseException {
+    public void registMyOutfit(UUID memberId, String token, MultipartFile file) throws BaseException {
 
         Optional<Member> member = memberRepository.findById(memberId);
 
@@ -44,13 +49,23 @@ public class CalendarServiceImpl implements CalendarService {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER);
         }
 
+        S3ResponseDto s3ResponseDto;
+
+        //옷 사진 S3에 등록
+        try{
+            s3ResponseDto = s3Service.uploadImage(token, file);
+        }catch (IOException e){
+            throw new BaseException(BaseResponseStatus.S3_FILE_IO_ERROR);
+        }
+
         Date curDate = Date.valueOf(LocalDate.now());
 
         Calendar calendar =
                 Calendar.builder()
                         .memberId(memberId)
-                        .imageUrl(requestDto.getImageUrl())
+                        .imageUrl(s3ResponseDto.getAccessUrl())
                         .regDate(curDate)
+                        .likeOutfit(0)
                         .build();
 
         calendarRepository.save(calendar);
@@ -60,7 +75,7 @@ public class CalendarServiceImpl implements CalendarService {
      * 캘린더를 불러오는 서비스입니다.
      * <p>
      * <p>
-     * ToDo : JWT TOKEN 기능 완성되면 연동 후 테스트 필요
+     * ToDo : JWT TOKEN 기능 완성되면 연동 후 테스트 필요 -> 2023-10-30 테스트완료
      *
      * @param regDate
      * @return

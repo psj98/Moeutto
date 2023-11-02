@@ -23,6 +23,7 @@ const TopComponent: React.FC<PropsType> = ({
     setSelectedOptionSort,
     handleSubmit
 }) => {
+
     return (
         <>
             <PickTitle />

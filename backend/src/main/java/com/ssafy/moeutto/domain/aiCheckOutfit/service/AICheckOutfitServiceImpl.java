@@ -43,8 +43,9 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService{
     private final AuthTokensGenerator authTokensGenerator;
     private final MemberRepository memberRepository;
 
-    @Value("${python.check.request.url}")
-    private String checkRequestUrl;
+    // 아직 필요없음 (python request URL임 )
+//    @Value("${python.check.request.url}")
+//    private String checkRequestUrl;
 
     @Override
     public AICheckOutfitClientResponseDto checkOutfit(String token, AICheckOutfitClientRequestDto aiCheckOutfitClientRequestDto) throws BaseException {
