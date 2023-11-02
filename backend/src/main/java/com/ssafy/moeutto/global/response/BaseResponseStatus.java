@@ -55,7 +55,13 @@ public enum BaseResponseStatus {
      * Code : 7000번대
      */
     S3_FILE_IO_ERROR(false,7001,"S3 업로드 중 에러가 발생."),
-    S3_FOLDER_MAKE_ERROR(false,7002,"S3 사용자 폴더 생성 에러");
+    S3_FOLDER_MAKE_ERROR(false,7002,"S3 사용자 폴더 생성 에러"),
+
+    /**
+     * AiRecOutfit
+     * Code : 8000번대
+     */
+    TOO_LITTLE_CLOTHES(false, 8001, "보유한 옷이 적어 추천이 불가능합니다.");
 
     // -------- 필요한 에러 코드 추가 => Code 만들 때 안겹치게 몇번대 사용할 건지 얘기할 것  -------- //
 
