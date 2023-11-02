@@ -154,8 +154,9 @@ public interface ClothesService {
 
     /**
      * 옷장의 사용도를 분석합니다.
+     *
      * @param memberId
      * @return
      */
-    ClothesAnalysisAvailabilityResponseDto getAnalysisUseClothes(UUID memberId) throws BaseException;
+    ClothesAnalysisAvailabilityResponseDto analysisAvailability(UUID memberId) throws BaseException;
 }

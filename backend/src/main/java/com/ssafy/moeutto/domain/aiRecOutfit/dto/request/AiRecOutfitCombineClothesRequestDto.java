@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor
-public class AIRecOutfitCombineClothesRequestDto {
+public class AiRecOutfitCombineClothesRequestDto {
 
     @NotNull
     private Integer clothesId;
@@ -29,7 +29,7 @@ public class AIRecOutfitCombineClothesRequestDto {
     private Integer frequency;
 
     @Builder(toBuilder = true)
-    public AIRecOutfitCombineClothesRequestDto(Integer clothesId, String season, String color, Integer thickness, String textile, Integer frequency) {
+    public AiRecOutfitCombineClothesRequestDto(Integer clothesId, String season, String color, Integer thickness, String textile, Integer frequency) {
         this.clothesId = clothesId;
         this.season = season;
         this.color = color;

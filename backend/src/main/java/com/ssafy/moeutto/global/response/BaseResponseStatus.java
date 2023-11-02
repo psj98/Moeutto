@@ -48,7 +48,7 @@ public enum BaseResponseStatus {
      * AICheckOutfit
      * Code : 6000번대
      */
-
+    JSON_PARSE_ERROR(false,6001, "데이터 파싱에 실패하였습니다."),
 
     /**
      * S3 Image Upload

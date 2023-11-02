@@ -1,5 +1,8 @@
 package com.ssafy.moeutto.domain.clothes.repository;
 
+import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitPythonResponseClothesResult;
+import com.ssafy.moeutto.domain.aiCheckOutfit.entity.IAiCheckOutfitPythonResponseClothesResult;
+import com.ssafy.moeutto.domain.aiCheckOutfit.entity.IAiCheckOutfitPythonResponseClothesResult;
 import com.ssafy.moeutto.domain.clothes.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -321,21 +324,71 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
             "ON minmax.id = l.id", nativeQuery = true)
     List<IClothesAnalysisAmount> findByMinMaxMember(UUID memberId);
 
-
     /**
-     * 최근 N 개월간 입은 옷에 대한 갯수를 MemeberId로 대조해불러옵니다.
+     * 최근 n개월 내 입은 옷을 분석합니다. - 전체 활용도
+     *
      * @param memberId
      * @return
      */
-    @Query(value = "SELECT count(*) FROM Clothes " +
-            "WHERE recent_date >= NOW() - INTERVAL 3 MONTH AND recent_date <= NOW() AND frequency > 0 ANd member_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT COUNT(*) FROM Clothes " +
+            "WHERE recent_date >= NOW() - INTERVAL 3 MONTH AND recent_date <= NOW() " +
+            "AND frequency > 0 " +
+            "AND member_id = ?1", nativeQuery = true)
     Long findRecentDateForNMonthByMemberId(UUID memberId);
 
-    @Query(value = "SELECT SUBSTRING(c.middle_category_id, 1, 3) as largeCategoryId, count(*) as totalAmount, " +
-            "SUM(CASE WHEN c.recent_date >= NOW() - INTERVAL 3 MONTH AND c.recent_date <= NOW() AND c.frequency > 0 THEN 1 ELSE 0 END) as usedAmount " +
+    /**
+     * 최근 n개월 내 입은 옷을 분석합니다. - 대분류 카테고리 별 활용도
+     *
+     * @param memberId
+     * @return
+     */
+    @Query(value = "SELECT SUBSTRING(c.middle_category_id, 1, 3) as largeCategoryId, COUNT(*) as totalAmount, " +
+            "SUM(CASE " +
+            "       WHEN c.recent_date >= NOW() - INTERVAL 3 MONTH AND c.recent_date <= NOW() AND c.frequency > 0 " +
+            "       THEN 1 " +
+            "       ELSE 0 " +
+            "   END) AS usedAmount " +
             "FROM clothes c " +
             "WHERE c.member_id = ?1 " +
             "GROUP BY SUBSTRING(c.middle_category_id, 1, 3) " +
             "ORDER BY SUBSTRING(c.middle_category_id, 1, 3) ", nativeQuery = true)
-    List<IMyAnalysisAmount> findMyAnalysisAmountByMemberId(UUID memberId);
+    List<IClothesAnalysisAvailability> findMyAnalysisAmountByMemberId(UUID memberId);
+
+    /**
+     * 옷 번호로 옷을 찾아 Clothes 형태로 리턴
+     *
+     * @param clothesId
+     * @return Clothes
+     */
+    @Query(value = "SELECT * FROM clothes WHERE id = ?1", nativeQuery = true)
+    Clothes findByClothesId(int clothesId);
+
+    /**
+     * Python 서버에 착장 검사 요청 후 받은 Response에 옷의 largeCategoryId와 imageUrl을 추가해주기 위해
+     *
+     * @param clothesId
+     * @return AICheckOutfitPythonResponseClothesResult
+     */
+    @Query(value = "SELECT a.id AS id , a.image_url AS imageUrl , b.large_category_id AS largeCategoryId " +
+            "FROM clothes AS a LEFT JOIN middle_category AS b " +
+            "ON a.middle_category_id = b.id " +
+            "WHERE a.id = :clothesId " +
+            "UNION " +
+            "SELECT a.id AS id , a.image_url AS imageUrl , b.large_category_id AS largeCategoryId " +
+            "FROM clothes AS a RIGHT JOIN middle_category AS b " +
+            "ON a.middle_category_id = b.id " +
+            "WHERE a.id = :clothesId ", nativeQuery = true)
+    IAiCheckOutfitPythonResponseClothesResult findIdAndImageUrlAndLargeCategoryIdByClothesId(int clothesId);
+
+    /**
+     * 대분류 카테고리 별 옷 목록을 조회합니다.
+     *
+     * @param memberId
+     * @param middleCategoryId
+     * @return List<IClothesAIRecOutfitCombine>
+     */
+    @Query(value = "SELECT * FROM clothes c " +
+            "WHERE c.member_id = ?1 " +
+            "AND SUBSTRING(c.middle_category_id, 1, 3) = ?2 ", nativeQuery = true)
+    List<IClothesAIRecOutfitCombine> findAllByMemberIdAndMiddleCategory(UUID memberId, String middleCategoryId);
 }
