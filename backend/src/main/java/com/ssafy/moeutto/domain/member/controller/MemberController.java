@@ -34,11 +34,13 @@ public class MemberController {
         try {
             // 인가 코드 발급
             String code = memberLoginService.getKakaoPermissionCode();
+
+            return code;
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return "Permission OK";
+       return null;
     }
 
     /**
@@ -65,7 +67,7 @@ public class MemberController {
         AuthTokens tokens = oAuthLoginService.login(email, nickname);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("accessToken", tokens.getAccessToken());
+        headers.add("Access-Token", tokens.getAccessToken());
 
         return ResponseEntity.ok()
                 .headers(headers)
