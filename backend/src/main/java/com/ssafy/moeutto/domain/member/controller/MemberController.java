@@ -65,7 +65,7 @@ public class MemberController {
         AuthTokens tokens = oAuthLoginService.login(email, nickname);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", tokens.getGrantType() + " " + tokens.getAccessToken());
+        headers.add("accessToken", tokens.getAccessToken());
 
         return ResponseEntity.ok()
                 .headers(headers)
