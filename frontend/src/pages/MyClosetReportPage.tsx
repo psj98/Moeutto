@@ -1,6 +1,5 @@
 import * as React from 'react';
 import ClosetReportMainOrganism from '../components/report/organisms/ClosetReportMainOrganism';
-import MyClosetTap from '../components/common/MyclosetTap';
 
 export interface CardProps {
   contents: string; // 카드 내용
@@ -17,7 +16,6 @@ function MyClosetReport() {
     <div className="w-[100%]">
       <div className="font-bold text-pink text-WebBody1">My Closet page</div>
       {/* <AddClothFormTemplate /> */}
-      <MyClosetTap />
       <ClosetReportMainOrganism CardPropsArray={cardArray} />
       {/* <ClosetReportTemplate colorProps={myAnalysisColor} /> */}
     </div>
