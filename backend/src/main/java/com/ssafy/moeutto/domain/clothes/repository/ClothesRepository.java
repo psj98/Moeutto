@@ -323,19 +323,32 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
 
 
     /**
-     * 최근 N 개월간 입은 옷에 대한 갯수를 MemeberId로 대조해불러옵니다.
+     * 최근 n개월 내 입은 옷을 분석합니다. - 전체 활용도
+     *
      * @param memberId
      * @return
      */
-    @Query(value = "SELECT count(*) FROM Clothes " +
-            "WHERE recent_date >= NOW() - INTERVAL 3 MONTH AND recent_date <= NOW() AND frequency > 0 ANd member_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT COUNT(*) FROM Clothes " +
+            "WHERE recent_date >= NOW() - INTERVAL 3 MONTH AND recent_date <= NOW() " +
+            "AND frequency > 0 " +
+            "AND member_id = ?1", nativeQuery = true)
     Long findRecentDateForNMonthByMemberId(UUID memberId);
 
-    @Query(value = "SELECT SUBSTRING(c.middle_category_id, 1, 3) as largeCategoryId, count(*) as totalAmount, " +
-            "SUM(CASE WHEN c.recent_date >= NOW() - INTERVAL 3 MONTH AND c.recent_date <= NOW() AND c.frequency > 0 THEN 1 ELSE 0 END) as usedAmount " +
+    /**
+     * 최근 n개월 내 입은 옷을 분석합니다. - 대분류 카테고리 별 활용도
+     *
+     * @param memberId
+     * @return
+     */
+    @Query(value = "SELECT SUBSTRING(c.middle_category_id, 1, 3) as largeCategoryId, COUNT(*) as totalAmount, " +
+            "SUM(CASE " +
+            "       WHEN c.recent_date >= NOW() - INTERVAL 3 MONTH AND c.recent_date <= NOW() AND c.frequency > 0 " +
+            "       THEN 1 " +
+            "       ELSE 0 " +
+            "   END) AS usedAmount " +
             "FROM clothes c " +
             "WHERE c.member_id = ?1 " +
             "GROUP BY SUBSTRING(c.middle_category_id, 1, 3) " +
             "ORDER BY SUBSTRING(c.middle_category_id, 1, 3) ", nativeQuery = true)
-    List<IMyAnalysisAmount> findMyAnalysisAmountByMemberId(UUID memberId);
+    List<IClothesAnalysisAvailability> findMyAnalysisAmountByMemberId(UUID memberId);
 }
