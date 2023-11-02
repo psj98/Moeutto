@@ -21,12 +21,14 @@ const storedClosetIds = localStorage.getItem('selectedClosetIds');
 const retrievedClosetIds = JSON.parse(storedClosetIds);
 
 // 점수 강제로 추가하기 (중간점검)
-const scores = [80, 95, 70];
+const scores = [80, 95, 70, 60];
 // 이미지 강제로 추가하기
 const transformedData = retrievedClosetIds.map((id, index) => ({
     id,
     score: scores[index % scores.length] 
 }));
+
+console.log(transformedData);
 
 const ClothScoreSection = ({ score, contents }: ClothProps) => {
   return (
