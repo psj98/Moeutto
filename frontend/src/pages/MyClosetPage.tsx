@@ -79,7 +79,7 @@ const MyClosetPage = () => {
 
         try {
             // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
-            const axiosInstance = authInstance();
+            const axiosInstance = authInstance({ ContentType: 'application/json' });
             const response = await axiosInstance.post('/clothes/list', {
                 categoryId,
                 sortBy,

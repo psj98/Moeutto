@@ -2,8 +2,8 @@ import React from "react";
 import { RxBookmark, RxBookmarkFilled } from "react-icons/rx";
 
 interface PropsType {
-    imgUrl: any;
-    star: any;
+    imgUrl: string;
+    star: boolean;
     setStar: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -18,9 +18,9 @@ const ClothesDetailImg = ({ imgUrl, star, setStar }: PropsType ) => {
                 <div className="relative">
                     <img 
                         src={imgUrl} alt="clothes" 
-                        className="w-[38vw] border rounded-3xl " 
+                        className="w-[30vw] h-[30vw] border rounded-3xl " 
                     />
-                    <div className="absolute -top-3 left-[30vw] transform:translate(-50%,-50%)">
+                    <div className="absolute -top-4 left-[22vw] transform:translate(-50%,-50%)">
                         {star ? (
                             <RxBookmark size={"8vw"} color="FAA0BF" onClick={onClickBookMark} />
                         ) : (
