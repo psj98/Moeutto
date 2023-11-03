@@ -1,5 +1,6 @@
 package com.ssafy.moeutto.domain.clothes.controller;
 
+import com.ssafy.moeutto.domain.clothes.dto.request.ClothesListByFriendsRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesListRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesRegistRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesUpdateRequestDto;
@@ -247,6 +248,25 @@ public class ClothesController {
             // 활용도 기준으로 분석
             ClothesAnalysisAvailabilityResponseDto responseDto = clothesService.analysisAvailability(memberId);
             return baseResponseService.getSuccessResponse(responseDto);
+        } catch (BaseException e) {
+            return baseResponseService.getFailureResponse(e.status);
+        }
+    }
+
+    /**
+     * 친구가 소유한 옷 목록을 보여줍니다.
+     *
+     * @return
+     */
+    @PostMapping("/friend")
+    public BaseResponse<Object> getListByFriends(@RequestHeader(value = "accessToken") String token,
+                                                 @RequestBody ClothesListByFriendsRequestDto clothesListByFriendsRequestDto) {
+        try {
+            UUID memberId = getMemberIdFromToken(token); // 사용자 체크
+
+            // 활용도 기준으로 분석
+            List<ClothesListResponseDto> clothesServiceListByFriends = clothesService.getListByFriends(memberId, clothesListByFriendsRequestDto);
+            return baseResponseService.getSuccessResponse(clothesServiceListByFriends);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
         }
