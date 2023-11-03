@@ -18,7 +18,7 @@ public interface AiRecOutfitService {
      * @param aiRecOutfitCombineRequestDtoList
      * @return List<AIRecOutfitCombineResponseDto>
      */
-    List<AiRecOutfitCombineResponseDto> recommendOutfit(UUID memberId, List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) throws BaseException, JsonProcessingException;
+    List<AiRecOutfitCombineResponseDto> recommendAiOutfit(UUID memberId, List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) throws BaseException, JsonProcessingException;
 
     /**
      * Client & Back 테스트 코드
@@ -28,7 +28,7 @@ public interface AiRecOutfitService {
      * @return AiRecOutfitCombineByAIRequestDto
      * @throws BaseException
      */
-    AiRecOutfitCombineByAIRequestDto recommendOutfitBackFrontTest(UUID memberId, List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) throws BaseException;
+    AiRecOutfitCombineByAIRequestDto recommendAiOutfitBackFrontTest(UUID memberId, List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) throws BaseException;
 
     /**
      * Python & Back & Front Test Code
@@ -38,5 +38,13 @@ public interface AiRecOutfitService {
      * @return List<AiRecOutfitCombineResponseDto>
      * @throws BaseException
      */
-    List<AiRecOutfitCombineResponseDto> recommendOutfitBackPythonFrontTest(UUID memberId, List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) throws BaseException;
+    List<AiRecOutfitCombineResponseDto> recommendAiOutfitBackPythonFrontTest(UUID memberId, List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) throws BaseException;
+
+    /**
+     * 현재 날짜 기준으로 AI가 추천한 착장을 조회합니다.
+     *
+     * @param memberId
+     * @return
+     */
+    List<AiRecOutfitCombineResponseDto> detailAiOutfit(UUID memberId) throws BaseException;
 }
