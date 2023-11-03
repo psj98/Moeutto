@@ -3,6 +3,7 @@ package com.ssafy.moeutto.domain.friends.entity;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @Embeddable
 @NoArgsConstructor
 @EqualsAndHashCode
+@Getter
 public class FollowerId implements Serializable {
 
     @Column(name = "my_id", columnDefinition = "BINARY(16)")

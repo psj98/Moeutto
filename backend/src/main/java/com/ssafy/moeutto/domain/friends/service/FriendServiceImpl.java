@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -53,9 +54,23 @@ public class FriendServiceImpl implements FriendService {
         Follower follower = Follower.builder()
                         .followerId(new FollowerId(followingId, memberId)).build();
 
-        //맞팔
-        followingRepository.save(following);
-        followerRepository.save(follower);
+        /* 이미 팔로우 되어있는지 확인하기 */
+        Optional<Follower> followerOptional = followerRepository.findById(follower.getFollowerId());
+        Optional<Following> followingOptional = followingRepository.findById(following.getFollowingId());
+
+        /* 이미 팔로우 되어있으면 취소 아니면 팔로우 */
+        if(followerOptional.isPresent() || followingOptional.isPresent()){
+            followerRepository.deleteById(follower.getFollowerId());
+            followingRepository.deleteById(following.getFollowingId());
+        }else{
+            followingRepository.save(following);
+            followerRepository.save(follower);
+        }
+
+
+
+
+
 
     }
 
