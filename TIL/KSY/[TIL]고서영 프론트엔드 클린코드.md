@@ -167,3 +167,27 @@ function QuestionPage() {
         }
     ```
     
+**단일책임**
+> 하나의 일을 하는 뚜렷한 이름의 함수를 만들자
+
+* 함수의 이름: 중요 포인트가 모두 담겨 있지 않은 함수명은 위험하다
+    * 기능 추가 시 함수의 이름은 더 복잡해지므로 한 가지 일만 하는, 명확한 이름의 함수가 필요하다
+* 한 가지 일만 하는 기능성 컴포넌트
+    * before
+        ```javascript
+            <button
+                onClick={async () => {
+                    lot('제출 버튼 클릭')
+                    await openConfirm();
+                }}
+            />
+        ```
+        버튼 클릭 함수에 로그 찍는 함수와 API 콜이 섞여 있다
+    * after
+        ```javascript
+            <LogClick message="제출 버튼 클릭">
+                <button onclick={openConfirm} />
+            </LogClick>
+        ```
+        로그는 버튼을 감싼 컴포넌트에서 찍고, 버튼 클릭 함수에는 API 콜만 신경쓴다
+

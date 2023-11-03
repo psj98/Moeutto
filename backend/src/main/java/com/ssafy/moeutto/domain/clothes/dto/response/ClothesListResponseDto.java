@@ -1,0 +1,49 @@
+package com.ssafy.moeutto.domain.clothes.dto.response;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotNull;
+import java.sql.Date;
+
+@Getter
+@NoArgsConstructor
+public class ClothesListResponseDto {
+
+    @NotNull
+    private Integer id; // 옷 id
+
+    @NotNull
+    private String middleCategoryId; // 중분류 카테고리 id
+
+    @NotNull
+    private String largeCategoryId; // 대분류 카테고리 id
+
+    @NotNull
+    private String color; // 색상
+
+    @NotNull
+    private Integer frequency; // 빈도
+
+    @NotNull
+    private Integer star; // 즐겨찾기 여부
+
+    @NotNull
+    private String imageUrl; // 이미지 url
+
+    @NotNull
+    private Date regDate; // 등록 날짜
+
+    @Builder(toBuilder = true)
+    public ClothesListResponseDto(Integer id, String middleCategoryId, String largeCategoryId, String color, Integer frequency, Integer star, String imageUrl, Date regDate) {
+        this.id = id;
+        this.middleCategoryId = middleCategoryId;
+        this.largeCategoryId = largeCategoryId;
+        this.color = color;
+        this.frequency = frequency;
+        this.star = star;
+        this.imageUrl = imageUrl;
+        this.regDate = regDate;
+    }
+}
