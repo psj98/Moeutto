@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { BiHomeHeart, BiCloset, BiCalendar } from 'react-icons/bi';
 import { MdPeopleAlt } from 'react-icons/md';
 import { CgDetailsMore } from 'react-icons/cg';
@@ -88,10 +88,19 @@ const menuList = [
   { menuName: '옷장 구경', path: '/notmycloset', icon: <MdPeopleAlt /> },
   { menuName: '캘린더', path: '/calendar', icon: <BiCalendar /> },
   { menuName: '더보기', path: '/mypage', icon: <CgDetailsMore /> },
+  { menuName: '로그아웃' },
 ];
 
 const Sidebar = ({ path }: Props) => {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  const logout = () => {
+    sessionStorage.clear();
+    localStorage.clear();
+
+    navigate('/login');
+  };
 
   return (
     <Container>
@@ -99,14 +108,25 @@ const Sidebar = ({ path }: Props) => {
         <ProfileImage imgUrl="sample" />
         <Menu>
           {menuList.map(menu => {
-            return (
-              <Link key={menu.menuName} to={menu.path}>
-                <li className={menu.path === pathname ? 'focused' : ''}>
+            if (menu.menuName === '로그아웃') {
+              // Provide an onClick handler for logout
+              return (
+                <li key={menu.menuName} onClick={logout} className={pathname === menu.path ? 'focused' : ''}>
                   {menu.icon}
                   <span className="ps-9">{menu.menuName}</span>
                 </li>
-              </Link>
-            );
+              );
+            } else {
+              // Regular link handling for other menu items
+              return (
+                <Link key={menu.menuName} to={menu.path}>
+                  <li className={pathname === menu.path ? 'focused' : ''}>
+                    {menu.icon}
+                    <span className="ps-9">{menu.menuName}</span>
+                  </li>
+                </Link>
+              );
+            }
           })}
         </Menu>
       </NavBar>
