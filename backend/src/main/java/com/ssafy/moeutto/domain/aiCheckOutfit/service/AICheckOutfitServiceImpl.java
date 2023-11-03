@@ -71,6 +71,7 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
             PythonRequestClothesListItems requestItems = PythonRequestClothesListItems.builder()
                     .largeCategoryId(arr.get(i).getLargeCategoryId())
                     .clothesId(arr.get(i).getId())
+                    .clothesName(clothesInfo.getName())
                     .season(clothesInfo.getSeason())
                     .color(clothesInfo.getColor())
                     .thickness(clothesInfo.getThickness())
