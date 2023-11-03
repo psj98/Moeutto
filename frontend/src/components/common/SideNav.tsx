@@ -103,7 +103,9 @@ const Sidebar = ({ path }: Props) => {
   };
 
   return (
-    <Container>
+    <Container className="hidden">
+      {' '}
+      // 640px 까지 숨기기 //
       <NavBar>
         <ProfileImage imgUrl="sample" />
         <Menu>
