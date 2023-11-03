@@ -1,0 +1,16 @@
+import React from "react";
+
+interface TempPropsType {
+    minTemperature: any;
+    maxTemperature: any;
+}
+
+const RecommendListTemp: React.FC<TempPropsType> = ({ minTemperature, maxTemperature}) => {
+    return (
+        <>
+            <div className="font-WebBody3">{minTemperature}℃/{maxTemperature}℃</div>
+        </>
+    )
+}
+
+export default RecommendListTemp;

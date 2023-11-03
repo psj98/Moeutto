@@ -1,0 +1,2 @@
+[AWS 자습서](https://aws.amazon.com/ko/getting-started/hands-on/machine-learning-tutorial-deploy-model-to-real-time-inference-endpoint/)
+[AWS 개발자 안내서](https://docs.aws.amazon.com/ko_kr/sagemaker/latest/dg/how-it-works-deployment.html)
