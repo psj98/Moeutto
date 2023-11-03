@@ -6,7 +6,9 @@ const ClosetReportSeasonOrganism = ({ fourSeason }: SeasonDataType) => {
   return (
     <div>
       <div>당신의 옷장 계절은 어떨까요?</div>
-      <SeasonReportSection fourSeason={fourSeason} />
+      <div className="flex flex-col items-center">
+        <SeasonReportSection fourSeason={fourSeason} />
+      </div>
       <div>봄 옷이 부족하네요. 사러가볼까요?</div>
       <BuyRecommendSection />
     </div>

@@ -69,19 +69,19 @@ const MyClosetPage = () => {
       setOrderBy(0);
     }
 
-        if (selectedOptionSort === "정렬") {
-            setSortBy("initial")
-        } else if (selectedOptionSort === "등록순") {
-            setSortBy("regDate")
-        } else if (selectedOptionSort === "많이 입은 순") {
-            setSortBy("frequency");
-            setOrderBy(1);
-        } else if (selectedOptionSort === "적게 입은 순") {
-            setSortBy("frequency");
-        } else {
-            setSortBy("color");
-        }
-
+    if (selectedOptionSort === '정렬') {
+      setSortBy('initial');
+    } else if (selectedOptionSort === '등록순') {
+      setSortBy('regDate');
+    } else if (selectedOptionSort === '많이 입은 순') {
+      setSortBy('frequency');
+      setOrderBy(1);
+    } else if (selectedOptionSort === '적게 입은 순') {
+      setSortBy('frequency');
+    } else {
+      setSortBy('color');
+    }
+  }, [selectedOptionMain, selectedOptionMiddle, selectedOptionSort]);
   // 옷 목록 조회
   const [clothesData, setClothesData] = useState<ClothesItem[]>([]);
 
