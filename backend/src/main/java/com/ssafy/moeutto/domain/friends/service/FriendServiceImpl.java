@@ -1,11 +1,18 @@
 package com.ssafy.moeutto.domain.friends.service;
 
 
-import com.ssafy.moeutto.domain.friends.dto.request.TestRequestDto;
+import com.ssafy.moeutto.domain.friends.dto.response.FollowRequestDto;
 import com.ssafy.moeutto.domain.friends.dto.response.TestResponseDto;
+import com.ssafy.moeutto.domain.friends.entity.Follower;
+import com.ssafy.moeutto.domain.friends.entity.FollowerId;
 import com.ssafy.moeutto.domain.friends.entity.Following;
 import com.ssafy.moeutto.domain.friends.entity.FollowingId;
+import com.ssafy.moeutto.domain.friends.repository.FollowerRepository;
 import com.ssafy.moeutto.domain.friends.repository.FollowingRepository;
+import com.ssafy.moeutto.domain.member.entity.Member;
+import com.ssafy.moeutto.domain.member.repository.MemberRepository;
+import com.ssafy.moeutto.global.response.BaseException;
+import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,6 +26,40 @@ public class FriendServiceImpl implements FriendService {
 
 
     private final FollowingRepository followingRepository;
+    private final FollowerRepository followerRepository;
+
+    private final MemberRepository memberRepository;
+
+
+    /**
+     * 팔로우 서비스 입니다.
+     * @param memberId : 내 아이디
+     * @param requestDto : 팔로우 하려는 사람의 id
+     * @throws BaseException
+     */
+    @Override
+    public void follow(UUID memberId, FollowRequestDto requestDto) throws BaseException {
+
+        /* 멤버 확인 */
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+
+        Member follow = memberRepository.findMemberByEmail(requestDto.getEmail());
+
+        UUID followingId = follow.getId();
+
+        Following following = Following.builder()
+                        .followingId(new FollowingId(memberId, followingId)).build();
+
+        Follower follower = Follower.builder()
+                        .followerId(new FollowerId(followingId, memberId)).build();
+
+        //맞팔
+        followingRepository.save(following);
+        followerRepository.save(follower);
+
+    }
+
+
 
     @Override
     public TestResponseDto testService(){
@@ -26,7 +67,7 @@ public class FriendServiceImpl implements FriendService {
 
 
         Following test = Following.builder()
-                        .followingId(new FollowingId(UUID.randomUUID(), UUID.randomUUID())).build();
+                .followingId(new FollowingId(UUID.randomUUID(), UUID.randomUUID())).build();
 
         System.out.println(test.toString());
 
