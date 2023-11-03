@@ -1,4 +1,4 @@
-package com.ssafy.moeutto.domain.friends.dto.response;
+package com.ssafy.moeutto.domain.friends.dto.request;
 
 
 import lombok.Getter;

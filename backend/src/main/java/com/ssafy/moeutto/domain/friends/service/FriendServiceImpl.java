@@ -1,7 +1,9 @@
 package com.ssafy.moeutto.domain.friends.service;
 
 
-import com.ssafy.moeutto.domain.friends.dto.response.FollowRequestDto;
+import com.ssafy.moeutto.domain.friends.dto.request.FollowRequestDto;
+import com.ssafy.moeutto.domain.friends.dto.request.FriendsListRequestDto;
+import com.ssafy.moeutto.domain.friends.dto.response.FriendsListResponseDto;
 import com.ssafy.moeutto.domain.friends.dto.response.TestResponseDto;
 import com.ssafy.moeutto.domain.friends.entity.Follower;
 import com.ssafy.moeutto.domain.friends.entity.FollowerId;
@@ -17,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,7 +31,6 @@ public class FriendServiceImpl implements FriendService {
 
     private final FollowingRepository followingRepository;
     private final FollowerRepository followerRepository;
-
     private final MemberRepository memberRepository;
 
 
@@ -67,13 +69,18 @@ public class FriendServiceImpl implements FriendService {
             followerRepository.save(follower);
         }
 
-
-
-
-
-
     }
 
+    @Override
+    public List<FriendsListResponseDto> searchFriends(UUID memberId, FriendsListRequestDto requestDto) throws BaseException {
+
+        /* 멤버 체크 */
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+
+        List<FriendsListResponseDto> list = memberRepository
+
+        return null;
+    }
 
 
     @Override

@@ -1,7 +1,9 @@
 package com.ssafy.moeutto.domain.friends.controller;
 
 
-import com.ssafy.moeutto.domain.friends.dto.response.FollowRequestDto;
+import com.ssafy.moeutto.domain.friends.dto.request.FollowRequestDto;
+import com.ssafy.moeutto.domain.friends.dto.request.FriendsListRequestDto;
+import com.ssafy.moeutto.domain.friends.dto.response.FriendsListResponseDto;
 import com.ssafy.moeutto.domain.friends.dto.response.TestResponseDto;
 import com.ssafy.moeutto.domain.friends.service.FriendService;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
@@ -12,6 +14,7 @@ import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -24,13 +27,31 @@ public class FriendController {
     private final BaseResponseService baseResponseService;
 
 
+    @PostMapping("/search")
+    public BaseResponse<Object> searchFriends(@RequestHeader(value = "accessToken") String token,
+                                              @RequestBody FriendsListRequestDto requestDto){
+
+        try {
+            UUID memberId = getMemberIdFromToken(token);
+
+            List<FriendsListResponseDto> responseDto = friendsService.searchFriends(memberId, requestDto);
+
+            return baseResponseService.getSuccessResponse(responseDto);
+        }catch (BaseException e){
+            return baseResponseService.getFailureResponse(e.status);
+        }
+
+    }
+
+
+
     /**
      * 팔로우 컨트롤러 입니다.
      * @param token: 액세스토큰
      * @param requestDto: email 담겨있는 Dto
      * @return
      */
-    @PostMapping("")
+    @PostMapping("/follow")
     public BaseResponse<Object> follow(@RequestHeader (value = "accessToken") String token,
                                        @RequestBody FollowRequestDto requestDto){
 
