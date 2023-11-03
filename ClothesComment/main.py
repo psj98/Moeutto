@@ -1,62 +1,49 @@
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI
 from pydantic import BaseModel
+
+# usr lib
+from comment import MKComment as kwon
+from ClothesDTO import ClothesRequest
+
+# 시각화
+from Darkness.Darkness import get_darkness
+from Darkness.ColorDTO import Color
+from Temperature.Temperature import get_temperature
+from Temperature.thicknessDTO import Thickness
 
 app = FastAPI()
 
-class Clothes(BaseModel):
-    largeCategoryId: str
-    clothesId: int
-    season: str
-    color: str
-    thickness: int
-    textile: str
-    frequency: int
-
-
-class WeatherInfo(BaseModel):
-    minTemperature: int
-    maxTemperature: int
-    weather: int
-
-class ClothesRequest(BaseModel):
-    outer: Clothes
-    top: Clothes
-    bottom: Clothes
-    item: Clothes
-    weatherInfo: WeatherInfo
-
+# create_clothes return 해야 하는 format
 class KJGResponse(BaseModel):
-
-
-
 
  @app.post("/clothes")
  async def create_clothes(clothes_request: ClothesRequest):
-    # 옷 수치화 ( 색상, 두께 )
-    min_temperature = clothes_request.weatherInfo.minTemperature
-    max_temperature = clothes_request.weatherInfo.maxTemperature
+    # 개별 옷 피드백
+    # 1. 텍스트 - 생성형 ai 이용
+    # 2. 수치화 - 수식 사용 (두께, 계절)
+    ai_feedback = kwon.mk_comment(clothes_request)
 
-    if clothes_request.outer is not None:
-        fitnessNum = clothes_request.outer.season
-
-    if clothes_request.top is not None:
-        fitnessNum = clothes_request.top.season
-
-    if clothes_request.bottom is not None:
-        fitnessNum = clothes_request.bottom.season
-
-    if clothes_request.item is not None:
-        fitnessNum = clothes_request.item.season
+    # 옷마다 예상 보온성(temperature)int 1~100,명암(darkness)int 1~100 뽑아서 리턴
+    # 점 하나니까 전체 옷 합산해서 점 하나 찍는 것으로 보임 -> sum_darkness, sum_temperature
 
 
-    # 코멘트, 각 점수는 받아오기
+    # temper는 두께로 계산
+    jg_temperature = Thickness(clothes_request.outer.thickness,clothes_request.top.thickness,clothes_request.bottom.thickness,clothes_request.item.thickness)
+    jg_temperature = get_temperature(jg_temperature)
 
-    ai_feedback = "default feedback"
+    # color에서 darkness 뽑고 mk_comment에서 온도 가져와서 합산
+    jg_color = Color(clothes_request.outer.color,clothes_request.top.color,clothes_request.bottom.color,clothes_request.item.color)
+    darkness = get_darkness(jg_color)
+
+    return {"message": "Data received successfully"}
+
+
+
 
 # 각 옷착장 평가
 if __name__ == "__main__":
+    print("main start")
 
 
+    print("main over")
 
-
-    return {"message": "Data received successfully"}
