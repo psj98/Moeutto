@@ -1,6 +1,7 @@
 package com.ssafy.moeutto.domain.guestBook.service;
 
 import com.ssafy.moeutto.domain.guestBook.dto.request.GuestBookRegistRequestDto;
+import com.ssafy.moeutto.domain.guestBook.dto.response.GuestBookListResponseDto;
 import com.ssafy.moeutto.domain.guestBook.dto.response.GuestBookRegistResponseDto;
 import com.ssafy.moeutto.domain.guestBook.entity.GuestBook;
 import com.ssafy.moeutto.domain.guestBook.repository.GuestBookRepository;
@@ -13,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -52,5 +55,32 @@ public class GuestBookServiceImpl implements GuestBookService {
                 .build();
 
         return guestBookRegistResponseDto;
+    }
+
+    /**
+     * 옷장을 조회할 때, 사용자 id에 따른 방명록 목록을 반환합니다.
+     *
+     * @param memberId
+     * @return List<GuestBookListResponseDto>
+     * @throws BaseException
+     */
+    public List<GuestBookListResponseDto> listGuestBook(UUID memberId) throws BaseException {
+        // 사용자 정보 체크
+        memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER)); // 방명록 주인 정보
+
+        List<GuestBook> guestBookList = guestBookRepository.findAllByOwnerId(memberId); // 주인 옷장에 적힌 방명록 목록 가져오기
+
+        List<GuestBookListResponseDto> guestBookListResponseDtoList = new ArrayList<>();
+        for (GuestBook guestBook : guestBookList) {
+            GuestBookListResponseDto guestBookListResponseDto = GuestBookListResponseDto.builder()
+                    .nickname(guestBook.getWriter().getNickname())
+                    .post(guestBook.getPost())
+                    .regDate(guestBook.getRegDate())
+                    .build();
+
+            guestBookListResponseDtoList.add(guestBookListResponseDto);
+        }
+
+        return guestBookListResponseDtoList;
     }
 }
