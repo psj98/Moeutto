@@ -1,5 +1,6 @@
 package com.ssafy.moeutto.domain.clothes.service;
 
+import com.ssafy.moeutto.domain.clothes.dto.request.ClothesListByFriendsRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesListRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesRegistRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesUpdateRequestDto;
@@ -159,4 +160,14 @@ public interface ClothesService {
      * @return
      */
     ClothesAnalysisAvailabilityResponseDto analysisAvailability(UUID memberId) throws BaseException;
+
+    /**
+     * 친구가 소유한 옷 목록을 보여줍니다.
+     *
+     * @param memberId
+     * @param clothesListByFriendsRequestDto
+     * @return List<ClothesListByFriendsResponseDto>
+     * @throws BaseException
+     */
+    List<ClothesListResponseDto> getListByFriends(UUID memberId, ClothesListByFriendsRequestDto clothesListByFriendsRequestDto) throws BaseException;
 }
