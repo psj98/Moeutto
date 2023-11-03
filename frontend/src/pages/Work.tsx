@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import MobileMenu from '../components/common/Mobile';
 
 function Work() {
   return (
@@ -12,6 +13,7 @@ function Work() {
       <Link to="/mypage">마이 페이지 </Link>
       <br />
       <Link to="/mycloset/list">나의 옷장 전체 목록</Link>
+      <MobileMenu />
     </div>
   );
 }
