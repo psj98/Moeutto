@@ -1,8 +1,6 @@
 package com.ssafy.moeutto.domain.clothesInAiOutfit.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 import java.io.Serializable;
@@ -10,6 +8,7 @@ import java.io.Serializable;
 @Getter
 @Embeddable
 @NoArgsConstructor
+@EqualsAndHashCode
 public class ClothesInAiRecOutfitId implements Serializable {
 
     private Integer clothesId; // 옷 정보 id

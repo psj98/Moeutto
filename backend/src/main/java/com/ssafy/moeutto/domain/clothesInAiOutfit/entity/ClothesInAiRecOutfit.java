@@ -2,9 +2,7 @@ package com.ssafy.moeutto.domain.clothesInAiOutfit.entity;
 
 import com.ssafy.moeutto.domain.aiRecOutfit.entity.AiRecOutfit;
 import com.ssafy.moeutto.domain.clothes.entity.Clothes;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,7 +13,7 @@ import java.io.Serializable;
 public class ClothesInAiRecOutfit implements Serializable {
 
     @EmbeddedId
-    private ClothesInAiRecOutfitId id;
+    private ClothesInAiRecOutfitId id; // 복합키
 
     @MapsId("clothesId")
     @ManyToOne
