@@ -2,6 +2,7 @@ package com.ssafy.moeutto.domain.clothes.service;
 
 import com.ssafy.moeutto.domain.S3.dto.response.S3ResponseDto;
 import com.ssafy.moeutto.domain.S3.service.S3Service;
+import com.ssafy.moeutto.domain.clothes.dto.request.ClothesListByFriendsRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesListRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesRegistRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.request.ClothesUpdateRequestDto;
@@ -567,5 +568,43 @@ public class ClothesServiceImpl implements ClothesService {
                 .build();
 
         return responseDto;
+    }
+
+    /**
+     * 친구가 소유한 옷 목록을 보여줍니다.
+     *
+     * @param memberId
+     * @param clothesListByFriendsRequestDto
+     * @return List<ClothesListByFriendsResponseDto>
+     * @throws BaseException
+     */
+    @Override
+    public List<ClothesListResponseDto> getListByFriends(UUID memberId, ClothesListByFriendsRequestDto clothesListByFriendsRequestDto) throws BaseException {
+        // 친구 정보 조회
+        Member friendInfo = memberRepository.findByEmail(clothesListByFriendsRequestDto.getEmail()).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+
+        String categoryId = clothesListByFriendsRequestDto.getCategoryId(); // 카테고리 id
+        String largeCategoryId = categoryId.substring(0, 3); // 대분류 카테고리 id
+        String middleCategoryId = categoryId.substring(3); // 중분류 카테고리 id
+        String sortBy = clothesListByFriendsRequestDto.getSortBy(); // 정렬 기준
+        Integer orderBy = clothesListByFriendsRequestDto.getOrderBy(); // 정렬 순서
+
+        List<Clothes> clothesList; // 옷 목록 정보
+
+        // 조회 조건에 따른 조건문
+        if (largeCategoryId.equals("000")) { // 전체 조회
+            clothesList = listClothesAll(friendInfo.getId(), sortBy, orderBy);
+        } else if (middleCategoryId.equals("000")) { // 대분류 카테고리 조회
+            clothesList = listClothesByLargeCategoryId(friendInfo.getId(), largeCategoryId, sortBy, orderBy);
+        } else { // 중분류 카테고리 조회
+            clothesList = listClothesByMiddleCategoryId(friendInfo.getId(), categoryId, sortBy, orderBy);
+        }
+
+        if (clothesList == null || clothesList.size() == 0) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES_LIST);
+        }
+
+        // 필요한 속성 추출 및 옷 정보 반환
+        return getClothesListResponseDto(clothesList);
     }
 }
