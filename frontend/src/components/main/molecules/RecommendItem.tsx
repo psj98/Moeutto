@@ -33,25 +33,27 @@ const RecommendItem: React.FC<PropsType> = ({
             <RecommendListDay day={day} />
             <TodayDayWeather weather={weather} />
             <RecommendListTemp maxTemperature={maxTemperature} minTemperature={minTemperature} />
-            <div className="flex justify-center">
-                {clothesArray1.map((item, index) => (
-                    <RecommendListClothesItem 
-                        key={index} 
-                        clothesId={item.clothesId}
-                        imgUrl={item.imageUrl}
-                        number={item} 
-                    />
-                ))}
-            </div>
-            <div className="flex justify-center">
-                {clothesArray2.map((item, index) => (
-                    <RecommendListClothesItem 
-                        key={index} 
-                        clothesId={item.clothesId}
-                        imgUrl={item.imageUrl}
-                        number={item} 
-                    />
-                ))}
+            <div className="bg-white/30 rounded-2xl aspect-square">
+                <div className="flex justify-center h-auto">
+                    {clothesArray1.map((item, index) => (
+                        <RecommendListClothesItem 
+                            key={index} 
+                            clothesId={item.clothesId}
+                            imgUrl={item.imageUrl}
+                            number={item} 
+                        />
+                    ))}
+                </div>
+                <div className="flex justify-center">
+                    {clothesArray2.map((item, index) => (
+                        <RecommendListClothesItem 
+                            key={index} 
+                            clothesId={item.clothesId}
+                            imgUrl={item.imageUrl}
+                            number={item} 
+                        />
+                    ))}
+                </div>
             </div>
       
         </div>

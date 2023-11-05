@@ -8,7 +8,7 @@ interface TempPropsType {
 const RecommendListTemp: React.FC<TempPropsType> = ({ minTemperature, maxTemperature}) => {
     return (
         <>
-            <div className="font-WebBody3">{minTemperature}℃/{maxTemperature}℃</div>
+            <div className="text-AppBody1">{minTemperature}℃/{maxTemperature}℃</div>
         </>
     )
 }

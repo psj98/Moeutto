@@ -5,7 +5,7 @@ const UserName = () => {
     const userName: string = "주혁";
     
     return (
-        <div className="font-bold text-WebBody2">{userName}님을 위한 추천</div>
+        <div className="font-bold text-AppBody1 w-2/3 min-w-[137px] max-w-[150px]">{userName}님을 위한 추천</div>
     )
 }
 
