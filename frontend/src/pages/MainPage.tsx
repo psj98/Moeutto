@@ -6,6 +6,8 @@ import PickButtonTap from '../components/main/organisms/PickButtonTap';
 import RecommendList from '../components/main/organisms/RecommendList';
 import MapModal from '../components/main/organisms/MapModal';
 import AnalysisTap from '../components/main/organisms/AnalysisTap';
+import UserName from '../components/main/atoms/UserName';
+import MainWeatherTap from '../components/main/organisms/MainWeatherTap';
 // import { authInstance } from '../api/api';
 
 // 날씨 api 사용
@@ -232,7 +234,8 @@ const MainPage = () => {
       <div className="flex flex-col p-4 mb-4">
         <MainInfo currentLocation={currentLocation} address={address} showLocationClick={showLocationClick} />
         <div>
-          <br />
+        <MainWeatherTap />
+          <UserName />
           {/* 날씨 기반 추천 리스트 */}
           <RecommendList clothesListData={clothesListData} weatherListData={weatherListData} />
         </div>
