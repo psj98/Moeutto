@@ -40,11 +40,11 @@ const RecommendList: React.FC<PropsType> = ({ clothesListData, weatherListData }
         {combinedList !== null &&
           combinedList?.map((item, index) => (
             <div
-              className={`flex flex-col items-center border w-1/3 h-2/3 rounded-2xl shadow-md ${
-                index === 0 ? 'border-pink-hot' : 'border-gray'
-              } pb-4 min-w-[200px] max-w-[300px]`}>
+              className={`flex flex-col items-center border w-1/3 h-1/2 rounded-2xl shadow-md pb-0 ${
+                index === 0 ? 'bg-pink' : 'border-gray'
+              } pb-4 min-w-[150px] max-w-[170px]`}>
               {index === 0 && <TodayBox />}
-              <div style={{ marginTop: index === 0 ? '-5px' : '31px' }}>
+              <div style={{ marginTop: index === 0 ? '-5px' : '28px' }}>
                 <RecommendItem
                   key={index}
                   clothesListData={item.clothesInfo}
