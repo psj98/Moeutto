@@ -27,6 +27,12 @@ public class FriendController {
     private final BaseResponseService baseResponseService;
 
 
+    /**
+     * 닉네임을 기반으로 친구 목록 검색하는  컨트롤러 입니다.
+     * @param token
+     * @param requestDto
+     * @return
+     */
     @PostMapping("/search")
     public BaseResponse<Object> searchFriends(@RequestHeader(value = "accessToken") String token,
                                               @RequestBody FriendsListRequestDto requestDto){
@@ -40,7 +46,6 @@ public class FriendController {
         }catch (BaseException e){
             return baseResponseService.getFailureResponse(e.status);
         }
-
     }
 
 
