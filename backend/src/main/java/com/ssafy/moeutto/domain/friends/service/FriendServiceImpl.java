@@ -5,7 +5,6 @@ import com.ssafy.moeutto.domain.friends.dto.request.FollowRequestDto;
 import com.ssafy.moeutto.domain.friends.dto.request.FriendsListRequestDto;
 import com.ssafy.moeutto.domain.friends.dto.response.FriendsListResponseDto;
 import com.ssafy.moeutto.domain.friends.dto.response.MyFriendsListResponseDto;
-import com.ssafy.moeutto.domain.friends.dto.response.TestResponseDto;
 import com.ssafy.moeutto.domain.friends.entity.Follower;
 import com.ssafy.moeutto.domain.friends.entity.FollowerId;
 import com.ssafy.moeutto.domain.friends.entity.Following;
@@ -109,26 +108,4 @@ public class FriendServiceImpl implements FriendService {
         return list;
     }
 
-
-    @Override
-    public TestResponseDto testService(){
-
-
-        Following test = Following.builder()
-                .followingId(new FollowingId(UUID.randomUUID(), UUID.randomUUID())).build();
-
-        System.out.println(test.toString());
-
-        followingRepository.save(test);
-
-        TestResponseDto test1 = TestResponseDto.builder().following(test).build();
-
-        System.out.println(test1.getFollowing().getFollowingId().getFollowingId().toString());
-        System.out.println(test1.getFollowing().getFollowingId().getMyId().toString());
-        System.out.println(test1.getFollowing().toString());
-        System.out.println();
-
-
-        return test1;
-    }
 }

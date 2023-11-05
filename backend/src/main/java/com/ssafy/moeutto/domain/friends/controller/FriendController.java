@@ -5,7 +5,6 @@ import com.ssafy.moeutto.domain.friends.dto.request.FollowRequestDto;
 import com.ssafy.moeutto.domain.friends.dto.request.FriendsListRequestDto;
 import com.ssafy.moeutto.domain.friends.dto.response.FriendsListResponseDto;
 import com.ssafy.moeutto.domain.friends.dto.response.MyFriendsListResponseDto;
-import com.ssafy.moeutto.domain.friends.dto.response.TestResponseDto;
 import com.ssafy.moeutto.domain.friends.service.FriendService;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
 import com.ssafy.moeutto.global.response.BaseException;
@@ -44,7 +43,6 @@ public class FriendController {
         } catch (BaseException e){
             return baseResponseService.getFailureResponse(e.status);
         }
-
     }
 
     /**
@@ -107,12 +105,5 @@ public class FriendController {
         return memberIdFromToken;
     }
 
-    @PostMapping("/test")
-    public TestResponseDto test(){
-
-        TestResponseDto responseDto = friendsService.testService();
-
-        return responseDto;
-    }
 
 }
