@@ -2,6 +2,7 @@ package com.ssafy.moeutto.domain.member.repository;
 
 import com.ssafy.moeutto.domain.friends.dto.request.FriendsListRequestDto;
 import com.ssafy.moeutto.domain.friends.dto.response.FriendsListResponseDto;
+import com.ssafy.moeutto.domain.friends.dto.response.MyFriendsListResponseDto;
 import com.ssafy.moeutto.domain.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -41,4 +42,16 @@ public interface MemberRepository extends JpaRepository<Member, UUID> {
     List<FriendsListResponseDto> findFriendsListByNickname(UUID memberId, String nickname);
 
 
+    /**
+     * 내가 팔로우 하는 친구들의 목록 보기
+     * @param memberId
+     * @return
+     */
+    @Query(value = "SELECT m.email, m.nickname, m.profile_iamge " +
+            "FROM member m " +
+            "WHERE id = (" +
+            "SELECT following_id " +
+            "FROM following " +
+            "where my_id = ?1)", nativeQuery = true)
+    List<MyFriendsListResponseDto> findMyFollowingListById(UUID memberId);
 }
