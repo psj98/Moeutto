@@ -4,6 +4,7 @@ package com.ssafy.moeutto.domain.friends.controller;
 import com.ssafy.moeutto.domain.friends.dto.request.FollowRequestDto;
 import com.ssafy.moeutto.domain.friends.dto.request.FriendsListRequestDto;
 import com.ssafy.moeutto.domain.friends.dto.response.FriendsListResponseDto;
+import com.ssafy.moeutto.domain.friends.dto.response.MyFriendsListResponseDto;
 import com.ssafy.moeutto.domain.friends.dto.response.TestResponseDto;
 import com.ssafy.moeutto.domain.friends.service.FriendService;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
@@ -26,6 +27,25 @@ public class FriendController {
     private final AuthTokensGenerator authTokensGenerator;
     private final BaseResponseService baseResponseService;
 
+
+    /**
+     * 내가 팔로우하는 친구 목록 보기.
+     * @param token
+     * @return
+     */
+    @GetMapping("/list")
+    public BaseResponse<Object> myFollowingList(@RequestHeader(value = "accessToken") String token){
+        try {
+            UUID memberId = getMemberIdFromToken(token);
+
+            List<MyFriendsListResponseDto> myFriendsList = friendsService.searchMyFollowinglist(memberId);
+
+            return baseResponseService.getSuccessResponse(myFriendsList);
+        } catch (BaseException e){
+            return baseResponseService.getFailureResponse(e.status);
+        }
+
+    }
 
     /**
      * 닉네임을 기반으로 친구 목록 검색하는  컨트롤러 입니다.
