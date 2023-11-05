@@ -24,6 +24,13 @@ const AnalysisCategory = ({ width, title, comment, link }: PropsType) => {
         navigate(`/mycloset/report/${link}`)
     }
 
+    // 이미지 크기
+    let imageClass = "w-1/2"; 
+
+    if (width === 4) {
+        imageClass = "w-full"; 
+    }
+
 
     return (
         <>
@@ -35,8 +42,12 @@ const AnalysisCategory = ({ width, title, comment, link }: PropsType) => {
                     backgroundColor: isHovered ? 'rgba(163, 163, 163, 0.4)' : '',
                 }}
             >
-                <img src={`/images/${title}.png`} alt="season" />
-                <p className="z-99 absolute flex items-center justify-center text-AppBody1 font-bold" style={{ display: isHovered ? 'block' : 'none', color: '#000000' }}>{comment}</p>
+                <img 
+                    src={`/images/${title}.png`} 
+                    alt="season"  
+                    className={imageClass}
+                />
+                <p className="z-99 w-[18%] absolute flex items-center justify-center text-AppBody1 font-bold" style={{ display: isHovered ? 'block' : 'none', color: '#000000' }}>{comment}</p>
             </div>
         </>
     )
