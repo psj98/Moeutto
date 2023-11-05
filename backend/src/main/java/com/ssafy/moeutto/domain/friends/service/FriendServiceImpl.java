@@ -77,9 +77,9 @@ public class FriendServiceImpl implements FriendService {
         /* 멤버 체크 */
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
-        List<FriendsListResponseDto> list = memberRepository
+        List<FriendsListResponseDto> list = memberRepository.findFriendsListByNickname(memberId, requestDto.getNickname());
 
-        return null;
+        return list;
     }
 
 
