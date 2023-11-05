@@ -24,7 +24,7 @@ public interface MemberRepository extends JpaRepository<Member, UUID> {
 
 
     /**
-     * 닉네임과 내 아이디를 기반으로 친구 목록 검색.
+     * 닉네임과 내 아이디를 기반으로 친구 목록의 멤버 정보 검색.
      * 팔로우 여부 위해 my_id(memberId)필요
      * @param memberId
      * @param nickname
@@ -43,7 +43,7 @@ public interface MemberRepository extends JpaRepository<Member, UUID> {
 
 
     /**
-     * 내가 팔로우 하는 친구들의 목록 보기
+     * 내가 팔로우 하는 친구들의 멤버 정보 검색
      * @param memberId
      * @return
      */
