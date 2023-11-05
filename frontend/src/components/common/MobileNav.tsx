@@ -22,11 +22,8 @@ const Menu = styled.div<{ h: number }>`
 
   // 스크롤 효과 시작
   &.nav-up {
-    bottom: ${props => (props.h ? `0px` : '0px')}; // 바닥에서 위로 올라와야해서 (+)
+    bottom: 0px; // 바닥에서 위로 올라와야해서 (+)
     transition: 0.5s;
-  }
-  &.nav-basic {
-    bottom: 0px;
   }
 
   &.nav-down {
@@ -58,7 +55,7 @@ const MobileNav = () => {
 
   const mobileNavRef = useRef<HTMLDivElement>(null);
   const mobileNavNode = mobileNavRef.current;
-  const mobileNavHeight: number = mobileNavNode.clientHeight;
+  const mobileNavHeight: number = mobileNavRef != null && mobileNavNode?.clientHeight;
 
   useEffect(() => {
     console.log(mobileNavHeight);
