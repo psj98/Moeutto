@@ -47,7 +47,7 @@ const AnalysisCategory = ({ width, title, comment, link }: PropsType) => {
                     alt="season"  
                     className={imageClass}
                 />
-                <p className="z-99 w-[18%] absolute flex items-center justify-center text-AppBody1 font-bold" style={{ display: isHovered ? 'block' : 'none', color: '#000000' }}>{comment}</p>
+                <p className="z-99 absolute flex items-center justify-center text-AppBody1 font-bold" style={{ display: isHovered ? 'block' : 'none', color: '#000000' }}>{comment}</p>
             </div>
         </>
     )
