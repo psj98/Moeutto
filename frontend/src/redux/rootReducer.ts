@@ -5,7 +5,7 @@ import postCalendar from './features/closet/postCalendar';
 
 const rootReducer = combineReducers({
   closet: selectClosetReducer,
-  postCalendar,
+  post: postCalendar,
 });
 
 export default rootReducer;
