@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import ScrollReveal from 'scrollreveal';
+
 import { selectCloset } from '../../../redux/features/closet/selectClosetSlice';
 import { selectItem } from '../../../redux/features/closet/postCalendar';
 
@@ -13,6 +15,7 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId }) => 
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
+  ScrollReveal().reveal('.clothes');
   console.log(pathname);
 
   const [isSelected, setIsSelected] = useState(false);
@@ -33,7 +36,7 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId }) => 
         src={imgUrl}
         id={clothesId}
         alt="옷"
-        className={`w-[13vw] h-[13vw] border border-gray rounded-3xl ${
+        className={`clothes w-[13vw] h-[13vw] border border-gray rounded-3xl ${
           isSelected ? 'bg-gray-300 border-pink-hot' : ''
         }`}
         onClick={pathname === '/pickpick' ? handleClick : handlePostCalendar}
