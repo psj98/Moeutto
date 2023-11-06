@@ -1,6 +1,7 @@
 // import { defaultInstance } from '../api/api';
-
+// import { useNavigate } from 'react-router-dom';
 // import { useEffect } from 'react';
+import kakaoButton from '../assets/images/kakao_login_button.png';
 
 export interface Login {
   restApiKey: String;
@@ -9,10 +10,12 @@ export interface Login {
 }
 
 const LoginPage = () => {
+  // const navigate = useNavigate();
+
   //   const axiosInstance = defaultInstance();
 
   //   const redirectUrl =
-
+  // const navigate = useNavigate();
   const redirectUrl = 'http://localhost:3000/login-redirect';
 
   const link = `https://kauth.kakao.com/oauth/authorize?client_id=bab90d2b24304bb1f5b4c07938ff0fcc&redirect_uri=${redirectUrl}&response_type=code`;
@@ -23,7 +26,7 @@ const LoginPage = () => {
 
   return (
     <div>
-      <button onClick={loginHandler}>로그인</button>
+      <img src={kakaoButton} className="" onClick={loginHandler}></img>
     </div>
   );
 };
