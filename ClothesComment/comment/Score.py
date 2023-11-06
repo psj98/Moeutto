@@ -27,7 +27,7 @@ def get_temp_weather():
 def calculate_temperature_score(thickness, min_temp, max_temp):
     avg_temp = (min_temp + max_temp) / 2
 
-    # 이상적인 외투 두께 설정
+    # 이상적인 두께 설정
     if avg_temp < 0:
         ideal_thickness = 3
     elif 0 <= avg_temp <= 15:
