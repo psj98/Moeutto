@@ -1,7 +1,6 @@
 import React from 'react';
 
-import TodayDate from '../atoms/TodayDate';
-import UserName from '../atoms/UserName';
+// import TodayDate from '../atoms/TodayDate';
 import Location from '../molecules/Location';
 
 interface MainInfoPropsType {
@@ -13,11 +12,8 @@ interface MainInfoPropsType {
 const MainInfo: React.FC<MainInfoPropsType> = ({ currentLocation, address, showLocationClick }) => {
   return (
     <div>
-      <div className="flex items-end title">
-        <UserName />
-        <TodayDate />
-      </div>
-      <div className="flex justify-end mt-1">
+        {/* <TodayDate /> */}
+      <div className="flex mt-1">
         <Location currentLocation={currentLocation} address={address} showLocationClick={showLocationClick} />
       </div>
     </div>
