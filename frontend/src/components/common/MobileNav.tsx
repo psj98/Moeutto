@@ -58,7 +58,6 @@ const MobileNav = () => {
   const mobileNavHeight: number = mobileNavRef != null && mobileNavNode?.clientHeight;
 
   useEffect(() => {
-    console.log(mobileNavHeight);
     const threshold = 0;
     let lastScrollY: number = window.pageYOffset;
     let ticking = false;
@@ -101,10 +100,6 @@ const MobileNav = () => {
           break;
       }
     }
-
-    console.log(isScrolling);
-
-    // return () => window.removeEventListener("scroll", onScroll);
   }, [isScrolling]);
 
   return (
