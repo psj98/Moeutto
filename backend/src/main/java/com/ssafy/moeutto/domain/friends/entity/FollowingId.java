@@ -1,5 +1,6 @@
 package com.ssafy.moeutto.domain.friends.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +25,8 @@ public class FollowingId implements Serializable {
     @Column(name = "following_id", columnDefinition = "BINARY(16)")
     private UUID followingId;
 
+
+    @Builder(toBuilder = true)
     public FollowingId(UUID myId, UUID followingId) {
         this.myId = myId;
         this.followingId = followingId;
