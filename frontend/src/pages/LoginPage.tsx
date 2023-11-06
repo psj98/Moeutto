@@ -1,7 +1,3 @@
-// import { defaultInstance } from '../api/api';
-
-// import { useEffect } from 'react';
-
 export interface Login {
   restApiKey: String;
   redirectUri: String;
@@ -9,12 +5,7 @@ export interface Login {
 }
 
 const LoginPage = () => {
-  //   const axiosInstance = defaultInstance();
-
-  //   const redirectUrl =
-
-  const redirectUrl = 'http://localhost:3000/login-redirect';
-
+  const redirectUrl = process.env.REACT_APP_REDIRECT_URL;
   const link = `https://kauth.kakao.com/oauth/authorize?client_id=bab90d2b24304bb1f5b4c07938ff0fcc&redirect_uri=${redirectUrl}&response_type=code`;
 
   const loginHandler = () => {
