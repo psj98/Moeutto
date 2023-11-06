@@ -2,8 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Outlet } from 'react-router-dom'; 
 import Sidebar from './components/common/SideNav';
-import MobileMenu from './components/common/Mobile';
-// import Alert from './components/common/Alert';
+import MobileNav from './components/common/MobileNav';
 
 const ContentContainer = styled.div`
   width: 100%;
@@ -18,8 +17,7 @@ function App() {
     // 448px가 너비 최대
     <div className="App flex max-w-md mx-auto border border-pink-hot rounded-xl">
       <Sidebar path="" />
-      <MobileMenu />
-      {/* <Alert /> */}
+      <MobileNav />
       <ContentContainer>
         {/* // v6 outlet 은 // children과 같은 효과 */}
         <Outlet />
