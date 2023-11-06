@@ -1,13 +1,14 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Outlet } from 'react-router-dom'; 
+import { Outlet } from 'react-router-dom';
 import Sidebar from './components/common/SideNav';
 import MobileNav from './components/common/MobileNav';
 
 const ContentContainer = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
-  padding: 10px 30px;
+  padding: 5px;
   // margin-left: 250px; // nav bar fixed 되었는데 웹일때 사이드 바에 컨텐츠 가리지 않도록 설정하였는데 이제 모바일뷰 집중 하기때문에 주석처리
 `;
 
