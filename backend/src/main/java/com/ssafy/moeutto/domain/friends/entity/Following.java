@@ -18,7 +18,7 @@ import java.util.UUID;
 @ToString
 public class Following {
 
-    @Builder
+    @Builder(toBuilder = true)
     public Following(FollowingId followingId) {
         this.followingId = followingId;
     }

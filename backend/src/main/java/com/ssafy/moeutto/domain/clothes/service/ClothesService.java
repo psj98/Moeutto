@@ -1,9 +1,6 @@
 package com.ssafy.moeutto.domain.clothes.service;
 
-import com.ssafy.moeutto.domain.clothes.dto.request.ClothesListByFriendsRequestDto;
-import com.ssafy.moeutto.domain.clothes.dto.request.ClothesListRequestDto;
-import com.ssafy.moeutto.domain.clothes.dto.request.ClothesRegistRequestDto;
-import com.ssafy.moeutto.domain.clothes.dto.request.ClothesUpdateRequestDto;
+import com.ssafy.moeutto.domain.clothes.dto.request.*;
 import com.ssafy.moeutto.domain.clothes.dto.response.*;
 import com.ssafy.moeutto.domain.clothes.entity.Clothes;
 import com.ssafy.moeutto.global.response.BaseException;
@@ -41,6 +38,15 @@ public interface ClothesService {
      * @throws BaseException
      */
     List<ClothesListResponseDto> listClothes(UUID memberId, ClothesListRequestDto clothesListRequestDto) throws BaseException;
+
+    /**
+     * 옷 목록과 방명록을 가져옵니다.
+     *
+     * @param memberId
+     * @return ClothesListAndGuestBookResponseDto
+     * @throws BaseException
+     */
+    ClothesListAndGuestBookResponseDto listClothesAndGuestBooks(UUID memberId) throws BaseException;
 
     /**
      * 사용자 id로 목록을 조회합니다.
@@ -162,7 +168,7 @@ public interface ClothesService {
     ClothesAnalysisAvailabilityResponseDto analysisAvailability(UUID memberId) throws BaseException;
 
     /**
-     * 친구가 소유한 옷 목록을 보여줍니다.
+     * 친구가 소유한 옷 목록을 조회합니다.
      *
      * @param memberId
      * @param clothesListByFriendsRequestDto
@@ -170,4 +176,14 @@ public interface ClothesService {
      * @throws BaseException
      */
     List<ClothesListResponseDto> getListByFriends(UUID memberId, ClothesListByFriendsRequestDto clothesListByFriendsRequestDto) throws BaseException;
+
+    /**
+     * 친구가 소유한 옷 목록과 방명록을 조회합니다.
+     *
+     * @param memberId
+     * @param email
+     * @return ClothesListAndGuestBookResponseDto
+     * @throws BaseException
+     */
+    ClothesListAndGuestBookResponseDto getListClothesAndGuestBookByFriends(UUID memberId, String email) throws BaseException;
 }

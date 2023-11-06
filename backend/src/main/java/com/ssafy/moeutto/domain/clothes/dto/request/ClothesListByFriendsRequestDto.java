@@ -1,5 +1,6 @@
 package com.ssafy.moeutto.domain.clothes.dto.request;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,4 +21,12 @@ public class ClothesListByFriendsRequestDto {
 
     @NotNull
     private Integer orderBy; // 정렬 순서
+
+    @Builder(toBuilder = true)
+    public ClothesListByFriendsRequestDto(String email, String categoryId, String sortBy, Integer orderBy) {
+        this.email = email;
+        this.categoryId = categoryId;
+        this.sortBy = sortBy;
+        this.orderBy = orderBy;
+    }
 }
