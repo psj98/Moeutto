@@ -181,8 +181,9 @@ public interface ClothesService {
      * 친구가 소유한 옷 목록과 방명록을 조회합니다.
      *
      * @param memberId
-     * @param clothesListClothesAndGuestBookByFriendsRequestDto
-     * @return
+     * @param email
+     * @return ClothesListAndGuestBookResponseDto
+     * @throws BaseException
      */
     ClothesListAndGuestBookResponseDto getListClothesAndGuestBookByFriends(UUID memberId, String email) throws BaseException;
 }
