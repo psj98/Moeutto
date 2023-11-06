@@ -1,9 +1,6 @@
 package com.ssafy.moeutto.domain.clothes.controller;
 
-import com.ssafy.moeutto.domain.clothes.dto.request.ClothesListByFriendsRequestDto;
-import com.ssafy.moeutto.domain.clothes.dto.request.ClothesListRequestDto;
-import com.ssafy.moeutto.domain.clothes.dto.request.ClothesRegistRequestDto;
-import com.ssafy.moeutto.domain.clothes.dto.request.ClothesUpdateRequestDto;
+import com.ssafy.moeutto.domain.clothes.dto.request.*;
 import com.ssafy.moeutto.domain.clothes.dto.response.*;
 import com.ssafy.moeutto.domain.clothes.service.ClothesService;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
@@ -42,6 +39,7 @@ public class ClothesController {
         try {
             UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
+            // 옷 정보 등록
             ClothesRegistResponseDto clothesRegistResponseDto = clothesService.registClothes(clothesRegistRequestDto, memberId, token, file);
             return baseResponseService.getSuccessResponse(clothesRegistResponseDto);
         } catch (BaseException e) {
@@ -61,6 +59,7 @@ public class ClothesController {
         try {
             UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
+            // 옷 정보 조회
             ClothesDetailResponseDto clothesDetailResponseDto = clothesService.detailClothes(id, memberId);
             return baseResponseService.getSuccessResponse(clothesDetailResponseDto);
         } catch (BaseException e) {
@@ -81,8 +80,28 @@ public class ClothesController {
         try {
             UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
+            // 옷 목록 조회
             List<ClothesListResponseDto> clothesListResponseDtoList = clothesService.listClothes(memberId, clothesListRequestDto);
             return baseResponseService.getSuccessResponse(clothesListResponseDtoList);
+        } catch (BaseException e) {
+            return baseResponseService.getFailureResponse(e.status);
+        }
+    }
+
+    /**
+     * 옷 목록 + 방명록 가져오기
+     *
+     * @param token
+     * @return
+     */
+    @GetMapping("/list-all")
+    public BaseResponse<Object> getListClothesAndGuestBooks(@RequestHeader(value = "accessToken", required = false) String token) {
+        try {
+            UUID memberId = getMemberIdFromToken(token); // 사용자 체크
+
+            // 옷 목록 + 방명록 조회
+            ClothesListAndGuestBookResponseDto clothesListAndGuestBookResponseDto = clothesService.listClothesAndGuestBooks(memberId);
+            return baseResponseService.getSuccessResponse(clothesListAndGuestBookResponseDto);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
         }
@@ -101,6 +120,7 @@ public class ClothesController {
         try {
             UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
+            // 옷 정보 수정
             ClothesUpdateResponseDto clothesUpdateResponseDto = clothesService.updateClothes(clothesUpdateRequestDto, memberId, token, file);
             return baseResponseService.getSuccessResponse(clothesUpdateResponseDto);
         } catch (BaseException e) {
@@ -120,6 +140,7 @@ public class ClothesController {
         try {
             UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
+            // 옷 정보 삭제
             clothesService.deleteClothes(id, memberId);
             return baseResponseService.getSuccessResponse();
         } catch (BaseException e) {
@@ -139,6 +160,7 @@ public class ClothesController {
         try {
             UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
+            // 옷 즐겨찾기 등록 / 해제
             ClothesStarResponseDto clothesStarResponseDto = clothesService.starClothes(id, memberId);
             return baseResponseService.getSuccessResponse(clothesStarResponseDto);
         } catch (BaseException e) {
@@ -157,6 +179,7 @@ public class ClothesController {
         try {
             UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
+            // 색상 기준으로 분석
             ClothesAnalysisColorResponseDto clothesAnalysisColorResponseDto = clothesService.analysisColor(memberId);
             return baseResponseService.getSuccessResponse(clothesAnalysisColorResponseDto);
         } catch (BaseException e) {
@@ -189,6 +212,7 @@ public class ClothesController {
         try {
             UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
+            // 빈도 기준으로 분석
             ClothesAnalysisFrequencyResponseDto clothesAnalysisFrequencyResponseDto = clothesService.analysisFrequency(memberId);
             return baseResponseService.getSuccessResponse(clothesAnalysisFrequencyResponseDto);
         } catch (BaseException e) {
@@ -254,19 +278,40 @@ public class ClothesController {
     }
 
     /**
-     * 친구가 소유한 옷 목록을 보여줍니다.
+     * 친구가 소유한 옷 목록을 조회합니다.
      *
      * @return
      */
-    @PostMapping("/friend")
+    @PostMapping("/list/friend")
     public BaseResponse<Object> getListByFriends(@RequestHeader(value = "accessToken") String token,
                                                  @RequestBody ClothesListByFriendsRequestDto clothesListByFriendsRequestDto) {
         try {
             UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
-            // 활용도 기준으로 분석
+            // 친구 옷 목록 조회
             List<ClothesListResponseDto> clothesServiceListByFriends = clothesService.getListByFriends(memberId, clothesListByFriendsRequestDto);
             return baseResponseService.getSuccessResponse(clothesServiceListByFriends);
+        } catch (BaseException e) {
+            return baseResponseService.getFailureResponse(e.status);
+        }
+    }
+
+    /**
+     * 친구가 소유한 옷과 방명록을 조회합니다.
+     *
+     * @param token
+     * @param clothesListAndGuestBookByFriendsRequestDto
+     * @return ClothesListAndGuestBookResponseDto
+     */
+    @PostMapping("/list/friend-all")
+    public BaseResponse<Object> getListClothesAndGuestBookByFriends(@RequestHeader(value = "accessToken") String token,
+                                                                    @RequestBody ClothesListAndGuestBookByFriendsRequestDto clothesListAndGuestBookByFriendsRequestDto) {
+        try {
+            UUID memberId = getMemberIdFromToken(token); // 사용자 체크
+
+            // 친구 옷 목록 + 방명록 조회
+            ClothesListAndGuestBookResponseDto clothesListAndGuestBookResponseDtoByFriend = clothesService.getListClothesAndGuestBookByFriends(memberId, clothesListAndGuestBookByFriendsRequestDto.getEmail());
+            return baseResponseService.getSuccessResponse(clothesListAndGuestBookResponseDtoByFriend);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
         }

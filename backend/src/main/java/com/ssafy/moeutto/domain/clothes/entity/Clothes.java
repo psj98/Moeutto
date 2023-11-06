@@ -39,7 +39,7 @@ public class Clothes {
     private String season; // 계절
 
     @NotNull
-    @Column(length = 6)
+    @Column(length = 20)
     private String color; // 색상
 
     @NotNull
