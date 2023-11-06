@@ -15,7 +15,7 @@ const initialState: SelectedClosetComponentState = {
 // 액션 생성 함수
 const postCalendar = createSlice({
   // 액션 타입 정의
-  name: 'postCalendar',
+  name: 'calendar',
   // 초기 상태
   initialState,
   // 리듀서 맵
@@ -34,5 +34,7 @@ const postCalendar = createSlice({
 });
 
 export const { selectItem } = postCalendar.actions;
+
+export const selectedClosetUrls = state => state.selectedClosetUrls;
 
 export default postCalendar.reducer;

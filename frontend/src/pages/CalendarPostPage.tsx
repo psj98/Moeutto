@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 // axios
-// import { useQuery } from 'react-query';
 import { authInstance } from '../api/api';
-
-import { RootState } from '../redux/store';
 import PickComponent from '../components/common/category/organisms/PickComponent';
 import Scroll from '../components/common/scroll/molecules/Scroll';
+import PostEditorTemplate from '../components/postCalendar/templates/PostEditorTemplate';
+import { RootState } from '../redux/store';
 
 export interface ClothesItem {
   id: number; // 옷 등록 id
@@ -27,7 +26,7 @@ const ScrollSection = styled.div`
 `;
 
 const calendarPostPage = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // 카테고리
   // 대분류
   const [selectedOptionMain, setSelectedOptionMain] = useState<string | null>('전체');
@@ -92,11 +91,7 @@ const calendarPostPage = () => {
   }, [selectedOptionMain, selectedOptionMiddle, selectedOptionSort]);
 
   // 선택한 옷 리스트
-  const selectedClosetIds = useSelector((state: RootState) => state.closet.selectedClosetIds);
-
-  useEffect(() => {
-    console.log(selectedClosetIds);
-  }, [selectedClosetIds]);
+  const selectedClosetIds = useSelector((state: RootState) => state.post.selectedClosetUrls);
 
   // 옷 목록 조회
   const [clothesData, setClothesData] = useState<ClothesItem[]>([]);
@@ -120,8 +115,6 @@ const calendarPostPage = () => {
 
       return response.data;
     } catch (error) {
-      console.log('옷 목록 데이터 조회 실패', error);
-
       throw new Error('옷 목록 데이터 조회 실패 토큰을 확인하세요');
     }
   };
@@ -161,7 +154,7 @@ const calendarPostPage = () => {
 
     if (requestData) {
       localStorage.setItem('selectedClosetIds', JSON.stringify(selectedClosetIds));
-      navigate('/analysis');
+      alert('post 제출하기');
     } else {
       alert('선택한 옷이 없어요');
     }
@@ -169,6 +162,7 @@ const calendarPostPage = () => {
 
   return (
     <>
+      <PostEditorTemplate></PostEditorTemplate>
       <PickComponent
         selectedOptionMain={selectedOptionMain}
         setSelectedOptionMain={setSelectedOptionMain}
