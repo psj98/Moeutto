@@ -1,11 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
 import { authInstance } from "../../../api/api";
 import { ClothesItem } from "../../../pages/PickPickPage";
 import MainCategory from "../atoms/MainCategory";
 import MiddleCategory from "../atoms/MiddleCategory";
 import ClothesItemComponent from "../../clothes/atoms/ClothesItem";
 
-const CategoryTap = ({ title, id, categories }) => {
+const ScrollContainer = styled.div`
+  display: flex;
+  gap: 2px;
+  margin-top: 4px;
+  min-width: 100%;
+  overflow-x: hidden; /* or 'auto' for scrollable */
+  touch-action: pan-x;
+`;
+
+
+const CategoryTap = ({ title, id, categories, uniqueId }) => {
+  const navigate = useNavigate();
   const [clothesData, setClothesData] = useState<ClothesItem[]>([]);
   const [categoryId, setCategoryId] = useState<string>(id);
   const [sortBy , setSortBy] = useState<string>("initial");
@@ -36,7 +50,7 @@ const CategoryTap = ({ title, id, categories }) => {
     } catch (error) {
       console.log('옷 목록 데이터 조회 실패', error);
 
-      throw new Error('옷 목록 데이터 조회 대 실패');
+      throw new Error('옷 목록 데이터 조회 실패');
     }
   };
 
@@ -74,31 +88,64 @@ const CategoryTap = ({ title, id, categories }) => {
     console.log('지금 선택한 카테고리', selectedOptionMiddle)                                                                                  
   }, [selectedOptionMiddle]);
 
+  const [categoryValue, setCategoryValue] = useState<string>("");
+  
   useEffect(() => {
     fetchData(); 
     console.log(categoryId)
-    console.log(setSortBy)
-    console.log(setOrderBy)
-  }, [categoryId])
+  }, [categoryId, sortBy, categoryValue])
+
+
+  const onChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setCategoryValue(e.target.value);
+    if (e.target.value) {
+        setSortBy(e.target.value);
+        setOrderBy(1);
+      if (e.target.value === 'frequency1') {
+            setSortBy('frequency')
+            setOrderBy(1)
+        } else if (e.target.value === 'frequency0') {
+            setSortBy('frequency')
+            setOrderBy(0)
+        }
+      } 
+    }
 
     return (
-        <>
+        <div className="mb-8">
             <MainCategory title={title} />
-            <MiddleCategory 
-                selectedOptionMiddle={selectedOptionMiddle} 
-                setSelectedOptionMiddle={setSelectedOptionMiddle} 
-                categories={categories} 
-            />
-            <div className="flex overflow-x-scroll gap-2 mt-4" style={{minWidth: '100%'}}>
-                {clothesData && clothesData.length > 0 ? (
-                clothesData.map((item, index) => (
-                    <ClothesItemComponent imgUrl={item.imageUrl} clothesId={item.id.toString()} key={index} />
-                ))
-                ) : (
-                <div>아무것도 없어요</div>
-                )}
+            <div className="flex">
+                <MiddleCategory 
+                    selectedOptionMiddle={selectedOptionMiddle} 
+                    setSelectedOptionMiddle={setSelectedOptionMiddle} 
+                    categories={categories} 
+                    uniqueId={uniqueId}
+                />
+                <div className="text-AppBody2 flex items-center ms-10">
+                    <select value={categoryValue} defaultValue="initial" onChange={onChange} className="h-5">
+                        <option value="initial">정렬</option>
+                        <option value="regDate">등록순</option>
+                        <option value="frequency1">많이 입은 순</option>
+                        <option value="frequency0">적게 입은 순</option>
+                        <option value="color">색상 순</option>
+                        
+                    </select>
+                </div>
             </div>
-        </>
+            <ScrollContainer>
+                    {clothesData && clothesData.length > 0 ? (
+                    clothesData.map((item, index) => (
+                        <ClothesItemComponent imgUrl={item.imageUrl} clothesId={item.id.toString()} key={index} />
+                    ))
+                    ) : (
+                    <div className="w-full h-[110px] rounded-xl flex items-center justify-center border-pink">
+                        <div className="bg-pink text-white p-4 rounded-xl"
+                            onClick={() => navigate('/mycloset/add-cloth')}
+                        >옷 등록하기</div>
+                    </div>
+                    )}
+            </ScrollContainer>
+        </div>
     )
 }
 

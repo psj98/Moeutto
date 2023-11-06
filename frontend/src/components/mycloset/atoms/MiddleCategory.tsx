@@ -26,7 +26,8 @@ const BoldLabel = styled.label<{ selected: boolean }>`
 interface MiddleCategoryTopProps {
   categories: string[];
   selectedOptionMiddle: string;
-  setSelectedOptionMiddle: React.Dispatch<React.SetStateAction<string | null>>
+  setSelectedOptionMiddle: React.Dispatch<React.SetStateAction<string | null>>;
+  uniqueId: number;
 }
 
 
@@ -39,11 +40,20 @@ const MiddleCategory: React.FC<MiddleCategoryTopProps> = ({
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => { 
     console.log('지금 내가 선택한 카테고리', e.target.id)
-    setSelectedOptionMiddle(e.target.id)
+    const selectedId = e.target.id;
+
+        // Check if the selected option is '전체'
+        if (selectedId === '전체') {
+            // Toggle '전체' category's selection independently
+            setSelectedOptionMiddle(selectedOptionMiddle === '전체' ? '' : '전체');
+        } else {
+            // For non-'전체' categories, simply set the selected option
+            setSelectedOptionMiddle(selectedId);
+        }
   };
 
   return (
-    <div>
+    <div className='mb-2'>
         <RadioWrapper>
         {categories?.map((category, index) => (
             <div key={index}>
