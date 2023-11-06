@@ -1,7 +1,9 @@
 package com.ssafy.moeutto.domain.friends.entity;
 
 
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
@@ -16,18 +18,20 @@ import java.util.UUID;
 @Embeddable
 @NoArgsConstructor
 @EqualsAndHashCode
+@Getter
 public class FollowerId implements Serializable {
 
     @Column(name = "my_id", columnDefinition = "BINARY(16)")
     private UUID myId;
 
 
-    @Column(name = "following_id", columnDefinition = "BINARY(16)")
-    private UUID followingId;
+    @Column(name = "follower_id", columnDefinition = "BINARY(16)")
+    private UUID followerId;
 
-    public FollowerId(UUID myId, UUID followingId) {
+    @Builder(toBuilder = true)
+    public FollowerId(UUID myId, UUID followerId) {
         this.myId = myId;
-        this.followingId = followingId;
+        this.followerId = followerId;
     }
 
 }
