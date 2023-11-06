@@ -5,8 +5,7 @@ import closetImage from '../assets/images/closet_image.png';
 const LoginPage = () => {
   // 환경변수에서 redirect URI와 Kakao Client ID를 불러옵니다.
   const redirectUrl = process.env.REACT_APP_REDIRECT_URL;
-  const kakaoClientId = process.env.REACT_APP_KAKAO_CLIENT_ID;
-  const link = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClientId}&redirect_uri=${redirectUrl}&response_type=code`;
+  const link = `https://kauth.kakao.com/oauth/authorize?client_id=bab90d2b24304bb1f5b4c07938ff0fcc&redirect_uri=${redirectUrl}&response_type=code`;
 
   const loginHandler = () => {
     window.location.href = link;
