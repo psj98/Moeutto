@@ -278,7 +278,7 @@ public class ClothesController {
     }
 
     /**
-     * 친구가 소유한 옷 목록을 보여줍니다.
+     * 친구가 소유한 옷 목록을 조회합니다.
      *
      * @return
      */
@@ -296,6 +296,13 @@ public class ClothesController {
         }
     }
 
+    /**
+     * 친구가 소유한 옷과 방명록을 조회합니다.
+     *
+     * @param token
+     * @param clothesListAndGuestBookByFriendsRequestDto
+     * @return ClothesListAndGuestBookResponseDto
+     */
     @PostMapping("/list/friend-all")
     public BaseResponse<Object> getListClothesAndGuestBookByFriends(@RequestHeader(value = "accessToken") String token,
                                                                     @RequestBody ClothesListAndGuestBookByFriendsRequestDto clothesListAndGuestBookByFriendsRequestDto) {
