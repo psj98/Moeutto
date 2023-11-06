@@ -114,7 +114,7 @@ const MyClosetPage = () => {
 
   useEffect(() => {
     fetchData();
-  }, [categoryId, sortBy, orderBy]);
+  }, [categoryId]);
 
   return (
     <>
