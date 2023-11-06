@@ -1,9 +1,9 @@
 import axios, { AxiosInstance } from 'axios';
 
-const token: string =
-  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhM2FiM2ExNS00M2I0LTQ4OTYtYjFlMi0wM2Q2YWJhNWM2NmMiLCJleHAiOjE2OTg5NzM5NjJ9.vZxmr2SzJHm0nfq6_0qwgu_fsmtgZHxJfDf6CfZBCQmTQejYA9mWDvOc7TRXx7oPbwcHC9zrkF1gAj-aGrIqmw';
+// const token: string =
+//   'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhM2FiM2ExNS00M2I0LTQ4OTYtYjFlMi0wM2Q2YWJhNWM2NmMiLCJleHAiOjE2OTg5NzM5NjJ9.vZxmr2SzJHm0nfq6_0qwgu_fsmtgZHxJfDf6CfZBCQmTQejYA9mWDvOc7TRXx7oPbwcHC9zrkF1gAj-aGrIqmw';
 
-window.sessionStorage.setItem('accessToken', token);
+// window.sessionStorage.setItem('accessToken', token);
 
 // 인증 값이 필요 없는 경우
 const axiosApi = () => {

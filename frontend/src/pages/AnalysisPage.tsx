@@ -1,5 +1,6 @@
 import ClothAnalysisTemplate from '../components/analysis/templates/ClothAnalysisTemplate';
 
+
 const AnalysisPage = () => {
   return (
     <>

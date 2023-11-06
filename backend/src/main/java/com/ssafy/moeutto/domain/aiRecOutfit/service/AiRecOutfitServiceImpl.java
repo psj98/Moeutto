@@ -52,7 +52,7 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
      * @throws JsonProcessingException
      */
     @Override
-    public List<AiRecOutfitCombineResponseDto> recommendOutfit(UUID memberId, List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) throws BaseException, JsonProcessingException {
+    public List<AiRecOutfitCombineResponseDto> recommendAiOutfit(UUID memberId, List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) throws BaseException, JsonProcessingException {
         // 사용자 정보 체크
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
@@ -114,12 +114,12 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
                         .build();
 
                 aiRecOutfitRepository.save(aiRecOutfit);
+            } else {
+                // aiRecOutfitId에 해당하는 복합키 삭제
+                clothesInAiOutfitRepository.deleteAllByAiRecOutfitId(aiRecOutfitOptional.get().getId());
             }
 
             AiRecOutfit aiRecOutfit = aiRecOutfitRepository.findByMemberIdAndRecDate(memberId, recDate).get();
-
-            // aiRecOutfitId에 해당하는 복합키 삭제
-            clothesInAiOutfitRepository.deleteAllByAiRecOutfitId(aiRecOutfit.getId());
 
             List<AiRecOutfitCombineClothesInfoResponseDto> aiRecOutfitCombineClothesInfoResponseDtoList = new ArrayList<>(); // AI가 추천해준 옷 정보 목록
 
@@ -136,13 +136,13 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
                 Clothes clothes = clothesRepository.findById(clothesId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES));
 
                 // 착장 저장
-                ClothesInAiRecOutfit clothesInAiOutfit = ClothesInAiRecOutfit.builder()
+                ClothesInAiRecOutfit clothesInAiRecOutfit = ClothesInAiRecOutfit.builder()
                         .id(clothesInAiOutfitId)
                         .clothes(clothes)
                         .aiRecOutfit(aiRecOutfit)
                         .build();
 
-                clothesInAiOutfitRepository.save(clothesInAiOutfit);
+                clothesInAiOutfitRepository.save(clothesInAiRecOutfit);
 
                 // 클라이언트에 전달할 옷 정보 저장
                 AiRecOutfitCombineClothesInfoResponseDto aiRecOutfitCombineClothesInfoResponseDto = AiRecOutfitCombineClothesInfoResponseDto.builder()
@@ -175,9 +175,9 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
      * @throws BaseException
      */
     @Override
-    public AiRecOutfitCombineByAIRequestDto recommendOutfitBackFrontTest(UUID memberId, List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) throws BaseException {
+    public AiRecOutfitCombineByAIRequestDto recommendAiOutfitBackFrontTest(UUID memberId, List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) throws BaseException {
         // 사용자 정보 체크
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+        memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
         ArrayList<List<IClothesAIRecOutfitCombine>> clothesList = new ArrayList<>(); // 대분류 카테고리 별 옷 목록
 
@@ -215,27 +215,45 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
      * @throws BaseException
      */
     @Override
-    public List<AiRecOutfitCombineResponseDto> recommendOutfitBackPythonFrontTest(UUID memberId, List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) throws BaseException {
+    public List<AiRecOutfitCombineResponseDto> recommendAiOutfitBackPythonFrontTest(UUID memberId, List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) throws BaseException {
         // 사용자 정보 체크
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
         List<List<IClothesAIRecOutfitCombine>> clothesList = new ArrayList<>(); // 대분류 카테고리 별 옷 목록
 
-        // 파이썬으로 전달할 정보 정제
+        // 대분류 카테고리에 따른 옷 목록 저장
         List<LargeCategory> largeCategoryList = largeCategoryRepository.findAll();
         for (LargeCategory largeCategory : largeCategoryList) {
             List<IClothesAIRecOutfitCombine> clothesAIRecOutfitCombineList = clothesRepository.findAllByMemberIdAndMiddleCategory(memberId, largeCategory.getId());
             clothesList.add(clothesAIRecOutfitCombineList);
         }
 
-        // 아우터에서 랜덤으로 뽑기
-        Random random = new Random();
-
         List<AiRecOutfitCombineResponseDto> aiRecOutfitCombineResponseDtoList = new ArrayList<>(); // 클라이언트에 전달할 정보
 
+        // 아우터에서 랜덤으로 뽑기
+        Random random = new Random();
         for (AiRecOutfitCombineRequestDto aiRecOutfitCombineRequestDto : aiRecOutfitCombineRequestDtoList) {
-            List<AiRecOutfitCombineClothesInfoResponseDto> aiRecOutfitCombineClothesInfoResponseDtoList = new ArrayList<>();
+            Date recDate = aiRecOutfitCombineRequestDto.getDate(); // 날짜 가져오기
 
+            // 날짜로 착장이 있는지 확인
+            Optional<AiRecOutfit> aiRecOutfitOptional = aiRecOutfitRepository.findByMemberIdAndRecDate(memberId, recDate);
+
+            // 없으면 save
+            if (!aiRecOutfitOptional.isPresent()) {
+                AiRecOutfit aiRecOutfit = AiRecOutfit.builder()
+                        .recDate(recDate)
+                        .member(member)
+                        .build();
+
+                aiRecOutfitRepository.save(aiRecOutfit);
+            } else {
+                // aiRecOutfitId에 해당하는 복합키 삭제
+                clothesInAiOutfitRepository.deleteAllByAiRecOutfitId(aiRecOutfitOptional.get().getId());
+            }
+
+            AiRecOutfit aiRecOutfit = aiRecOutfitRepository.findByMemberIdAndRecDate(memberId, recDate).get();
+
+            List<AiRecOutfitCombineClothesInfoResponseDto> aiRecOutfitCombineClothesInfoResponseDtoList = new ArrayList<>();
             for (int i = 0; i < 4; i++) {
                 if (clothesList.get(i).size() == 0) {
                     throw new BaseException(BaseResponseStatus.TOO_LITTLE_CLOTHES);
@@ -243,6 +261,7 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
 
                 int randomNum = random.nextInt(clothesList.get(i).size());
 
+                // 옷 정보 확인
                 Clothes clothes = clothesRepository.findById(clothesList.get(i).get(randomNum).getId()).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES));
 
                 AiRecOutfitCombineClothesInfoResponseDto aiRecOutfitCombineClothesInfoResponseDto = AiRecOutfitCombineClothesInfoResponseDto.builder()
@@ -250,6 +269,20 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
                         .largeCategoryId(clothes.getMiddleCategory().getLargeCategory().getId())
                         .imageUrl(clothes.getImageUrl())
                         .build();
+
+                // 복합키 생성
+                ClothesInAiRecOutfitId clothesInAiRecOutfitId = ClothesInAiRecOutfitId.builder()
+                        .clothesId(clothes.getId())
+                        .aiRecOutfitId(aiRecOutfit.getId())
+                        .build();
+
+                ClothesInAiRecOutfit clothesInAiRecOutfit = ClothesInAiRecOutfit.builder()
+                        .id(clothesInAiRecOutfitId)
+                        .clothes(clothes)
+                        .aiRecOutfit(aiRecOutfit)
+                        .build();
+
+                clothesInAiOutfitRepository.save(clothesInAiRecOutfit);
 
                 aiRecOutfitCombineClothesInfoResponseDtoList.add(aiRecOutfitCombineClothesInfoResponseDto);
             }
@@ -260,6 +293,61 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
                     .build();
 
             aiRecOutfitCombineResponseDtoList.add(aiRecOutfitCombineResponseDto);
+        }
+
+        return aiRecOutfitCombineResponseDtoList;
+    }
+
+    /**
+     * 현재 날짜 기준으로 AI가 추천한 착장을 조회합니다.
+     *
+     * @param memberId
+     * @return List<AiRecOutfitCombineResponseDto>
+     * @throws BaseException
+     */
+    @Override
+    public List<AiRecOutfitCombineResponseDto> detailAiOutfit(UUID memberId) throws BaseException {
+        // 사용자 정보 체크
+        memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+
+        Date curDate = new Date(System.currentTimeMillis()); // 현재 날짜
+        List<AiRecOutfitCombineResponseDto> aiRecOutfitCombineResponseDtoList = new ArrayList<>(); // Response Data
+
+        for (int i = 0; i < 3; i++) {
+            // memberId + 현재 날짜에 따라 착장 id 조회
+            AiRecOutfit aiRecOutfit = aiRecOutfitRepository.findByMemberIdAndRecDate(memberId, curDate).orElseThrow(() -> new BaseException(BaseResponseStatus.NO_AI_RECOMMENDED_OUTFIT_FOR_CUR_DATE));
+
+            // 착장 id에 따른 옷 id 목록 조회 (clothes)
+            List<ClothesInAiRecOutfit> ClothesInAiRecOutfitList = clothesInAiOutfitRepository.findAllByAiRecOutfitId(aiRecOutfit.getId());
+
+            // 옷 id 별로 정보 추출 및 Front-End에 전달할 정보 정제
+            List<AiRecOutfitCombineClothesInfoResponseDto> clothesInfoList = new ArrayList<>();
+            for (ClothesInAiRecOutfit clothesInAiRecOutfit : ClothesInAiRecOutfitList) {
+                Integer clothesId = clothesInAiRecOutfit.getClothes().getId();
+
+                AiRecOutfitCombineClothesInfoResponseDto aiRecOutfitCombineClothesInfoResponseDto = AiRecOutfitCombineClothesInfoResponseDto.builder()
+                        .clothesId(clothesId)
+                        .largeCategoryId(clothesInAiRecOutfit.getClothes().getMiddleCategory().getLargeCategory().getId())
+                        .imageUrl(clothesInAiRecOutfit.getClothes().getImageUrl())
+                        .build();
+
+                clothesInfoList.add(aiRecOutfitCombineClothesInfoResponseDto);
+            }
+
+            AiRecOutfitCombineResponseDto aiRecOutfitCombineResponseDto = AiRecOutfitCombineResponseDto.builder()
+                    .clothesInfo(clothesInfoList)
+                    .recDate(curDate)
+                    .build();
+
+            aiRecOutfitCombineResponseDtoList.add(aiRecOutfitCombineResponseDto);
+
+            // Calendar 객체를 사용하여 하루를 더한 날짜 얻기
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(curDate);
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+            // 결과를 Date 객체로 변환
+            curDate = new Date(calendar.getTime().getTime());
         }
 
         return aiRecOutfitCombineResponseDtoList;

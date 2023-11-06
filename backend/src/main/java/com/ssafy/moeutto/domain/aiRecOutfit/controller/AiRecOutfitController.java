@@ -34,8 +34,8 @@ public class AiRecOutfitController {
      */
 //    @PostMapping("/combine")
     @PostMapping("/combine-python-back-front")
-    public BaseResponse<Object> recommendOutfit(@RequestHeader(value = "accessToken", required = false) String token,
-                                                @RequestBody List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) {
+    public BaseResponse<Object> recommendAiOutfit(@RequestHeader(value = "accessToken", required = false) String token,
+                                                  @RequestBody List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) {
         try {
             if (token == null || token.equals("")) {
                 throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
@@ -43,7 +43,7 @@ public class AiRecOutfitController {
 
             UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
 
-            List<AiRecOutfitCombineResponseDto> aiRecOutfitCombineResponseDtoList = aiRecOutfitService.recommendOutfit(memberId, aiRecOutfitCombineRequestDtoList);
+            List<AiRecOutfitCombineResponseDto> aiRecOutfitCombineResponseDtoList = aiRecOutfitService.recommendAiOutfit(memberId, aiRecOutfitCombineRequestDtoList);
             return baseResponseService.getSuccessResponse(aiRecOutfitCombineResponseDtoList);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
@@ -60,8 +60,8 @@ public class AiRecOutfitController {
      * @return AiRecOutfitCombineByAIRequestDto
      */
     @PostMapping("/combine-back-front")
-    public BaseResponse<Object> recommendOutfitTest(@RequestHeader(value = "accessToken", required = false) String token,
-                                                    @RequestBody List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) {
+    public BaseResponse<Object> recommendAiOutfitTest(@RequestHeader(value = "accessToken", required = false) String token,
+                                                      @RequestBody List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) {
         try {
             if (token == null || token.equals("")) {
                 throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
@@ -69,7 +69,7 @@ public class AiRecOutfitController {
 
             UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
 
-            AiRecOutfitCombineByAIRequestDto aiRecOutfitCombineByAIRequestDto = aiRecOutfitService.recommendOutfitBackFrontTest(memberId, aiRecOutfitCombineRequestDtoList);
+            AiRecOutfitCombineByAIRequestDto aiRecOutfitCombineByAIRequestDto = aiRecOutfitService.recommendAiOutfitBackFrontTest(memberId, aiRecOutfitCombineRequestDtoList);
             return baseResponseService.getSuccessResponse(aiRecOutfitCombineByAIRequestDto);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
@@ -85,8 +85,8 @@ public class AiRecOutfitController {
      */
 //    @PostMapping("/combine-python-back-front")
     @PostMapping("/combine")
-    public BaseResponse<Object> recommendOutfitTestPythonBackFront(@RequestHeader(value = "accessToken", required = false) String token,
-                                                    @RequestBody List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) {
+    public BaseResponse<Object> recommendAiOutfitTestPythonBackFront(@RequestHeader(value = "accessToken", required = false) String token,
+                                                                     @RequestBody List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) {
         try {
             if (token == null || token.equals("")) {
                 throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
@@ -94,7 +94,29 @@ public class AiRecOutfitController {
 
             UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
 
-            List<AiRecOutfitCombineResponseDto> aiRecOutfitCombineResponseDtoList = aiRecOutfitService.recommendOutfitBackPythonFrontTest(memberId, aiRecOutfitCombineRequestDtoList);
+            List<AiRecOutfitCombineResponseDto> aiRecOutfitCombineResponseDtoList = aiRecOutfitService.recommendAiOutfitBackPythonFrontTest(memberId, aiRecOutfitCombineRequestDtoList);
+            return baseResponseService.getSuccessResponse(aiRecOutfitCombineResponseDtoList);
+        } catch (BaseException e) {
+            return baseResponseService.getFailureResponse(e.status);
+        }
+    }
+
+    /**
+     * 현재 날짜 기준으로 AI가 추천한 착장을 조회합니다.
+     *
+     * @param token
+     * @return List<AiRecOutfitCombineResponseDto>
+     */
+    @GetMapping("")
+    public BaseResponse<Object> detailAiOutfit(@RequestHeader(value = "accessToken", required = false) String token) {
+        try {
+            if (token == null || token.equals("")) {
+                throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
+            }
+
+            UUID memberId = authTokensGenerator.extractMemberId(token); // 사용자 체크
+
+            List<AiRecOutfitCombineResponseDto> aiRecOutfitCombineResponseDtoList = aiRecOutfitService.detailAiOutfit(memberId);
             return baseResponseService.getSuccessResponse(aiRecOutfitCombineResponseDtoList);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);

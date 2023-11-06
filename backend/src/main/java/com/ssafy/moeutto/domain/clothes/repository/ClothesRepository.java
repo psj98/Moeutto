@@ -1,7 +1,5 @@
 package com.ssafy.moeutto.domain.clothes.repository;
 
-import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitPythonResponseClothesResult;
-import com.ssafy.moeutto.domain.aiCheckOutfit.entity.IAiCheckOutfitPythonResponseClothesResult;
 import com.ssafy.moeutto.domain.aiCheckOutfit.entity.IAiCheckOutfitPythonResponseClothesResult;
 import com.ssafy.moeutto.domain.clothes.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
