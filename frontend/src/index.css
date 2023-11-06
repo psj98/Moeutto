@@ -103,4 +103,11 @@ code {
 body {
   font-weight: 500;
   font-size: 20px !important;
+  /* 스크롤바 없애기 */
+  -ms-overflow-style: none;
+  scrollbar-width: none; /* Firefox */
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
