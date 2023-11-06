@@ -10,14 +10,13 @@ export interface Login {
 }
 
 const LoginPage = () => {
+  const redirectUrl = process.env.REACT_APP_REDIRECT_URL;
   // const navigate = useNavigate();
 
   //   const axiosInstance = defaultInstance();
 
   //   const redirectUrl =
   // const navigate = useNavigate();
-  const redirectUrl = 'http://localhost:3000/login-redirect';
-
   const link = `https://kauth.kakao.com/oauth/authorize?client_id=bab90d2b24304bb1f5b4c07938ff0fcc&redirect_uri=${redirectUrl}&response_type=code`;
 
   const loginHandler = () => {

@@ -2,13 +2,12 @@ package com.ssafy.moeutto.domain.clothes.service;
 
 import com.ssafy.moeutto.domain.S3.dto.response.S3ResponseDto;
 import com.ssafy.moeutto.domain.S3.service.S3Service;
-import com.ssafy.moeutto.domain.clothes.dto.request.ClothesListByFriendsRequestDto;
-import com.ssafy.moeutto.domain.clothes.dto.request.ClothesListRequestDto;
-import com.ssafy.moeutto.domain.clothes.dto.request.ClothesRegistRequestDto;
-import com.ssafy.moeutto.domain.clothes.dto.request.ClothesUpdateRequestDto;
+import com.ssafy.moeutto.domain.clothes.dto.request.*;
 import com.ssafy.moeutto.domain.clothes.dto.response.*;
 import com.ssafy.moeutto.domain.clothes.entity.*;
 import com.ssafy.moeutto.domain.clothes.repository.ClothesRepository;
+import com.ssafy.moeutto.domain.guestBook.dto.response.GuestBookListResponseDto;
+import com.ssafy.moeutto.domain.guestBook.service.GuestBookService;
 import com.ssafy.moeutto.domain.member.entity.Member;
 import com.ssafy.moeutto.domain.member.repository.MemberRepository;
 import com.ssafy.moeutto.domain.middleCategory.entity.MiddleCategory;
@@ -35,6 +34,7 @@ public class ClothesServiceImpl implements ClothesService {
     private final MemberRepository memberRepository;
     private final MiddleCategoryRepository middleCategoryRepository;
     private final S3Service s3Service;
+    private final GuestBookService guestBookService;
 
     /**
      * 옷 정보를 등록합니다.
@@ -160,6 +160,34 @@ public class ClothesServiceImpl implements ClothesService {
 
         // 필요한 속성 추출 및 옷 정보 반환
         return getClothesListResponseDto(clothesList);
+    }
+
+    /**
+     * 옷 목록과 방명록을 가져옵니다.
+     *
+     * @param memberId
+     * @return ClothesListAndGuestBookResponseDto
+     * @throws BaseException
+     */
+    @Override
+    public ClothesListAndGuestBookResponseDto listClothesAndGuestBooks(UUID memberId) throws BaseException {
+        // 옷 목록에 필요한 매개변수 => 기본 정렬
+        ClothesListRequestDto clothesListRequestDto = ClothesListRequestDto.builder()
+                .categoryId("000")
+                .sortBy("initial")
+                .orderBy(0)
+                .build();
+
+        List<ClothesListResponseDto> clothesListResponseDtoList = listClothes(memberId, clothesListRequestDto); // 옷 목록
+        List<GuestBookListResponseDto> guestBookListResponseDtoList = guestBookService.listGuestBook(memberId); // 방명록 글 목록
+
+        // 전달 데이터 정제
+        ClothesListAndGuestBookResponseDto clothesListAndGuestBookResponseDto = ClothesListAndGuestBookResponseDto.builder()
+                .clothesListResponseDto(clothesListResponseDtoList)
+                .guestBookListResponseDto(guestBookListResponseDtoList)
+                .build();
+
+        return clothesListAndGuestBookResponseDto;
     }
 
     /**
@@ -606,5 +634,34 @@ public class ClothesServiceImpl implements ClothesService {
 
         // 필요한 속성 추출 및 옷 정보 반환
         return getClothesListResponseDto(clothesList);
+    }
+
+    /**
+     * 친구가 소유한 옷 목록과 방명록을 조회합니다.
+     *
+     * @param memberId
+     * @param email
+     * @return List<ClothesListAndGuestBookResponseDto>
+     */
+    @Override
+    public ClothesListAndGuestBookResponseDto getListClothesAndGuestBookByFriends(UUID memberId, String email) throws BaseException {
+        ClothesListByFriendsRequestDto clothesListByFriendsRequestDto = ClothesListByFriendsRequestDto.builder()
+                .email(email)
+                .categoryId("000")
+                .sortBy("initial")
+                .orderBy(0)
+                .build();
+
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+
+        List<ClothesListResponseDto> clothesListResponseDtoList = getListByFriends(memberId, clothesListByFriendsRequestDto);
+        List<GuestBookListResponseDto> guestBookListResponseDtoList = guestBookService.listGuestBook(member.getId());
+
+        ClothesListAndGuestBookResponseDto clothesListAndGuestBookResponseDto = ClothesListAndGuestBookResponseDto.builder()
+                .clothesListResponseDto(clothesListResponseDtoList)
+                .guestBookListResponseDto(guestBookListResponseDtoList)
+                .build();
+
+        return clothesListAndGuestBookResponseDto;
     }
 }
