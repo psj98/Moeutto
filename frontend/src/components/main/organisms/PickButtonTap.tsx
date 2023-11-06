@@ -1,12 +1,12 @@
 import React from "react";
 import PickTap from "../molecules/PickTap";
-import TodayDateComment from "../atoms/TodayDateComment";
+import MainComment from "../atoms/MainComment";
 
 
 const PickButtonTap = () => {
     return (
-        <div>
-            <TodayDateComment />
+        <div className="mb-8">
+            <MainComment title={"오늘 날씨에 잘 어울릴까요?"} />
             <PickTap />
         </div>
     )
