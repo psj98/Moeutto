@@ -2,6 +2,7 @@ package com.ssafy.moeutto.domain.friends.entity;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,15 +15,16 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Follower {
 
-//    @Id
-//    @NotNull
-//    UUID myId;
-//    @NotNull
-//    UUID followerId;
-@EmbeddedId
-private FollowerId followerId;
 
+    @EmbeddedId
+    @NotNull
+    private FollowerId followerId;
+
+
+    @Builder(toBuilder = true)
+    public Follower(FollowerId followerId) {
+        this.followerId = followerId;
+    }
 }
