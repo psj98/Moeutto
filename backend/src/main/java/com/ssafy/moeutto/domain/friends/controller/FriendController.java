@@ -3,8 +3,8 @@ package com.ssafy.moeutto.domain.friends.controller;
 
 import com.ssafy.moeutto.domain.friends.dto.request.FollowRequestDto;
 import com.ssafy.moeutto.domain.friends.dto.request.FriendsListRequestDto;
-import com.ssafy.moeutto.domain.friends.dto.response.FriendsListResponseDto;
-import com.ssafy.moeutto.domain.friends.dto.response.MyFriendsListResponseDto;
+import com.ssafy.moeutto.domain.friends.dto.response.IFriendsListResponseDto;
+import com.ssafy.moeutto.domain.friends.dto.response.IMyFriendsListResponseDto;
 import com.ssafy.moeutto.domain.friends.service.FriendService;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
 import com.ssafy.moeutto.global.response.BaseException;
@@ -37,7 +37,7 @@ public class FriendController {
         try {
             UUID memberId = getMemberIdFromToken(token);
 
-            List<MyFriendsListResponseDto> myFriendsList = friendsService.searchMyFollowinglist(memberId);
+            List<IMyFriendsListResponseDto> myFriendsList = friendsService.searchMyFollowinglist(memberId);
 
             return baseResponseService.getSuccessResponse(myFriendsList);
         } catch (BaseException e){
@@ -58,7 +58,7 @@ public class FriendController {
         try {
             UUID memberId = getMemberIdFromToken(token);
 
-            List<FriendsListResponseDto> responseDto = friendsService.searchFriends(memberId, requestDto);
+            List<IFriendsListResponseDto> responseDto = friendsService.searchFriends(memberId, requestDto);
 
             return baseResponseService.getSuccessResponse(responseDto);
         }catch (BaseException e){
