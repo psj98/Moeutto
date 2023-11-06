@@ -28,6 +28,9 @@ import ErrorPage from './pages/ErrorPage';
 import LoginPage from './pages/LoginPage';
 import LoginRedirectPage from './pages/LoginRedirectPage';
 
+import CalendarPage from './pages/CalendarPage';
+import CalendarPostPage from './pages/CalendarPostPage';
+
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 const persistor = persistStore(store);
 const queryClient = new QueryClient();
@@ -57,6 +60,8 @@ root.render(
               <Route path="/mycloset/report" element={<MyClosetReport />} />
               <Route path="/mycloset/report/color" element={<ReportColorPage />} />
               <Route path="/mycloset/report/season" element={<ReportSeasonPage />} />
+              <Route path="/calendar" element={<CalendarPage />} />
+              <Route path="/calendar/post" element={<CalendarPostPage />} />
               <Route path="*" element={<ErrorPage />} /> // 404 페이지 추가
             </Route>
           </Routes>
