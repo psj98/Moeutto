@@ -15,7 +15,7 @@ function App() {
   return (
     // w-16 md:w-32 lg:w-48 bg-red-200
     // 448px가 너비 최대
-    <div className="App flex max-w-md mx-auto">
+    <div className="App flex max-w-md mx-auto border border-pink-hot rounded-xl">
       <Sidebar path="" />
       <MobileNav />
       <ContentContainer>
