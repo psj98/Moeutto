@@ -22,7 +22,7 @@ export interface ClothesItem {
 }
 
 const ScrollSection = styled.div`
-  right: calc(50% - 175px); /* 중앙에서 오른쪽으로 50px 떨어진 위치 */
+  right: calc(50% - 175px); /* 중앙에서 오른쪽으로 175px 떨어진 위치 */
   transform: translate(0, -50%); /* 요소를 수직으로 중앙 정렬 */
 `;
 

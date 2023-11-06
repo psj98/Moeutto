@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const RadioWrapper = styled.div`
   display: flex;
   gap: 40px;
-  font-size: 20px;
+  font-size: 16px;
   margin-top: 58px;
 `;
 
@@ -30,7 +30,7 @@ const MainCategory: React.FC<PropsType> = ({ selectedOption, setSelectedOption }
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.id === '전체') {
-      setSelectedOption("000000")
+      setSelectedOption('000000');
     } else {
       setSelectedOption(e.target.id);
     }
