@@ -1,14 +1,16 @@
 package com.ssafy.moeutto.domain.friends.dto.request;
 
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
+import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor
-public class TestRequestDto {
-    private UUID myId;
-    private UUID followingId;
+public class FriendsListRequestDto {
+
+    @NotNull
+    private String nickname;
+
 }
