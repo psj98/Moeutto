@@ -2,20 +2,11 @@ import styled from 'styled-components';
 
 import React, { ChangeEvent, useState } from 'react';
 import Label from '../components/add/atoms/Label';
-// import TextInput from '../components/add/atoms/TextInput';
 
 const handleSubmit = () => {};
 
 const Button = styled.button``;
 const Input = styled.input``;
-
-// const Input = styled.input`
-//   min-height: 50px;
-//   width: 30%;
-//   border: 1px solid black;
-//   padding: 0 30px;
-//   border-radius: 40px;
-// `;
 
 const MyPage = () => {
   const [nickname, setNickname] = useState<string>();
@@ -41,14 +32,12 @@ const MyPage = () => {
         <div className="mb-6">
           {/* 닉네임 글자 */}
           <Label id="clothName" value="닉네임" />
-          {/* <div className="border-1 border rounded-xl"> */}
+          {/* 닉네임 Input */}
           <Input
             className="w-full border border-1 rounded-xl indent-1 p-1 text-AppBody1"
             placeholder="닉네임"
             value={nickname}
             onChange={handleClothNameChange}></Input>
-          {/* <TextInput placeholder="닉네임" value={nickname} onChange={handleClothNameChange} /> */}
-          {/* </div> */}
         </div>
 
         {/* 옷장 공개 여부 */}
