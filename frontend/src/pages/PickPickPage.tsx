@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 // axios
 // import { useQuery } from 'react-query';
@@ -9,6 +10,11 @@ import { authInstance } from '../api/api';
 import { RootState } from '../redux/store';
 import PickComponent from '../components/common/category/organisms/PickComponent';
 import Scroll from '../components/common/scroll/molecules/Scroll';
+
+const ScrollSection = styled.div`
+  right: calc(50% - 175px); /* 중앙에서 오른쪽으로 175px 떨어진 위치 */
+  transform: translate(0, -50%); /* 요소를 수직으로 중앙 정렬 */
+`;
 
 export interface ClothesItem {
   id: number; // 옷 등록 id
@@ -70,12 +76,12 @@ const PickPickPage = () => {
 
         if (selectedOptionSort === "정렬") {
             setSortBy("initial")
-        } else if (selectedOptionSort === "등록순") {
+        } else if (selectedOptionSort === "등록") {
             setSortBy("regDate")
-        } else if (selectedOptionSort === "많이 입은 순") {
+        } else if (selectedOptionSort === "많이 입은") {
             setSortBy("frequency");
             setOrderBy(1);
-        } else if (selectedOptionSort === "적게 입은 순") {
+        } else if (selectedOptionSort === "적게 입은") {
             setSortBy("frequency");
         } else {
             setSortBy("color");
@@ -189,9 +195,9 @@ const PickPickPage = () => {
         clothesData={clothesData}
       />
 
-      <div className="fixed bottom-1/3 right-0 me-[5vw]">
+      <ScrollSection className="scroll fixed bottom-[150px]">
         <Scroll />
-      </div>
+      </ScrollSection>
     </>
   );
 };

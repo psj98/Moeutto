@@ -15,8 +15,7 @@ const HiddenRadioInput = styled.input`
 
 const BoldLabel = styled.label<{ selected: boolean }>`
   cursor: pointer;
-  background-color: ${({ selected }) => (selected ? 'rgba(163, 163, 163, 0.4)' : '')};
-  color: ${({ selected }) => (selected ? 'white' : '')};
+  color: ${({ selected }) => (selected ? '#131313' : '')};
   &:hover {
     color: #131313;
   }
@@ -29,7 +28,7 @@ interface SortedCategoryProps {
 }
 
 const SortedCategory: React.FC<SortedCategoryProps> = ({ selectedOption, setSelectedOption }) => {
-  const categories: string[] = ['정렬', '등록순', '많이 입은 순', '적게 입은 순', '색깔 순'];
+  const categories: string[] = ['정렬', '등록', '많이 입은', '적게 입은', '색깔'];
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(e.target.id);

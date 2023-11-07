@@ -74,12 +74,12 @@ const calendarPostPage = () => {
 
     if (selectedOptionSort === '정렬') {
       setSortBy('initial');
-    } else if (selectedOptionSort === '등록순') {
+    } else if (selectedOptionSort === '등록') {
       setSortBy('regDate');
-    } else if (selectedOptionSort === '많이 입은 순') {
+    } else if (selectedOptionSort === '많이 입은') {
       setSortBy('frequency');
       setOrderBy(1);
-    } else if (selectedOptionSort === '적게 입은 순') {
+    } else if (selectedOptionSort === '적게 입은') {
       setSortBy('frequency');
     } else {
       setSortBy('color');

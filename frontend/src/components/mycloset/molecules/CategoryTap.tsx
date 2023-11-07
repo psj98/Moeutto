@@ -124,10 +124,10 @@ const CategoryTap = ({ title, id, categories, uniqueId }) => {
                 <div className="text-AppBody2 flex items-center ms-10">
                     <select value={categoryValue} defaultValue="initial" onChange={onChange} className="h-5">
                         <option value="initial">정렬</option>
-                        <option value="regDate">등록순</option>
-                        <option value="frequency1">많이 입은 순</option>
-                        <option value="frequency0">적게 입은 순</option>
-                        <option value="color">색상 순</option>
+                        <option value="regDate">등록</option>
+                        <option value="frequency1">많이 입은</option>
+                        <option value="frequency0">적게 입은</option>
+                        <option value="color">색상</option>
                         
                     </select>
                 </div>
