@@ -19,21 +19,21 @@ const ReportVolumePage = () => {
       />
 
       {/* 분석 문구 */}
-      <ReportComment
-        imageUrl="/images/report-closet.png"
-        imageClass="w-16 inline-block"
-        mainTitle="내 옷장에는 몇 벌의 옷이 있을까요?"
-        subTitle={`당신은 엄청난 맥시멀리스트입니다!`}
-      />
+      <div className="mb-10">
+        <ReportComment
+          divPadding="p-4"
+          imageUrl="/images/report-closet.png"
+          imageClass="w-16 inline-block"
+          mainTitle="내 옷장에는 몇 벌의 옷이 있을까요?"
+          subTitle={`당신은 엄청난 맥시멀리스트입니다!`}
+        />
+      </div>
 
       {/* 옷 개수 */}
       <ReportAvg
-        imageUrl="/images/hanger.png"
-        imageAlt="옷걸이 이미지"
-        myClosetTitle="나의 옷장"
-        myClosetValue="48벌"
-        avgClosetTitle="모으또 옷장 평균"
-        avgClosetValue="56벌"
+        image={{ url: '/images/hanger.png', alt: '옷걸이 이미지' }}
+        myCloset={{ title: '나의 옷장', value: '48벌' }}
+        avgCloset={{ title: '모으또 옷장 평균', value: '56벌' }}
       />
     </>
   );
