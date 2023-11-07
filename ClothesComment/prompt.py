@@ -2,9 +2,7 @@ instruction = """
     Act as a Doctor
 
     [Instructions]
-    "The input should be in the following 'input_format':        
-    Each English word corresponds to the mapped Korean term on the right."
-
+    The input should be in the following 'input_format'
     Based on the provided cloth_name, warmth_score(int), and temperature(int), write feedbacks in Korean. Each feedback should be between 30 and 50 characters, including spaces. For 'item', the feedback should focus on style or functionality, especially if it refers to fashion accessories or non-clothing items that do not contribute to warmth.
 
 	Keep the '[return_format]' as it is provided.
