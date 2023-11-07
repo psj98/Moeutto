@@ -8,6 +8,7 @@ import MapModal from '../components/main/organisms/MapModal';
 import AnalysisTap from '../components/main/organisms/AnalysisTap';
 import UserName from '../components/main/atoms/UserName';
 import MainWeatherTap from '../components/main/organisms/MainWeatherTap';
+import Alert from '../components/common/Alert';
 // import { authInstance } from '../api/api';
 
 // 날씨 api 사용
@@ -230,40 +231,41 @@ const MainPage = () => {
   
 
   return (
-    <>
-      <div className="flex flex-col p-4 mb-4">
-        <MainInfo currentLocation={currentLocation} address={address} showLocationClick={showLocationClick} />
-        <div>
-        <MainWeatherTap />
-          <UserName />
-          {/* 날씨 기반 추천 리스트 */}
-          <RecommendList clothesListData={clothesListData} weatherListData={weatherListData} />
-        </div>
-
-        <br />
-        {/* 골라골라 */}
-        <PickButtonTap />
-        {/* 옷장분석 */}
-        <AnalysisTap />
-        {/* 지도  */}
-        {locationState && (
-          <div className="absolute z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-[60vh] w-[50vw] max-w-[400px] min-w-[300px]">
-            <MapModal
-              currentLocation={currentLocation}
-              address={address}
-              locationState={locationState}
-              setCurrentLocation={setCurrentLocation}
-              setAddress={setAddress}
-              resetLocation={resetLocation}
-              setResetLocation={setResetLocation}
-              showLocationClick={showLocationClick}
-              handleInputChange={handleInputChange}
-              newLocation={newLocation}
-            />
+    <div className='relative'>
+      <Alert />
+        <div className="flex flex-col p-4 mb-4">
+          <MainInfo currentLocation={currentLocation} address={address} showLocationClick={showLocationClick} />
+          <div>
+          <MainWeatherTap />
+            <UserName />
+            {/* 날씨 기반 추천 리스트 */}
+            <RecommendList clothesListData={clothesListData} weatherListData={weatherListData} />
           </div>
-        )}
-      </div>
-    </>
+
+          <br />
+          {/* 골라골라 */}
+          <PickButtonTap />
+          {/* 옷장분석 */}
+          <AnalysisTap />
+          {/* 지도  */}
+          {locationState && (
+            <div className="absolute z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-[60vh] w-[50vw] max-w-[400px] min-w-[300px]">
+              <MapModal
+                currentLocation={currentLocation}
+                address={address}
+                locationState={locationState}
+                setCurrentLocation={setCurrentLocation}
+                setAddress={setAddress}
+                resetLocation={resetLocation}
+                setResetLocation={setResetLocation}
+                showLocationClick={showLocationClick}
+                handleInputChange={handleInputChange}
+                newLocation={newLocation}
+              />
+            </div>
+          )}
+        </div>
+    </div>
   );
 };
 

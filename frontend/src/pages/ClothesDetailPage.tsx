@@ -58,22 +58,16 @@ const ClothesDetailPage = () => {
 
     useEffect(() => {
         fetchData();
-        // // 즐겨찾기
-        // if (clothesData.star && clothesData.star === 1) {
-        //     setStar(true)
-        // } else {
-        //     setStar(false)
-        // }
     }, [])
 
     return (
         <>
-        <div className="m-[5vw]">
+        <div className="m-10 mb-[80px]">
             {clothesData && (
                 <>
-                    <div className="flex">
+                    <div>
                         <ClothesDetailImg imgUrl={clothesData.imageUrl} star={star} setStar={setStar} />
-                        <div className="ms-[3vw]">
+                        <div className="mt-4">
                             <ClothesInfo 
                                 category={clothesData.middleCategoryId} 
                                 season={clothesData.season} 
@@ -86,12 +80,12 @@ const ClothesDetailPage = () => {
                                 />    
                         </div>
                     </div>
-                    <div className="mt-10 ms-1 flex flex-col">
+                    <div className="mt-10 flex flex-col items-center">
                         <Comment frequency={clothesData.frequency} recentDate={clothesData.recentDate} name={clothesData.name} />
                     </div>
                 </>
             )}
-                <div className="fixed right-6 bottom-6">
+                <div className="mt-10 flex justify-center">
                     <ClothesBtn />
                 </div>
         </div>
