@@ -55,21 +55,22 @@ root.render(
             <Route path="/analysis" element={<AnalysisPage />} />
             {/* <Route path="/notmycloset" element={<NotMyCloset />} />
               <Route path="/calendar" element={<Calendar />} />
-              <Route path="/mypage" element={<Mypage />} />  */}
-            <Route path="/mycloset/detail/:id" element={<ClothesDetailPage />} /> // 라우팅 매칭 다시 해야됨 * 사용하기?
-            <Route path="/mycloset/add-cloth" element={<AddClothPage />} />
-            <Route path="/mycloset/report" element={<MyClosetReport />} />
-            <Route path="/mycloset/report/color" element={<ReportColorPage />} />
-            <Route path="/mycloset/report/season" element={<ReportSeasonPage />} />
-            <Route path="/mycloset/report/costs" element={<ReportCostPage />} />
-            <Route path="/mycloset/report/volume" element={<ReportVolumePage />} />
-            <Route path="/mypage" element={<MyPage />} />
-            <Route path="/calendar" element={<CalendarPage />} />
-            <Route path="/calendar/post" element={<CalendarPostPage />} />
-            <Route path="*" element={<ErrorPage />} /> // 404 페이지 추가
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </QueryClientProvider>
+              <Route path="/mypage" element={<Mypage />} />  */}  
+              <Route path="/mycloset/detail/:id" element={<ClothesDetailPage />} /> // 라우팅 매칭 다시 해야됨 *
+              사용하기?
+              <Route path="/mycloset/add-cloth" element={<AddClothPage />} />
+              <Route path="/mycloset/report" element={<MyClosetReport />} />
+              <Route path="/mycloset/report/color" element={<ReportColorPage />} />
+              <Route path="/mycloset/report/season" element={<ReportSeasonPage />} />
+              <Route path="/mycloset/report/costs" element={<ReportCostPage />} />
+              <Route path="/mycloset/report/volume" element={<ReportVolumePage />} />
+              <Route path="/mypage" element={<MyPage />} />
+              <Route path="/calendar" element={<CalendarPage />} />
+              <Route path="/calendar/post" element={<CalendarPostPage />} />
+              <Route path="*" element={<ErrorPage />} /> // 404 페이지 추가
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
   </Provider>
 );
