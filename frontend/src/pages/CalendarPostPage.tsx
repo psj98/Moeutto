@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect, useRef } from 'react';
+import { fabric } from 'fabric';
+// import { useSelector } from 'react-redux';
 // import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 // axios
@@ -7,7 +8,7 @@ import { authInstance } from '../api/api';
 import PickComponent from '../components/common/category/organisms/PickComponent';
 import Scroll from '../components/common/scroll/molecules/Scroll';
 import PostEditorTemplate from '../components/postCalendar/templates/PostEditorTemplate';
-import { RootState } from '../redux/store';
+// import { RootState } from '../redux/store';
 
 export interface ClothesItem {
   id: number; // 옷 등록 id
@@ -26,6 +27,8 @@ const ScrollSection = styled.div`
 `;
 
 const calendarPostPage = () => {
+  const fabricJSCanvasRef = useRef(null); // 먼저 useRef로 Ref 객체를 생성
+
   // const navigate = useNavigate();
   // 카테고리
   // 대분류
@@ -91,7 +94,7 @@ const calendarPostPage = () => {
   }, [selectedOptionMain, selectedOptionMiddle, selectedOptionSort]);
 
   // 선택한 옷 리스트
-  const selectedClosetIds = useSelector((state: RootState) => state.post.selectedClosetUrls);
+  // const selectedClosetIds = useSelector((state: RootState) => state.post.selectedClosetUrls);
 
   // 옷 목록 조회
   const [clothesData, setClothesData] = useState<ClothesItem[]>([]);
@@ -148,12 +151,49 @@ const calendarPostPage = () => {
     // 기본 동작 방지
     event.preventDefault();
     // redux에 저장할 데이터
-    const requestData = {
-      selectedClosetIds,
+    // const requestData = {
+    //   selectedClosetIds,
+    // };
+    const canvasElements = document.getElementsByClassName('upper-canvas');
+    const canvas = canvasElements[0] as HTMLCanvasElement; // 첫 번째 요소 가져오기
+
+    if (canvas) {
+      console.log(canvas);
+
+      const fabricCanvas = new fabric.Canvas(canvas);
+
+      // const dataURL = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+      // Canvas의 이미지 데이터를 가져오기
+      const dataURL = fabricCanvas.toDataURL({
+        format: 'png', // 이미지 포맷 설정
+        quality: 0.8, // 이미지 품질 설정 (0.0 - 1.0)
+      });
+
+      console.log('데이터url', dataURL);
+    } else {
+      console.error('Canvas 요소를 찾을 수 없습니다.');
+    }
+    const postData = async () => {
+      try {
+        // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
+        const axiosInstance = authInstance({ ContentType: 'application/json' });
+        const response = await axiosInstance.post('/calendars/regist', {});
+
+        if (response.data.data) {
+          setClothesData(response.data.data);
+        } else {
+          // alert('옷 목록이 없어요')
+          setClothesData([]);
+        }
+
+        return response.data;
+      } catch (error) {
+        throw new Error('옷 목록 데이터 조회 실패 토큰을 확인하세요');
+      }
     };
 
-    if (requestData) {
-      localStorage.setItem('selectedClosetIds', JSON.stringify(selectedClosetIds));
+    if (postData) {
+      // localStorage.setItem('selectedClosetIds', JSON.stringify(selectedClosetIds));
       alert('post 제출하기');
     } else {
       alert('선택한 옷이 없어요');
@@ -162,7 +202,7 @@ const calendarPostPage = () => {
 
   return (
     <>
-      <PostEditorTemplate></PostEditorTemplate>
+      <PostEditorTemplate useRef={fabricJSCanvasRef}></PostEditorTemplate>
       <PickComponent
         selectedOptionMain={selectedOptionMain}
         setSelectedOptionMain={setSelectedOptionMain}
