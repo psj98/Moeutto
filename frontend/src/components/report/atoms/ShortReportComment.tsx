@@ -1,23 +1,26 @@
 interface ShortReportCommentProps {
+  imageDivClass: string;
   imageUrl: string;
+  imageClass: string;
   mainTitle: string;
   subTitle: string;
 }
 
-const ShortReportComment = ({ imageUrl, mainTitle, subTitle }: ShortReportCommentProps) => {
+const ShortReportComment = ({ imageDivClass, imageUrl, imageClass, mainTitle, subTitle }: ShortReportCommentProps) => {
   return (
     <>
-      {/* 분석 문구 */}
-      <div className="flex flex-row direction-end justify-evenly bg-pink py-4 mb-10">
-        {/* 이미지 */}
-        <div className="flex items-center">
-          <img className="w-20 inline-block" src={imageUrl} alt="분석 이미지" />
+      {/* 간단 분석 문구 */}
+      <div className="relative flex flex-col bg-[#FEDFEA] py-4 mb-3">
+        {/* 사진 */}
+        <div className={imageDivClass}>
+          <img className={imageClass} src={imageUrl} alt="지갑 이미지" />
         </div>
-        <div className="flex flex-col justify-center items-center">
-          {/* 가치는 얼마일까? */}
-          <p className="text-base text-white font-bold pb-2">{mainTitle}</p>
-          {/* 분석 문구 */}
-          <p className="text-xs text-white whitespace-pre-wrap">{subTitle}</p>
+        {/* 문구 */}
+        <div className="text-center ">
+          {/* 메인 문구 */}
+          <p className="text-2xl text-[#FF78A5] font-bold pb-1">{mainTitle}</p>
+          {/* 하단 문구 */}
+          <p className="text-xs text-slate-400">{subTitle}</p>
         </div>
       </div>
     </>
