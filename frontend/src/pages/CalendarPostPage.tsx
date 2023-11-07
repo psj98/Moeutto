@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { fabric } from 'fabric';
+import React, { useState, useEffect } from 'react';
+// import { fabric } from 'fabric';
 // import { useSelector } from 'react-redux';
 // import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -27,7 +27,7 @@ const ScrollSection = styled.div`
 `;
 
 const calendarPostPage = () => {
-  const fabricJSCanvasRef = useRef(null); // 먼저 useRef로 Ref 객체를 생성
+  // const fabricJSCanvasRef = useRef(null); // 먼저 useRef로 Ref 객체를 생성
 
   // const navigate = useNavigate();
   // 카테고리
@@ -154,25 +154,31 @@ const calendarPostPage = () => {
     // const requestData = {
     //   selectedClosetIds,
     // };
-    const canvasElements = document.getElementsByClassName('upper-canvas');
-    const canvas = canvasElements[0] as HTMLCanvasElement; // 첫 번째 요소 가져오기
+    // const canvasElements = document.getElementsByClassName('sample-canvas');
+    // const canvas = canvasElements[0] as HTMLCanvasElement; // 첫 번째 요소 가져오기
+    window.scrollTo(0, 0);
+    html2canvas(document.querySelector('#canvasSection')).then(async canvas => {
+      // const url = await canvas.toDataURL('image/jpg');
+      // setOpen(true);
+      // console.log(url);
+    });
 
-    if (canvas) {
-      console.log(canvas);
+    // if (canvas) {
+    //   console.log(canvas);
 
-      const fabricCanvas = new fabric.Canvas(canvas);
+    //   const fabricCanvas = new fabric.Canvas(canvas);
 
-      // const dataURL = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
-      // Canvas의 이미지 데이터를 가져오기
-      const dataURL = fabricCanvas.toDataURL({
-        format: 'png', // 이미지 포맷 설정
-        quality: 0.8, // 이미지 품질 설정 (0.0 - 1.0)
-      });
+    //   // const dataURL = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+    //   // Canvas의 이미지 데이터를 가져오기
+    //   const dataURL = fabricCanvas.toDataURL({
+    //     format: 'png', // 이미지 포맷 설정
+    //     quality: 0.8, // 이미지 품질 설정 (0.0 - 1.0)
+    //   });
 
-      console.log('데이터url', dataURL);
-    } else {
-      console.error('Canvas 요소를 찾을 수 없습니다.');
-    }
+    //   console.log('데이터url', dataURL);
+    // } else {
+    //   console.error('Canvas 요소를 찾을 수 없습니다.');
+    // }
     const postData = async () => {
       try {
         // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
@@ -202,7 +208,7 @@ const calendarPostPage = () => {
 
   return (
     <>
-      <PostEditorTemplate useRef={fabricJSCanvasRef}></PostEditorTemplate>
+      <PostEditorTemplate></PostEditorTemplate>
       <PickComponent
         selectedOptionMain={selectedOptionMain}
         setSelectedOptionMain={setSelectedOptionMain}

@@ -1,11 +1,13 @@
 /* eslint-disable */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { fabric } from 'fabric';
 import { FabricJSCanvas, useFabricJSEditor } from 'fabricjs-react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 // import './style.css';
+import * as htmlToImage from 'html-to-image';
+import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
 
 const CanvasSection = styled.div<{ w: string }>`
   .sample-canvas,
@@ -19,7 +21,8 @@ const CanvasSection = styled.div<{ w: string }>`
 // //https://shinao.github.io/PathToPoints/
 // //https://github.com/Shinao/PathToPoints
 
-const PostEditorTemplate = ({ useRef }) => {
+const PostEditorTemplate = () => {
+  const target = useRef(null);
   const selectedClosetUrls = useSelector((state: RootState) => state.post.selectedClosetUrls);
   const [canvasWidth, setCanvasWidth] = useState('');
   const [width, setWidth] = useState('');
@@ -54,7 +57,9 @@ const PostEditorTemplate = ({ useRef }) => {
   useEffect(() => {
     const len = selectedClosetUrls.length;
     imgUrl = selectedClosetUrls[len - 1];
-    onAddImage();
+    // onAddImage(); // 방법1
+    // 클라이언트에서 이미지 로드 실행
+    loadAndAddImageFromServer(); // 방법 2
   }, [selectedClosetUrls.length]);
 
   // const onAddCircle = () => {
@@ -102,34 +107,127 @@ const PostEditorTemplate = ({ useRef }) => {
     mtr: true,
   };
 
-  const onAddImage = () => {
-    console.log('imgUrl:', imgUrl);
+  //   /////////////////// 제대로 작동함 ///////////////////////////////////
+  //   ///////////////// URL  캐싱을 방지하기 위해 무의미한 파람을 추가함 ////////
+  // const onAddImage = () => {
+  //   ////////////////////////////////////////////////////////////////////
 
-    fabric.Image.fromURL(imgUrl, function (pic) {
-      pic.setControlsVisibility(HideControls);
-      const canvasWidth = editor?.canvas.width || 0;
-      const canvasHeight = editor?.canvas.height || 0;
-      const imgWidth = pic.width || 0;
-      const imgHeight = pic.height || 0;
+  //   fabric.Image.fromURL(imgUrl + '?timestamp=' + new Date().getTime(), function (pic) {
+  //     pic.setControlsVisibility(HideControls);
+  //     pic.crossOrigin = 'anonymous'; // 필수
+  //     pic.setSrc(imgUrl + '?v=' + new Date().getTime());
+  //     console.log(pic.getSrc(), '******************************');
+  //     const canvasWidth = editor?.canvas.width || 0;
+  //     const canvasHeight = editor?.canvas.height || 0;
+  //     const imgWidth = pic.width || 0;
+  //     const imgHeight = pic.height || 0;
 
-      if (imgWidth > canvasWidth || imgHeight > canvasHeight) {
-        const scale = Math.min((canvasWidth / imgWidth) * 0.5, (canvasHeight / imgHeight) * 0.5);
-        pic.scale(scale);
+  //     if (imgWidth > canvasWidth || imgHeight > canvasHeight) {
+  //       const scale = Math.min((canvasWidth / imgWidth) * 0.5, (canvasHeight / imgHeight) * 0.5);
+  //       pic.scale(scale);
+  //     }
+
+  //     pic.set({
+  //       left: (canvasWidth - pic.width * pic.scaleX) / 2,
+  //       top: (canvasHeight - pic.height * pic.scaleY) / 2,
+  //     });
+
+  //     editor?.canvas.add(pic); // 이미지를 캔버스에 추가
+  //     editor?.canvas.renderAll();
+  //   });
+
+  //   ////////////////////////////////////////////////////////////
+
+  // };
+  function loadAndAddImageFromServer() {
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    const targetUrl = imgUrl;
+
+    fetch(proxyUrl + targetUrl).then(response => {
+      if (!response.ok) {
+        throw new Error('HTTP error ' + response.status);
       }
+      return response.arrayBuffer();
+    });
 
-      pic.set({
-        left: (canvasWidth - pic.width * pic.scaleX) / 2,
-        top: (canvasHeight - pic.height * pic.scaleY) / 2,
+    fetch(proxyUrl + targetUrl)
+      .then(response => response.arrayBuffer())
+      .then(buffer => {
+        const base64Flag = 'data:image/jpeg;base64,';
+        const imageStr = arrayBufferToBase64(buffer);
+
+        fabric.Image.fromURL(base64Flag + imageStr, function (img) {
+          console.log(img);
+          img.setControlsVisibility(HideControls);
+          img.crossOrigin = 'anonymous'; // Set crossOrigin directly on the fabric.js image
+
+          const canvasWidth = editor?.canvas.width || 0;
+          const canvasHeight = editor?.canvas.height || 0;
+          const imgWidth = img.width || 0;
+          const imgHeight = img.height || 0;
+          if (imgWidth > canvasWidth || imgHeight > canvasHeight) {
+            const scale = Math.min((canvasWidth / imgWidth) * 0.5, (canvasHeight / imgHeight) * 0.5);
+            img.scale(scale);
+          }
+          img.set({
+            left: (canvasWidth - img.width * img.scaleX) / 2,
+            top: (canvasHeight - img.height * img.scaleY) / 2,
+          });
+          console.log('crossOrigin attribute of the image:', img.crossOrigin);
+          editor?.canvas.add(img);
+          editor?.canvas.renderAll;
+        });
+      })
+      .catch(error => {
+        console.error('Failed to load image from server:', error);
       });
 
-      editor?.canvas.add(pic); // 이미지를 캔버스에 추가
-    });
+    function arrayBufferToBase64(buffer) {
+      let binary = '';
+      const bytes = [].slice.call(new Uint8Array(buffer));
+      bytes.forEach(b => (binary += String.fromCharCode(b)));
+      return window.btoa(binary);
+    }
+  }
+
+  const capture = e => {
+    // 이미지 추가 및 다른 오브젝트 추가 로직
+    e.preventDefault;
+    // const c = document.querySelector('#canvasSection');
+    const cc = document.getElementsByClassName('sample-canvas')[0];
+    // 1번
+    htmlToImage
+      .toPng(target.current, { cacheBust: true })
+      .then(function (dataUrl) {
+        var img = new Image();
+        img.src = dataUrl;
+        document.body.appendChild(img);
+        console.log(dataUrl);
+      })
+      .catch(function (error) {
+        console.error('oops, something went wrong!', error);
+      });
+    // // 2번
+    // // 캔버스 렌더링 강제 호출
+    // editor?.canvas.renderAll();
+    // // HTML2Canvas 실행
+    // html2canvas(cc as HTMLElement, {
+    //   allowTaint: true,
+    //   foreignObjectRendering: true,
+    //   useCORS: true,
+    // }).then(canvas => {
+    //   console.log(canvas.toDataURL('image/png'), 'image.png');
+    //   console.log(canvas);
+    // });
   };
 
   return (
     <>
       <div className="my-6">오늘 입은 옷을 선택해서 기록해봐요</div>
-      <CanvasSection className="w-[100%] rounded-xl border-4 mb-10" w={width} id="canvasSection">
+      <button type="button" onClick={capture}>
+        capture
+      </button>
+      <CanvasSection className="sample w-[100%] rounded-xl border-4 mb-10" w={width} id="canvasSection" ref={target}>
         <div>
           {/* <button onClick={onAddCircle}>Add Circle</button> */}
           {/* <button onClick={onAddImage}>Add Image</button>
