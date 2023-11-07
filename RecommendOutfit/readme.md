@@ -2,88 +2,34 @@
 
 ## 개요 
 - 날씨 정보를 기반으로 3일 간의 옷을 추천
+
+## 방법
+- 1. 옷 리스트 전부 gpt에 넣고 추천
+  		- 이건 코멘트가 필요 없어서 굳이 LLM을 사용할 이유가 없다고 생각
+		- 비용과 서비스 속도 측면에서 좋지 않다고 생각
+	
+		- 한다면 baby agi 고려 
+- 2. 알고리즘 만들어서 진행 
+- 일단은 옷 리스트 묶어서 두께로만 
+
 - 
 
+## 오류 
 
 
-## 입출력 포맷
-back to python
+## 특이 사항 
+### import typing
+```md
 
-```shell
-{
-	// 대분류 카테고리 별 옷 목록
-	"clothesList": {
-		"outer": [
-			{
-				"clothesId": int,
-				"season": String,
-				"color": String,
-				"thickness": int,
-				"textile": String,
-				"frequency": int,
-			}, ...
-		],
-		"top": [
-			{
-				"clothesId": int,
-				"season": String,
-				"color": String,
-				"thickness": int,
-				"textile": String,
-				"frequency": int,
-			}, ...
-		],
-		"bottom": [
-			{
-				"clothesId": int,
-				"season": String,
-				"color": String,
-				"thickness": int,
-				"textile": String,
-				"frequency": int,
-			}, ...
-		],
-		"item": [
-			{
-				"clothesId": int,
-				"season": String,
-				"color": String,
-				"thickness": int,
-				"textile": String,
-				"frequency": int,
-			}, ...
-		]
-	},
-	// 3일 간 날씨 정보
-	"weatherInfo": [
-		{
-			"date": String, // 날짜
-			// 날씨 정보
-		}, ...
-	]
-}
+from typing import List, Dict
 
+## 용도 
+- 코드의 명시성과 유지보수성
 
+## 내장 모듈이 아닌 typing모듈의 List와 Dict를 사용하는 이유 
+- 파이썬 내장 list와 dict 자료형은 타입을 구체적으로 명시하지 않습니다. 예를 들어, 어떤 함수가 리스트를 반환한다고 할 때, 그 안에 어떤 타입의 원소가 들어가는지는 기본적인 list 자료형만으로는 알 수 없습니다. 이는 dict에도 마찬가지로 적용됩니다.
+- 반면, typing 모듈의 List와 Dict 제네릭 타입은 이러한 자료형들의 내부 원소에 대한 타입 정보까지 명시할 수 있게 해줍니다. 예를 들어, List[int]는 정수들의 리스트임을, Dict[str, float]는 문자열을 키로 하고 부동소수점 숫자를 값으로 하는 딕셔너리임을 명확히 합니다.
 
-```
-날씨 정보는 기온만 사용
-		"tmn": double, // 일 최저 기온
-		"tmx": double, // 일 최고 기온
-(옷에 기온 외에 정보가 없음)
-
-
-
-python to back
-```shell
-{
-	"aiRecommend": [
-		{
-			"clothesId": [
-				"id": int, ...
-			],
-			"recDate": Date,
-		}, ...
-	]
-}
-
+## 버전 
+- typing 모듈은 파이썬 3.5 이상에서 사용할 수 있습니다.
 ```

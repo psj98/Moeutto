@@ -1,24 +1,24 @@
 interface ReportCommentProps {
   imageUrl: string;
+  imageClass: string;
   mainTitle: string;
   subTitle: string;
 }
 
-const ReportComment = ({ imageUrl, mainTitle, subTitle }: ReportCommentProps) => {
+const ReportComment = ({ imageUrl, imageClass, mainTitle, subTitle }: ReportCommentProps) => {
   return (
     <>
-      {/* 간단 분석 문구 */}
-      <div className="relative flex flex-col bg-[#FEDFEA] py-4 mb-3">
-        {/* 사진 */}
-        <div className="absolute top-[-55px] left-[-10px]">
-          <img className="w-36 inline-block" src={imageUrl} alt="지갑 이미지" />
+      {/* 분석 문구 */}
+      <div className="flex flex-row bg-pink p-4 mb-10 items-center justify-center">
+        {/* 이미지 */}
+        <div className="flex-1 text-center mr-2">
+          <img className={imageClass} src={imageUrl} alt="분석 이미지" />
         </div>
-        {/* 문구 */}
-        <div className="text-center ">
-          {/* 메인 문구 */}
-          <p className="text-2xl text-[#FF78A5] font-bold pb-1">{mainTitle}</p>
-          {/* 하단 문구 */}
-          <p className="text-xs text-slate-400">{subTitle}</p>
+        <div className="flex-[3_0_0%] flex-col">
+          {/* 가치는 얼마일까? */}
+          <p className="text-base text-center text-white font-bold pb-2">{mainTitle}</p>
+          {/* 분석 문구 */}
+          <p className="text-xs text-center text-white whitespace-pre-wrap">{subTitle}</p>
         </div>
       </div>
     </>
