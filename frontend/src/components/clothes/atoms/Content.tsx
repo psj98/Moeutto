@@ -23,17 +23,15 @@ const Content = ({ content, id }: PropsType) => {
         name = getNameById(content);
     }
 
-
-
     switch (id) {
         case 5:
-            renderContent = <div className="text-WebBody2 text-gray-dark tracking-wider">{content.toLocaleString()}원</div>;
+            renderContent = <div className="text-AppBody1 text-gray-dark tracking-wider">{content.toLocaleString()}원</div>;
             break;
         case 0:
-            renderContent = <div className="text-WebBody2 text-gray-dark tracking-wider">{name}</div>;
+            renderContent = <div className="text-AppBody1 text-gray-dark tracking-wider">{name}</div>;
             break
         case 6:
-            renderContent = <div className="text-WebBody2 text-gray-dark tracking-wider">{content}</div>;
+            renderContent = <div className="text-AppBody1 text-gray-dark tracking-wider">{content}</div>;
             break;
         case 1:
             renderContent = <SeasonBtn season={content} />;
@@ -41,7 +39,7 @@ const Content = ({ content, id }: PropsType) => {
         case 2:
         case 4:
             renderContent = (
-                <div className="text-WebBody2 rounded-2xl border w-[8vw] max-w-[110px] flex items-center justify-center border-black tracking-wider">
+                <div className="text-AppBody1 rounded-2xl border min-w-[80px] max-w-[110px] flex items-center justify-center border-black tracking-wider">
                     {content}
                 </div>
             );

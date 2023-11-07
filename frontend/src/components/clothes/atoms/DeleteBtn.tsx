@@ -1,3 +1,6 @@
+// 그냥 여기서 삭제 api 불러오기
+
+
 const DeleteBtn = () => {
     // 삭제 api 호출
     return (
