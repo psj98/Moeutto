@@ -24,6 +24,7 @@ import MyClosetReport from './pages/MyClosetReportPage';
 import ReportColorPage from './pages/ReportColorPage';
 import ReportSeasonPage from './pages/ReportSeasonPage';
 import ReportCostPage from './pages/ReportCostPage';
+import ReportVolumePage from './pages/ReportVolumePage';
 
 import MyPage from './pages/MyPage';
 
@@ -61,6 +62,7 @@ root.render(
               <Route path="/mycloset/report/color" element={<ReportColorPage />} />
               <Route path="/mycloset/report/season" element={<ReportSeasonPage />} />
               <Route path="/mycloset/report/costs" element={<ReportCostPage />} />
+              <Route path="/mycloset/report/volume" element={<ReportVolumePage />} />
               <Route path="/mypage" element={<MyPage />} />
               <Route path="*" element={<ErrorPage />} /> // 404 페이지 추가
             </Route>
