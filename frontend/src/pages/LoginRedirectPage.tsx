@@ -25,12 +25,14 @@ const LoginRedirectPage = () => {
         // 인증 코드를 이용하여 백엔드에 로그인 요청을 보냅니다.
         const response = await axiosInstance.post(`members/check?code=${code}`);
         const accessToken = response.headers['access-token'];
+        const memberNickname = response.data.nickname;
 
         // 응답 데이터나 토큰을 기반으로 필요한 로직을 수행합니다.
         if (accessToken) {
           // 성공적으로 로그인되었다면, 메인 페이지로 리다이렉트합니다.
           sessionStorage.setItem('accessToken', accessToken); // accessToken을 세션 스토리지에 저장합니다.
-          // navigate('/main'); // 사용자를 메인 페이지로 리다이렉트합니다.
+          sessionStorage.setItem('nickname', memberNickname);
+          navigate('/tutorial'); // 사용자를 메인 페이지로 리다이렉트합니다.
         }
       } catch (error) {
         console.error('로그인 실패:', error);
