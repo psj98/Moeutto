@@ -19,7 +19,7 @@ const CanvasSection = styled.div<{ w: string }>`
 // //https://shinao.github.io/PathToPoints/
 // //https://github.com/Shinao/PathToPoints
 
-const PostEditorTemplate = () => {
+const PostEditorTemplate = ({ useRef }) => {
   const selectedClosetUrls = useSelector((state: RootState) => state.post.selectedClosetUrls);
   const [canvasWidth, setCanvasWidth] = useState('');
   const [width, setWidth] = useState('');
@@ -127,14 +127,17 @@ const PostEditorTemplate = () => {
   };
 
   return (
-    <CanvasSection className="w-[100%] rounded-xl border-4 mb-10" w={width} id="canvasSection">
-      <div>
-        {/* <button onClick={onAddCircle}>Add Circle</button> */}
-        {/* <button onClick={onAddImage}>Add Image</button>
+    <>
+      <div className="my-6">오늘 입은 옷을 선택해서 기록해봐요</div>
+      <CanvasSection className="w-[100%] rounded-xl border-4 mb-10" w={width} id="canvasSection">
+        <div>
+          {/* <button onClick={onAddCircle}>Add Circle</button> */}
+          {/* <button onClick={onAddImage}>Add Image</button>
         <button onClick={onDelete}>Delete</button> */}
-        {width ? <FabricJSCanvas className={`sample-canvas`} onReady={onReady} /> : null}
-      </div>
-    </CanvasSection>
+          {width ? <FabricJSCanvas className={`sample-canvas`} onReady={onReady} /> : null}
+        </div>
+      </CanvasSection>
+    </>
   );
 };
 
