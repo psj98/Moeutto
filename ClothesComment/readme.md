@@ -90,12 +90,83 @@
     옷의 색상(color): 봄과 가을에는 다양한 색상의 옷을 입기 때문에 색상에 따라 y축에 위치시킬 수 있습니다. 예를 들어, 파스텔 색상의 옷은 y축의 위쪽에, 어두운 색상의 옷은 y축의 아래쪽에 위치시킬 수 있습니다.
 
 
-## 실행 매뉴얼 
-- 파이썬 버전 : 3.11
-### 가상환경 생성, 적용
-- python -m venv myvenv
-- source myvenv/Scripts/activate
-### 필수 패키지 설치
-- pip install -r requirements.txt 로 필요한 패키지를 설치해주세요
-### main.py run
-- main.py 파일을 run 해주세요
+## LLM 모델 선정
+- 동일한 지시문을 통한 리턴 텍스트, 수행 시간을 비교하여 적합한 모델을 선정하였습니다.
+### 비교
+- koalpaca
+- kogpt
+- chat gpt
+
+#### 세부 비교
+- koalpaca
+```
+{"회색 긴팔티",="회색 면바지"}
+```
+- kogpt
+  - 한국어 텍스트로 학습시켜 영문 텍스트에 적합하지 않습니다
+  - 텍스트를 분류, 검색, 요약 또는 생성하는데 가장 적합합니다.
+```shell
+
+    Act as a Doctor
+
+    [Instructions]
+    "The input should be in the following 'input_format':
+    Each English word corresponds to the mapped Korean term on the right."
+
+    Based on the given cloth_name, warmth_score(int), temperature(int)
+    write compact feedbacks in Korean, between 20 and 30 characters including spaces.
+
+    keep the '[return_format]'
+    [input_format]
+    """
+    {
+         "outer": [cloth_name(str),warmth_score(int)],
+         "top": [cloth_name(str),warmth_score(int)],
+         "bottom": [cloth_name(str),warmth_score(int)],
+         "item": [cloth_name(str),warmth_score(int)],
+         "temperature":temperature(int)
+    }[prompt.py](prompt.py)
+    """
+
+[return_format]"""
+{    "outer":feedback(str),
+    "top":feedback(str),
+    "bottom":feedback(str),
+    "item":feedback(str),
+}
+
+"""
+
+{
+     "outer": ["검정 경량패딩",70],
+     "top": [회색 긴팔티,65],
+     "bottom": [회색 면바지,60],
+     "item": [검은 안경,0]
+     "temperature": 9
+}
+      """
+{
+
+
+    "outer": ["검은색 경량패딩",75],
+    "top": ["검정 긴팔티",65],
+    "bottom": ["흰색 면바지",60],
+    "item": ["검은색 안경",0],
+    
+수행 시간
+46.76815 sec
+```
+- 영문 지시문 
+
+
+
+
+- chat gpt
+```shell
+{
+    "outer": "적당합니다",
+    "top": "따뜻할 거에요",
+    "bottom": "적절해요",
+    "item": "안경은 온도무관"
+}
+```
