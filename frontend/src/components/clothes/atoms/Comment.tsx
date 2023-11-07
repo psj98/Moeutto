@@ -31,13 +31,13 @@ const Comment = ({ frequency, recentDate, name }: propsType) => {
 
     return (
         <>
-            <div className="text-WebBody2 tracking-wider">
+            <div className="text-AppBody2 tracking-wider">
                 <span className="text-deepblack font-bold">{name}</span>
                 <span className="text-gray-dark">을 총 </span>
                 <span className="text-pink-hot font-bold">{frequency}</span>
                 <span className="text-gray-dark">번 입었어요</span>
             </div>
-            <div className="text-WebBody2 tracking-wider">
+            <div className="text-AppBody2 tracking-wider">
                 <span className="text-deepblack font-bold">{name}</span>
                 <span className="text-gray-dark">을 </span>
                 <span className="text-pink-hot font-bold">{daysPassed}</span>

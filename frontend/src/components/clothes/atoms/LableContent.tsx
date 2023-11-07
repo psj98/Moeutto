@@ -5,7 +5,7 @@ interface PropsType {
 
 const LabelContent = ({ title, index }: PropsType) => {
     return (
-        <div className={`text-WebBody2 font-bold ${index === 3 ? 'h-[35px]' : ''}`}>{title}</div>
+        <div className={`text-AppBody1 font-bold ${index === 3 ? 'h-[35px]' : ''}`}>{title}</div>
     )
 }
 

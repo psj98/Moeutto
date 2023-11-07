@@ -10,6 +10,7 @@ interface ItemPropsType {
 const ClothesItemComponent: React.FC<ItemPropsType> = ({ imgUrl, clothesId }) => {
     const navigate = useNavigate();
     const handleClick = () => {
+        console.log('아이템 상세 클릭함', clothesId)
         navigate(`/mycloset/detail/${clothesId}`)
     }
 
@@ -19,7 +20,8 @@ const ClothesItemComponent: React.FC<ItemPropsType> = ({ imgUrl, clothesId }) =>
                 src={imgUrl} 
                 id={clothesId}
                 alt="옷" 
-                className={`w-[13vw] h-[13vw] border border-gray rounded-3xl`}
+                className={`w-[110px] h-[110px] border border-gray rounded-3xl`}
+                style={{ objectFit: 'cover', minWidth: '110px', minHeight: '110px' }}
                 onClick={handleClick}
             />
         </>
