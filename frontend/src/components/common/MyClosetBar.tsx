@@ -13,22 +13,22 @@ const MyClosetBar = ({ state }: propsType ) => {
         <>
         <div className="flex gap-3 justify-center mt-4 mb-4">
             <div 
-                className={`w-1/4 h-[60px] max-w-[250px] min-w-[120px] tracking-wider text-WebBody2 shadow-md flex items-center justify-center rounded-2xl bg-gray-button ${state === 1 ? 'bg-pink-light' : 'bg-gray-button'} hover:bg-pink-light`}
+                className={`w-[20%] h-[65px] max-w-[250px] min-w-[92px] tracking-wider text-AppBody1 shadow-md flex items-center justify-center rounded-2xl bg-gray-button ${state === 1 ? 'bg-pink-light' : 'bg-gray-button'} hover:bg-pink-light`}
                 onClick={() => navigate('/mycloset')}
             >
-                옷장 보기
+                옷장<br/>보기
             </div>
             <div 
-                className={`w-1/4 h-[60px] max-w-[250px] min-w-[120px] tracking-wider text-WebBody2 shadow-md flex items-center justify-center rounded-2xl bg-gray-button ${state === 2 ? 'bg-pink-light' : 'bg-gray-button'} hover:bg-pink-light`}
+                className={`w-[20%] h-[65px] max-w-[250px] min-w-[92px] tracking-wider text-AppBody1 shadow-md flex items-center justify-center rounded-2xl bg-gray-button ${state === 2 ? 'bg-pink-light' : 'bg-gray-button'} hover:bg-pink-light`}
                 onClick={() => navigate('/mycloset/add-cloth')}
             >
-                옷장 등록
+                옷장<br/>등록
             </div>
             <div 
-                className={`w-1/4 h-[60px] max-w-[250px] min-w-[120px] tracking-wider text-WebBody2 shadow-md flex items-center justify-center rounded-2xl bg-gray-button ${state === 3 ? 'bg-pink-light' : 'bg-gray-button'} hover:bg-pink-light`}
+                className={`w-[20%] h-[65px] max-w-[250px] min-w-[92px] tracking-wider text-AppBody1 shadow-md flex items-center justify-center rounded-2xl bg-gray-button ${state === 3 ? 'bg-pink-light' : 'bg-gray-button'} hover:bg-pink-light`}
                 onClick={() => navigate('/mycloset/report')}
             >
-                옷장 분석
+                옷장<br/>분석
             </div>
         </div>
         </>
