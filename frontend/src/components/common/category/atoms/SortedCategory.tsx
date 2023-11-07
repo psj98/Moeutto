@@ -15,10 +15,12 @@ const HiddenRadioInput = styled.input`
 
 const BoldLabel = styled.label<{ selected: boolean }>`
   cursor: pointer;
-  color: ${({ selected }) => (selected ? '#131313;' : '#E2E2E2')};
+  background-color: ${({ selected }) => (selected ? 'rgba(163, 163, 163, 0.4)' : '')};
+  color: ${({ selected }) => (selected ? 'white' : '')};
   &:hover {
     color: #131313;
   }
+  font-size: 12px;
 `;
 
 interface SortedCategoryProps {

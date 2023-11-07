@@ -27,6 +27,7 @@ const PickComponent: React.FC<PropsType> = ({
 }) => {
   return (
     <>
+    <div className='ms-2'>
       <TopComponent
         selectedOptionMain={selectedOptionMain}
         setSelectedOptionMain={setSelectedOptionMain}
@@ -36,7 +37,8 @@ const PickComponent: React.FC<PropsType> = ({
         setSelectedOptionSort={setSelectedOptionSort}
         handleSubmit={handleSubmit}
       />
-      <div className="flex flex-wrap gap-3.5 mt-4">
+    </div>
+      <div className="flex flex-wrap items-center justify-start gap-3.5 mt-4 ms-2">
         {clothesData && clothesData.length > 0 ? (
           clothesData.map((item, index) => (
             <SelectedClothesItem imgUrl={item.imageUrl} clothesId={item.id.toString()} key={index} />

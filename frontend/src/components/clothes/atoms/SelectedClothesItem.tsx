@@ -15,15 +15,13 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId }) => 
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
-  ScrollReveal().reveal('.clothes');
-  console.log(pathname);
+  ScrollReveal().reveal('.clothes');                    
 
   const [isSelected, setIsSelected] = useState(false);
   // pickpick 페이지에서 사용되는 함수입니다
   const handleClick = e => {
     setIsSelected(!isSelected);
     dispatch(selectCloset(e.target.id));
-    console.log(e.target.id);
   };
   // calendar post 페이지에서 사용되는 함수입니다
   const handlePostCalendar = e => {
@@ -36,7 +34,7 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId }) => 
         src={imgUrl}
         id={clothesId}
         alt="옷"
-        className={`clothes w-[13vw] h-[13vw] border border-gray rounded-3xl ${
+        className={`w-[110px] h-[110px] object-cover border border-gray rounded-3xl ${
           isSelected ? 'bg-gray-300 border-pink-hot' : ''
         }`}
         onClick={pathname === '/pickpick' ? handleClick : handlePostCalendar}
