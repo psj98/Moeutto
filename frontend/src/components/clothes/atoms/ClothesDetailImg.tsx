@@ -14,24 +14,23 @@ const ClothesDetailImg = ({ imgUrl, star, setStar }: PropsType ) => {
 
     return (
         <>
-            <div>
-                <div className="relative">
-                    <img 
-                        src={imgUrl} alt="clothes" 
-                        className="w-[30vw] h-[30vw] border rounded-3xl " 
-                    />
-                    <div className="absolute -top-4 left-[22vw] transform:translate(-50%,-50%)">
-                        {star ? (
-                            <RxBookmark size={"8vw"} color="FAA0BF" onClick={onClickBookMark} />
-                        ) : (
-                            <RxBookmarkFilled size={"8vw"} color="FAA0BF" onClick={onClickBookMark} />
-                        )}
-                    </div>
+            <div className="flex flex-col items-center justify-center relative">
+                <img 
+                    src={imgUrl} alt="clothes" 
+                    className="w-2/3 h-2/3 min-w-[223px] border rounded-3xl " 
+                />
+                <div className="absolute -top-3 end-9 sm:right-4">
+                    {star ? (
+                        <RxBookmark size={90} color="FAA0BF" onClick={onClickBookMark} />
+                    ) : (
+                        <RxBookmarkFilled size={90} color="FAA0BF" onClick={onClickBookMark} />
+                    )}
                 </div>
-                
             </div>
         </>
     )
 }
 
 export default ClothesDetailImg;
+
+// transform:translate(-50%,-50%)
