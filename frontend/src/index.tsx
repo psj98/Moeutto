@@ -72,7 +72,5 @@ root.render(
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>
-    </PersistGate>
->>>>>>> frontend/src/index.tsx
   </Provider>
 );
