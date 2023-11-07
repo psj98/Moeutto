@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const RadioWrapper = styled.div`
   display: flex;
-  gap: 34px;
+  gap: 10px;
   font-size: 16px;
   margin-top: 7px;
 `;
@@ -28,9 +28,8 @@ interface MiddleCategoryTopProps {
 }
 
 const MiddleCategory: React.FC<MiddleCategoryTopProps> = ({ categories, selectedOption, setSelectedOption }) => {
-
-  const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => { 
-    setSelectedOption(e.target.id)
+  const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedOption(e.target.id);
   };
 
   return (
@@ -44,10 +43,10 @@ const MiddleCategory: React.FC<MiddleCategoryTopProps> = ({ categories, selected
             checked={selectedOption === category.toLowerCase()} // Checking based on the selected category
             onChange={handleOptionChange}
           />
-          <BoldLabel 
-            htmlFor={category.toLowerCase()} selected={selectedOption === category.toLowerCase()}
-            className='border p-2 pt-3 rounded-2xl flex items-center justify-center'
-          >
+          <BoldLabel
+            htmlFor={category.toLowerCase()}
+            selected={selectedOption === category.toLowerCase()}
+            className="border p-2 pt-3 rounded-2xl flex items-center justify-center">
             {category}
           </BoldLabel>
         </div>
