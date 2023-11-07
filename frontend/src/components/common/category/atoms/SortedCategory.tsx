@@ -3,10 +3,10 @@ import styled from 'styled-components';
 
 const RadioWrapper = styled.div`
   display: flex;
-  gap: 43px;
-  font-size: 20px;
+  gap: 13px;
+  font-size: 16px;
   margin-top: 14px;
-  color: #E2E2E2;
+  color: #e2e2e2;
 `;
 
 const HiddenRadioInput = styled.input`
@@ -22,15 +22,14 @@ const BoldLabel = styled.label<{ selected: boolean }>`
 `;
 
 interface SortedCategoryProps {
-    selectedOption: string;
-    setSelectedOption: Dispatch<React.SetStateAction<string>>;
+  selectedOption: string;
+  setSelectedOption: Dispatch<React.SetStateAction<string>>;
 }
 
 const SortedCategory: React.FC<SortedCategoryProps> = ({ selectedOption, setSelectedOption }) => {
-  const categories: string[] = ["정렬", "등록순", "많이 입은 순", "적게 입은 순", "색깔 순"];
+  const categories: string[] = ['정렬', '등록순', '많이 입은 순', '적게 입은 순', '색깔 순'];
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    
     setSelectedOption(e.target.id);
   };
 
