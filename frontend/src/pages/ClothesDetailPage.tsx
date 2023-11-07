@@ -58,12 +58,6 @@ const ClothesDetailPage = () => {
 
     useEffect(() => {
         fetchData();
-        // // 즐겨찾기
-        // if (clothesData.star && clothesData.star === 1) {
-        //     setStar(true)
-        // } else {
-        //     setStar(false)
-        // }
     }, [])
 
     return (
