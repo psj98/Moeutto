@@ -6,7 +6,8 @@ import tutorialImageFirst from '../assets/images/tutoral_1.png';
 
 const TutorialPage = () => {
   return (
-    <>
+    <div className="tutorial-container">
+      <div className="title flex justify-center">튜토리얼</div>
       <Swiper
         pagination={true}
         className={`
@@ -19,19 +20,25 @@ const TutorialPage = () => {
         </SwiperSlide>
 
         <SwiperSlide>
-          <div>Slide 2</div>
+          <div>
+            <img src={tutorialImageFirst} className="w-full h-auto object-cover"></img>
+          </div>
         </SwiperSlide>
 
         <SwiperSlide>
-          <div>Slide 2</div>
+          <div>
+            <img src={tutorialImageFirst} className="w-full h-auto object-cover"></img>
+          </div>
         </SwiperSlide>
 
         <SwiperSlide>
-          <div>Slide 2</div>
+          <div>
+            <img src={tutorialImageFirst} className="w-full h-auto object-cover"></img>
+          </div>
         </SwiperSlide>
       </Swiper>
       <div></div>
-    </>
+    </div>
   );
 };
 
