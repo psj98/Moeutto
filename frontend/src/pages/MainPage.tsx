@@ -226,23 +226,37 @@ const MainPage = () => {
       "recData": "2023-11-10"
     }
   ]
+
+  useEffect(() => {
+    const body = document.body;
+
+    body.style.background = '#FFF7F9';
+
+    return () => {
+      body.style.background = '';
+    };
+  }, []);
   
 
   
 
   return (
     <div className='relative'>
+      <div className='flex justify-center my-4'>
+        <img src="/images/logo.png" alt="logo" className='w-1/3 min-w-[130px]' />
+      </div>
       <Alert />
         <div className="flex flex-col p-4 mb-4">
           <MainInfo currentLocation={currentLocation} address={address} showLocationClick={showLocationClick} />
-          <div>
           <MainWeatherTap />
+
+          <div className='mt-6 bg-white rounded-2xl shadow-md p-4 mb-[70px]'>
             <UserName />
             {/* 날씨 기반 추천 리스트 */}
             <RecommendList clothesListData={clothesListData} weatherListData={weatherListData} />
           </div>
-
-          <br />
+          
+   
           {/* 골라골라 */}
           <PickButtonTap />
           {/* 옷장분석 */}
