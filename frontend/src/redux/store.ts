@@ -1,30 +1,16 @@
-// store.ts
-import { configureStore } from "@reduxjs/toolkit";
-import { persistReducer, persistStore } from "redux-persist";
-import storage from "redux-persist/lib/storage"; // Use local storage
-import rootReducer from "./rootReducer";
+// store.js
+import { configureStore } from '@reduxjs/toolkit';
+import selectClosetReducer from './features/closet/selectClosetSlice';
+import postCalendar from './features/closet/postCalendar';
+import rootReducer from './rootReducer';
 
-// RootState 타입 정의
-export type RootState = ReturnType<typeof store.getState>;
-
-const persistConfig = {
-  key: "root",
-  storage,
-  whitelist: ["login"]
-};
-
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-// RootState 타입을 정의하기 위한 store 미리 선언
 const store = configureStore({
-  reducer: persistedReducer,
-  middleware: getDefaultMiddleware => getDefaultMiddleware({
-    serializableCheck: false, // Disable serializability check
-  }),
+  reducer: {
+    closet: selectClosetReducer,
+    post: postCalendar,
+  },
 });
 
-export const persistor = persistStore(store);
+export type RootState = ReturnType<typeof rootReducer>; // 정확한 RootState 타입 정의
 
 export default store;
-
