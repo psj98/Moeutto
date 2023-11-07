@@ -19,21 +19,21 @@ const ReportCostPage = () => {
       />
 
       {/* 분석 문구 */}
-      <ReportComment
-        imageUrl="/images/report-cost.png"
-        imageClass="w-20 inline-block"
-        mainTitle="내 옷장의 가치는 얼마일까?"
-        subTitle={`당신의 옷장 가치는 높은 편입니다.\n안 입는 옷을 기부하는건 어떨까요?`}
-      />
+      <div className="mb-10">
+        <ReportComment
+          divPadding="p-4"
+          imageUrl="/images/report-cost.png"
+          imageClass="w-20 inline-block"
+          mainTitle="내 옷장의 가치는 얼마일까?"
+          subTitle={`당신의 옷장 가치는 높은 편입니다.\n안 입는 옷을 기부하는건 어떨까요?`}
+        />
+      </div>
 
       {/* 옷장 가격 */}
       <ReportAvg
-        imageUrl="/images/money.png"
-        imageAlt="옷걸이 이미지"
-        myClosetTitle="나의 옷장"
-        myClosetValue="50만원"
-        avgClosetTitle="모으또 옷장 평균"
-        avgClosetValue="65만원"
+        image={{ url: '/images/money.png', alt: '돈 이미지' }}
+        myCloset={{ title: '나의 옷장', value: '50만원' }}
+        avgCloset={{ title: '모으또 옷장 평균', value: '65만원' }}
       />
     </>
   );
