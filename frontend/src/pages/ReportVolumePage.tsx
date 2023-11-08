@@ -42,7 +42,7 @@ const ReportVolumePage = () => {
         imageDivClass="absolute top-[-45px] left-[0px]"
         imageUrl="/images/box.png"
         imageClass="w-24 inline-block"
-        mainTitle={`${shortReportComment}`}
+        mainTitle={shortReportComment}
       />
 
       {/* 분석 문구 */}
@@ -52,7 +52,7 @@ const ReportVolumePage = () => {
           imageUrl="/images/report-closet.png"
           imageClass="w-16 inline-block"
           mainTitle="내 옷장에는 몇 벌의 옷이 있을까요?"
-          subTitle={`${reportComment}`}
+          subTitle={reportComment}
         />
       </div>
 
