@@ -96,6 +96,8 @@
 - koalpaca
 - kogpt
 - chat gpt
+### 결과
+- 가장 원하는 형식의 텍스트를 자연스러운 형태로 리턴한 chat gpt를 사용하였습니다.
 
 #### 세부 비교
 - koalpaca
@@ -105,7 +107,7 @@
 - kogpt
   - 한국어 텍스트로 학습시켜 영문 텍스트에 적합하지 않습니다
   - 텍스트를 분류, 검색, 요약 또는 생성하는데 가장 적합합니다.
-  - 자세한 input text와 응답받은 텍스트는 LLM/Kogpt/readme.md에 기재하였습니다
+  - 자세한 input text와 응답받은 텍스트는 unused/Kogpt/readme.md에 기재하였습니다
 
 - chat gpt
 ```shell
