@@ -89,7 +89,7 @@ const ReportCostPage = () => {
   return (
     <>
       {/* 인트로 분석 문구 */}
-      <IntroComment nickname="모드리치" imageUrl="/images/report.png" />
+      <IntroComment nickname={`${sessionStorage.getItem('nickname')}`} imageUrl="/images/report.png" />
 
       {/* 간단 분석 문구 */}
       <ShortReportComment
