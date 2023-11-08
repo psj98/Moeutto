@@ -208,7 +208,8 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
      */
     @Query(value = "SELECT c.color AS color, COUNT(*) AS amount FROM clothes c " +
             "WHERE c.member_id = ?1 " +
-            "GROUP BY c.color", nativeQuery = true)
+            "GROUP BY c.color " +
+            "ORDER BY amount DESC ", nativeQuery = true)
     List<IClothesAnalysisColor> findByColorMember(UUID memberId);
 
     /**
@@ -216,8 +217,10 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
      *
      * @return List<IClothesAnalysisColor>
      */
-    @Query(value = "SELECT c.color AS color, COUNT(*) AS amount FROM clothes c " +
-            "GROUP BY c.color", nativeQuery = true)
+    @Query(value = "SELECT c.color AS color, COUNT(*) AS amount " +
+            "FROM clothes c " +
+            "GROUP BY c.color " +
+            "ORDER BY amount DESC ", nativeQuery = true)
     List<IClothesAnalysisColor> findByColor();
 
     /**
