@@ -153,28 +153,22 @@ const calendarPostPage = () => {
     window.scrollTo(0, 0);
   };
 
-  // const postData = async () => {
-  //   try {
-  //     // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
-  //     const axiosInstance = authInstance({ ContentType: 'application/json' });
-  //     const response = await axiosInstance.post('/calendars/regist', {});
-  //     if (response.data.data) {
-  //       setClothesData(response.data.data);
-  //     } else {
-  //       // alert('옷 목록이 없어요')
-  //       setClothesData([]);
-  //     }
-  //     return response.data;
-  //   } catch (error) {
-  //     throw new Error('옷 목록 데이터 조회 실패 토큰을 확인하세요');
-  //   }
-  // };
-  // if (postData) {
-  //   // localStorage.setItem('selectedClosetIds', JSON.stringify(selectedClosetIds));
-  //   alert('post 제출하기');
-  // } else {
-  //   alert('선택한 옷이 없어요');
-  // };
+  const postData = async () => {
+    try {
+      // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
+      const axiosInstance = authInstance({ ContentType: 'application/json' });
+      const response = await axiosInstance.post('/calendars/regist', {});
+
+      if (response) {
+        alert('캘린더 제출이 완료되었습니다.');
+      } else {
+        // alert('옷 목록이 없어요')
+      }
+      return response.data;
+    } catch (error) {
+      throw new Error('옷 목록 데이터 조회 실패 토큰을 확인하세요');
+    }
+  };
 
   return (
     <>
