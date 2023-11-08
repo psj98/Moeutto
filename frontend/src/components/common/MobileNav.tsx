@@ -48,7 +48,7 @@ const MobileNav = () => {
     { menuName: '메인', path: '/main', icon: <HiHome /> },
     { menuName: '나의옷장', path: '/mycloset', icon: <BiCloset /> },
     { menuName: '캘린더', path: '/calendar', icon: <HiCalendar /> },
-    { menuName: '친구옷장', path: '/notmycloset', icon: <BsPeopleFill /> },
+    { menuName: '친구옷장', path: '/notmycloset/friend', icon: <BsPeopleFill /> },
     { menuName: '설정', path: '/mypage', icon: <RiSettings3Fill /> },
     // { menuName: '로그아웃' },
   ];
