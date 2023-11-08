@@ -10,6 +10,7 @@ import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,6 +31,7 @@ public class OAuthLoginService {
      */
     public AuthTokens login(String email, String nickname) throws BaseException {
         UUID memberId = findOrCreateMember(email, nickname);
+
         return authTokensGenerator.generate(memberId);
     }
 
