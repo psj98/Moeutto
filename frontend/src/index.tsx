@@ -23,6 +23,7 @@ import ReportColorPage from './pages/ReportColorPage';
 import ReportSeasonPage from './pages/ReportSeasonPage';
 import ReportCostPage from './pages/ReportCostPage';
 import ReportVolumePage from './pages/ReportVolumePage';
+import ReportFrequencyPage from './pages/ReportFrequencyPage';
 
 import MyPage from './pages/MyPage';
 
@@ -32,6 +33,7 @@ import LoginRedirectPage from './pages/LoginRedirectPage';
 
 import CalendarPage from './pages/CalendarPage';
 import CalendarPostPage from './pages/CalendarPostPage';
+
 // import rootReducer from './redux/rootReducer';
 import store from './redux/store';
 import TutorialPage from './pages/TutorialPage';
@@ -65,6 +67,7 @@ root.render(
             <Route path="/mycloset/report/season" element={<ReportSeasonPage />} />
             <Route path="/mycloset/report/costs" element={<ReportCostPage />} />
             <Route path="/mycloset/report/volume" element={<ReportVolumePage />} />
+            <Route path="/mycloset/report/frequency" element={<ReportFrequencyPage />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/calendar/post" element={<CalendarPostPage />} />
