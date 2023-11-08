@@ -10,6 +10,7 @@ import UserName from '../components/main/atoms/UserName';
 import MainWeatherTap from '../components/main/organisms/MainWeatherTap';
 import Alert from '../components/common/Alert';
 import MainComment from '../components/main/atoms/MainComment';
+import Calendar from '../components/calendar/organisms/Calendar';
 // import AddTap from '../components/main/atoms/AdTap';
 // import { authInstance } from '../api/api';
 
@@ -240,8 +241,6 @@ const MainPage = () => {
   }, []);
   
 
-  
-
   return (  
     <div className='relative'>
       <div className='flex justify-center my-4'>
@@ -278,7 +277,10 @@ const MainPage = () => {
               <MainComment title={`오늘 입은 옷을 \n기록해보세요`} />
               <img src="/images/camera3D.png" alt="camera" className='w-1/3 absolute -top-6 right-0' />
             </div>
-            <div className='bg-pink'>이 자리에 달력이 옵니다.</div>
+            <div className='flex justify-center items-center mt-6 border rounded-2xl shadow-md border-pink border-2 p-4 shadow-md relative'>
+              <Calendar />
+            </div>
+      
           </div>
 
           {/* 광고 입니다 */}
