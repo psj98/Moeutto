@@ -1,17 +1,29 @@
-import React from 'react';
+// import React, { useRef } from 'react';
+
+import { Pagination, Navigation, Autoplay } from 'swiper/modules';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
+
 import 'swiper/css';
 import 'swiper/css/pagination';
+import 'swiper/css/autoplay';
+
 import tutorialImageFirst from '../assets/images/tutoral_1.png';
 
 const TutorialPage = () => {
   return (
-    <div className="tutorial-container">
+    <div className="swiper-container">
       <div className="title flex justify-center">튜토리얼</div>
       <Swiper
-        pagination={true}
+        modules={[Pagination, Navigation, Autoplay]}
+        spaceBetween={50}
+        navigation
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        pagination={{ clickable: true }}
         className={`
-      w-auto object-cover h-screen md:w-[30rem] md:h-[1000px] lg:w-[61rem] my-6 max-w-[500px] md:max-w- auto object-cover max-h-screen 
        `}>
         <SwiperSlide>
           <div>
