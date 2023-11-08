@@ -64,7 +64,7 @@ public class CalendarController {
         try {
             UUID memberId = getMemberIdFromToken(token);
             calendarService.registMyOutfit(memberId, token, file);
-            return baseResponseService.getSuccessResponse();
+            return baseResponseService.getSuccessResponse(BaseResponseStatus.CALENDAR_REGIST_IS_SUCCESS);
 
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
