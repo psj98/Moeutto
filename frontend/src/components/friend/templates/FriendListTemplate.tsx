@@ -10,7 +10,14 @@ const FriendListTemplate = ({ friendList }: FriendListType) => {
       <div>Frined Lsit</div>
       {friendList
         ? friendList.map(item => {
-            return <ProfileCard nickname={item.nickname} email={item.email} profileImage={item.profileImage} />;
+            return (
+              <ProfileCard
+                nickname={item.nickname}
+                email={item.email}
+                profileImage={item.profileImage}
+                isFollowing={item.isFollowing}
+              />
+            );
           })
         : null}
     </div>
