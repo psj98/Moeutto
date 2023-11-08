@@ -103,6 +103,8 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 //        String redirectURL = "http://localhost:3000/login-redirect";
 //        String redirectURL = "http://localhost:3000/main";
         try {
+            System.out.println("redirectURL : "+redirectURL);
+
             URL url = new URL(requestURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 

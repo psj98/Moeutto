@@ -60,11 +60,11 @@ public class CalendarController {
      */
     @PostMapping("/regist")
     public BaseResponse<Object> registCalendar(@RequestHeader(value = "accessToken", required = false) String token,
-                                               @RequestPart("file") MultipartFile file) {
+                                               @RequestPart(value = "file") MultipartFile file) {
         try {
             UUID memberId = getMemberIdFromToken(token);
             calendarService.registMyOutfit(memberId, token, file);
-            return baseResponseService.getSuccessResponse(BaseResponseStatus.CALENDAR_REGIST_IS_SUCCESS);
+            return baseResponseService.getSuccessResponse(BaseResponseStatus.CALENDAR_REGIST_SUCCESS);
 
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
