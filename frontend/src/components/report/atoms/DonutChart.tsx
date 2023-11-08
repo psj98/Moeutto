@@ -11,13 +11,14 @@ export interface ColorAmountProp {
 }
 
 interface DonutChartProps {
+  owner?: string;
   colorAmountArray: ColorAmountProp[]; // Define the prop here
 }
 
-export function DonutChart({ colorAmountArray }: DonutChartProps) {
-  const labels: string[] = colorAmountArray.map(row => row.color); // color 키의 값들의 object를 값을 뽑아 array로 만든다.
+export function DonutChart({ owner, colorAmountArray }: DonutChartProps) {
+  const labels: string[] = colorAmountArray?.map(row => row.color); // color 키의 값들의 object를 값을 뽑아 array로 만든다.
 
-  const amount: number[] = colorAmountArray.map(row => row.amount);
+  const amount: number[] = colorAmountArray?.map(row => row.amount);
 
   // labels에 존재하는 컬러를 기준으로 backgroundArray를 동적으로 생성해야 합니다
   const backgroundArray = labels.map(row => {
