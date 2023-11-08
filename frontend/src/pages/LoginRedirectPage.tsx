@@ -51,8 +51,7 @@ const LoginRedirectPage = () => {
       <div style={{ textAlign: 'center', marginTop: '50px' }}>
         {/* <img src={loadingImage} alt="로딩 중..." /> */}
         {/* 로딩 이미지 대신 텍스트를 표시하고 싶다면 아래 주석을 해제하세요. */}
-        {/* <p>로딩 중입니다...</p> */}
-        DKFJFJDKFJFJFJDKDKFK
+        {<p>로딩 중입니다...</p>}
       </div>
     );
   }
