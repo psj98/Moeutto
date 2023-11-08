@@ -9,6 +9,8 @@ import AnalysisTap from '../components/main/organisms/AnalysisTap';
 import UserName from '../components/main/atoms/UserName';
 import MainWeatherTap from '../components/main/organisms/MainWeatherTap';
 import Alert from '../components/common/Alert';
+import MainComment from '../components/main/atoms/MainComment';
+// import AddTap from '../components/main/atoms/AdTap';
 // import { authInstance } from '../api/api';
 
 // 날씨 api 사용
@@ -269,6 +271,18 @@ const MainPage = () => {
 
           {/* 옷장분석 */}
           <AnalysisTap />
+
+          {/* 달력 컴포넌트화 시킬 예정 */}
+          <div className='bg-white rounded-2xl shadow-md p-4 relative'>
+            <div className='flex'>
+              <MainComment title={`오늘 입은 옷을 \n기록해보세요`} />
+              <img src="/images/camera3D.png" alt="camera" className='w-1/3 absolute -top-6 right-0' />
+            </div>
+            <div className='bg-pink'>이 자리에 달력이 옵니다.</div>
+          </div>
+
+          {/* 광고 입니다 */}
+          {/* <AddTap /> */}
     
           {/* 지도  */}
           {locationState && (

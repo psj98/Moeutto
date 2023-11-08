@@ -36,7 +36,7 @@ const RecommendList: React.FC<PropsType> = ({ clothesListData, weatherListData }
 
   return (
     <>
-      <div className="flex overflow-x-auto gap-3">
+      <div className="flex overflow-x-auto gap-3 pt-4">
         {combinedList !== null &&
           combinedList?.map((item, index) => (
             <div
