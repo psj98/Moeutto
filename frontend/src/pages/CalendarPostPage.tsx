@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 // import { useSelector } from 'react-redux';
 // import { useNavigate } from 'react-router-dom';
+import { fabric } from 'fabric';
+
 import styled from 'styled-components';
 // axios
 import { authInstance } from '../api/api';
