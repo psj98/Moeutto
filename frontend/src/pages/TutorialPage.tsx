@@ -19,7 +19,7 @@ const TutorialPage = () => {
 
   return (
     <div className="h-[full]]">
-      <div className="title flex justify-center">튜토리얼</div>
+      <div className="mb-[200px]"></div>
       <div className="h-[500px]">
         <Swiper
           className="mt-[125px] mb-[90px] "
@@ -37,24 +37,32 @@ const TutorialPage = () => {
             <div className="">
               <img src={tutorialImageFirst} className="w-full h-auto object-cover"></img>
             </div>
+            <div className="text-center mt-[30px]">날씨에 맞는 옷을 자동으로 추천해줍니다.</div>
+            <div className="mt-[50px]"></div>
           </SwiperSlide>
 
           <SwiperSlide>
-            <div>
+            <div className="">
               <img src={tutorialImageFirst} className="w-full h-auto object-cover"></img>
             </div>
+            <div className="text-center mt-[30px]">날씨에 맞는 옷을 자동으로 추천해줍니다.</div>
+            <div className="mt-[50px]"></div>
           </SwiperSlide>
 
           <SwiperSlide>
-            <div>
+            <div className="">
               <img src={tutorialImageFirst} className="w-full h-auto object-cover"></img>
             </div>
+            <div className="text-center mt-[30px]">날씨에 맞는 옷을 자동으로 추천해줍니다.</div>
+            <div className="mt-[50px]"></div>
           </SwiperSlide>
 
           <SwiperSlide>
-            <div>
+            <div className="">
               <img src={tutorialImageFirst} className="w-full h-auto object-cover"></img>
             </div>
+            <div className="text-center mt-[30px]">날씨에 맞는 옷을 자동으로 추천해줍니다.</div>
+            <div className="mt-[50px]"></div>
           </SwiperSlide>
         </Swiper>
       </div>
