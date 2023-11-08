@@ -7,6 +7,10 @@ import * as htmlToImage from 'html-to-image';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 
+interface Props {
+  setFile: any;
+}
+
 const CanvasSection = styled.div<{ w: string }>`
   .sample-canvas,
   .canvas-container {
@@ -15,12 +19,13 @@ const CanvasSection = styled.div<{ w: string }>`
   }
 `;
 
-const PostEditorTemplate = () => {
+const PostEditorTemplate = ({ setFile }: Props) => {
   const target = useRef(null);
   const selectedClosetUrls = useSelector((state: RootState) => state.post.selectedClosetUrls);
   const [width, setWidth] = useState('');
   let imgUrl = '';
   const { editor, onReady } = useFabricJSEditor();
+  const [real, setReal] = useState<File>();
 
   const deleteIcon =
     "data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Ebene_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='595.275px' height='595.275px' viewBox='200 215 230 470' xml:space='preserve'%3E%3Ccircle style='fill:%23F44336;' cx='299.76' cy='439.067' r='218.516'/%3E%3Cg%3E%3Crect x='267.162' y='307.978' transform='matrix(0.7071 -0.7071 0.7071 0.7071 -222.6202 340.6915)' style='fill:white;' width='65.545' height='262.18'/%3E%3Crect x='266.988' y='308.153' transform='matrix(0.7071 0.7071 -0.7071 0.7071 398.3889 -83.3116)' style='fill:white;' width='65.544' height='262.179'/%3E%3C/g%3E%3C/svg%3E";
@@ -34,6 +39,7 @@ const PostEditorTemplate = () => {
   fabric.Object.prototype.cornerColor = 'pink';
   fabric.Object.prototype.cornerStyle = 'circle';
   // delete icon을 생성한다.
+  // eslint-disable //
   const renderIcon = (ctx, left, top, styleOverride, fabricObject) => {
     const size = 24;
 
@@ -76,9 +82,9 @@ const PostEditorTemplate = () => {
     const targetUrl = imgUrl;
 
     fetch(proxyUrl + targetUrl).then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error${response.status}`);
-      }
+      // if (!response.ok) {
+      //   throw new Error(`HTTP error${response.status}`);
+      // }
       return response.arrayBuffer();
     });
 
@@ -128,14 +134,65 @@ const PostEditorTemplate = () => {
   const capture: MouseEventHandler<HTMLButtonElement> = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     // 이미지 추가 및 다른 오브젝트 추가 로직
     // htmlToImage library
+
+    // function dataURLtoFile(dataurl, filename) {
+    //   // 데이터 URL에서 Base64 부분을 추출
+    //   const base64String = dataurl.split(',')[1];
+
+    //   const byteCharacters = atob(base64String);
+    //   const byteNumbers = new Array(byteCharacters.length);
+
+    //   for (let i = 0; i < byteCharacters.length; i++) {
+    //     byteNumbers[i] = byteCharacters.charCodeAt(i);
+    //   }
+
+    //   const byteArray = new Uint8Array(byteNumbers);
+
+    //   // ArrayBuffer로 변환
+    //   const buffer = byteArray.buffer;
+
+    //   // Blob로 변환
+    //   const blob = new Blob([buffer], { type: 'image/jpeg' }); // 원하는 MIME 타입으로 변경
+
+    //   // Blob에서 File 생성
+    //   const file = new File([blob], filename, { type: blob.type });
+
+    //   return file;
+    // }
+
     htmlToImage
       .toPng(target.current, { cacheBust: true })
       .then(function (dataUrl) {
         console.log(dataUrl);
+        // setFile(dataUrl);
+        // const IMG = dataURLtoFile(dataUrl, 'file.png');
+        const formData = new FormData();
+
+        formData.append('imageUrl', real); // 이제 파일 크기가 0이 아니어야 함
+        console.log(formData);
+
+        for (const values of formData.values()) {
+          console.log('아 폼에 있냐고~~~~~~~~~', values);
+        }
       })
       .catch(function (error) {
         console.error('oops, something went wrong!', error);
       });
+
+    // htmlToImage
+    //   .toBlob(target.current, { cacheBust: true })
+    //   .then(function (dataUrl) {
+    //     console.log(dataUrl);
+    //     const payloadFile = new File([dataUrl], 'file.png', { type: dataUrl.type });
+    //     const formData = new FormData();
+
+    //     formData.append('imageUrl', payloadFile); // 이제 파일 크기가 0이 아니어야 함
+    //     setFile(formData);
+    //     console.log(formData, '%%%%%%%%%%%%%%%%%%%%%%%%');
+    //   })
+    //   .catch(function (error) {
+    //     console.error('oops, something went wrong!', error);
+    //   });
   };
 
   useEffect(() => {
@@ -162,6 +219,17 @@ const PostEditorTemplate = () => {
       <button type="button" onClick={capture}>
         capture
       </button>
+      <input
+        type="file"
+        onChange={e => {
+          const selectedFile: File = e.target.files[0];
+
+          console.log(selectedFile);
+          console.log(real);
+          setReal(prevReal => selectedFile); // Use a functional update here
+        }}
+      />
+
       <CanvasSection className="sample w-[100%] rounded-xl border-4 mb-10" w={width} id="canvasSection" ref={target}>
         <div>{width ? <FabricJSCanvas className={`sample-canvas`} onReady={onReady} /> : null}</div>
       </CanvasSection>
