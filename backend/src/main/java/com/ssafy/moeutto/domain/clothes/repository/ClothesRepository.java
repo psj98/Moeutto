@@ -289,7 +289,7 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
      *
      * @return
      */
-    @Query(value = "SELECT AVG(price) FROM Clothes", nativeQuery = true)
+    @Query(value = "SELECT SUM(price) / (SELECT COUNT(*) FROM member m) FROM Clothes", nativeQuery = true)
     Integer findAvgOfPrice();
 
     /**
