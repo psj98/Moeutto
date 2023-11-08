@@ -9,6 +9,8 @@ import AnalysisTap from '../components/main/organisms/AnalysisTap';
 import UserName from '../components/main/atoms/UserName';
 import MainWeatherTap from '../components/main/organisms/MainWeatherTap';
 import Alert from '../components/common/Alert';
+import MainComment from '../components/main/atoms/MainComment';
+// import AddTap from '../components/main/atoms/AdTap';
 // import { authInstance } from '../api/api';
 
 // 날씨 api 사용
@@ -226,27 +228,62 @@ const MainPage = () => {
       "recData": "2023-11-10"
     }
   ]
+
+  useEffect(() => {
+    const body = document.body;
+
+    body.style.background = '#FFF7F9';
+
+    return () => {
+      body.style.background = '';
+    };
+  }, []);
   
 
   
 
-  return (
+  return (  
     <div className='relative'>
+      <div className='flex justify-center my-4'>
+        <img src="/images/logo.png" alt="logo" className='w-1/3 min-w-[130px]' />
+      </div>
+
+      {/* 알림 */}
       <Alert />
+
         <div className="flex flex-col p-4 mb-4">
+          {/* 주소 */}
           <MainInfo currentLocation={currentLocation} address={address} showLocationClick={showLocationClick} />
-          <div>
+          
+          {/* 날씨 정보 */}
           <MainWeatherTap />
+          <div className='mt-6 bg-white rounded-2xl shadow-md p-4 mb-[70px]'>
+            
+            {/* 사용자 이름 */}
             <UserName />
+            
             {/* 날씨 기반 추천 리스트 */}
             <RecommendList clothesListData={clothesListData} weatherListData={weatherListData} />
           </div>
-
-          <br />
+          
           {/* 골라골라 */}
           <PickButtonTap />
+
           {/* 옷장분석 */}
           <AnalysisTap />
+
+          {/* 달력 컴포넌트화 시킬 예정 */}
+          <div className='bg-white rounded-2xl shadow-md p-4 relative'>
+            <div className='flex'>
+              <MainComment title={`오늘 입은 옷을 \n기록해보세요`} />
+              <img src="/images/camera3D.png" alt="camera" className='w-1/3 absolute -top-6 right-0' />
+            </div>
+            <div className='bg-pink'>이 자리에 달력이 옵니다.</div>
+          </div>
+
+          {/* 광고 입니다 */}
+          {/* <AddTap /> */}
+    
           {/* 지도  */}
           {locationState && (
             <div className="absolute z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-[60vh] w-[50vw] max-w-[400px] min-w-[300px]">
