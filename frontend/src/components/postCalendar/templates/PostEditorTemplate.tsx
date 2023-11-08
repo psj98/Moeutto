@@ -199,9 +199,9 @@ const PostEditorTemplate = () => {
     htmlToImage
       .toPng(target.current, { cacheBust: true })
       .then(function (dataUrl) {
-        var img = new Image();
-        img.src = dataUrl;
-        document.body.appendChild(img);
+        // var img = new Image();
+        // img.src = dataUrl;
+        // document.body.appendChild(img);
         console.log(dataUrl);
       })
       .catch(function (error) {

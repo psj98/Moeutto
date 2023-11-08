@@ -150,61 +150,31 @@ const calendarPostPage = () => {
   const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = event => {
     // 기본 동작 방지
     event.preventDefault();
-    // redux에 저장할 데이터
-    // const requestData = {
-    //   selectedClosetIds,
-    // };
-    // const canvasElements = document.getElementsByClassName('sample-canvas');
-    // const canvas = canvasElements[0] as HTMLCanvasElement; // 첫 번째 요소 가져오기
     window.scrollTo(0, 0);
-    html2canvas(document.querySelector('#canvasSection')).then(async canvas => {
-      // const url = await canvas.toDataURL('image/jpg');
-      // setOpen(true);
-      // console.log(url);
-    });
-
-    // if (canvas) {
-    //   console.log(canvas);
-
-    //   const fabricCanvas = new fabric.Canvas(canvas);
-
-    //   // const dataURL = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
-    //   // Canvas의 이미지 데이터를 가져오기
-    //   const dataURL = fabricCanvas.toDataURL({
-    //     format: 'png', // 이미지 포맷 설정
-    //     quality: 0.8, // 이미지 품질 설정 (0.0 - 1.0)
-    //   });
-
-    //   console.log('데이터url', dataURL);
-    // } else {
-    //   console.error('Canvas 요소를 찾을 수 없습니다.');
-    // }
-    const postData = async () => {
-      try {
-        // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
-        const axiosInstance = authInstance({ ContentType: 'application/json' });
-        const response = await axiosInstance.post('/calendars/regist', {});
-
-        if (response.data.data) {
-          setClothesData(response.data.data);
-        } else {
-          // alert('옷 목록이 없어요')
-          setClothesData([]);
-        }
-
-        return response.data;
-      } catch (error) {
-        throw new Error('옷 목록 데이터 조회 실패 토큰을 확인하세요');
-      }
-    };
-
-    if (postData) {
-      // localStorage.setItem('selectedClosetIds', JSON.stringify(selectedClosetIds));
-      alert('post 제출하기');
-    } else {
-      alert('선택한 옷이 없어요');
-    }
   };
+
+  // const postData = async () => {
+  //   try {
+  //     // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
+  //     const axiosInstance = authInstance({ ContentType: 'application/json' });
+  //     const response = await axiosInstance.post('/calendars/regist', {});
+  //     if (response.data.data) {
+  //       setClothesData(response.data.data);
+  //     } else {
+  //       // alert('옷 목록이 없어요')
+  //       setClothesData([]);
+  //     }
+  //     return response.data;
+  //   } catch (error) {
+  //     throw new Error('옷 목록 데이터 조회 실패 토큰을 확인하세요');
+  //   }
+  // };
+  // if (postData) {
+  //   // localStorage.setItem('selectedClosetIds', JSON.stringify(selectedClosetIds));
+  //   alert('post 제출하기');
+  // } else {
+  //   alert('선택한 옷이 없어요');
+  // };
 
   return (
     <>
