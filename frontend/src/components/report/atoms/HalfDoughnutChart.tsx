@@ -28,7 +28,7 @@ export function HalfDoughnutChart({ halfDoughnutChartProp }: HalfDoughnutChartPr
     },
     rotation: -90,
     circumference: 180,
-    // cutout: '60%',
+    cutout: '55%',
     maintainAspectRatio: true,
     responsive: true,
   };
