@@ -4,6 +4,7 @@ from pydantic import BaseModel
 class Clothes(BaseModel):
     largeCategoryId: str
     clothesId: int
+    clothesName: str
     season: str
     color: str
     thickness: int
