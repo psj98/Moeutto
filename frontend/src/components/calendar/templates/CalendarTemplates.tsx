@@ -3,7 +3,8 @@ import Calendar from "../organisms/Calendar";
 const CalendarTemplates = ({
     setShowSelectedImg,
     setClothesId,
-    setIsLikedOutFit
+    setIsLikedOutFit,
+    handleModalOpen
 }) => {
     return (
         <div className="">
@@ -11,6 +12,7 @@ const CalendarTemplates = ({
                 setShowSelectedImg={setShowSelectedImg}
                 setClothesId={setClothesId}
                 setIsLikedOutFit={setIsLikedOutFit}
+                handleModalOpen={handleModalOpen}
             />
         </div>
     )
