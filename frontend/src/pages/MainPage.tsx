@@ -41,6 +41,7 @@ const MainPage = () => {
   // 지도 화면 출력 클릭 이벤트
   const showLocationClick = () => {
     setLocationState(!locationState);
+    console.log('주소 불러오는거 클릭함')
   };
 
   // 지도 다시 불러오기
@@ -290,7 +291,7 @@ const MainPage = () => {
     
           {/* 지도  */}
           {locationState && (
-            <div className="absolute z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-[60vh] w-[50vw] max-w-[400px] min-w-[300px]">
+            <div className="absolute z-50 left-1/2 transform -translate-x-1/2 h-[60%] w-[80%] max-w-[400px] min-w-[300px]">
               <MapModal
                 currentLocation={currentLocation}
                 address={address}
