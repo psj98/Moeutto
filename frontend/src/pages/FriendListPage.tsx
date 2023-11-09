@@ -65,11 +65,6 @@ const FriendListPage = () => {
 
   useEffect(() => {
     // 진입시 친구 처음 조회 api 날리기
-    const formData = new FormData();
-    const nickname = sessionStorage.getItem('nickname');
-
-    formData.append('nickname', nickname);
-
     const fetchData = async () => {
       try {
         // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
@@ -108,7 +103,7 @@ const FriendListPage = () => {
       }
     };
 
-    console.log('검색', search);
+    console.log('검색 단어', search);
     if (search) {
       SearchData().then(res => {
         console.log('검색완료');
