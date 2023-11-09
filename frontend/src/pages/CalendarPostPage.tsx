@@ -127,26 +127,6 @@ const calendarPostPage = () => {
     fetchData();
   }, [categoryId, sortBy, orderBy]);
 
-  // const { isLoading, isError, data } = useQuery('selectcloset', fetchData, {
-  //     enabled: true, // 초기 데이터 요청을 활성화
-  //     refetchOnWindowFocus: false, // 윈도우 포커스 시 다시 요청하지 않도록 설정
-  // });
-
-  // let clothesData: number[] = [];
-
-  // if (data) {
-  //     clothesData = data as number[];
-  //     console.log('옷 데이터 목록', clothesData)
-  // }
-
-  // if (isLoading) {
-  //     return <div>로딩중</div>
-  // }
-
-  // if (isError) {
-  //     return <div>에러가 났어요</div>
-  // }
-
   // 제출하기 버튼 동작 시 -> 리덕스에 선택한 옷 정보 저장 후 분석 페이지로 이동
   const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = event => {
     // 기본 동작 방지
@@ -174,6 +154,7 @@ const calendarPostPage = () => {
     } else {
       console.error('Canvas 요소를 찾을 수 없습니다.');
     }
+
     const postData = async () => {
       try {
         // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
@@ -189,13 +170,14 @@ const calendarPostPage = () => {
 
         return response.data;
       } catch (error) {
-        throw new Error('옷 목록 데이터 조회 실패 토큰을 확인하세요');
+        console.log(error);
+        throw new Error('캘린더 제출을 할 수 없습니다.');
       }
     };
 
     if (postData) {
       // localStorage.setItem('selectedClosetIds', JSON.stringify(selectedClosetIds));
-      alert('post 제출하기');
+      alert('캘린더 제출하기');
     } else {
       alert('선택한 옷이 없어요');
     }
@@ -214,7 +196,6 @@ const calendarPostPage = () => {
         handleSubmit={handleSubmit}
         clothesData={clothesData}
       />
-
       <ScrollSection className="scroll fixed bottom-[150px]">
         <Scroll />
       </ScrollSection>

@@ -21,7 +21,7 @@ export interface ClothesItem {
   regDate: string; // 등록 날짜 (DateTime 타입으로 변경 가능)
 }
 
-const PickPickPage = () => {
+const FriendClosetPage = () => {
   const navigate = useNavigate();
   // 카테고리
   // 대분류
@@ -38,8 +38,6 @@ const PickPickPage = () => {
 
   // 카테고리 선택 확인
   useEffect(() => {
-    console.log('전체 떠야됨', selectedOptionMain);
-
     // 중분류
     if (selectedOptionMiddle === '패딩') {
       setCategoryId('001001');
@@ -91,37 +89,29 @@ const PickPickPage = () => {
   // 선택한 옷 리스트
   const selectedClosetIds = useSelector((state: RootState) => state.closet.selectedClosetIds);
 
-  useEffect(() => {
-    console.log('selectedClosetIds:', selectedClosetIds);
-  }, [selectedClosetIds]);
-
   // 옷 목록 조회
   const [clothesData, setClothesData] = useState<ClothesItem[]>([]);
 
   const fetchData = async () => {
+    const pathname = window.location.pathname; // url에서 path 가져와서
+    const friend = pathname.split('/')[3]; // path에서 email 가져오기
+
     try {
       // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
+
       const axiosInstance = authInstance({ ContentType: 'application/json' });
-      const response = await axiosInstance.post('/clothes/list', {
-        categoryId,
-        sortBy,
-        orderBy,
+      const response = await axiosInstance.post('/clothes/list/friend-all', {
+        email: friend, // 친구 email
       });
 
-      console.log('옷 목록 데이터 조회 성공', response.data);
-
       if (response.data.data) {
-        setClothesData(response.data.data);
+        setClothesData(response.data.data.clothesListResponseDto);
       } else {
-        // alert('옷 목록이 없어요')
         setClothesData([]);
       }
-
       return response.data;
     } catch (error) {
-      console.log('옷 목록 데이터 조회 실패', error);
-
-      throw new Error('옷 목록 데이터 조회 실패 토큰을 확인하세요');
+      throw new Error('친구 옷 목록 데이터 조회 실패 토큰을 확인하세요');
     }
   };
 
@@ -166,4 +156,4 @@ const PickPickPage = () => {
   );
 };
 
-export default PickPickPage;
+export default FriendClosetPage;
