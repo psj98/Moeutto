@@ -24,6 +24,7 @@ import ReportSeasonPage from './pages/ReportSeasonPage';
 import ReportCostPage from './pages/ReportCostPage';
 import ReportVolumePage from './pages/ReportVolumePage';
 import ReportFrequencyPage from './pages/ReportFrequencyPage';
+import ReportUsabilityPage from './pages/ReportUsabilityPage';
 
 import MyPage from './pages/MyPage';
 
@@ -68,6 +69,7 @@ root.render(
             <Route path="/mycloset/report/costs" element={<ReportCostPage />} />
             <Route path="/mycloset/report/volume" element={<ReportVolumePage />} />
             <Route path="/mycloset/report/frequency" element={<ReportFrequencyPage />} />
+            <Route path="/mycloset/report/usability" element={<ReportUsabilityPage />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/calendar/post" element={<CalendarPostPage />} />
