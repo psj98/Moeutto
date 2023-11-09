@@ -53,7 +53,10 @@ public interface MemberRepository extends JpaRepository<Member, UUID> {
      * @param memberId
      * @return
      */
-    @Query(value = "SELECT m.email as email, m.nickname as nickname, m.profile_image as profileImageUrl " +
+    @Query(value = "SELECT m.email as email, m.nickname as nickname, m.profile_image as profileImageUrl, " +
+            "EXISTS (" +
+            "SELECT 1 FROM following f1 " +
+            "WHERE f1.my_id = ?1 AND f1.following_id = m.id) as isFollowing " +
             "FROM member m " +
             "WHERE id = (" +
             "SELECT following_id " +
