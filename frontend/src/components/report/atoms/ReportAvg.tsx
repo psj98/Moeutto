@@ -1,27 +1,37 @@
 import ReportAvgCard from './ReportAvgCard';
 
 interface ReportAvgProps {
-  image: imageObject;
-  myCloset: closetObject;
-  avgCloset: closetObject;
+  imageUrl: string;
+  imageAlt: string;
+  myClosetTitle: string;
+  myClosetValue: string;
+  avgClosetTitle: string;
+  avgClosetValue: string;
 }
 
-interface imageObject {
-  url: string;
-  alt: string;
-}
-
-interface closetObject {
-  title: string;
-  value: string;
-}
-
-const ReportAvg = ({ image, myCloset, avgCloset }: ReportAvgProps) => {
+const ReportAvg = ({
+  imageUrl,
+  imageAlt,
+  myClosetTitle,
+  myClosetValue,
+  avgClosetTitle,
+  avgClosetValue,
+}: ReportAvgProps) => {
   return (
     <>
       <div className="flex flex-row justify-evenly mb-10">
-        <ReportAvgCard image={image} closet={myCloset} />
-        <ReportAvgCard image={image} closet={avgCloset} />
+        <ReportAvgCard
+          imageUrl={imageUrl}
+          imageAlt={imageAlt}
+          closetTitle={myClosetTitle}
+          closetValue={myClosetValue}
+        />
+        <ReportAvgCard
+          imageUrl={imageUrl}
+          imageAlt={imageAlt}
+          closetTitle={avgClosetTitle}
+          closetValue={avgClosetValue}
+        />
       </div>
     </>
   );

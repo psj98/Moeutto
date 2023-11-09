@@ -3,7 +3,7 @@ interface ShortReportCommentProps {
   imageUrl: string;
   imageClass: string;
   mainTitle: string;
-  subTitle?: string;
+  subTitle: string;
 }
 
 const ShortReportComment = ({ imageDivClass, imageUrl, imageClass, mainTitle, subTitle }: ShortReportCommentProps) => {
@@ -18,9 +18,9 @@ const ShortReportComment = ({ imageDivClass, imageUrl, imageClass, mainTitle, su
         {/* 문구 */}
         <div className="text-center ">
           {/* 메인 문구 */}
-          <p className="text-2xl text-[#FF78A5] font-bold">{mainTitle}</p>
+          <p className="text-2xl text-[#FF78A5] font-bold pb-1">{mainTitle}</p>
           {/* 하단 문구 */}
-          {subTitle == null ? null : <p className="pt-1 text-xs text-slate-400">{subTitle}</p>}
+          <p className="text-xs text-slate-400">{subTitle}</p>
         </div>
       </div>
     </>

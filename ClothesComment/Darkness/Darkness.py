@@ -1,5 +1,5 @@
-from .color_vo import Color
-from .color_list import colors_data
+from .ColorDTO import Color
+from .ColorList import colors_data
 # 점수 1~100, 코멘트 10~20 글자
 
 """

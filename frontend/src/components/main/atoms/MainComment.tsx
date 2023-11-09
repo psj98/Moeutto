@@ -4,7 +4,7 @@ interface PropsType {
 
 const MainComment = ({ title }: PropsType) => {
     return (
-        <div className="text-AppBody1 font-bold whitespace-pre-wrap">{title}</div>
+        <div className="text-AppBody1 font-bold">{title}</div>
     )
 }
 
