@@ -38,6 +38,7 @@ import FrinedListPage from './pages/FriendListPage';
 
 // import rootReducer from './redux/rootReducer';
 import store from './redux/store';
+import TutorialPage from './pages/TutorialPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 const queryClient = new QueryClient();
@@ -55,7 +56,7 @@ root.render(
             <Route path="/analysis" element={<AnalysisPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/login-redirect" element={<LoginRedirectPage />}></Route>
-            <Route path="/mycloset/*" element={<AddClothPage />} /> // 여러 라우팅을 매칭하고 싶은 경우 *가 필요합니다
+            <Route path="/tutorial" element={<TutorialPage />}></Route>
             <Route path="/mycloset" element={<MyClosetPage />} />
             <Route path="/mycloset/detail/:id" element={<ClothesDetailPage />} /> // 라우팅 매칭 다시 해야됨 * 사용하기?
             <Route path="/mycloset/add-cloth" element={<AddClothPage />} />
