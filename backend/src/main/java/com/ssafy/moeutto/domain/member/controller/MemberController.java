@@ -85,6 +85,7 @@ public class MemberController {
 
     /**
      * 마이페이지에 사용자 정보 전달 ( 프사, 닉네임, 옷장 공개 여부, 계정 공개 여부 )
+     * To Do : 이미지 처리해야함 ( 지금은 String으로 이미지를 잘못 받았음 )
      * @param token
      * @return MemberMyPageResponseDto
      */

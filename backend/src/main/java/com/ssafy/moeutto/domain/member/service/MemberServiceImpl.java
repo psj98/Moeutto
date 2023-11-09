@@ -40,6 +40,7 @@ public class MemberServiceImpl implements MemberService {
         return memberMyPageResponseDto;
     }
 
+    // 이미지 처리 해야함
     @Override
     public void updateMypageInfo(String token, MemberUpdateMyInfoRequestDto memberUpdateMyInfoRequestDto) throws BaseException {
         UUID memberId = authTokensGenerator.extractMemberId(token);
