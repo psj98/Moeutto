@@ -14,7 +14,7 @@ const ClosetReportTemplate = ({ analysisData }: { analysisData: AnalysisData }) 
           divPadding="p-4"
           imageUrl="/images/report-palette.png"
           imageClass="w-16 inline-block"
-          mainTitle="OO님의 옷장에는"
+          mainTitle={`${sessionStorage.getItem('nickname')}님의 옷장에는`}
           subTitle={`${myAnalysisColorMost} 색 옷이 제일 많네요`}
         />
       </div>
