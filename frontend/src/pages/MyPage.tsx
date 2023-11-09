@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import React, { ChangeEvent, useState, useEffect } from 'react';
+import { authInstance } from '../api/api';
 
-import React, { ChangeEvent, useState } from 'react';
 import Label from '../components/add/atoms/Label';
 
 const handleSubmit = () => {};
@@ -8,10 +9,18 @@ const handleSubmit = () => {};
 const Button = styled.button``;
 const Input = styled.input``;
 
+interface MyPageItemType {
+  nickname: string;
+  imageUrl: string;
+  closetFind: boolean;
+  accountFind: boolean;
+}
+
 const MyPage = () => {
   const [nickname, setNickname] = useState<string>();
+  const [myPageInfo, setMyPageInfo] = useState<MyPageItemType | null>();
 
-  const handleClothNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleNicknameChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value) {
       setNickname(e.target.value);
     } else {
@@ -20,24 +29,59 @@ const MyPage = () => {
     }
   };
 
+  const fetchData = async () => {
+    try {
+      // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
+      const axiosInstance = authInstance({ ContentType: 'application/json' });
+      const response = await axiosInstance.get('/members/my-page');
+
+      console.log('마이페이지 데이터 조회 성공', response.data.data);
+      console.log('닉넴', nickname);
+
+      // const myInfo: myPageItem = response.data.data.MemberMyPageResponseDto(row => ({
+      //   nickname: row.nickname,
+      //   imageUrl: row.imageUrl,
+      //   closetFind: row.closetFind,
+      //   accountFind: row.accountFind,
+      // }));
+
+      setMyPageInfo(response.data.data);
+      setNickname(response.data.data.nickname);
+
+      console.log(myPageInfo);
+    } catch (error) {
+      console.log('마이페이지 데이터 조회 실패', error);
+
+      throw new Error('마이페이지 데이터 조회 실패 토큰 및 저장된 데이터를 확인하세요');
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  // useEffect(() => {
+  //   console.log('체크', myPageInfo);
+  // }, [myPageInfo]);
+
   return (
     <>
       <div className="flex flex-col text-AppBody1">
         {/* 프로필 사진 */}
         <div className="my-10 text-center">
-          <img className="w-24 inline-block" src="/images/bright.png" alt="프로필 이미지" />
+          <img className="w-24 inline-block" src={`${myPageInfo?.imageUrl}`} alt="프로필 이미지" />
         </div>
 
         {/* 닉네임 */}
         <div className="mb-6">
           {/* 닉네임 글자 */}
-          <Label id="clothName" value="닉네임" />
+          <Label id="nickName" value="닉네임" />
           {/* 닉네임 Input */}
           <Input
             className="w-full border border-1 rounded-xl indent-1 p-1 text-AppBody1"
             placeholder="닉네임"
             value={nickname}
-            onChange={handleClothNameChange}></Input>
+            onChange={handleNicknameChange}></Input>
         </div>
 
         {/* 옷장 공개 여부 */}
@@ -46,7 +90,7 @@ const MyPage = () => {
           <p className="mb-2">옷장 공개 여부</p>
           {/* on/off 버튼 */}
           <label className="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" value="" className="sr-only peer" />
+            <input type="checkbox" checked={myPageInfo?.accountFind} className="sr-only peer" />
             <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-0 peer-focus:ring-pink dark:peer-focus:ring-pink rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-pink"></div>
           </label>
         </div>
@@ -57,7 +101,7 @@ const MyPage = () => {
           <p className="mb-2">계정 공개 여부</p>
           {/* on/off 버튼 */}
           <label className="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" value="" className="sr-only peer" />
+            <input type="checkbox" checked={myPageInfo?.closetFind} className="sr-only peer" />
             <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-0 peer-focus:ring-pink dark:peer-focus:ring-pink rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-pink"></div>
           </label>
         </div>
