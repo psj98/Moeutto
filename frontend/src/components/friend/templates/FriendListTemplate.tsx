@@ -1,15 +1,15 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { BiSearchAlt } from 'react-icons/bi';
 import ProfileCard from '../molecules/ProfileCard';
-import { FriendListType } from '../../../pages/FriendListPage';
+import { FriendType } from '../../../pages/FriendListPage';
 import './style.css';
 
 type FriendListTemplateProps = {
-  friendList: FriendListType['friendList'];
-  setValue: PropType; // PropType는 필요한 타입으로 대체해야 합니다.
+  friendList: FriendType[];
+  setValue: Dispatch<SetStateAction<string>>; // PropType는 필요한 타입으로 대체해야 합니다.
 };
 
-const FriendListTemplate = ({ friendList, setValue }) => {
+const FriendListTemplate = ({ friendList, setValue }: FriendListTemplateProps) => {
   return (
     <div>
       <div className="relative w-[80%] m-auto drop-shadow-md">
@@ -19,7 +19,7 @@ const FriendListTemplate = ({ friendList, setValue }) => {
           id="search"
           placeholder="친구를 검색해보세요"
           className="border rounded-full w-full h-[40px]  py-1 ps-12 text-AppBody1 leading-[20px] align-middle"
-          onChange={setValue}
+          onChange={e => setValue(e.target.value)}
         />
       </div>
       <div>Frined Lsit</div>
