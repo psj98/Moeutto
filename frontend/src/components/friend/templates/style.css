@@ -1,0 +1,6 @@
+.changeColor {
+  color: rgb(194, 194, 194);
+}
+.changeColor:hover {
+  color: rgb(61, 61, 61);
+}
