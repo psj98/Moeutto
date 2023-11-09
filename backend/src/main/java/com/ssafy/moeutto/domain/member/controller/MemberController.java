@@ -71,6 +71,7 @@ public class MemberController {
 
         return ResponseEntity.ok()
                 .headers(headers)
-                .body(authTokensGenerator.extractMemberId(tokens.getAccessToken()));
+                .body(userInfo);
+
     }
 }
