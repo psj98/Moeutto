@@ -21,10 +21,18 @@ public class ClothesAnalysisAvailabilityResponseDto {
     @NotNull
     private List<IClothesAnalysisAvailability> analysisAmountList; // 최근 n개월 내 입은 옷 개수 - 대분류 카테고리 기준
 
+    @NotNull
+    private String maxLargeCategoryName;
+
+    @NotNull
+    private String minLargeCategoryName;
+
     @Builder(toBuilder = true)
-    public ClothesAnalysisAvailabilityResponseDto(Long totalAmount, Long usedAmount, List<IClothesAnalysisAvailability> analysisAmountList) {
+    public ClothesAnalysisAvailabilityResponseDto(Long totalAmount, Long usedAmount, List<IClothesAnalysisAvailability> analysisAmountList, String maxLargeCategoryName, String minLargeCategoryName) {
         this.totalAmount = totalAmount;
         this.usedAmount = usedAmount;
         this.analysisAmountList = analysisAmountList;
+        this.maxLargeCategoryName = maxLargeCategoryName;
+        this.minLargeCategoryName = minLargeCategoryName;
     }
 }
