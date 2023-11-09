@@ -29,6 +29,8 @@ public class MemberLoginServiceImpl implements MemberLoginService {
     @Override
     public String getKakaoPermissionCode() {
         String requestURL = "https://kauth.kakao.com/oauth/authorize";
+//        String redirectURL = "http://localhost:8080/api/members/check";
+//        String redirectURL = "http://localhost:3000/login-redirect";
         String code = "";
 
         try {
@@ -96,8 +98,13 @@ public class MemberLoginServiceImpl implements MemberLoginService {
         String accessToken = "";
         String refreshToken = "";
         String requestURL = "https://kauth.kakao.com/oauth/token";
-
+//        String redirectURL = "http://localhost:8080/api/members/check";
+//        String redirectURL = "http://localhost:8080/api/oauth/kakao";
+//        String redirectURL = "http://localhost:3000/login-redirect";
+//        String redirectURL = "http://localhost:3000/main";
         try {
+            System.out.println("redirectURL : "+redirectURL);
+
             URL url = new URL(requestURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
