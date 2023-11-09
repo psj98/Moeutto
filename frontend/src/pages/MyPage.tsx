@@ -18,6 +18,8 @@ interface MyPageItemType {
 
 const MyPage = () => {
   const [nickname, setNickname] = useState<string>();
+  const [accountFind, setAccountFind] = useState<boolean>();
+  const [closetFind, setClosetFind] = useState<boolean>();
   const [myPageInfo, setMyPageInfo] = useState<MyPageItemType | null>();
 
   const handleNicknameChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -29,6 +31,22 @@ const MyPage = () => {
     }
   };
 
+  const handleClosetChange = (e: ChangeEvent<HTMLInputElement>) => {
+    // if (e.target.value) {
+    //   setClosetFind(e.target);
+    // }
+    if (e.target.checked) {
+      setClosetFind(!e.target.checked);
+    }
+    console.log('옷장 공개 여부 ? ', closetFind);
+  };
+
+  const handleAccountChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      setAccountFind(e.target.value);
+    }
+  };
+
   const fetchData = async () => {
     try {
       // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
@@ -36,7 +54,6 @@ const MyPage = () => {
       const response = await axiosInstance.get('/members/my-page');
 
       console.log('마이페이지 데이터 조회 성공', response.data.data);
-      console.log('닉넴', nickname);
 
       // const myInfo: myPageItem = response.data.data.MemberMyPageResponseDto(row => ({
       //   nickname: row.nickname,
@@ -47,6 +64,10 @@ const MyPage = () => {
 
       setMyPageInfo(response.data.data);
       setNickname(response.data.data.nickname);
+      setAccountFind(response.data.data.accountFind);
+      setClosetFind(response.data.data.closetFind);
+
+      console.log(accountFind, closetFind);
 
       console.log(myPageInfo);
     } catch (error) {
@@ -90,7 +111,13 @@ const MyPage = () => {
           <p className="mb-2">옷장 공개 여부</p>
           {/* on/off 버튼 */}
           <label className="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" checked={myPageInfo?.accountFind} className="sr-only peer" />
+            <input
+              type="checkbox"
+              // checked={myPageInfo?.accountFind}
+              defaultChecked={closetFind}
+              onChange={handleClosetChange}
+              className="sr-only peer"
+            />
             <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-0 peer-focus:ring-pink dark:peer-focus:ring-pink rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-pink"></div>
           </label>
         </div>
