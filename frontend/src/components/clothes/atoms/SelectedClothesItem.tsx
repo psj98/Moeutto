@@ -16,7 +16,6 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId }) => 
   const { pathname } = useLocation();
 
   ScrollReveal().reveal('.clothes');
-  console.log(pathname);
 
   const [isSelected, setIsSelected] = useState(false);
   // pickpick 페이지에서 사용되는 함수입니다

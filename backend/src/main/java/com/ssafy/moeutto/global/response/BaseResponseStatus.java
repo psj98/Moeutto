@@ -34,6 +34,7 @@ public enum BaseResponseStatus {
     NOT_FOUND_CALENDAR_INFO(false, 4001, "캘린더가 존재하지 않습니다."),
     NOT_FOUND_CALENDAR_FOR_DATE(false, 4002, "해당 날짜에 캘린더가 존재하지 않습니다."),
     DUPLICATED_CALENDAR_INFO(false, 4003, "해당 날짜에 이미 캘린더가 존재합니다."),
+    CALENDAR_REGIST_SUCCESS(true, 4004, "캘린더 등록에 성공했습니다." ),
 
 
     /**

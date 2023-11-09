@@ -62,11 +62,13 @@ public class CalendarServiceImpl implements CalendarService {
 
         Calendar calendar =
                 Calendar.builder()
-                        .memberId(memberId)
+                        .memberId(member.get().getId())
                         .imageUrl(s3ResponseDto.getAccessUrl())
                         .regDate(curDate)
                         .likeOutfit(0)
                         .build();
+
+        log.info("calendar123" + calendar.toString());
 
         calendarRepository.save(calendar);
     }
@@ -82,7 +84,7 @@ public class CalendarServiceImpl implements CalendarService {
      * @throws BaseException
      */
     @Override
-    public CalendarListResponseDto getCalendarList(UUID memberId, Date regDate) throws BaseException {
+    public CalendarListResponseDto getCalendarList(UUID memberId, String regDate) throws BaseException {
 
         // 사용자 재 검증
         memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
