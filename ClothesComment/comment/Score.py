@@ -5,17 +5,24 @@ def get_temp_weather():
 
     if temp_month > 8:
         if temp_month > 11:
+            # 12 겨울
             return 4
+
         else:
+            # 9 10 11 가을
             return 3
     else:
         if temp_month < 6:
             if temp_month < 3:
+                # 1,2 겨울
                 return 4
             else:
+                # 3,4,5 봄
                 return 1
         else:
+            # 6, 7, 8 여름
             return 2
+
 
 def calculate_temperature_score(thickness, min_temp, max_temp):
     avg_temp = (min_temp + max_temp) / 2

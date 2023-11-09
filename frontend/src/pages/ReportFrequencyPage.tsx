@@ -95,7 +95,6 @@ const ReportFrequencyPage = () => {
       {/* 많이 입은 옷 */}
       <div className="mb-4">
         <ReportComment
-          divPadding=""
           imageUrl="/images/report-happy.png"
           imageClass="w-24 inline-block"
           mainTitle="가장 많이 입는 옷은 무엇일까요?"

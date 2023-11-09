@@ -241,33 +241,21 @@ const MainPage = () => {
   }, []);
   
 
-  return (  
+  return (
     <div className='relative'>
-      <div className='flex justify-center my-4'>
-        <img src="/images/logo.png" alt="logo" className='w-1/3 min-w-[130px]' />
-      </div>
-
-      {/* 알림 */}
       <Alert />
-
         <div className="flex flex-col p-4 mb-4">
-          {/* 주소 */}
           <MainInfo currentLocation={currentLocation} address={address} showLocationClick={showLocationClick} />
-          
-          {/* 날씨 정보 */}
+          <div>
           <MainWeatherTap />
-          <div className='mt-6 bg-white rounded-2xl shadow-md p-4 mb-[70px]'>
-            
-            {/* 사용자 이름 */}
             <UserName />
-            
             {/* 날씨 기반 추천 리스트 */}
             <RecommendList clothesListData={clothesListData} weatherListData={weatherListData} />
           </div>
-          
+
+          <br />
           {/* 골라골라 */}
           <PickButtonTap />
-
           {/* 옷장분석 */}
           <AnalysisTap />
 
@@ -278,7 +266,7 @@ const MainPage = () => {
               <img src="/images/camera3D.png" alt="camera" className='w-1/3 absolute -top-6 right-0' />
             </div>
             <div className='flex justify-center items-center mt-6 border rounded-2xl shadow-md border-pink border-2 p-4 shadow-md relative'>
-              <Calendar />
+              <Calendar state={1} />
             </div>
       
           </div>

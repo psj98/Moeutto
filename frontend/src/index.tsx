@@ -34,6 +34,8 @@ import LoginRedirectPage from './pages/LoginRedirectPage';
 import CalendarPage from './pages/CalendarPage';
 import CalendarPostPage from './pages/CalendarPostPage';
 
+// import FrinedListPage from './pages/FriendListPage';
+
 // import rootReducer from './redux/rootReducer';
 import store from './redux/store';
 import TutorialPage from './pages/TutorialPage';

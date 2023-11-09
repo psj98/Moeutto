@@ -29,7 +29,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "fabric": "^5.3.0",
     "fabricjs-react": "^1.2.1",
-    "html2canvas": "^1.4.1",
+    "html-to-image": "^1.11.11",
     "postcss": "^8.4.31",
     "postcss-loader": "6",
     "prettier": "^2.8.8",

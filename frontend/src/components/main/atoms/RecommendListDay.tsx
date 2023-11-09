@@ -7,7 +7,7 @@ interface PropsType {
 const RecommendListDay: React.FC<PropsType> = ({ day }) => {
 
     return (
-        <div className="font-bold text-WebBody1">
+        <div className="font-bold text-WebBody2">
            { day }
         </div>
     )
