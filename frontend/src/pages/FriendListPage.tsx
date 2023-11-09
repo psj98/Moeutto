@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import FriendListTemplate from '../components/friend/templates/FriendListTemplate';
 /* {
 	"friendList": [
@@ -58,10 +59,12 @@ const fakeDortmundPlayers: FriendListType = {
 };
 
 const FrinedListPage = () => {
+  const [search, setSearch] = useState<string>('');
+
   return (
     <div>
       <div>친구목록 페이지</div>
-      <FriendListTemplate friendList={fakeDortmundPlayers.friendList} />
+      <FriendListTemplate friendList={fakeDortmundPlayers.friendList} setValue={setSearch} />
     </div>
   );
 };
