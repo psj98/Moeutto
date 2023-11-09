@@ -32,8 +32,6 @@ const ReportFrequencyPage = () => {
     mostCount = response.data.data.myMostFrequency[0].frequency;
     leastCount = response.data.data.myLeastFrequency[0].frequency;
 
-    console.log(response);
-
     const most: frequencyItem[] = response.data.data.myMostFrequency.map((row, index) => ({
       divColor: colorArray[index],
       clothesImage: row.imageUrl,
@@ -49,8 +47,6 @@ const ReportFrequencyPage = () => {
     setMyMostFrequency(most);
     setMyLeastFrequency(least);
 
-    console.log(myLeastFrequency);
-
     const axiosMostCategoryInstance = defaultInstance();
     const mostCategoryResponse = await axiosMostCategoryInstance.get(
       `/middle-categories/${response.data.data.myMostFrequency[0].middleCategoryId}`
@@ -63,8 +59,6 @@ const ReportFrequencyPage = () => {
 
     const mostCategory = mostCategoryResponse.data.data.name;
     const leastCategory = leastcategoryResponse.data.data.name;
-
-    console.log('가장 많은 카테고리 이름 : ', mostCategory);
 
     // 현재 코멘트는 중분류 카테고리 id 로만 코멘트 줌
     setMostFrequencyComment(`${mostCategory} 을/를 자주 입으시는 군요`);
@@ -80,7 +74,7 @@ const ReportFrequencyPage = () => {
 
   return (
     <>
-      {/* 인트로 분석 문구 , 닉네임 받아야함 */}
+      {/* 인트로 분석 문구 */}
       <IntroComment nickname={`${sessionStorage.getItem('nickname')}`} imageUrl="/images/report.png" />
 
       {/* 간단 분석 문구 */}

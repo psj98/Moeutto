@@ -24,6 +24,7 @@ import ReportSeasonPage from './pages/ReportSeasonPage';
 import ReportCostPage from './pages/ReportCostPage';
 import ReportVolumePage from './pages/ReportVolumePage';
 import ReportFrequencyPage from './pages/ReportFrequencyPage';
+import ReportUsabilityPage from './pages/ReportUsabilityPage';
 
 import MyPage from './pages/MyPage';
 
@@ -33,6 +34,8 @@ import LoginRedirectPage from './pages/LoginRedirectPage';
 
 import CalendarPage from './pages/CalendarPage';
 import CalendarPostPage from './pages/CalendarPostPage';
+
+import FrinedListPage from './pages/FriendListPage';
 
 // import rootReducer from './redux/rootReducer';
 import store from './redux/store';
@@ -51,15 +54,11 @@ root.render(
             <Route path="/" element={<Work />} />
             <Route path="/main" element={<MainPage />} />
             <Route path="/pickpick" element={<PickPickPage />} />
-            <Route path="/mycloset/*" element={<AddClothPage />} /> // 여러 라우팅을 매칭하고 싶은 경우 *가 필요합니다
+            <Route path="/analysis" element={<AnalysisPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/login-redirect" element={<LoginRedirectPage />}></Route>
             <Route path="/tutorial" element={<TutorialPage />}></Route>
             <Route path="/mycloset" element={<MyClosetPage />} />
-            <Route path="/analysis" element={<AnalysisPage />} />
-            {/* <Route path="/notmycloset" element={<NotMyCloset />} />
-              <Route path="/calendar" element={<Calendar />} />
-              <Route path="/mypage" element={<Mypage />} />  */}
             <Route path="/mycloset/detail/:id" element={<ClothesDetailPage />} /> // 라우팅 매칭 다시 해야됨 * 사용하기?
             <Route path="/mycloset/add-cloth" element={<AddClothPage />} />
             <Route path="/mycloset/report" element={<MyClosetReport />} />
@@ -68,9 +67,12 @@ root.render(
             <Route path="/mycloset/report/costs" element={<ReportCostPage />} />
             <Route path="/mycloset/report/volume" element={<ReportVolumePage />} />
             <Route path="/mycloset/report/frequency" element={<ReportFrequencyPage />} />
+            <Route path="/mycloset/report/usability" element={<ReportUsabilityPage />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/calendar/post" element={<CalendarPostPage />} />
+            <Route path="/notmycloset/friend" element={<FrinedListPage />} />
+            {/* <Route path="/notmycloset/friend/:id" element={} /> */}
             <Route path="*" element={<ErrorPage />} /> // 404 페이지 추가
           </Route>
         </Routes>
