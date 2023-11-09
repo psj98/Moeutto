@@ -34,7 +34,7 @@ import LoginRedirectPage from './pages/LoginRedirectPage';
 import CalendarPage from './pages/CalendarPage';
 import CalendarPostPage from './pages/CalendarPostPage';
 
-import FrinedListPage from './pages/FriendListPage';
+import FriendListPage from './pages/FriendListPage';
 
 // import rootReducer from './redux/rootReducer';
 import store from './redux/store';
@@ -53,11 +53,11 @@ root.render(
             <Route path="/" element={<Work />} />
             <Route path="/main" element={<MainPage />} />
             <Route path="/pickpick" element={<PickPickPage />} />
-            <Route path="/analysis" element={<AnalysisPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/login-redirect" element={<LoginRedirectPage />}></Route>
             <Route path="/tutorial" element={<TutorialPage />}></Route>
             <Route path="/mycloset" element={<MyClosetPage />} />
+            <Route path="/analysis" element={<AnalysisPage />} />
             <Route path="/mycloset/detail/:id" element={<ClothesDetailPage />} /> // 라우팅 매칭 다시 해야됨 * 사용하기?
             <Route path="/mycloset/add-cloth" element={<AddClothPage />} />
             <Route path="/mycloset/report" element={<MyClosetReport />} />
@@ -69,8 +69,8 @@ root.render(
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/calendar/post" element={<CalendarPostPage />} />
-            <Route path="/notmycloset/friend" element={<FrinedListPage />} />
-            {/* <Route path="/notmycloset/friend/:id" element={} /> */}
+            <Route path="/notmycloset/friend" element={<FriendListPage />} />
+            {/* <Route path="/notmycloset/friend/:id" element={<FriendListPage />} /> } // 친구 옷장 */}
             <Route path="*" element={<ErrorPage />} /> // 404 페이지 추가
           </Route>
         </Routes>

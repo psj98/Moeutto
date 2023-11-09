@@ -59,7 +59,7 @@ const fakeDortmundPlayers: FriendListType = {
   ],
 };
 
-const FrinedListPage = () => {
+const FriendListPage = () => {
   const [search, setSearch] = useState<string>('');
   const [data, setData] = useState<FriendListType[] | null>(null);
 
@@ -108,4 +108,4 @@ const FrinedListPage = () => {
   );
 };
 
-export default FrinedListPage;
+export default FriendListPage;
