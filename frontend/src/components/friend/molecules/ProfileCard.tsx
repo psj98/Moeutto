@@ -33,7 +33,7 @@ const ProfileCard = ({ nickname, email, profileImage, isFollowing }: FriendType)
 
   return (
     <ul>
-      <li className="py-3 sm:py-4 sm:px-3 border rounded-md m-3">
+      <li className="py-3 px-3 border rounded-md m-3">
         <div className="flex items-center space-x-4">
           <div className="flex-shrink-0">
             <img className="w-8 h-8 rounded-full object-cover" src={profileImage} alt="image" />
