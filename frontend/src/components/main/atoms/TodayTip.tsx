@@ -4,10 +4,7 @@ interface PropsType {
 
 const TodayTip = ({ content }: PropsType) => {
     return (
-        <div className="text-AppBody2 font-bold">
-            <span className="text-pink font-bold">TIP. </span>
-            {content}
-        </div>
+        <div className="text-AppBody2 font-bold">{content}</div>
     )
 }
 
