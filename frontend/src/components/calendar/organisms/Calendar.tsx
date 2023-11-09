@@ -14,6 +14,8 @@ import {
 } from 'date-fns';
 
 import { BiSolidLeftArrow, BiSolidRightArrow } from 'react-icons/bi';
+import { FaPlus } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 
 // 날짜 렌더링
@@ -27,6 +29,8 @@ const RenderCells = ({
     setClothesId,
     setIsLikedOutFit 
 }) => {
+
+    const navigate = useNavigate();
 
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(monthStart);
@@ -44,6 +48,11 @@ const RenderCells = ({
 
     // 내가 클릭한 날의 착장을 알고 싶음
     useEffect(() => {
+
+        // 발견하지 못한 경우 상태를 초기화 해서 상세페이지가 열리지 않게 합니다
+        setClothesId(0);
+        setIsLikedOutFit(5);
+
         // 내가 받은 리스트가 존재하고, 배열일 때
         if (CalendarDataList  && Array.isArray(CalendarDataList.myOutFit)) {
             // 반복문을 돌면서
@@ -73,9 +82,7 @@ const RenderCells = ({
 
             // 이모지
             let imgUrl: string = "";
-            // 착장
-            let clothesImgUrl: string = "";
-
+            
             // 오늘 날짜에 맞는 착장 이미지를 가져온다
             // 오늘 날짜에 맞는 이모지를 가져온다
             if (CalendarDataList  && Array.isArray(CalendarDataList.myOutFit)) {
@@ -84,7 +91,6 @@ const RenderCells = ({
                     // 오늘과 등록한 날이 같은 경우 그 날의 이모지 상태를 알 수 있음
                     if (outfit.regDate === todayDate) {
                         likeOutfit = outfit.likeOutfit;
-                        clothesImgUrl = outfit.imageUrl;
                     }
 
                 });
@@ -111,19 +117,20 @@ const RenderCells = ({
             } else if (isSameDay(day, selectedDate)) {
                 // 선택한 날짜
                 cellClass += 'selected';
-            }
+            } 
 
+            
+            
             // 배경색 다르게 주기
             let backgroundColor = '';
-
-                if (cellClass === 'selected') {
-                    backgroundColor = 'bg-pink text-white';
-                } else if (cellClass === 'disabled') {
-                    backgroundColor = 'bg-white';
-                } else {
-                    backgroundColor = 'bg-gray-button';
-                } 
-
+            
+            if (cellClass === 'selected') {
+                backgroundColor = 'bg-pink text-white';
+            } else if (cellClass === 'disabled') {
+                backgroundColor = 'bg-white';
+            } else {
+                backgroundColor = 'bg-gray-button';
+            } 
             
             days.push(
                 <div
@@ -151,12 +158,15 @@ const RenderCells = ({
                                 <img src={`${imgUrl}`} alt="sad" className='' />
                             </div>
                         )}
-                        <div>
-                            {selectedDate && (
 
-                                <img src={clothesImgUrl} alt="" />
-                            )}
-                        </div>
+                        {/* 오늘 날짜에 착장을 추가하지 않았을 경우 + 아이콘 출력 */}
+                        {!imgUrl && isSameDay(day, new Date()) && (
+                            <div className="absolute top-2 left-2 text-pink-hot hover:scale-105 cursor-pointer"
+                                onClick={() => navigate('/calendar/post') }
+                            >
+                                <FaPlus size={35} />
+                            </div>
+                        )}
                     </span>
                 </div>
             );
@@ -179,7 +189,7 @@ interface CalendarProps {
     setShowSelectedImg?: any;
     setClothesId?: any;
     setIsLikedOutFit?: any;
-
+    handleModalOpen?: any;
 }
 
 interface ClendarDataType {
@@ -195,7 +205,8 @@ const Calendar = ({
     state, 
     setShowSelectedImg,
     setClothesId,
-    setIsLikedOutFit
+    setIsLikedOutFit,
+    handleModalOpen
  }: CalendarProps) => {
     // 요일 구성
     const days = [];
@@ -221,6 +232,8 @@ const Calendar = ({
     };
     const onDateClick = (day) => {
         setSelectedDate(day);
+        // 날짜를 클릭하면 모달이 열립니다
+        handleModalOpen();
     };
     
     
@@ -267,9 +280,15 @@ const Calendar = ({
             {
                 "id" : 6, // 착장 id
                 "imageUrl" : "/images/clothes1.png", // 이미지
-                "likeOutfit" : 3, // 좋아요 여부
+                "likeOutfit" : null, // 좋아요 여부
                 "regDate": '2023-11-06', // 착장 등록 날짜
             },
+            // {
+            //     "id" : 6, // 착장 id
+            //     "imageUrl" : "/images/clothes1.png", // 이미지
+            //     "likeOutfit" : 3, // 좋아요 여부
+            //     "regDate": '2023-11-10', // 착장 등록 날짜
+            // },
         ],
     }
 
