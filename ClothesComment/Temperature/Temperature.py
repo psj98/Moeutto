@@ -1,4 +1,4 @@
-from .thickness_vo import Thickness
+from .thicknessDTO import Thickness
 
 # 모든 옷의 temperature를 고려한 따뜻한 정도 return
 def get_temperature(thickness : Thickness):

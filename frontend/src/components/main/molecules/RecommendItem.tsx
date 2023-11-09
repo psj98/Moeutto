@@ -33,7 +33,7 @@ const RecommendItem: React.FC<PropsType> = ({
             <RecommendListDay day={day} />
             <TodayDayWeather weather={weather} />
             <RecommendListTemp maxTemperature={maxTemperature} minTemperature={minTemperature} />
-            <div className="bg-white/30 rounded-2xl aspect-square -mb-4">
+            <div className="bg-white/30 rounded-2xl aspect-square">
                 <div className="flex justify-center h-auto">
                     {clothesArray1.map((item, index) => (
                         <RecommendListClothesItem 

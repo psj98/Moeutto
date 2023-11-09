@@ -208,8 +208,7 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
      */
     @Query(value = "SELECT c.color AS color, COUNT(*) AS amount FROM clothes c " +
             "WHERE c.member_id = ?1 " +
-            "GROUP BY c.color " +
-            "ORDER BY amount DESC ", nativeQuery = true)
+            "GROUP BY c.color", nativeQuery = true)
     List<IClothesAnalysisColor> findByColorMember(UUID memberId);
 
     /**
@@ -217,10 +216,8 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
      *
      * @return List<IClothesAnalysisColor>
      */
-    @Query(value = "SELECT c.color AS color, COUNT(*) AS amount " +
-            "FROM clothes c " +
-            "GROUP BY c.color " +
-            "ORDER BY amount DESC ", nativeQuery = true)
+    @Query(value = "SELECT c.color AS color, COUNT(*) AS amount FROM clothes c " +
+            "GROUP BY c.color", nativeQuery = true)
     List<IClothesAnalysisColor> findByColor();
 
     /**
@@ -284,7 +281,7 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
      * @param memberId
      * @return
      */
-    @Query(value = "SELECT ROUND(SUM(c.price)) FROM clothes c " + "WHERE c.member_id = ?1 ", nativeQuery = true)
+    @Query(value = "SELECT ROUND(SUM(price)) FROM Clothes " + "WHERE member_id = ?1 ", nativeQuery = true)
     Integer findPriceByMemberId(UUID memberId);
 
     /**
@@ -292,7 +289,7 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
      *
      * @return
      */
-    @Query(value = "SELECT SUM(c.price) / (SELECT COUNT(*) FROM member m) FROM clothes c ", nativeQuery = true)
+    @Query(value = "SELECT AVG(price) FROM Clothes", nativeQuery = true)
     Integer findAvgOfPrice();
 
     /**
@@ -331,10 +328,10 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
      * @param memberId
      * @return
      */
-    @Query(value = "SELECT COUNT(*) FROM clothes c " +
-            "WHERE c.recent_date >= NOW() - INTERVAL 3 MONTH AND c.recent_date <= NOW() " +
-            "AND c.frequency > 0 " +
-            "AND c.member_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT COUNT(*) FROM Clothes " +
+            "WHERE recent_date >= NOW() - INTERVAL 3 MONTH AND recent_date <= NOW() " +
+            "AND frequency > 0 " +
+            "AND member_id = ?1", nativeQuery = true)
     Long findRecentDateForNMonthByMemberId(UUID memberId);
 
     /**
@@ -361,7 +358,7 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
      * @param clothesId
      * @return Clothes
      */
-    @Query(value = "SELECT * FROM clothes c WHERE c.id = ?1 ", nativeQuery = true)
+    @Query(value = "SELECT * FROM clothes WHERE id = ?1", nativeQuery = true)
     Clothes findByClothesId(int clothesId);
 
     /**
