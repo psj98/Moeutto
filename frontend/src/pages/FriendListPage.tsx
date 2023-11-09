@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import FriendListTemplate from '../components/friend/templates/FriendListTemplate';
+import { authInstance } from '../api/api';
 /* {
 	"friendList": [
 		{
@@ -60,11 +61,49 @@ const fakeDortmundPlayers: FriendListType = {
 
 const FrinedListPage = () => {
   const [search, setSearch] = useState<string>('');
+  const [data, setData] = useState<FriendListType[] | null>(null);
+
+  useEffect(() => {
+    // 진입시 친구 처음 조회 api 날리기
+    const formData = new FormData();
+    const nickname = sessionStorage.getItem('nickname');
+
+    console.log(nickname);
+    formData.append('nickname', nickname);
+
+    const fetchData = async () => {
+      try {
+        // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
+        const axiosInstance = authInstance({ ContentType: 'application/json' });
+        const response = await axiosInstance.post('/definrs/follow', { nickname });
+
+        return response.data;
+      } catch (error) {
+        console.log(error);
+        throw new Error('나의 친구 목록 데이터 조회 실패');
+      }
+    };
+
+    fetchData().then(res => {
+      console.log(res);
+      console.log(data);
+      setData(res.friendsList);
+      console.log('친구 데이터', res.friendsList);
+    });
+  }, []);
+
+  useEffect(() => {
+    // api 날리기
+  }, [search]);
 
   return (
     <div>
       <div>친구목록 페이지</div>
-      <FriendListTemplate friendList={fakeDortmundPlayers.friendList} setValue={setSearch} />
+      {data === null ? (
+        <div className="text-center">친구가 없어요. 친구를 검색해서 추가해보세요</div>
+      ) : (
+        <FriendListTemplate friendList={fakeDortmundPlayers.friendList} setValue={setSearch} />
+      )}
     </div>
   );
 };
