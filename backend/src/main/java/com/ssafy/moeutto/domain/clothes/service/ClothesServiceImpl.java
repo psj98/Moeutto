@@ -8,6 +8,8 @@ import com.ssafy.moeutto.domain.clothes.entity.*;
 import com.ssafy.moeutto.domain.clothes.repository.ClothesRepository;
 import com.ssafy.moeutto.domain.guestBook.dto.response.GuestBookListResponseDto;
 import com.ssafy.moeutto.domain.guestBook.service.GuestBookService;
+import com.ssafy.moeutto.domain.largeCategory.entity.LargeCategory;
+import com.ssafy.moeutto.domain.largeCategory.repository.LargeCategoryRepository;
 import com.ssafy.moeutto.domain.member.entity.Member;
 import com.ssafy.moeutto.domain.member.repository.MemberRepository;
 import com.ssafy.moeutto.domain.middleCategory.entity.MiddleCategory;
@@ -33,6 +35,7 @@ public class ClothesServiceImpl implements ClothesService {
     private final ClothesRepository clothesRepository;
     private final MemberRepository memberRepository;
     private final MiddleCategoryRepository middleCategoryRepository;
+    private final LargeCategoryRepository largeCategoryRepository;
     private final S3Service s3Service;
     private final GuestBookService guestBookService;
 
@@ -589,10 +592,33 @@ public class ClothesServiceImpl implements ClothesService {
         // 최근 n개월 내 입은 옷 분석 - 대분류 카테고리 별 분석
         List<IClothesAnalysisAvailability> amountList = clothesRepository.findMyAnalysisAmountByMemberId(memberId);
 
+        int max = -1, min = 101;
+        String maxLargeCategoryId = "001", minLargeCategoryId = "001";
+        for (IClothesAnalysisAvailability iClothesAnalysisAvailability : amountList) {
+            if (iClothesAnalysisAvailability.getTotalAmount() == 0) {
+                continue;
+            }
+
+            if (max < iClothesAnalysisAvailability.getUsedAmount() * 100 / iClothesAnalysisAvailability.getTotalAmount()) {
+                max = iClothesAnalysisAvailability.getUsedAmount() * 100 / iClothesAnalysisAvailability.getTotalAmount();
+                maxLargeCategoryId = iClothesAnalysisAvailability.getLargeCategoryId();
+            }
+
+            if (min > iClothesAnalysisAvailability.getUsedAmount() * 100 / iClothesAnalysisAvailability.getTotalAmount()) {
+                min = iClothesAnalysisAvailability.getUsedAmount() * 100 / iClothesAnalysisAvailability.getTotalAmount();
+                minLargeCategoryId = iClothesAnalysisAvailability.getLargeCategoryId();
+            }
+        }
+
+        String maxLargeCategoryName = largeCategoryRepository.findById(maxLargeCategoryId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_LARGE_CATEGORY)).getName();
+        String minLargeCategoryName = largeCategoryRepository.findById(minLargeCategoryId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_LARGE_CATEGORY)).getName();
+
         ClothesAnalysisAvailabilityResponseDto responseDto = ClothesAnalysisAvailabilityResponseDto.builder()
                 .totalAmount(totalAmount)
                 .usedAmount(usedAmount)
                 .analysisAmountList(amountList)
+                .maxLargeCategoryName(maxLargeCategoryName)
+                .minLargeCategoryName(minLargeCategoryName)
                 .build();
 
         return responseDto;
