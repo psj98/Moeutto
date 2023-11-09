@@ -17,20 +17,51 @@ import { BiSolidLeftArrow, BiSolidRightArrow } from 'react-icons/bi';
 
 
 // 날짜 렌더링
-const RenderCells = ({ currentMonth, selectedDate, onDateClick, state, CalendarDataList }) => {
+const RenderCells = ({ 
+    currentMonth, 
+    selectedDate, 
+    onDateClick, 
+    state, 
+    CalendarDataList, 
+    setShowSelectedImg,
+    setClothesId,
+    setIsLikedOutFit 
+}) => {
+
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(monthStart);
     const startDate = startOfWeek(monthStart);
     const endDate = endOfWeek(monthEnd);
-    // const today = new Date(); // 현재 날짜 가져오기
-
     const rows = [];
     let days = [];
     let day = startDate;
     let formattedDate = '';
 
-    console.log('나의 달력 데이터', CalendarDataList);
+    useEffect(() => {
+        console.log('지금 선택한 날짜', format(selectedDate, 'yyyy-MM-dd'));
+    }, [selectedDate])
 
+
+    // 내가 클릭한 날의 착장을 알고 싶음
+    useEffect(() => {
+        // 내가 받은 리스트가 존재하고, 배열일 때
+        if (CalendarDataList  && Array.isArray(CalendarDataList.myOutFit)) {
+            // 반복문을 돌면서
+            CalendarDataList.myOutFit.forEach(outfit => {
+                // 만약에 선택한 날과 같은 값을 발견한다면
+                if (format(selectedDate, 'yyyy-MM-dd') === outfit.regDate) {
+                    // 이미지 상태를 업데이트 합니다
+                    setShowSelectedImg(outfit.imageUrl);
+                    // 착장의 id 상태를 업데이트 합니다
+                    setClothesId(outfit.id);
+                    // 착장의 평가 여부 및 평가 단계를 업데이트 합니다
+                    setIsLikedOutFit(outfit.likeOutfit);
+                }
+            });
+        }
+    }, [selectedDate])    
+
+    // 마지막 날까지 돌면서 달력의 날짜를 완성시킵니다
     while (day <= endDate) {
         for (let i = 0; i < 7; i++) {
             // 달력에 표시할 날짜 형식
@@ -49,13 +80,17 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick, state, CalendarD
             // 오늘 날짜에 맞는 이모지를 가져온다
             if (CalendarDataList  && Array.isArray(CalendarDataList.myOutFit)) {
                 CalendarDataList.myOutFit.forEach(outfit => {
+
+                    // 오늘과 등록한 날이 같은 경우 그 날의 이모지 상태를 알 수 있음
                     if (outfit.regDate === todayDate) {
                         likeOutfit = outfit.likeOutfit;
                         clothesImgUrl = outfit.imageUrl;
                     }
+
                 });
             }
 
+            // 상태에 따른 착장 평가 이모지
             if (likeOutfit === 1) {
                 imgUrl = "/images/report-sad.png";
             } else if (likeOutfit === 2) {
@@ -65,10 +100,8 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick, state, CalendarD
             }
 
 
-            // 상태에 따라 표시할 이모지 변경하기
-
             const cloneDay = day;
-            const key = format(day, 'yyyyMMdd'); // Convert the Date to a string format to be used as a key
+            const key = format(day, 'yyyyMMdd'); 
 
             let cellClass = '';
 
@@ -85,12 +118,12 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick, state, CalendarD
 
                 if (cellClass === 'selected') {
                     backgroundColor = 'bg-pink text-white';
-                    console.log('지금 선택한 날짜는: ', selectedDate, clothesImgUrl);
                 } else if (cellClass === 'disabled') {
                     backgroundColor = 'bg-white';
                 } else {
                     backgroundColor = 'bg-gray-button';
                 } 
+
             
             days.push(
                 <div
@@ -143,6 +176,10 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick, state, CalendarD
 
 interface CalendarProps {
     state?: number;
+    setShowSelectedImg?: any;
+    setClothesId?: any;
+    setIsLikedOutFit?: any;
+
 }
 
 interface ClendarDataType {
@@ -154,7 +191,12 @@ interface ClendarDataType {
     }[];
 }
 
-const Calendar = ({ state }: CalendarProps) => {
+const Calendar = ({ 
+    state, 
+    setShowSelectedImg,
+    setClothesId,
+    setIsLikedOutFit
+ }: CalendarProps) => {
     // 요일 구성
     const days = [];
     const date = ['일', '월', '화', '수', '목', '금', '토'];
@@ -180,23 +222,13 @@ const Calendar = ({ state }: CalendarProps) => {
     const onDateClick = (day) => {
         setSelectedDate(day);
     };
-
-    // YYYY-MM-DD 형식 맞춰주기
-    const year = currentMonth.getFullYear();
-    const month = (currentMonth.getMonth() + 1).toString().padStart(2, '0'); // 0부터 시작해서 2자리 숫자로 변환
-    const day = currentMonth.getDate().toString().padStart(2, '0');
-
-    // request 에 이 날짜를 담으면 된다
-    const [formattedDate, setFormattedDate] = useState<string>("");
-
+    
     
     // 날짜에 어떤 옷과 좋아요가 등록되어 있는지 리스트 불러오기 list값에 저장한 뒤 날짜 컴포넌트에 뿌려주자
-    // 1. request에 curDate를 담아서 보내자
+    // 1. request에 curDate를 담아서 보내자 (이건 오늘 보내야함)
     useEffect(() => {
-        setFormattedDate(`${year}-${month}-${day}`);
-        console.log('지금 선택한 날짜는? : 2023-11-11 형식으로 ..', formattedDate);
-    }, [formattedDate])
-
+        console.log('*************************', format(selectedDate, 'yyyy-MM-dd'));
+    }, [selectedDate])
 
     // 가상의 데이터
     const CalendarDataList: ClendarDataType = 
@@ -246,7 +278,6 @@ const Calendar = ({ state }: CalendarProps) => {
         <>
             <div className="pb-4">
                 <div className='absolute -top-6 left-1/2 transform -translate-x-1/2'>
-
                 {/* 헤더 월, 달 이동 */}
                 <div className="">
                     <div className="flex gap-4">
@@ -271,9 +302,10 @@ const Calendar = ({ state }: CalendarProps) => {
                     onDateClick={onDateClick}
                     state={state}
                     CalendarDataList={CalendarDataList}
+                    setShowSelectedImg={setShowSelectedImg}
+                    setClothesId={setClothesId}
+                    setIsLikedOutFit={setIsLikedOutFit}
                 />
-                <div>지금 내가 클릭한 날짜는 {formattedDate}</div>
-                <div>그 날짜에 해당하는 옷은?</div>
             </div>
         </>
     );
