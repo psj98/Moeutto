@@ -23,16 +23,14 @@
 - 이 경우 텍스트 임베딩이나 유사도 검색 사용 
 
 
-- 의류 추천   
-  - 규칙 기반 
-    - 빠른 응답속도
-    - 제어 가능한 코멘트
-  - AI
-    - 다양한 지시문 생성 가능
-    - 
+- 의류 추천 _ AI < 규칙 기반 
+  - 훨씬 빠르고 수정이 용이한 방식이라고 생각
+  - 변수가 많지 않고 명시적이기 때문에 더 적합
+
 ### 점수 
 - def calculate_total_score(thickness, min_temp, max_temp, season):
 - return : total score 
 
 ### 결론
-- LLM 사용 
+- LLM 사용 (api or sagemaker)
+- 스크립트 미리 작성 (text embedding , 유사도 검색)

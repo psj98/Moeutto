@@ -13,8 +13,11 @@ public class CalendarResponseDto {
 
     @NotNull
     private Integer id;
+    @NotNull
     private String imageUrl;
+    @NotNull
     private Integer likeOutfit;
+    @NotNull
     private Date regDate;
 
     @Builder(toBuilder = true)

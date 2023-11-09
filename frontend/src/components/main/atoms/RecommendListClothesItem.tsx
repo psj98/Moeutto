@@ -18,7 +18,7 @@ const RecommendListClothesItem: React.FC<RecommendListClothesItemPropsType> = ({
         <img 
             src={`${imgUrl}`} 
             alt="옷 이미지" 
-            className="w-1/3 h-1/3 max-w-[80px] min-w-[70px] hover:cursor-pointer hover:scale-105 rounded-xl p-1" 
+            className="w-1/3 h-1/3 max-w-[70px] min-w-[50px] hover:cursor-pointer hover:scale-105 rounded-xl p-1" 
             onClick={() => navigate(`/mycloset/detail/${clothesId}`)}
         />
     )

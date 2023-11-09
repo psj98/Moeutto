@@ -36,13 +36,13 @@ const RecommendList: React.FC<PropsType> = ({ clothesListData, weatherListData }
 
   return (
     <>
-      <div className="flex overflow-x-auto gap-3 pt-4">
+      <div className="flex gap-3">
         {combinedList !== null &&
           combinedList?.map((item, index) => (
             <div
-              className={`flex flex-col items-center border w-1/2 h-1/2 rounded-[35px] shadow-md pb-0 ${
-                index === 0 ? 'bg-pink' : 'bg-[#E2E2E2]'
-              } pb-4 min-w-[200px] max-w-[200px]`}>
+              className={`flex flex-col items-center border w-1/3 h-1/2 rounded-2xl shadow-md pb-0 ${
+                index === 0 ? 'bg-pink' : 'border-gray'
+              } pb-4 min-w-[150px] max-w-[170px]`}>
               {index === 0 && <TodayBox />}
               <div style={{ marginTop: index === 0 ? '-5px' : '28px' }}>
                 <RecommendItem
