@@ -23,6 +23,7 @@ import ReportColorPage from './pages/ReportColorPage';
 import ReportSeasonPage from './pages/ReportSeasonPage';
 import ReportCostPage from './pages/ReportCostPage';
 import ReportVolumePage from './pages/ReportVolumePage';
+import ReportFrequencyPage from './pages/ReportFrequencyPage';
 
 import MyPage from './pages/MyPage';
 
@@ -32,8 +33,12 @@ import LoginRedirectPage from './pages/LoginRedirectPage';
 
 import CalendarPage from './pages/CalendarPage';
 import CalendarPostPage from './pages/CalendarPostPage';
+
+import FrinedListPage from './pages/FriendListPage';
+
 // import rootReducer from './redux/rootReducer';
 import store from './redux/store';
+import TutorialPage from './pages/TutorialPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 const queryClient = new QueryClient();
@@ -51,6 +56,7 @@ root.render(
             <Route path="/mycloset/*" element={<AddClothPage />} /> // 여러 라우팅을 매칭하고 싶은 경우 *가 필요합니다
             <Route path="/login" element={<LoginPage />} />
             <Route path="/login-redirect" element={<LoginRedirectPage />}></Route>
+            <Route path="/tutorial" element={<TutorialPage />}></Route>
             <Route path="/mycloset" element={<MyClosetPage />} />
             <Route path="/analysis" element={<AnalysisPage />} />
             {/* <Route path="/notmycloset" element={<NotMyCloset />} />
@@ -63,6 +69,7 @@ root.render(
             <Route path="/mycloset/report/season" element={<ReportSeasonPage />} />
             <Route path="/mycloset/report/costs" element={<ReportCostPage />} />
             <Route path="/mycloset/report/volume" element={<ReportVolumePage />} />
+            <Route path="/mycloset/report/frequency" element={<ReportFrequencyPage />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/calendar/post" element={<CalendarPostPage />} />
