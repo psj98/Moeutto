@@ -38,7 +38,7 @@ function ReportColorPage() {
       <div className="font-bold text-pink text-WebBody1">My Closet page</div>
 
       {/* 인트로 분석 문구 , 닉네임 받아야함*/}
-      <IntroComment nickname="모드리치" imageUrl="/images/report.png" />
+      <IntroComment nickname={`${sessionStorage.getItem('nickname')}`} imageUrl="/images/report.png" />
 
       {/* 간단 분석 문구 */}
       <ShortReportComment
