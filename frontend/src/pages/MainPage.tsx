@@ -281,7 +281,7 @@ const MainPage = () => {
               <img src="/images/camera3D.png" alt="camera" className='w-1/3 absolute -top-6 right-0' />
             </div>
             <div className='flex justify-center items-center mt-6 border rounded-2xl shadow-md border-pink border-2 p-4 shadow-md relative'>
-              <Calendar />
+              <Calendar state={1} />
             </div>
 
           </div>

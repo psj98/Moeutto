@@ -38,20 +38,34 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick, state, CalendarD
             
             // 그 날짜에 어떤 이모지가 달릴지 결정할 날짜 형식
             const todayDate = format(day, 'yyyy-MM-dd');
+            let likeOutfit: number = 0;
 
-            // 오늘 날짜에 맞는 이미지를 가져온다
+            // 이모지
+            let imgUrl: string = "";
+            // 착장
+            let clothesImgUrl: string = "";
+
+            // 오늘 날짜에 맞는 착장 이미지를 가져온다
+            // 오늘 날짜에 맞는 이모지를 가져온다
             if (CalendarDataList  && Array.isArray(CalendarDataList.myOutFit)) {
                 CalendarDataList.myOutFit.forEach(outfit => {
                     if (outfit.regDate === todayDate) {
-                        const likeOutfit = outfit.likeOutfit;
-
-                        console.log(todayDate, '의 상태는', likeOutfit);
+                        likeOutfit = outfit.likeOutfit;
+                        clothesImgUrl = outfit.imageUrl;
                     }
                 });
             }
 
-            // 상태에 따라 표시할 이모지 변경하기
+            if (likeOutfit === 1) {
+                imgUrl = "/images/report-sad.png";
+            } else if (likeOutfit === 2) {
+                imgUrl = "/images/report-happy.png";
+            } else if (likeOutfit === 3) {
+                imgUrl = "/images/pig.png";
+            }
 
+
+            // 상태에 따라 표시할 이모지 변경하기
 
             const cloneDay = day;
             const key = format(day, 'yyyyMMdd'); // Convert the Date to a string format to be used as a key
@@ -71,11 +85,9 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick, state, CalendarD
 
                 if (cellClass === 'selected') {
                     backgroundColor = 'bg-pink text-white';
-                    console.log('지금 선택한 날짜는: ', selectedDate);
+                    console.log('지금 선택한 날짜는: ', selectedDate, clothesImgUrl);
                 } else if (cellClass === 'disabled') {
                     backgroundColor = 'bg-white';
-                // } else if (cellClass === 'today') {
-                //     backgroundColor = 'border-2 border-pink-hot'
                 } else {
                     backgroundColor = 'bg-gray-button';
                 } 
@@ -83,7 +95,7 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick, state, CalendarD
             days.push(
                 <div
                     className={`
-                    ${state === 1 ? 'w-[42px] h-[42px]' : 'w-[50px] h-[50px]'}
+                    ${state === 1 ? 'w-[40px] h-[40px]' : 'w-[50px] h-[50px]'}
                     min-w-[42px] min-h-[42px] bg-gray-button rounded-lg p-1 pt-0 shadow-md ${backgroundColor} relative`}
                     key={key} 
                     onClick={() => onDateClick(parse(format(cloneDay, 'yyyy-MM-dd'), 'yyyy-MM-dd', new Date()))}
@@ -101,6 +113,17 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick, state, CalendarD
                         {formattedDate}
 
                         {/* 날짜 조건에 맞는 이모지 출력 */}
+                        {imgUrl && (
+                            <div className='absolute top-0'>
+                                <img src={`${imgUrl}`} alt="sad" className='' />
+                            </div>
+                        )}
+                        <div>
+                            {selectedDate && (
+
+                                <img src={clothesImgUrl} alt="" />
+                            )}
+                        </div>
                     </span>
                 </div>
             );
@@ -164,11 +187,13 @@ const Calendar = ({ state }: CalendarProps) => {
     const day = currentMonth.getDate().toString().padStart(2, '0');
 
     // request 에 이 날짜를 담으면 된다
-    const formattedDate = `${year}-${month}-${day}`;
+    const [formattedDate, setFormattedDate] = useState<string>("");
 
+    
     // 날짜에 어떤 옷과 좋아요가 등록되어 있는지 리스트 불러오기 list값에 저장한 뒤 날짜 컴포넌트에 뿌려주자
     // 1. request에 curDate를 담아서 보내자
     useEffect(() => {
+        setFormattedDate(`${year}-${month}-${day}`);
         console.log('지금 선택한 날짜는? : 2023-11-11 형식으로 ..', formattedDate);
     }, [formattedDate])
 
@@ -185,13 +210,13 @@ const Calendar = ({ state }: CalendarProps) => {
             },
             {
                 "id" : 2, // 착장 id
-                "imageUrl" : "/images/clothes1.png", // 이미지
+                "imageUrl" : "/images/clothes2.png", // 이미지
                 "likeOutfit" : 2, // 좋아요 여부
                 "regDate": '2023-11-02', // 착장 등록 날짜
             },
             {
                 "id" : 3, // 착장 id
-                "imageUrl" : "/images/clothes1.png", // 이미지
+                "imageUrl" : "/images/clothes3.png", // 이미지
                 "likeOutfit" : 3, // 좋아요 여부
                 "regDate": '2023-11-03', // 착장 등록 날짜
             },
@@ -247,6 +272,8 @@ const Calendar = ({ state }: CalendarProps) => {
                     state={state}
                     CalendarDataList={CalendarDataList}
                 />
+                <div>지금 내가 클릭한 날짜는 {formattedDate}</div>
+                <div>그 날짜에 해당하는 옷은?</div>
             </div>
         </>
     );
