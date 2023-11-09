@@ -52,7 +52,7 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
     const monthEnd = endOfMonth(monthStart);
     const startDate = startOfWeek(monthStart);
     const endDate = endOfWeek(monthEnd);
-    const today = new Date(); // 현재 날짜 가져오기
+    // const today = new Date(); // 현재 날짜 가져오기
 
     const rows = [];
     let days = [];
@@ -75,19 +75,20 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
                 cellClass += 'selected';
             }
 
-            if (isSameDay(day, today)) { // 오늘 날짜인 경우
-                cellClass += 'today';
-            }
+            // if (isSameDay(day, today)) { // 오늘 날짜인 경우
+            //     cellClass += 'today';
+            // }
 
             // 배경색 다르게 주기
             let backgroundColor = '';
 
                 if (cellClass === 'selected') {
-                    backgroundColor = 'bg-[#FAA0BF]';
+                    backgroundColor = 'bg-pink text-white';
+                    console.log('지금 선택한 날짜는: ', selectedDate);
                 } else if (cellClass === 'disabled') {
                     backgroundColor = 'bg-white';
-                } else if (cellClass === 'today') {
-                    backgroundColor = 'border-2 border-pink-hot'
+                // } else if (cellClass === 'today') {
+                //     backgroundColor = 'border-2 border-pink-hot'
                 } else {
                     backgroundColor = 'bg-gray-button';
                 } 
