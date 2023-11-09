@@ -89,7 +89,7 @@ public class MemberController {
      * @return MemberMyPageResponseDto
      */
     @ResponseBody
-    @PostMapping("my-page")
+    @GetMapping("my-page")
     public BaseResponse<Object> myPageInfo(@RequestHeader(value = "accessToken", required = false) String token){
         try {
             return baseResponseService.getSuccessResponse(memberService.giveMypageInfo(token));

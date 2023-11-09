@@ -35,6 +35,8 @@ public class MemberServiceImpl implements MemberService {
                 .accountFind(member.isAccountFind())
                 .build();
 
+        System.out.println(memberMyPageResponseDto);
+
         return memberMyPageResponseDto;
     }
 
