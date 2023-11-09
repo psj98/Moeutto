@@ -35,6 +35,7 @@ import CalendarPage from './pages/CalendarPage';
 import CalendarPostPage from './pages/CalendarPostPage';
 
 import FrinedListPage from './pages/FriendListPage';
+import FriendClosetPage from './pages/FriendClosetPage';
 
 // import rootReducer from './redux/rootReducer';
 import store from './redux/store';
@@ -70,7 +71,7 @@ root.render(
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/calendar/post" element={<CalendarPostPage />} />
             <Route path="/notmycloset/friend" element={<FrinedListPage />} />
-            {/* <Route path="/notmycloset/friend/:id" element={} /> */}
+            <Route path="/notmycloset/friend/:id" element={<FriendClosetPage />} />
             <Route path="*" element={<ErrorPage />} /> // 404 페이지 추가
           </Route>
         </Routes>
