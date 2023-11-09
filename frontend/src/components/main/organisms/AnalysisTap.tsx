@@ -3,11 +3,13 @@ import MainComment from '../atoms/MainComment';
 import AnalysisCardTap from '../molecules/AnalysisCardTap';
 
 const AnalysisTap = () => {
+  const userName: string = `${sessionStorage.getItem('nickname')}`;
+
   return (
     <>
       <div className="mt-6 mb-4">
         <div className="mb-4 bg-[#FFD8E5] p-4 rounded-2xl shadow-md">
-          <MainComment title={`${sessionStorage.getItem('nickname')}님의 \n옷장을 분석해봤어요`} />
+          <MainComment title={`${userName}님의 \n옷장을 분석해봤어요`} />
         </div>
         {/* <AnalysisCategoryMolecules /> */}
         <AnalysisCardTap
