@@ -98,6 +98,8 @@ public class MemberLoginServiceImpl implements MemberLoginService {
         String requestURL = "https://kauth.kakao.com/oauth/token";
 
         try {
+            System.out.println("redirectURL : "+redirectURL);
+
             URL url = new URL(requestURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
