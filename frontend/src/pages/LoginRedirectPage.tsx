@@ -34,6 +34,7 @@ const LoginRedirectPage = () => {
         if (accessToken) {
           // 성공적으로 로그인되었다면, 메인 페이지로 리다이렉트합니다.
           sessionStorage.setItem('kakaoAccessToken', kakaoAccessToken); // accessToken을 세션 스토리지에 저장합니다.
+          sessionStorage.setItem('accessToken', accessToken);
           sessionStorage.setItem('nickname', memberNickname);
           navigate('/tutorial'); // 사용자를 메인 페이지로 리다이렉트합니다.
         }
