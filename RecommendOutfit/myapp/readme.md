@@ -1,9 +1,10 @@
 
 # 실행
+cmd - myapp 디렉토리에서
 ```bash
-go build -o myapp
-./myapp
+go run main.go
 ```
+명령어 실행
 
 ## 특이사항
 ### Response
