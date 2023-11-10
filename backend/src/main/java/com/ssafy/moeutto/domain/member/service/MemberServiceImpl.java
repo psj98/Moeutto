@@ -21,6 +21,22 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final AuthTokensGenerator authTokensGenerator;
 
+    /**
+     * 솔이가 요청한 닉네임 검색 API 입니다.
+     * @param email
+     * @return
+     * @throws BaseException
+     */
+    @Override
+    public String findNicknameForSol(String email) throws BaseException {
+
+        Member friends = memberRepository.findByEmail(email).orElseThrow(()-> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+        log.info("friends" + friends.toString());
+        String nickname = friends.getNickname();
+
+        return nickname;
+    }
+
     @Override
     public MemberMyPageResponseDto giveMypageInfo(String token) throws BaseException {
 
