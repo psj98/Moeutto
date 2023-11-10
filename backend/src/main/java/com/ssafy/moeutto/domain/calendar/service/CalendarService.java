@@ -13,7 +13,7 @@ public interface CalendarService {
 
     void registMyOutfit(UUID memberId, String token, MultipartFile file) throws BaseException;
 
-    CalendarListResponseDto getCalendarList(UUID memberId, Date regDate) throws BaseException;
+    CalendarListResponseDto getCalendarList(UUID memberId, String regDate) throws BaseException;
 
     void deleteCalendar(UUID memberId, Integer id) throws BaseException;
 

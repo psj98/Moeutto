@@ -4,6 +4,7 @@ import com.ssafy.moeutto.domain.member.auth.AuthTokens;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
 import com.ssafy.moeutto.domain.member.dto.request.MemberUpdateMyInfoRequestDto;
 import com.ssafy.moeutto.domain.member.entity.Member;
+import com.ssafy.moeutto.domain.member.dto.request.FindNicknameRequestDto;
 import com.ssafy.moeutto.domain.member.service.MemberLoginService;
 import com.ssafy.moeutto.domain.member.service.MemberService;
 import com.ssafy.moeutto.domain.member.service.OAuthLoginService;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -71,6 +73,7 @@ public class MemberController {
 
         String email = userInfo.get("email").toString();
         String nickname = userInfo.get("nickname").toString();
+        userInfo.put("kakaoAccessToken", accessToken);
 
         AuthTokens tokens = oAuthLoginService.login(email, nickname);
 
@@ -80,6 +83,27 @@ public class MemberController {
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(userInfo);
+
+    }
+
+
+    /**
+     * 솔이가 요청한 친구 옷장 보기에서의 닉네임 반환해주는 메서드입니다.
+     * @param requestDto
+     * @return
+     */
+
+    @PostMapping("/find-nickname")
+    public BaseResponse<Object> findNicknameForSol(@RequestBody FindNicknameRequestDto requestDto){
+
+        try{
+
+            log.info("1234"+ requestDto.getEmail());
+            String nickname = memberService.findNicknameForSol(requestDto.getEmail());
+            return baseResponseService.getSuccessResponse(nickname);
+        }catch(BaseException e){
+            return baseResponseService.getFailureResponse(e.status);
+        }
 
     }
 
