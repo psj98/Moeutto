@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import ScrollReveal from 'scrollreveal';
 
 import { selectCloset } from '../../../redux/features/closet/selectClosetSlice';
@@ -13,7 +12,7 @@ interface ItemPropsType {
 
 const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId }) => {
   const dispatch = useDispatch();
-  const { pathname } = useLocation();
+  const pathname = window.location.href;
 
   ScrollReveal().reveal('.clothes');
 
@@ -22,7 +21,6 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId }) => 
   const handleClick = e => {
     setIsSelected(!isSelected);
     dispatch(selectCloset(e.target.id));
-    console.log(e.target.id);
   };
   // calendar post 페이지에서 사용되는 함수입니다
   const handlePostCalendar = e => {
@@ -36,9 +34,9 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId }) => 
         id={clothesId}
         alt="옷"
         className={`clothes w-[13vw] h-[13vw] border border-gray rounded-3xl ${
-          isSelected ? 'bg-gray-300 border-pink-hot' : ''
+          isSelected ? 'bg-gray-300 border-pink-hot border-2' : ''
         }`}
-        onClick={pathname === '/pickpick' ? handleClick : handlePostCalendar}
+        onClick={pathname === '/calendar/post' ? handlePostCalendar : handleClick}
       />
     </>
   );
