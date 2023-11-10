@@ -23,7 +23,7 @@ public class MemberLoginServiceImpl implements MemberLoginService {
     @Value("${kakao.secret}")
     private String secret;
 
-    @Value("${local.kakao.redirect.url}")
+    @Value("${kakao.redirect.url}")
     private String redirectURL;
 
     @Override
