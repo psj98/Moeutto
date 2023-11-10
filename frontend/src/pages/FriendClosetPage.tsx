@@ -117,6 +117,7 @@ const FriendClosetPage = () => {
 
       if (response.data.data) {
         setClothesData(response.data.data.clothesListResponseDto);
+        setGuestbookAll(response.data.data.guestBookListResponseDto);
       } else {
         setClothesData([]);
       }
@@ -147,27 +148,28 @@ const FriendClosetPage = () => {
     }
   };
 
-  const getGuestbook = async () => {
-    try {
-      // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
+  // const getGuestbook = async () => {
+  //   try {
+  //     // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
 
-      const axiosInstance = authInstance({ ContentType: 'application/json' });
-      const response = await axiosInstance.get('/guestbooks');
+  //     const axiosInstance = authInstance({ ContentType: 'application/json' });
+  //     const response = await axiosInstance.get('/guestbooks');
 
-      if (response.data) {
-        console.log(response.data.data);
-        setGuestbookAll(response.data.data);
-      } else {
-        setClothesData([]);
-      }
-    } catch (error) {
-      throw new Error('게스트북 전체 조회 실패');
-    }
-    return true;
-  };
+  //     if (response.data) {
+  //       console.log(response.data.data);
+  //       setGuestbookAll(response.data.data);
+  //     } else {
+  //       setClothesData([]);
+  //     }
+  //   } catch (error) {
+  //     throw new Error('게스트북 전체 조회 실패');
+  //   }
+  //   return true;
+  // };
 
   useEffect(() => {
-    getGuestbook();
+    setGuestbookAll([]);
+    // getGuestbook();
     console.log('useEffect', guestbookAll);
   }, []);
 
@@ -193,7 +195,7 @@ const FriendClosetPage = () => {
     };
 
     postData().then(() => {
-      getGuestbook();
+      fetchData();
     });
   };
 
