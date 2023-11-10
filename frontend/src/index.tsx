@@ -9,7 +9,6 @@ import { Provider } from 'react-redux';
 
 import './index.css';
 import AddClothPage from './pages/AddClothPage';
-import Work from './pages/Work';
 import App from './App';
 
 import MainPage from './pages/MainPage';
@@ -51,7 +50,7 @@ root.render(
         <Routes>
           // v6부터 Switch가 Routes로 변경되었음
           <Route element={<App />}>
-            <Route path="/" element={<Work />} />
+            <Route path="/" element={<LoginPage />} />
             <Route path="/main" element={<MainPage />} />
             <Route path="/pickpick" element={<PickPickPage />} />
             <Route path="/analysis" element={<AnalysisPage />} />
