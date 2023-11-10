@@ -47,11 +47,9 @@ const CalendarPage = () => {
 
     // 제출하기
     const onHandleSubmitScore = (number: number): void => {
-      // 첫번째에 바로 제출하는 경우
-      if (number === 1) {
-        setIsOpenedScoreModal(!isOpenedScoreModal);
-      } else {
-        setIsOpenedScoreModal(false);
+      setIsOpenedScoreModal(!isOpenedScoreModal);
+      // 싫어요 누른 경우
+      if (number === 2) {
         setIsColdModal(false);
       }
     }
