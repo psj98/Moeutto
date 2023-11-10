@@ -26,7 +26,7 @@ function ReportColorPage() {
 
     setMyAnalysisColor(response.data.data.myAnalysisColor);
     setOtherAnalysisColor(response.data.data.userAnalysisColor);
-    setShortReportComment(myAnalysisColor.length >= 7 ? '무지개 인간인가요?' : '무채색 인간인가요?');
+    setShortReportComment(response.data.data.myAnalysisColor.length >= 7 ? '무지개 인간인가요?' : '무채색 인간인가요?');
   };
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function ReportColorPage() {
     <div className="myCloset">
       <div className="font-bold text-pink text-WebBody1">My Closet page</div>
 
-      {/* 인트로 분석 문구 , 닉네임 받아야함*/}
+      {/* 인트로 분석 문구 */}
       <IntroComment nickname={`${sessionStorage.getItem('nickname')}`} imageUrl="/images/report.png" />
 
       {/* 간단 분석 문구 */}
