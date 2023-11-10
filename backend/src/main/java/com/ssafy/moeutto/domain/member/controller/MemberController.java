@@ -92,13 +92,12 @@ public class MemberController {
      */
 
     @PostMapping("find-nickname")
-    public BaseResponse<Object> findNicknameForSol(@RequestHeader(value = "accessToken") String token, FindNicknameRequestDto requestDto){
+    public BaseResponse<Object> findNicknameForSol(FindNicknameRequestDto requestDto){
 
         try{
 
-            UUID memberId = authTokensGenerator.extractMemberId(token);
 
-            String nickname = memberService.findNicknameForSol(memberId, requestDto.getEmail());
+            String nickname = memberService.findNicknameForSol(requestDto.getEmail());
             return baseResponseService.getSuccessResponse(nickname);
         }catch(BaseException e){
             return baseResponseService.getFailureResponse(e.status);

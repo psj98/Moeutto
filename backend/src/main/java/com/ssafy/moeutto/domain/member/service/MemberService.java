@@ -5,5 +5,5 @@ import com.ssafy.moeutto.global.response.BaseException;
 import java.util.UUID;
 
 public interface MemberService {
-    String findNicknameForSol(UUID memberId, String email) throws BaseException;
+    String findNicknameForSol(String email) throws BaseException;
 }
