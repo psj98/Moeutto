@@ -2,12 +2,13 @@ package models
 
 // Clothes 구조체는 개별 옷에 대한 정보를 담습니다.
 type Clothes struct {
-	ClothesId int    `json:"clothesId"`
-	Season    string `json:"season"`
-	Color     string `json:"color"`
-	Thickness int    `json:"thickness"`
-	Textile   string `json:"textile"`
-	Frequency int    `json:"frequency"`
+	ClothesId  int    `json:"clothesId"`
+	Season     string `json:"season"`
+	Color      string `json:"color"`
+	Thickness  int    `json:"thickness"`
+	Textile    string `json:"textile"`
+	Frequency  int    `json:"frequency"`
+	RecentDate string `json:"recentDate"` // 최근 착용 날짜
 }
 
 // ClothesList 구조체는 옷의 카테고리별로 그룹화된 리스트를 담습니다.
@@ -32,26 +33,13 @@ type RequestData struct {
 	WeatherInfo []WeatherInfo `json:"weatherInfo"` // 3일간의 날씨 정보를 담는 배열
 }
 
-// DayRecommendation 구조체는 하루에 대한 옷 추천 정보를 담습니다.
-type DayRecommendation struct {
-	Date   string  `json:"date"`
-	Outer  Clothes `json:"outer"`
-	Top    Clothes `json:"top"`
-	Bottom Clothes `json:"bottom"`
-	Item   Clothes `json:"item"`
-}
-
-// WeeklyRecommendation 구조체는 3일간의 옷 추천 정보를 담습니다.
-type WeeklyRecommendation struct {
-	Recommendations []DayRecommendation `json:"recommendations"`
+// AIRecommendation 구조체는 하루에 대한 옷 추천 정보를 담습니다.
+type AIRecommendation struct {
+	ClothesId []int  `json:"clothesId"` // 순서대로 outer, top, bottom, item에 해당
+	RecDate   string `json:"recDate"`   // 추천 날짜
 }
 
 // ResponseData 구조체는 클라이언트에게 보낼 응답 데이터를 나타냅니다.
 type ResponseData struct {
-	Recommendations WeeklyRecommendation `json:"aiRecommend"`
-}
-
-type AIRecommendation struct {
-	ClothesId []int  `json:"clothesId"` // 순서대로 outer, top, bottom, item에 해당
-	RecDate   string `json:"recDate"`   // 추천 날짜
+	AIRecommend []AIRecommendation `json:"aiRecommend"` // 3일간의 옷 추천 정보
 }
