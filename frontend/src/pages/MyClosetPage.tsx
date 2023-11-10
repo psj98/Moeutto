@@ -8,7 +8,6 @@ import MyClosetBar from '../components/common/MyClosetBar';
 import CategoryTapOrganism from '../components/mycloset/organisms/CategoryTapOrganism';
 
 const MyClosetPage = () => {
-
   // 카테고리 데이터 가져오기
   // const [categoryId, setCategoryId] = useState<string>('000000');
   // const [sortBy, setSortBy] = useState<string>('initial');
@@ -110,12 +109,12 @@ const MyClosetPage = () => {
   //   fetchData();
   // }, [categoryId]);
 
-  return ( 
+  return (
     <>
       <div className="font-bold text-WebBody1">나의 옷장</div>
       <MyClosetBar state={1} />
       <CategoryTapOrganism />
-      
+
       {/* <div className="flex flex-wrap gap-3.5 mt-4">
         {clothesData && clothesData.length > 0 ? (
           clothesData.map((item, index) => (

@@ -9,7 +9,6 @@ import { Provider } from 'react-redux';
 
 import './index.css';
 import AddClothPage from './pages/AddClothPage';
-import Work from './pages/Work';
 import App from './App';
 
 import MainPage from './pages/MainPage';
@@ -37,6 +36,7 @@ import CalendarPage from './pages/CalendarPage';
 import CalendarPostPage from './pages/CalendarPostPage';
 
 import FrinedListPage from './pages/FriendListPage';
+import FriendClosetPage from './pages/FriendClosetPage';
 
 // import rootReducer from './redux/rootReducer';
 import store from './redux/store';
@@ -52,7 +52,7 @@ root.render(
         <Routes>
           // v6부터 Switch가 Routes로 변경되었음
           <Route element={<App />}>
-            <Route path="/" element={<Work />} />
+            <Route path="/" element={<LoginPage />} />
             <Route path="/main" element={<MainPage />} />
             <Route path="/pickpick" element={<PickPickPage />} />
             <Route path="/analysis" element={<AnalysisPage />} />
@@ -74,7 +74,7 @@ root.render(
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/calendar/post" element={<CalendarPostPage />} />
             <Route path="/notmycloset/friend" element={<FrinedListPage />} />
-            {/* <Route path="/notmycloset/friend/:id" element={} /> */}
+            <Route path="/notmycloset/friend/:id" element={<FriendClosetPage />} />
             <Route path="*" element={<ErrorPage />} /> // 404 페이지 추가
           </Route>
         </Routes>
