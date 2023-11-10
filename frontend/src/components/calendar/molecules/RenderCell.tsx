@@ -126,11 +126,11 @@ const RenderCells = ({
 
             // 상태에 따른 착장 평가 이모지
             if (likeOutfit === 1) {
-                imgUrl = "/images/report-sad.png";
+                imgUrl = "/images/report-happy.png";
             } else if (likeOutfit === 2) {
                 imgUrl = "/images/report-happy.png";
             } else if (likeOutfit === 3) {
-                imgUrl = "/images/pig.png";
+                imgUrl = "/images/cold.png";
             }
 
             const cloneDay = day;
