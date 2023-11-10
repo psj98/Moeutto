@@ -285,7 +285,7 @@ const AnalysisCardTap = ({ title, img, comment, link, subComment, state }: Props
 
     return (
         <>
-            <div className="bg-white rounded-2xl p-4 shadow-md relative mb-[30px]" onClick={() => navigate(link)}>
+            <div className="bg-white rounded-2xl p-4 shadow-md relative mt-[50px] mb-[40px]" onClick={() => navigate(link)}>
                 <img src={img} alt="rainbow" className="w-1/3 min-w-[117px] max-w-[130px] absolute -left-4 -top-10 z-0" />
                 <div className="mt-6 z-100 whitespace-pre-wrap flex justify-center text-center text-AppTitle1 text-pink font-bold">
                     {title}
