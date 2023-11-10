@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 // import { useSelector } from 'react-redux';
 // import { useNavigate } from 'react-router-dom';
-import { fabric } from 'fabric';
-
 import styled from 'styled-components';
 // axios
 import { authInstance } from '../api/api';
@@ -28,9 +26,6 @@ const ScrollSection = styled.div`
 `;
 
 const calendarPostPage = () => {
-  const fabricJSCanvasRef = useRef(null); // 먼저 useRef로 Ref 객체를 생성
-
-  // const navigate = useNavigate();
   // 카테고리
   // 대분류
   const [selectedOptionMain, setSelectedOptionMain] = useState<string | null>('전체');
@@ -43,6 +38,7 @@ const calendarPostPage = () => {
   const [categoryId, setCategoryId] = useState<string>('000000');
   const [sortBy, setSortBy] = useState<string>('initial');
   const [orderBy, setOrderBy] = useState<number>(0); // 0: 오름차순, 1: 내림차순
+  const [file, setFile] = useState<FormData>();
 
   // 카테고리 선택 확인
   useEffect(() => {
@@ -128,56 +124,64 @@ const calendarPostPage = () => {
   }, [categoryId, sortBy, orderBy]);
 
   // 제출하기 버튼 동작 시 -> 리덕스에 선택한 옷 정보 저장 후 분석 페이지로 이동
-  const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = event => {
-    // 기본 동작 방지
-    event.preventDefault();
-    // redux에 저장할 데이터
-    // const requestData = {
-    //   selectedClosetIds,
-    // };
-    const canvasElements = document.getElementsByClassName('upper-canvas');
-    const canvas = canvasElements[0] as HTMLCanvasElement; // 첫 번째 요소 가져오기
+  // const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = event => {
+  //   console.log(file);
 
-    if (canvas) {
-      console.log(canvas);
+  //   const postData = async () => {
+  //     try {
+  //       // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
+  //       const axiosInstance = authInstance({ ContentType: 'multipart/form-data' });
+  //       // const response = await axiosInstance.post('/calendars/regist', file);
+  //       const response = await axiosInstance.post('/calendars/regist', file, {
+  //         headers: {
+  //           'Content-Type': 'multipart/form-data',
+  //         },
+  //       });
 
-      const fabricCanvas = new fabric.Canvas(canvas);
+  //       if (response) {
+  //         alert('캘린더 제출이 완료되었습니다.');
+  //       } else {
+  //         // alert('옷 목록이 없어요')
+  //       }
+  //       return response.data;
+  //     } catch (error) {
+  //       console.log(error);
+  //       throw new Error('캘린더 제출 실패');
+  //     }
+  //   };
 
-      // const dataURL = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
-      // Canvas의 이미지 데이터를 가져오기
-      const dataURL = fabricCanvas.toDataURL({
-        format: 'png', // 이미지 포맷 설정
-        quality: 0.8, // 이미지 품질 설정 (0.0 - 1.0)
+  //   postData();
+  // };
+
+  const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = async event => {
+    try {
+      // Create a FormData object and append the file to it
+
+      // Configure the axios instance with the correct headers
+      const axiosInstance = authInstance({ ContentType: 'multipart/form-data' }); // No need to specify Content-Type here
+
+      // Send the FormData in a POST request
+      const response = await axiosInstance.post('/calendars/regist', file, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
 
-      console.log('데이터url', dataURL);
-    } else {
-      console.error('Canvas 요소를 찾을 수 없습니다.');
-    }
-
-    const postData = async () => {
-      try {
-        // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
-        const axiosInstance = authInstance({ ContentType: 'application/json' });
-        const response = await axiosInstance.post('/calendars/regist', {});
-
-        if (response.data.data) {
-          setClothesData(response.data.data);
-        } else {
-          // alert('옷 목록이 없어요')
-          setClothesData([]);
-        }
+      if (response) {
+        alert('캘린더 제출이 완료되었습니다.');
+      } else {
+        // Handle the case when the request is not successful
+      }
 
         return response.data;
       } catch (error) {
-        console.log(error);
-        throw new Error('캘린더 제출을 할 수 없습니다.');
+        throw new Error('옷 목록 데이터 조회 실패 토큰을 확인하세요');
       }
     };
 
     if (postData) {
       // localStorage.setItem('selectedClosetIds', JSON.stringify(selectedClosetIds));
-      alert('캘린더 제출하기');
+      alert('post 제출하기');
     } else {
       alert('선택한 옷이 없어요');
     }
@@ -185,7 +189,7 @@ const calendarPostPage = () => {
 
   return (
     <>
-      <PostEditorTemplate useRef={fabricJSCanvasRef}></PostEditorTemplate>
+      <PostEditorTemplate setFile={setFile}></PostEditorTemplate>
       <PickComponent
         selectedOptionMain={selectedOptionMain}
         setSelectedOptionMain={setSelectedOptionMain}
