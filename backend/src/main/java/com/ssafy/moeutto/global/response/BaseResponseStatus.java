@@ -16,6 +16,8 @@ public enum BaseResponseStatus {
      */
     NOT_FOUND_MEMBER(false, 2001, "일치하는 사용자가 없습니다."),
     SESSION_EXPIRATION(false, 2002, "세션이 만료되었습니다"),
+    CANT_GET_MEMBER_INFO(false, 2003, "마이페이지에서 유저 정보를 가져오지 못했습니다."),
+    MYPAGE_UPDATE_FAILED(false, 2004, "내 정보 업데이트가 실패했습니다."),
 
     /**
      * Clothes
