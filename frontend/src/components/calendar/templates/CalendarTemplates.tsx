@@ -5,7 +5,10 @@ interface TemplateProps {
     setShowSelectedImg: React.Dispatch<React.SetStateAction<string>>;
     setClothesId: React.Dispatch<React.SetStateAction<number>>;
     setIsLikedOutFit: React.Dispatch<React.SetStateAction<number>>;
-    handleModalOpen: any;
+    // setShowSelectedImg: any
+    // setClothesId: any
+    // setIsLikedOutFit: any
+    handleModalOpen: () => void;
 }
 
 const CalendarTemplates = ({

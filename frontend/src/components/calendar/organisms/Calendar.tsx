@@ -1,4 +1,9 @@
-import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
+import React, { 
+    useEffect, 
+    useState, 
+    Dispatch, 
+    SetStateAction } from 'react';
+
 import { 
     format, 
     addMonths, 
@@ -14,7 +19,10 @@ interface CalendarProps {
     setShowSelectedImg?: Dispatch<SetStateAction<string>>;
     setClothesId?: Dispatch<SetStateAction<number>>;
     setIsLikedOutFit?: Dispatch<SetStateAction<number>>;
-    handleModalOpen?: any;
+    // setShowSelectedImg?: any
+    // setClothesId?: any
+    // setIsLikedOutFit?: any
+    handleModalOpen? : () => void;
 }
 
 interface ClendarDataType {
@@ -58,7 +66,9 @@ const Calendar = ({
     const onDateClick = (day) => {
         setSelectedDate(day);
         // 날짜를 클릭하면 모달이 열립니다
-        handleModalOpen();
+        if (handleModalOpen) {
+            handleModalOpen();
+        }
     };
     
     
@@ -146,6 +156,7 @@ const Calendar = ({
                     onDateClick={onDateClick}
                     state={state}
                     CalendarDataList={CalendarDataList}
+
                     setShowSelectedImg={setShowSelectedImg}
                     setClothesId={setClothesId}
                     setIsLikedOutFit={setIsLikedOutFit}

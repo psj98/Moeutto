@@ -1,38 +1,59 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { PiSmileyBold, PiSmileySadBold } from 'react-icons/pi';
+import { BsSnow} from 'react-icons/bs';
+import { FaRegSun } from 'react-icons/fa';
+
 import CalendarTemplates from '../components/calendar/templates/CalendarTemplates';
+
 
 const CalendarPage = () => {
     // 선택한 날의 착장 상태
     // 이미지
     const [showSelectedImg, setShowSelectedImg] = useState<string>("");
-    // 착장 아이디
-    const [clothesId, setClothesId] = useState<number>();
-    // 착장 펴가
-    const [isLikedOutFit, setIsLikedOutFit] = useState<number>();
+    const [clothesId, setClothesId] = useState<number>(0);
+
+    // 착장 평가
+    const [isLikedOutFit, setIsLikedOutFit] = useState<number>(0);
 
     // 착장 상세 페이지 모달
     const [modalVisible, setModalVisible] = useState(false);
+
     // 착장 평가 페이지 모달
     const [isOpenedScoreModal, setIsOpenedScoreModal] = useState<boolean>(false);
 
+    // 착장 평가 추워요/더워요 모달
+    const [isColdModal, setIsColdModal] = useState<boolean>(false);
+
+    // 상세 페이지 모달 열기
     const handleModalClose = () => {
         setModalVisible(false);
     };
 
+    // 상세 페이지 모달 닫기
     const handleModalOpen = () => {
         setModalVisible(true);
     };
 
-    const onHandleSubmitScore = () => {
-      setIsOpenedScoreModal(!isOpenedScoreModal);
+    // 1번째 모달 열기
+    const firstModalOpen = () => {
+      setIsOpenedScoreModal(true);
+    }
+  
+    // 2번째 모달 열기
+    const handleSecondModalOpen = () => {
+      setIsColdModal(true);
+    };
 
-      // 평가 여부로 나누기
-      // if (clothesId !== 0) {
-      //   alert(`이미 ${isLikedOutFit}으로 평가를 완료 했어요`)
-      // } else {
-      //   setIsOpenedScoreModal(!isOpenedScoreModal);
-      // }
+    // 제출하기
+    const onHandleSubmitScore = (number: number): void => {
+      // 첫번째에 바로 제출하는 경우
+      if (number === 1) {
+        setIsOpenedScoreModal(!isOpenedScoreModal);
+      } else {
+        setIsOpenedScoreModal(false);
+        setIsColdModal(false);
+      }
     }
   
   return (
@@ -60,7 +81,7 @@ const CalendarPage = () => {
             <button onClick={handleModalClose} className='bg-gray-button rounded-xl px-4 p-2 shadow-md text-pink'>닫기</button>
             <button 
             className='bg-pink-hot text-white px-4 p-2 rounded-xl shadow-md'
-            onClick={onHandleSubmitScore}
+            onClick={firstModalOpen}
             >평가하기</button>
           </div>
           <div className='flex justify-center items-center p-6'>
@@ -79,14 +100,32 @@ const CalendarPage = () => {
       {isOpenedScoreModal && (
         <div
           className='fixed inset-0 z-50 flex justify-center items-center w-full h-full bg-gray-400 bg-opacity-30'
-          onClick={onHandleSubmitScore}
         >
+          <div
+            className='flex items-center justify-center bg-white border-4 border-pink shadow-md rounded-2xl p-4 w-3/4 h-1/4 max-w-[350px] min-h-[250px]'
+          >
+            <div className='flex gap-10 justify-center items-center'>
+              <PiSmileyBold onClick={() => onHandleSubmitScore(1)} size={80} color='#FAA0BF' className='hover:scale-105' />
+              <PiSmileySadBold onClick={handleSecondModalOpen} size={80} color='#FAA0BF' className='hover:scale-105' />
+            </div>
+          </div>
+      </div>
+      )}
+
+      {/* 두번째 평가 모달 */}
+      {isColdModal && (
         <div
-          className='bg-pink shadow-md rounded-2xl p-4 w-3/4 h-1/4'
+        className='fixed inset-0 z-50 flex justify-center items-center w-full h-full bg-gray-400 bg-opacity-30'
         >
-          <button onClick={onHandleSubmitScore} className='bg-pink-hot px-4 p-2 rounded-2xl shadow-md text-white'>제출하기</button>
-        </div>
-    </div>
+          <div
+            className='flex items-center justify-center bg-white border-4 border-pink shadow-md rounded-2xl p-4 w-3/4 h-1/4 max-w-[350px] min-h-[250px]'
+          >
+            <div className='flex gap-10 justify-center items-center'>
+              <FaRegSun onClick={() => onHandleSubmitScore(2)} size={70} color={"red"} className='hover:scale-105' />
+              <BsSnow onClick={() => onHandleSubmitScore(2)} size={70} color={"blue"} className='hover:scale-105' />
+            </div>
+          </div>
+      </div>
       )}
     </>
   );
