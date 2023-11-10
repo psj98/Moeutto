@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { useEffect } from 'react';
+import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import { Outlet } from 'react-router-dom';
 import Sidebar from './components/common/SideNav';
 import MobileNav from './components/common/MobileNav';
 
@@ -13,6 +14,19 @@ const ContentContainer = styled.div`
 `;
 
 function App() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const accessToken = sessionStorage.getItem('accessToken');
+    const isLoginUrl = location.pathname.includes('login');
+
+    if (!accessToken && !isLoginUrl) {
+      alert('로그인을 먼저 진행해주세요');
+      navigate('/login');
+    }
+  }, [navigate, location.pathname]);
+
   return (
     // w-16 md:w-32 lg:w-48 bg-red-200
     // 448px가 너비 최대
