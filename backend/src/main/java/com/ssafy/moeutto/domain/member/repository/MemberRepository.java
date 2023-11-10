@@ -55,10 +55,10 @@ public interface MemberRepository extends JpaRepository<Member, UUID> {
      */
     @Query(value = "SELECT m.email as email, m.nickname as nickname, m.profile_image as profileImageUrl " +
             "FROM member m " +
-            "WHERE id = (" +
+            "WHERE id in (" +
             "SELECT following_id " +
             "FROM following " +
-            "where my_id = ?1)", nativeQuery = true)
+            "where my_id in ?1)", nativeQuery = true)
     List<IMyFriendsListResponseDto> findMyFollowingListById(UUID memberId);
 }
     
