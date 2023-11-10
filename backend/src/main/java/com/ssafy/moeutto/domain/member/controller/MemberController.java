@@ -91,12 +91,12 @@ public class MemberController {
      * @return
      */
 
-    @PostMapping("find-nickname")
-    public BaseResponse<Object> findNicknameForSol(FindNicknameRequestDto requestDto){
+    @PostMapping("/find-nickname")
+    public BaseResponse<Object> findNicknameForSol(@RequestBody FindNicknameRequestDto requestDto){
 
         try{
 
-
+            log.info("1234"+ requestDto.getEmail());
             String nickname = memberService.findNicknameForSol(requestDto.getEmail());
             return baseResponseService.getSuccessResponse(nickname);
         }catch(BaseException e){

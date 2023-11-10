@@ -27,6 +27,7 @@ public class MemberServiceImpl implements MemberService {
     public String findNicknameForSol(String email) throws BaseException {
 
         Member friends = memberRepository.findByEmail(email).orElseThrow(()-> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+        log.info("friends" + friends.toString());
         String nickname = friends.getNickname();
 
         return nickname;
