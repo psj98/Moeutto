@@ -67,12 +67,12 @@ const RenderCells = ({
 
     // 내가 클릭한 날의 착장을 알고 싶음
     useEffect(() => {
-        console.log('타입', typeof setShowSelectedImg)
 
         // 발견하지 못한 경우 상태를 초기화 해서 상세페이지가 열리지 않게 합니다
-        // setClothesId(0);
-        // setIsLikedOutFit(5);
-        // console.log(setClothesId)
+        if (setClothesId) {
+            setClothesId(0);
+            setIsLikedOutFit(5);
+        }
 
         // 내가 받은 리스트가 존재하고, 배열일 때
         if (CalendarDataList  && Array.isArray(CalendarDataList.myOutFit)) {

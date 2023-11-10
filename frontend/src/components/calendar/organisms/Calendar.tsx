@@ -13,15 +13,13 @@ import {
 import { BiSolidLeftArrow, BiSolidRightArrow } from 'react-icons/bi';
 
 import RenderCells from '../molecules/RenderCell';
+import { authInstance } from '../../../api/api';
 
 interface CalendarProps {
     state?: number;
     setShowSelectedImg?: Dispatch<SetStateAction<string>>;
     setClothesId?: Dispatch<SetStateAction<number>>;
     setIsLikedOutFit?: Dispatch<SetStateAction<number>>;
-    // setShowSelectedImg?: any
-    // setClothesId?: any
-    // setIsLikedOutFit?: any
     handleModalOpen? : () => void;
 }
 
@@ -73,9 +71,24 @@ const Calendar = ({
     
     
     // 날짜에 어떤 옷과 좋아요가 등록되어 있는지 리스트 불러오기 list값에 저장한 뒤 날짜 컴포넌트에 뿌려주자
-    // 1. request에 curDate를 담아서 보내자 (이건 오늘 보내야함)
+    // 1. request에 curDate를 담아서 보내자
+
+    // 달력 데이터 가져오기
+    const getCalendarData = async () => {
+        try {
+            const axiosInstance = authInstance({ ContentType: 'application/json' });
+            const response = await axiosInstance.post('/calendars/list', {
+                "curData": format(selectedDate, 'yyyy-MM-dd')
+            });
+
+            console.log('캘린더 목록 조회 성공', response.data.data)
+        } catch (error) {
+            console.log('캘린더 목록 조회 실패', error)
+        }
+    };
+
     useEffect(() => {
-        console.log('*************************', format(selectedDate, 'yyyy-MM-dd'));
+        getCalendarData();
     }, [selectedDate])
 
     // 가상의 데이터
