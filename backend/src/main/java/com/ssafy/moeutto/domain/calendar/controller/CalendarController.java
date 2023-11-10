@@ -43,7 +43,7 @@ public class CalendarController {
                                              @RequestBody CalendarListRequestDto calendarListRequestDto) {
         try {
             UUID memberId = getMemberIdFromToken(token);
-            CalendarListResponseDto calendarListResponseDto = calendarService.getCalendarList(memberId, Date.valueOf(calendarListRequestDto.getRegDate()));
+            CalendarListResponseDto calendarListResponseDto = calendarService.getCalendarList(memberId, (calendarListRequestDto.getRegDate()));
             return baseResponseService.getSuccessResponse(calendarListResponseDto);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);

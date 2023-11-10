@@ -13,6 +13,7 @@ interface PropsType {
   setSelectedOptionSort: Dispatch<React.SetStateAction<string>>;
   handleSubmit: React.MouseEventHandler<HTMLButtonElement>;
   clothesData: ClothesItem[];
+  nickname?: string;
 }
 
 const PickComponent: React.FC<PropsType> = ({

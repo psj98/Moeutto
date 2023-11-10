@@ -23,6 +23,7 @@ module.exports = {
         AppTitle2: '20px',
         AppBody1: '20px',
         AppBody2: '16px',
+        AppBody3: '12px',
       },
     },
   },
