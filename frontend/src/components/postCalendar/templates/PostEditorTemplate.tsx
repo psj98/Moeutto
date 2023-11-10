@@ -40,10 +40,6 @@ const PostEditorTemplate = ({ useRef }) => {
 
   useEffect(() => {
     // canvas를 정사각형으로 하기 위해 width 를 계산합니다
-    // const width = document.getElementById('canvasSection').clientWidth;
-
-    // setCanvasWidth(width.toString());
-
     const canvasSection = document.getElementById('canvasSection');
 
     // canvas를 정사각형으로 만들기 위해 width를 계산
@@ -56,16 +52,6 @@ const PostEditorTemplate = ({ useRef }) => {
     imgUrl = selectedClosetUrls[len - 1];
     onAddImage();
   }, [selectedClosetUrls.length]);
-
-  // const onAddCircle = () => {
-  //   //console.log(editor);
-  //   editor?.addCircle();
-  // };
-  // let color = 55;
-  // const onAddLine = () => {
-  //   //console.log(editor);
-  //   editor?.addLine();
-  // };
 
   const renderIcon = (ctx, left, top, styleOverride, fabricObject) => {
     var size = 24;
@@ -130,12 +116,7 @@ const PostEditorTemplate = ({ useRef }) => {
     <>
       <div className="my-6">오늘 입은 옷을 선택해서 기록해봐요</div>
       <CanvasSection className="w-[100%] rounded-xl border-4 mb-10" w={width} id="canvasSection">
-        <div>
-          {/* <button onClick={onAddCircle}>Add Circle</button> */}
-          {/* <button onClick={onAddImage}>Add Image</button>
-        <button onClick={onDelete}>Delete</button> */}
-          {width ? <FabricJSCanvas className={`sample-canvas`} onReady={onReady} /> : null}
-        </div>
+        <div>{width ? <FabricJSCanvas className={`sample-canvas`} onReady={onReady} /> : null}</div>
       </CanvasSection>
     </>
   );
