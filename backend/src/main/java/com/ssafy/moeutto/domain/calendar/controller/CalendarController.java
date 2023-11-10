@@ -109,7 +109,7 @@ public class CalendarController {
         try {
             UUID memberId = getMemberIdFromToken(token);
             calendarService.scoreOutfit(memberId, requestDto);
-            return baseResponseService.getSuccessResponse();
+            return baseResponseService.getSuccessResponse(BaseResponseStatus.SUCCESS);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.getStatus());
         }
