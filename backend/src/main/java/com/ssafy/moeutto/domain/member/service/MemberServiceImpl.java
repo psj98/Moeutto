@@ -54,6 +54,8 @@ public class MemberServiceImpl implements MemberService {
                 .closetFind(memberUpdateMyInfoRequestDto.isClosetFind())
                 .build();
 
+        System.out.println(fixMember);
+
         memberRepository.save(fixMember);
     }
 
