@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import React, { ChangeEvent, useState } from 'react';
 import Label from '../components/add/atoms/Label';
+// import { defaultInstance } from '../api/api';
 
 const handleSubmit = () => {};
 
@@ -10,6 +11,16 @@ const Input = styled.input``;
 
 const MyPage = () => {
   const [nickname, setNickname] = useState<string>();
+
+  // const axiosInstance = defaultInstance();
+  const redirectUrl = process.env.REACT_APP_LOGOUT_REDIRECT_URL;
+  const link = `https://kauth.kakao.com/oauth/logout?client_id=bab90d2b24304bb1f5b4c07938ff0fcc&logout_redirect_uri=${redirectUrl}`;
+
+  console.log(sessionStorage.getItem('kakaoAccessToken'));
+
+  const logout = () => {
+    window.location.href = link;
+  };
 
   const handleClothNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value) {
@@ -69,6 +80,12 @@ const MyPage = () => {
             className="pt-2 pb-1 px-3 mr-4 rounded-xl bg-neutral-100 shadow-[1px_4px_4px_0px_rgba(0,0,0,0.15)]"
             onChange={handleSubmit}>
             정보수정
+          </Button>
+          {/* 로그 아웃 버튼 */}
+          <Button
+            className="pt-2 pb-1 px-3 mr-4 rounded-xl bg-neutral-100 shadow-[1px_4px_4px_0px_rgba(0,0,0,0.15)]"
+            onClick={logout}>
+            로그아웃
           </Button>
           {/* 회원 탈퇴 버튼 */}
           <Button
