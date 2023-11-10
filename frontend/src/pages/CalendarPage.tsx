@@ -107,9 +107,10 @@ const CalendarPage = () => {
           className='fixed inset-0 z-50 flex justify-center items-center w-full h-full bg-gray-400 bg-opacity-30'
         >
           <div
-            className='flex items-center justify-center bg-white border-4 border-pink shadow-md rounded-2xl p-4 w-3/4 h-1/4 max-w-[350px] min-h-[250px]'
+            className='flex flex-col items-center justify-center bg-white border-4 border-pink shadow-md rounded-2xl p-4 w-3/4 h-1/4 max-w-[350px] min-h-[250px]'
           >
-            <div className='flex gap-10 justify-center items-center'>
+            <div className='-mt-[20px]'>착장에 대한 평가를 해주세요</div>
+            <div className='flex gap-10 justify-center items-center mt-[20px]'>
               <PiSmileyBold onClick={() => onHandleSubmitScore(1)} size={80} color='#FAA0BF' className='hover:scale-105' />
               <PiSmileySadBold onClick={handleSecondModalOpen} size={80} color='#FAA0BF' className='hover:scale-105' />
             </div>
@@ -123,9 +124,10 @@ const CalendarPage = () => {
         className='fixed inset-0 z-50 flex justify-center items-center w-full h-full bg-gray-400 bg-opacity-30'
         >
           <div
-            className='flex items-center justify-center bg-white border-4 border-pink shadow-md rounded-2xl p-4 w-3/4 h-1/4 max-w-[350px] min-h-[250px]'
+            className='flex flex-col items-center justify-center bg-white border-4 border-pink shadow-md rounded-2xl p-4 w-3/4 h-1/4 max-w-[350px] min-h-[250px]'
           >
-            <div className='flex gap-10 justify-center items-center'>
+            <div className='-mt-[20px]'>착장에 대한 평가를 해주세요</div>
+            <div className='flex gap-10 justify-center items-center mt-[20px]'>
               <FaRegSun onClick={() => onHandleSubmitScore(2)} size={70} color={"red"} className='hover:scale-105' />
               <BsSnow onClick={() => onHandleSubmitScore(2)} size={70} color={"blue"} className='hover:scale-105' />
             </div>
