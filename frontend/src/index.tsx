@@ -9,7 +9,6 @@ import { Provider } from 'react-redux';
 
 import './index.css';
 import AddClothPage from './pages/AddClothPage';
-import Work from './pages/Work';
 import App from './App';
 
 import MainPage from './pages/MainPage';
@@ -24,20 +23,24 @@ import ReportSeasonPage from './pages/ReportSeasonPage';
 import ReportCostPage from './pages/ReportCostPage';
 import ReportVolumePage from './pages/ReportVolumePage';
 import ReportFrequencyPage from './pages/ReportFrequencyPage';
+import ReportUsabilityPage from './pages/ReportUsabilityPage';
 
 import MyPage from './pages/MyPage';
 
 import ErrorPage from './pages/ErrorPage';
 import LoginPage from './pages/LoginPage';
 import LoginRedirectPage from './pages/LoginRedirectPage';
+import LogoutRedirectPage from './pages/LogoutRedirectPage';
 
 import CalendarPage from './pages/CalendarPage';
 import CalendarPostPage from './pages/CalendarPostPage';
 
 import FrinedListPage from './pages/FriendListPage';
+import FriendClosetPage from './pages/FriendClosetPage';
 
 // import rootReducer from './redux/rootReducer';
 import store from './redux/store';
+import TutorialPage from './pages/TutorialPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 const queryClient = new QueryClient();
@@ -49,13 +52,14 @@ root.render(
         <Routes>
           // v6부터 Switch가 Routes로 변경되었음
           <Route element={<App />}>
-            <Route path="/" element={<Work />} />
+            <Route path="/" element={<LoginPage />} />
             <Route path="/main" element={<MainPage />} />
             <Route path="/pickpick" element={<PickPickPage />} />
             <Route path="/analysis" element={<AnalysisPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/login-redirect" element={<LoginRedirectPage />}></Route>
-            <Route path="/mycloset/*" element={<AddClothPage />} /> // 여러 라우팅을 매칭하고 싶은 경우 *가 필요합니다
+            <Route path="/logout-redirect" element={<LogoutRedirectPage />}></Route>
+            <Route path="/tutorial" element={<TutorialPage />}></Route>
             <Route path="/mycloset" element={<MyClosetPage />} />
             <Route path="/mycloset/detail/:id" element={<ClothesDetailPage />} /> // 라우팅 매칭 다시 해야됨 * 사용하기?
             <Route path="/mycloset/add-cloth" element={<AddClothPage />} />
@@ -65,11 +69,12 @@ root.render(
             <Route path="/mycloset/report/costs" element={<ReportCostPage />} />
             <Route path="/mycloset/report/volume" element={<ReportVolumePage />} />
             <Route path="/mycloset/report/frequency" element={<ReportFrequencyPage />} />
+            <Route path="/mycloset/report/usability" element={<ReportUsabilityPage />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/calendar/post" element={<CalendarPostPage />} />
             <Route path="/notmycloset/friend" element={<FrinedListPage />} />
-            {/* <Route path="/notmycloset/friend/:id" element={} /> */}
+            <Route path="/notmycloset/friend/:id" element={<FriendClosetPage />} />
             <Route path="*" element={<ErrorPage />} /> // 404 페이지 추가
           </Route>
         </Routes>

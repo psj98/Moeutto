@@ -1,8 +1,7 @@
 from datetime import datetime
 def get_temp_weather():
-    # 3 4 5     # 6 7 8     # 9 10 11    # 12 1 2
+    # 3 4 5 / 6 7 8 / 9 10 11 / 12 1 2
     temp_month = datetime.now().month  # 현재 월 가져오기
-
     if temp_month > 8:
         if temp_month > 11:
             return 4
@@ -16,7 +15,6 @@ def get_temp_weather():
                 return 1
         else:
             return 2
-
 def calculate_temperature_score(thickness, min_temp, max_temp):
     avg_temp = (min_temp + max_temp) / 2
 

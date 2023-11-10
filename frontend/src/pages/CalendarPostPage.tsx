@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 // import { useSelector } from 'react-redux';
 // import { useNavigate } from 'react-router-dom';
-// import * as htmlToImage from 'html-to-image';
 import styled from 'styled-components';
 // axios
 import { authInstance } from '../api/api';
@@ -174,10 +173,17 @@ const calendarPostPage = () => {
         // Handle the case when the request is not successful
       }
 
-      return response.data;
-    } catch (error) {
-      console.log(error);
-      throw new Error('캘린더 제출 실패');
+        return response.data;
+      } catch (error) {
+        throw new Error('옷 목록 데이터 조회 실패 토큰을 확인하세요');
+      }
+    };
+
+    if (postData) {
+      // localStorage.setItem('selectedClosetIds', JSON.stringify(selectedClosetIds));
+      alert('post 제출하기');
+    } else {
+      alert('선택한 옷이 없어요');
     }
   };
 
@@ -194,7 +200,6 @@ const calendarPostPage = () => {
         handleSubmit={handleSubmit}
         clothesData={clothesData}
       />
-
       <ScrollSection className="scroll fixed bottom-[150px]">
         <Scroll />
       </ScrollSection>

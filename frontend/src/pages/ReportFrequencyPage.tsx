@@ -1,50 +1,81 @@
+import { useEffect, useState } from 'react';
+import { authInstance, defaultInstance } from '../api/api';
+
 import IntroComment from '../components/report/atoms/IntroComment';
 import ShortReportComment from '../components/report/atoms/ShortReportComment';
 import ReportComment from '../components/report/atoms/ReportComment';
 import ReportFrequency from '../components/report/atoms/ReportFrequency';
 import ReportFrequencyDonation from '../components/report/atoms/ReportFrequencyDonation';
 
-const frequencyMaxList = [
-  {
-    divColor: '#FFCFE0',
-    clothesImage: '/images/clothes2.png',
-    frequencyAmount: 30,
-  },
-  {
-    divColor: '#FFEAF6',
-    clothesImage: '/images/clothes3.png',
-    frequencyAmount: 20,
-  },
-  {
-    divColor: '#FFFFFF',
-    clothesImage: '/images/clothes4.png',
-    frequencyAmount: 10,
-  },
-];
+interface frequencyItem {
+  divColor: string;
+  clothesImage: string;
+  frequencyAmount: number;
+}
 
-const frequencyMinList = [
-  {
-    divColor: '#FFFFFF',
-    clothesImage: '/images/clothes4.png',
-    frequencyAmount: 0,
-  },
-  {
-    divColor: '#FFEAF6',
-    clothesImage: '/images/clothes3.png',
-    frequencyAmount: 2,
-  },
-  {
-    divColor: '#FFCFE0',
-    clothesImage: '/images/clothes1.png',
-    frequencyAmount: 3,
-  },
-];
+const colorArray = ['#FFFFFF', '#FFFFFF', '#FFFFFF'];
+// const colorArray = ['#FFCFE0', '#FFEAF6', '#FFFFFF'];
+
+let mostCount;
+let leastCount;
 
 const ReportFrequencyPage = () => {
+  const [myMostFrequency, setMyMostFrequency] = useState([]);
+  const [myLeastFrequency, setMyLeastFrequency] = useState([]);
+  const [mostFrequencyComment, setMostFrequencyComment] = useState('');
+  const [leastFrequencyComment, setLeastFrequencyComment] = useState('');
+
+  const fetchData = async () => {
+    const axiosInstance = authInstance({ ContentType: 'application/json' });
+    const response = await axiosInstance.get('/clothes/analysis-frequency');
+
+    mostCount = response.data.data.myMostFrequency[0].frequency;
+    leastCount = response.data.data.myLeastFrequency[0].frequency;
+
+    const most: frequencyItem[] = response.data.data.myMostFrequency.map((row, index) => ({
+      divColor: colorArray[index],
+      clothesImage: row.imageUrl,
+      frequencyAmount: row.frequency,
+    }));
+
+    const least: frequencyItem[] = response.data.data.myLeastFrequency.map((row, index) => ({
+      divColor: colorArray[index],
+      clothesImage: row.imageUrl,
+      frequencyAmount: row.frequency,
+    }));
+
+    setMyMostFrequency(most);
+    setMyLeastFrequency(least);
+
+    const axiosMostCategoryInstance = defaultInstance();
+    const mostCategoryResponse = await axiosMostCategoryInstance.get(
+      `/middle-categories/${response.data.data.myMostFrequency[0].middleCategoryId}`
+    );
+
+    const axiosLeastCategoryResponse = defaultInstance();
+    const leastcategoryResponse = await axiosLeastCategoryResponse.get(
+      `/middle-categories/${response.data.data.myLeastFrequency[0].middleCategoryId}`
+    );
+
+    const mostCategory = mostCategoryResponse.data.data.name;
+    const leastCategory = leastcategoryResponse.data.data.name;
+
+    // 현재 코멘트는 중분류 카테고리 id 로만 코멘트 줌
+    setMostFrequencyComment(`${mostCategory} 을/를 자주 입으시는 군요`);
+
+    setLeastFrequencyComment(
+      `${leastCategory} 을/를 제일 적게 입으시는 군요\n혹시 입지 않으신다면 나눔을 하는 것은 어떨까요?`
+    );
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <>
       {/* 인트로 분석 문구 */}
-      <IntroComment nickname="모드리치" imageUrl="/images/report.png" />
+      <IntroComment nickname={`${sessionStorage.getItem('nickname')}`} imageUrl="/images/report.png" />
 
       {/* 간단 분석 문구 */}
       <ShortReportComment
@@ -62,15 +93,12 @@ const ReportFrequencyPage = () => {
           imageUrl="/images/report-happy.png"
           imageClass="w-24 inline-block"
           mainTitle="가장 많이 입는 옷은 무엇일까요?"
-          subTitle={`가장 많이 입은 횟수는 무려 30회`}
+          subTitle={`가장 많이 입은 횟수는 무려 ${mostCount}회`}
         />
       </div>
 
       {/* 많이 입은 옷 분석 문구 */}
-      <ReportFrequency
-        frequencyList={frequencyMaxList}
-        frequencyComment={`OO을 자주 입으시는군요\n다음에는 OO을 구매해보세요`}
-      />
+      <ReportFrequency frequencyList={myMostFrequency} frequencyComment={`${mostFrequencyComment}`} />
 
       {/* 적게 입은 옷 */}
       <div className="mb-4">
@@ -78,12 +106,12 @@ const ReportFrequencyPage = () => {
           imageUrl="/images/report-sad.png"
           imageClass="w-24 inline-block"
           mainTitle="가장 적게 입는 옷은 무엇일까요?"
-          subTitle={`가장 적게 입은 횟수는 무려 0회`}
+          subTitle={`가장 적게 입은 횟수는 무려 ${leastCount}회`}
         />
       </div>
 
       {/* 적게 입은 옷 분석 문구 */}
-      <ReportFrequency frequencyList={frequencyMinList} frequencyComment={`옷을 사보는 건 어떨까요?`} />
+      <ReportFrequency frequencyList={myLeastFrequency} frequencyComment={`${leastFrequencyComment}`} />
 
       <div className="flex flex-col mx-2 mb-6 px-6 py-8 bg-[#DFDFDF] bg-opacity-40 rounded-2xl">
         <p className="mb-8 text-left text-lg font-bold whitespace-pre-wrap">{`옷장에서 잠자는 옷을\n기부해보는 건 어떠세요?`}</p>

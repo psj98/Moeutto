@@ -106,6 +106,7 @@ body {
   /* 스크롤바 없애기 */
   -ms-overflow-style: none;
   scrollbar-width: none; /* Firefox */
+  background-color: #fff7f9;
 }
 
 ::-webkit-scrollbar {
