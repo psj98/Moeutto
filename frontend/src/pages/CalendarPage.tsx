@@ -3,9 +3,12 @@ import { useState } from 'react';
 import CalendarTemplates from '../components/calendar/templates/CalendarTemplates';
 
 const CalendarPage = () => {
-    // 선택한 날의 착장 이미지 상태입니다
+    // 선택한 날의 착장 상태
+    // 이미지
     const [showSelectedImg, setShowSelectedImg] = useState<string>("");
+    // 착장 아이디
     const [clothesId, setClothesId] = useState<number>();
+    // 착장 펴가
     const [isLikedOutFit, setIsLikedOutFit] = useState<number>();
 
     // 착장 상세 페이지 모달
