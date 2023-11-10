@@ -48,7 +48,6 @@ const CalendarPage = () => {
 
     // 제출하기 호출 API
     const postScoreData = async (likeOutfit: number) => {
-      console.log('실행됨')
       try {
         const axiosInstance = authInstance({ ContentType: 'application/json' });
         const response = axiosInstance.put('/calendars/score', {
@@ -66,17 +65,16 @@ const CalendarPage = () => {
     // 제출하기
     
     const onHandleSubmitScore = (number: number): void => {
-      console.log('눌럿음')
       postScoreData(number);
       setIsOpenedScoreModal(!isOpenedScoreModal);
       // 싫어요 누른 경우
-      if (number === 2) {
+      if (number !== 1) {
         setIsColdModal(false);
       }
     }
 
-    
-  
+    // TODO 착장 평가에 성공하면 바로 화면 렌더링 시키기
+
   return (
     <>
       <button>
