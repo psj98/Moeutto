@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Dispatch, SetStateAction  } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
     format, 
     startOfMonth, 
@@ -12,18 +13,17 @@ import {
 } from 'date-fns';
 
 import { FaPlus } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
 
 
 interface RenderCellsProps {
     currentMonth: Date;
     selectedDate: Date;
     onDateClick: (day: Date) => void;
-    state: number
-    CalendarDataList: CalendarDataType 
-    setShowSelectedImg: React.Dispatch<React.SetStateAction<string>>;
-    setClothesId: React.Dispatch<React.SetStateAction<number>>;
-    setIsLikedOutFit: React.Dispatch<React.SetStateAction<number>>;
+    state?: number;
+    CalendarDataList: CalendarDataType; 
+    setShowSelectedImg: Dispatch<SetStateAction<string>>;
+    setClothesId: Dispatch<SetStateAction<number>>;
+    setIsLikedOutFit: Dispatch<SetStateAction<number>>;
 }
 
 interface CalendarDataType {
@@ -67,10 +67,12 @@ const RenderCells = ({
 
     // 내가 클릭한 날의 착장을 알고 싶음
     useEffect(() => {
+        console.log('타입', typeof setShowSelectedImg)
 
         // 발견하지 못한 경우 상태를 초기화 해서 상세페이지가 열리지 않게 합니다
-        setClothesId(0);
-        setIsLikedOutFit(5);
+        // setClothesId(0);
+        // setIsLikedOutFit(5);
+        // console.log(setClothesId)
 
         // 내가 받은 리스트가 존재하고, 배열일 때
         if (CalendarDataList  && Array.isArray(CalendarDataList.myOutFit)) {
@@ -79,6 +81,7 @@ const RenderCells = ({
                 // 만약에 선택한 날과 같은 값을 발견한다면
                 if (format(selectedDate, 'yyyy-MM-dd') === outfit.regDate) {
                     // 이미지 상태를 업데이트 합니다
+                    
                     setShowSelectedImg(outfit.imageUrl);
                     // 착장의 id 상태를 업데이트 합니다
                     setClothesId(outfit.id);
@@ -150,6 +153,12 @@ const RenderCells = ({
             } else {
                 backgroundColor = 'bg-gray-button';
             } 
+
+            const onDateCellClick = () => {
+                if (location.pathname === '/calendar') {
+                    onDateClick(parse(format(cloneDay, 'yyyy-MM-dd'), 'yyyy-MM-dd', new Date()));
+                }
+            };
             
             days.push(
                 <div
@@ -157,7 +166,7 @@ const RenderCells = ({
                     ${state === 1 ? 'w-[40px] h-[40px]' : 'w-[50px] h-[50px]'}
                     min-w-[42px] min-h-[42px] bg-gray-button rounded-lg p-1 pt-0 shadow-md ${backgroundColor} relative`}
                     key={key} 
-                    onClick={() => onDateClick(parse(format(cloneDay, 'yyyy-MM-dd'), 'yyyy-MM-dd', new Date()))}
+                    onClick={onDateCellClick}
                 >
                     <span
                         className={`
