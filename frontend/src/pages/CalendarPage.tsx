@@ -5,6 +5,7 @@ import { BsSnow, BsPencil } from 'react-icons/bs';
 import { FaRegSun } from 'react-icons/fa';
 
 import CalendarTemplates from '../components/calendar/templates/CalendarTemplates';
+import { authInstance } from '../api/api';
 
 
 const CalendarPage = () => {
@@ -45,8 +46,28 @@ const CalendarPage = () => {
       setIsColdModal(true);
     };
 
+    // 제출하기 호출 API
+    const postScoreData = async (likeOutfit: number) => {
+      console.log('실행됨')
+      try {
+        const axiosInstance = authInstance({ ContentType: 'application/json' });
+        const response = axiosInstance.put('/calendars/score', {
+          "id": clothesId,
+          likeOutfit
+        })
+        
+          console.log('착장 평가 성공', response)
+        
+      } catch (error) {
+        console.log('착장 평가 실패', error)
+      }
+    }
+
     // 제출하기
+    
     const onHandleSubmitScore = (number: number): void => {
+      console.log('눌럿음')
+      postScoreData(number);
       setIsOpenedScoreModal(!isOpenedScoreModal);
       // 싫어요 누른 경우
       if (number === 2) {
@@ -54,6 +75,7 @@ const CalendarPage = () => {
       }
     }
 
+    
   
   return (
     <>
@@ -129,7 +151,7 @@ const CalendarPage = () => {
             <div className='-mt-[20px]'>착장에 대한 평가를 해주세요</div>
             <div className='flex gap-10 justify-center items-center mt-[20px]'>
               <FaRegSun onClick={() => onHandleSubmitScore(2)} size={70} color={"red"} className='hover:scale-105' />
-              <BsSnow onClick={() => onHandleSubmitScore(2)} size={70} color={"blue"} className='hover:scale-105' />
+              <BsSnow onClick={() => onHandleSubmitScore(3)} size={70} color={"blue"} className='hover:scale-105' />
             </div>
           </div>
       </div>
@@ -137,5 +159,6 @@ const CalendarPage = () => {
     </>
   );
 };
+
 
 export default CalendarPage;

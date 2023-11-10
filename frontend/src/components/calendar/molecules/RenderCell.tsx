@@ -207,7 +207,7 @@ const RenderCells = ({
                         )}
 
                         {/* 착장은 추가 했지만 평가는 안한 경우 */}
-                        {!imgUrl && isTodayOrPast && (
+                        {clothesImgUrl && !imgUrl && isTodayOrPast && (
                             <div className="absolute top-2 right-2 text-gray-dark hover:scale-105 cursor-pointer">
                             <BsPencil size={15} />
                         </div>
