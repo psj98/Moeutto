@@ -173,17 +173,9 @@ const calendarPostPage = () => {
         // Handle the case when the request is not successful
       }
 
-        return response.data;
-      } catch (error) {
-        throw new Error('옷 목록 데이터 조회 실패 토큰을 확인하세요');
-      }
-    };
-
-    if (postData) {
-      // localStorage.setItem('selectedClosetIds', JSON.stringify(selectedClosetIds));
-      alert('post 제출하기');
-    } else {
-      alert('선택한 옷이 없어요');
+      return response.data;
+    } catch (error) {
+      throw new Error('옷 목록 데이터 조회 실패 토큰을 확인하세요');
     }
   };
 

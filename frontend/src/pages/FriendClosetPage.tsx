@@ -155,6 +155,7 @@ const FriendClosetPage = () => {
       const response = await axiosInstance.get('/guestbooks');
 
       if (response.data) {
+        console.log(response.data.data);
         setGuestbookAll(response.data.data);
       } else {
         setClothesData([]);
@@ -167,6 +168,7 @@ const FriendClosetPage = () => {
 
   useEffect(() => {
     getGuestbook();
+    console.log('useEffect', guestbookAll);
   }, []);
 
   const handleGuestbookPost = async () => {
