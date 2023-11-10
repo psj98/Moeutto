@@ -39,7 +39,7 @@ const ProfileCard = ({ nickname, email, profileImage, isFollowing }: FriendType)
             <img className="w-8 h-8 rounded-full object-cover" src={profileImage} alt="image" />
           </div>
           <div className="flex-1 min-w-0">
-            <Link to={email}>
+            <Link to={email} state={nickname}>
               <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{nickname}</p>
               <p className="text-sm text-gray-500 truncate dark:text-gray-400">{email}</p>
             </Link>
