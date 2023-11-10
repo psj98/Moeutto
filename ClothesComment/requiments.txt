@@ -1,3 +1,6 @@
 fastapi
 uvicorn
-pip install python-dotenv
+python-dotenv
+langchain
+openai
+pandas
