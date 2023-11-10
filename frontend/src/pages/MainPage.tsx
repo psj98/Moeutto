@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import MainInfo from '../components/main/organisms/MainInfo';
 import PickButtonTap from '../components/main/organisms/PickButtonTap';
@@ -18,7 +18,7 @@ import Calendar from '../components/calendar/organisms/Calendar';
 // import Weather from "../api/Weather";
 
 const MainPage = () => {
-  //   const navigate = useNavigate();
+    const navigate = useNavigate();
   // 현재 위치
   const [currentLocation, setCurrentLocation] = useState<{
     latitude: number;
@@ -275,7 +275,9 @@ const MainPage = () => {
           <AnalysisTap />
 
           {/* 달력 컴포넌트화 시킬 예정 */}
-          <div className='bg-white rounded-2xl shadow-md p-4 relative'>
+          <div className='bg-white rounded-2xl shadow-md p-4 relative'
+            onClick={() => navigate('/calendar')}
+          >
             <div className='flex'>
               <MainComment title={`오늘 입은 옷을 \n기록해보세요`} />
               <img src="/images/camera3D.png" alt="camera" className='w-1/3 absolute -top-6 right-0' />
