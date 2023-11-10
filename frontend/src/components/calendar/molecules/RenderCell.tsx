@@ -86,11 +86,17 @@ const RenderCells = ({
                 // 만약에 선택한 날과 같은 값을 발견한다면
                 if (format(selectedDate, 'yyyy-MM-dd') === outfit.regDate) {
                     // 이미지 상태를 업데이트 합니다
-                    setShowSelectedImg(outfit.imageUrl);
+                    if (setShowSelectedImg) {
+                        setShowSelectedImg(outfit.imageUrl);
+                    }
                     // 착장의 id 상태를 업데이트 합니다
-                    setClothesId(outfit.id);
+                    if (setClothesId) {
+                        setClothesId(outfit.id);
+                    }
                     // 착장의 평가 여부 및 평가 단계를 업데이트 합니다
-                    setIsLikedOutFit(outfit.likeOutfit);
+                    if (setIsLikedOutFit) {
+                        setIsLikedOutFit(outfit.likeOutfit);
+                    }
                 }
             });
         }
