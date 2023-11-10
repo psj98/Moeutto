@@ -1,22 +1,11 @@
 import { useEffect, useState, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 
 import { authInstance } from "../../../api/api";
 import { ClothesItem } from "../../../pages/PickPickPage";
 import MainCategory from "../atoms/MainCategory";
 import MiddleCategory from "../atoms/MiddleCategory";
 import ClothesItemComponent from "../../clothes/atoms/ClothesItem";
-
-const ScrollContainer = styled.div`
-  display: flex;
-  gap: 2px;
-  margin-top: 4px;
-  min-width: 100%;
-  overflow-x: hidden; /* or 'auto' for scrollable */
-  touch-action: pan-x;
-`;
-
 
 const CategoryTap = ({ title, id, categories, uniqueId }) => {
   const navigate = useNavigate();
@@ -132,19 +121,19 @@ const CategoryTap = ({ title, id, categories, uniqueId }) => {
                     </select>
                 </div>
             </div>
-            <ScrollContainer>
-                    {clothesData && clothesData.length > 0 ? (
-                    clothesData.map((item, index) => (
-                        <ClothesItemComponent imgUrl={item.imageUrl} clothesId={item.id.toString()} key={index} />
-                    ))
-                    ) : (
-                    <div className="w-full h-[110px] rounded-xl flex items-center justify-center border-pink">
-                        <div className="bg-pink text-white p-4 rounded-xl"
-                            onClick={() => navigate('/mycloset/add-cloth')}
-                        >옷 등록하기</div>
-                    </div>
-                    )}
-            </ScrollContainer>
+            <div className="flex gap-1 overflow-x-auto mt-1">
+                {clothesData && clothesData.length > 0 ? (
+                clothesData.map((item, index) => (
+                    <ClothesItemComponent imgUrl={item.imageUrl} clothesId={item.id.toString()} key={index} />
+                ))
+                ) : (
+                <div className="w-full h-[110px] rounded-xl flex items-center justify-center border-pink">
+                    <div className="bg-pink text-white p-4 rounded-xl"
+                        onClick={() => navigate('/mycloset/add-cloth')}
+                    >옷 등록하기</div>
+                </div>
+                )}
+            </div>
         </div>
     )
 }
