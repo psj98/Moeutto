@@ -56,6 +56,7 @@ const CalendarPage = () => {
         })
         
           console.log('착장 평가 성공', response)
+          console.log(isLikedOutFit)
         
       } catch (error) {
         console.log('착장 평가 실패', error)
@@ -63,7 +64,6 @@ const CalendarPage = () => {
     }
 
     // 제출하기
-    
     const onHandleSubmitScore = (number: number): void => {
       postScoreData(number);
       setIsOpenedScoreModal(!isOpenedScoreModal);
@@ -82,7 +82,7 @@ const CalendarPage = () => {
         <Link to="post">포스트</Link>
         <br />
       </button>
-      <div className='flex flex-col justify-center items-center border rounded-2xl shadow-md border-pink border-2 p-4 shadow-md relative mt-6'>
+      <div className='bg-white flex flex-col justify-center items-center border rounded-2xl shadow-md border-pink border-2 p-4 shadow-md relative mt-6'>
         <CalendarTemplates
           setShowSelectedImg={setShowSelectedImg}
           setClothesId={setClothesId}
@@ -112,11 +112,9 @@ const CalendarPage = () => {
           <div className='flex justify-center items-center p-6'>
             <img src={showSelectedImg} alt="OutFit" className='w-[60%] h-1/2' />
           </div>
-            {/* 이건 나중에 숨길거임 */}
-            <div>
-                옷 아이디: {clothesId}
-                좋아요 상태: {isLikedOutFit}
-            </div>
+          {/* {isLikedOutFit && (
+            <img src="/images/report-happy.png" alt="" />
+          )} */}
         </div>
 
       )}
