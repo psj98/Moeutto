@@ -60,5 +60,6 @@ public interface MemberRepository extends JpaRepository<Member, UUID> {
             "FROM following " +
             "where my_id in ?1)", nativeQuery = true)
     List<IMyFriendsListResponseDto> findMyFollowingListById(UUID memberId);
+
 }
     

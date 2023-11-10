@@ -2,9 +2,13 @@ package com.ssafy.moeutto.domain.member.controller;
 
 import com.ssafy.moeutto.domain.member.auth.AuthTokens;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
+import com.ssafy.moeutto.domain.member.dto.request.FindNicknameRequestDto;
 import com.ssafy.moeutto.domain.member.service.MemberLoginService;
+import com.ssafy.moeutto.domain.member.service.MemberService;
 import com.ssafy.moeutto.domain.member.service.OAuthLoginService;
 import com.ssafy.moeutto.global.response.BaseException;
+import com.ssafy.moeutto.global.response.BaseResponse;
+import com.ssafy.moeutto.global.response.BaseResponseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -12,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -22,6 +27,8 @@ public class MemberController {
     private final MemberLoginService memberLoginService;
     private final OAuthLoginService oAuthLoginService;
     private final AuthTokensGenerator authTokensGenerator;
+    private final BaseResponseService baseResponseService;
+    private final MemberService memberService;
 
     /**
      * 카카오 로그인 : 선택사항 체크 후 인가 코드 발급
@@ -73,6 +80,29 @@ public class MemberController {
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(userInfo);
+
+    }
+
+
+    /**
+     * 솔이가 요청한 친구 옷장 보기에서의 닉네임 반환해주는 메서드입니다.
+     * @param token
+     * @param requestDto
+     * @return
+     */
+
+    @PostMapping("find-nickname")
+    public BaseResponse<Object> findNicknameForSol(@RequestHeader(value = "accessToken") String token, FindNicknameRequestDto requestDto){
+
+        try{
+
+            UUID memberId = authTokensGenerator.extractMemberId(token);
+
+            String nickname = memberService.findNicknameForSol(memberId, requestDto.getEmail());
+            return baseResponseService.getSuccessResponse(nickname);
+        }catch(BaseException e){
+            return baseResponseService.getFailureResponse(e.status);
+        }
 
     }
 }
