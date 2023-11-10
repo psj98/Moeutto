@@ -72,7 +72,7 @@ const CalendarPage = () => {
         <div className='flex gap-2 ms-[20%]'>
           <BsPencil size={15} className='text-gray-dark' /> 
           <div className='font-gray-dark text-AppBody2'>
-            착장 등록 후 착장 평가를 해주세요!
+            착장 기록은 있지만 평가는 없어요
           </div>
         </div>
       </div>

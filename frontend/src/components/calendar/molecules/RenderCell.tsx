@@ -61,8 +61,6 @@ const RenderCells = ({
     let day = startDate;
     let formattedDate = '';
 
-    
-
     useEffect(() => {
         console.log('지금 선택한 날짜', format(selectedDate, 'yyyy-MM-dd'));
     }, [selectedDate])
@@ -166,6 +164,11 @@ const RenderCells = ({
                     onDateClick(parse(format(cloneDay, 'yyyy-MM-dd'), 'yyyy-MM-dd', new Date()));
                 }
             };
+
+            // 오늘 이후에는 BsPencil 숨기기
+            const currentDate = new Date();
+            const today = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+            const isTodayOrPast = today >= new Date(cloneDay);
             
             days.push(
                 <div
@@ -204,7 +207,7 @@ const RenderCells = ({
                         )}
 
                         {/* 착장은 추가 했지만 평가는 안한 경우 */}
-                        {!imgUrl && (
+                        {!imgUrl && isTodayOrPast && (
                             <div className="absolute top-2 right-2 text-gray-dark hover:scale-105 cursor-pointer">
                             <BsPencil size={15} />
                         </div>
