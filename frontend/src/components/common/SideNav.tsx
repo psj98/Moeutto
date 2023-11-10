@@ -6,6 +6,7 @@ import { MdPeopleAlt } from 'react-icons/md';
 import { CgDetailsMore } from 'react-icons/cg';
 // import { BiHomeHeart, BiCloset, MdPeopleAlt, BiCalendar, CgDetailsMore } from 'react-icons/all';
 import ProfileImage from './Profile';
+import { authInstance } from '../../api/api';
 
 interface Props {
   menuName?: string;
@@ -88,16 +89,22 @@ const menuList = [
   { menuName: '옷장 구경', path: '/notmycloset', icon: <MdPeopleAlt /> },
   { menuName: '캘린더', path: '/calendar', icon: <BiCalendar /> },
   { menuName: '더보기', path: '/mypage', icon: <CgDetailsMore /> },
-  { menuName: '로그아웃' },
+  // { menuName: '로그아웃' },
 ];
 
 const Sidebar = ({ path }: Props) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const axiosInstance = authInstance({ ContentType: 'application/x-www-form-urlencoded;charset=utf-8' });
 
   const logout = () => {
     sessionStorage.clear();
     localStorage.clear();
+    axiosInstance.post('https://kauth.kakao.com/oauth/token', {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('kakaoAccessToken')}`,
+      },
+    });
 
     navigate('/login');
   };
