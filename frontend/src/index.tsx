@@ -31,6 +31,7 @@ import MyPage from './pages/MyPage';
 import ErrorPage from './pages/ErrorPage';
 import LoginPage from './pages/LoginPage';
 import LoginRedirectPage from './pages/LoginRedirectPage';
+import LogoutRedirectPage from './pages/LogoutRedirectPage';
 
 import CalendarPage from './pages/CalendarPage';
 import CalendarPostPage from './pages/CalendarPostPage';
@@ -57,6 +58,7 @@ root.render(
             <Route path="/analysis" element={<AnalysisPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/login-redirect" element={<LoginRedirectPage />}></Route>
+            <Route path="/logout-redirect" element={<LogoutRedirectPage />}></Route>
             <Route path="/tutorial" element={<TutorialPage />}></Route>
             <Route path="/mycloset" element={<MyClosetPage />} />
             <Route path="/mycloset/detail/:id" element={<ClothesDetailPage />} /> // 라우팅 매칭 다시 해야됨 * 사용하기?
