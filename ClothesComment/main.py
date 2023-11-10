@@ -40,11 +40,24 @@ class KJGResponse(BaseModel):
 
 
     # temper는 두께로 계산
-    jg_temperature = Thickness(clothes_request.outer.thickness, clothes_request.top.thickness, clothes_request.bottom.thickness, clothes_request.item.thickness)
+    # jg_temperature = Thickness(clothes_request.outer.thickness, clothes_request.top.thickness, clothes_request.bottom.thickness, clothes_request.item.thickness)
+    jg_temperature = Thickness(
+        outer=clothes_request.outer.thickness,
+        top=clothes_request.top.thickness,
+        bottom=clothes_request.bottom.thickness,
+        item=clothes_request.item.thickness
+    )
     jg_temperature = get_temperature(jg_temperature)
 
     # color에서 darkness 뽑고 mk_comment에서 온도 가져와서 합산
-    jg_color = Color(clothes_request.outer.color, clothes_request.top.color, clothes_request.bottom.color, clothes_request.item.color)
+    # jg_color = Color(clothes_request.outer.color, clothes_request.top.color, clothes_request.bottom.color, clothes_request.item.color)
+    jg_color = Color(
+        outer = clothes_request.outer.color,
+        top = clothes_request.top.color,
+        bottom = clothes_request.bottom.color,
+        item = clothes_request.item.color
+    )
+
     darkness = get_darkness(jg_color)
 
     # score List : outer top bottom item 순으로 append
@@ -68,10 +81,10 @@ class KJGResponse(BaseModel):
     #     "temperature": 9
     # }
     # 파이썬의 str은 immutable (append 불가능)
-    outer_input_txt = '"outer": ["' + clothes_request.outer.clothesName + '", ' + score_list[0] + '], '
-    top_input_txt = '"top": ["' + clothes_request.top.clothesName + '", ' + score_list[1] + '], '
-    bottom_input_txt = '"bottom": ["' + clothes_request.bottom.clothesName + '", ' + score_list[2] + '], '
-    item_input_txt = '"item": ["' + clothes_request.item.clothesName + '", ' + score_list[3] + '], '
+    outer_input_txt = '"outer": ["' + clothes_request.outer.clothesName + '", ' + str(score_list[0]) + '], '
+    top_input_txt = '"top": ["' + clothes_request.top.clothesName + '", ' + str(score_list[1]) + '], '
+    bottom_input_txt = '"bottom": ["' + clothes_request.bottom.clothesName + '", ' + str(score_list[2]) + '], '
+    item_input_txt = '"item": ["' + clothes_request.item.clothesName + '", ' + str(score_list[3]) + '], '
     temperature_input_txt = '"temperature": ' + str(avg_temp)
 
     comment_input_txt = "{" + outer_input_txt + top_input_txt + bottom_input_txt + item_input_txt + temperature_input_txt + "}"
