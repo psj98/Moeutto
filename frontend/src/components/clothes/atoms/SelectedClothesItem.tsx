@@ -12,8 +12,9 @@ interface ItemPropsType {
 
 const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId }) => {
   const dispatch = useDispatch();
-  const pathname = window.location.href;
+  const pathname = window.location.pathname;
 
+  console.log(pathname);
   ScrollReveal().reveal('.clothes');
 
   const [isSelected, setIsSelected] = useState(false);
