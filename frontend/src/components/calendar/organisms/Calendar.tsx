@@ -24,7 +24,7 @@ interface CalendarProps {
 }
 
 interface ClendarDataType {
-    myOutFit: {
+    calendarList: {
         id: number;
         imageUrl: string;
         likeOutfit: number;
@@ -73,15 +73,18 @@ const Calendar = ({
     // 날짜에 어떤 옷과 좋아요가 등록되어 있는지 리스트 불러오기 list값에 저장한 뒤 날짜 컴포넌트에 뿌려주자
     // 1. request에 curDate를 담아서 보내자
 
+    const [calendarDataList, setCalendarDataList] = useState<ClendarDataType>();
+
     // 달력 데이터 가져오기
     const getCalendarData = async () => {
         try {
             const axiosInstance = authInstance({ ContentType: 'application/json' });
             const response = await axiosInstance.post('/calendars/list', {
-                "curData": format(selectedDate, 'yyyy-MM-dd')
+                "regDate": format(selectedDate, 'yyyy-MM-dd').toString()
             });
 
             console.log('캘린더 목록 조회 성공', response.data.data)
+            setCalendarDataList(response.data.data)
         } catch (error) {
             console.log('캘린더 목록 조회 실패', error)
         }
@@ -89,57 +92,8 @@ const Calendar = ({
 
     useEffect(() => {
         getCalendarData();
+        // selectedData의 월이 바뀔 때만 호출해야된다
     }, [selectedDate])
-
-    // 가상의 데이터
-    const CalendarDataList: ClendarDataType = 
-    {
-        "myOutFit": [
-            {
-                "id" : 1, // 착장 id
-                "imageUrl" : "/images/clothes1.png", // 이미지
-                "likeOutfit" : 1, // 좋아요 여부
-                "regDate": '2023-11-01', // 착장 등록 날짜
-            },
-            {
-                "id" : 2, // 착장 id
-                "imageUrl" : "/images/clothes2.png", // 이미지
-                "likeOutfit" : 2, // 좋아요 여부
-                "regDate": '2023-11-02', // 착장 등록 날짜
-            },
-            {
-                "id" : 3, // 착장 id
-                "imageUrl" : "/images/clothes3.png", // 이미지
-                "likeOutfit" : 3, // 좋아요 여부
-                "regDate": '2023-11-03', // 착장 등록 날짜
-            },
-            {
-                "id" : 4, // 착장 id
-                "imageUrl" : "/images/clothes1.png", // 이미지
-                "likeOutfit" : 1, // 좋아요 여부
-                "regDate": '2023-11-04', // 착장 등록 날짜
-            },
-            {
-                "id" : 5, // 착장 id
-                "imageUrl" : "/images/clothes1.png", // 이미지
-                "likeOutfit" : 2, // 좋아요 여부
-                "regDate": '2023-11-05', // 착장 등록 날짜
-            },
-            {
-                "id" : 6, // 착장 id
-                "imageUrl" : "/images/clothes1.png", // 이미지
-                "likeOutfit" : null, // 좋아요 여부
-                "regDate": '2023-11-06', // 착장 등록 날짜
-            },
-            // {
-            //     "id" : 6, // 착장 id
-            //     "imageUrl" : "/images/clothes1.png", // 이미지
-            //     "likeOutfit" : 3, // 좋아요 여부
-            //     "regDate": '2023-11-10', // 착장 등록 날짜
-            // },
-        ],
-    }
-
 
     return (
         <>
@@ -163,17 +117,18 @@ const Calendar = ({
                 </div>
 
                 {/* 날짜 */}
-                <RenderCells
-                    currentMonth={currentMonth}
-                    selectedDate={selectedDate}
-                    onDateClick={onDateClick}
-                    state={state}
-                    CalendarDataList={CalendarDataList}
-
-                    setShowSelectedImg={setShowSelectedImg}
-                    setClothesId={setClothesId}
-                    setIsLikedOutFit={setIsLikedOutFit}
-                />
+                {calendarDataList !== undefined && (
+                    <RenderCells
+                        currentMonth={currentMonth}
+                        selectedDate={selectedDate}
+                        onDateClick={onDateClick}
+                        state={state}
+                        CalendarDataList={calendarDataList}
+                        setShowSelectedImg={setShowSelectedImg}
+                        setClothesId={setClothesId}
+                        setIsLikedOutFit={setIsLikedOutFit}
+                    />
+                )}
             </div>
         </>
     );

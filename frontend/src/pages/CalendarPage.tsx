@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { PiSmileyBold, PiSmileySadBold } from 'react-icons/pi';
-import { BsSnow} from 'react-icons/bs';
+import { BsSnow, BsPencil } from 'react-icons/bs';
 import { FaRegSun } from 'react-icons/fa';
 
 import CalendarTemplates from '../components/calendar/templates/CalendarTemplates';
@@ -53,6 +53,7 @@ const CalendarPage = () => {
         setIsColdModal(false);
       }
     }
+
   
   return (
     <>
@@ -61,13 +62,19 @@ const CalendarPage = () => {
         <Link to="post">포스트</Link>
         <br />
       </button>
-      <div className='flex justify-center items-center border rounded-2xl shadow-md border-pink border-2 p-4 shadow-md relative mt-6'>
+      <div className='flex flex-col justify-center items-center border rounded-2xl shadow-md border-pink border-2 p-4 shadow-md relative mt-6'>
         <CalendarTemplates
           setShowSelectedImg={setShowSelectedImg}
           setClothesId={setClothesId}
           setIsLikedOutFit={setIsLikedOutFit}
           handleModalOpen={handleModalOpen}
         />
+        <div className='flex gap-2 ms-[20%]'>
+          <BsPencil size={15} className='text-gray-dark' /> 
+          <div className='font-gray-dark text-AppBody2'>
+            착장 등록 후 착장 평가를 해주세요!
+          </div>
+        </div>
       </div>
 
       {/* 상세 정보 모달 */}

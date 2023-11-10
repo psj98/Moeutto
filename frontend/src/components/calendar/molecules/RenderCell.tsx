@@ -13,6 +13,7 @@ import {
 } from 'date-fns';
 
 import { FaPlus } from 'react-icons/fa';
+import { BsPencil } from 'react-icons/bs';
 
 
 interface RenderCellsProps {
@@ -27,7 +28,7 @@ interface RenderCellsProps {
 }
 
 interface CalendarDataType {
-    myOutFit: OutfitData[];  
+    calendarList: OutfitData[];  
 }
 
 interface OutfitData {
@@ -60,6 +61,8 @@ const RenderCells = ({
     let day = startDate;
     let formattedDate = '';
 
+    
+
     useEffect(() => {
         console.log('지금 선택한 날짜', format(selectedDate, 'yyyy-MM-dd'));
     }, [selectedDate])
@@ -75,13 +78,16 @@ const RenderCells = ({
         }
 
         // 내가 받은 리스트가 존재하고, 배열일 때
-        if (CalendarDataList  && Array.isArray(CalendarDataList.myOutFit)) {
+        console.log('떠야 되는 것 1번: ', CalendarDataList)
+        console.log('떠야 되는 것 2번: ', CalendarDataList.calendarList)
+        if (Array.isArray(CalendarDataList?.calendarList)) {
+            console.log('왜 안뜨냐 ?')
             // 반복문을 돌면서
-            CalendarDataList.myOutFit.forEach(outfit => {
+            CalendarDataList.calendarList.forEach(outfit => {
+                console.log('오늘의 캘린더 정보입니다', outfit)
                 // 만약에 선택한 날과 같은 값을 발견한다면
                 if (format(selectedDate, 'yyyy-MM-dd') === outfit.regDate) {
                     // 이미지 상태를 업데이트 합니다
-                    
                     setShowSelectedImg(outfit.imageUrl);
                     // 착장의 id 상태를 업데이트 합니다
                     setClothesId(outfit.id);
@@ -101,18 +107,20 @@ const RenderCells = ({
             // 그 날짜에 어떤 이모지가 달릴지 결정할 날짜 형식
             const todayDate = format(day, 'yyyy-MM-dd');
             let likeOutfit: number = 0;
+            let clothesImgUrl: string = "";
 
             // 이모지
             let imgUrl: string = "";
             
             // 오늘 날짜에 맞는 착장 이미지를 가져온다
             // 오늘 날짜에 맞는 이모지를 가져온다
-            if (CalendarDataList  && Array.isArray(CalendarDataList.myOutFit)) {
-                CalendarDataList.myOutFit.forEach(outfit => {
+            if (Array.isArray(CalendarDataList?.calendarList)) {
+                CalendarDataList.calendarList.forEach(outfit => {
 
                     // 오늘과 등록한 날이 같은 경우 그 날의 이모지 상태를 알 수 있음
                     if (outfit.regDate === todayDate) {
                         likeOutfit = outfit.likeOutfit;
+                        clothesImgUrl = outfit.imageUrl;
                     }
 
                 });
@@ -126,7 +134,6 @@ const RenderCells = ({
             } else if (likeOutfit === 3) {
                 imgUrl = "/images/pig.png";
             }
-
 
             const cloneDay = day;
             const key = format(day, 'yyyyMMdd'); 
@@ -188,12 +195,19 @@ const RenderCells = ({
                         )}
 
                         {/* 오늘 날짜에 착장을 추가하지 않았을 경우 + 아이콘 출력 */}
-                        {!imgUrl && isSameDay(day, new Date()) && (
+                        {!clothesImgUrl && isSameDay(day, new Date()) && (
                             <div className="absolute top-2 left-2 text-pink-hot hover:scale-105 cursor-pointer"
                                 onClick={() => navigate('/calendar/post') }
                             >
                                 <FaPlus size={35} />
                             </div>
+                        )}
+
+                        {/* 착장은 추가 했지만 평가는 안한 경우 */}
+                        {!imgUrl && (
+                            <div className="absolute top-2 right-2 text-gray-dark hover:scale-105 cursor-pointer">
+                            <BsPencil size={15} />
+                        </div>
                         )}
                     </span>
                 </div>
