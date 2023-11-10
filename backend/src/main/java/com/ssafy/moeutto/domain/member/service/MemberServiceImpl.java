@@ -19,6 +19,7 @@ import java.util.UUID;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final AuthTokensGenerator authTokensGenerator;
 
     /**
      * 솔이가 요청한 닉네임 검색 API 입니다.
@@ -35,7 +36,6 @@ public class MemberServiceImpl implements MemberService {
 
         return nickname;
     }
-    private final AuthTokensGenerator authTokensGenerator;
 
     @Override
     public MemberMyPageResponseDto giveMypageInfo(String token) throws BaseException {
