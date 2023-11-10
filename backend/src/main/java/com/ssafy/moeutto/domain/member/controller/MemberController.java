@@ -63,6 +63,7 @@ public class MemberController {
 
         String email = userInfo.get("email").toString();
         String nickname = userInfo.get("nickname").toString();
+        userInfo.put("kakaoAccessToken", accessToken);
 
         AuthTokens tokens = oAuthLoginService.login(email, nickname);
 
