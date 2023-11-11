@@ -13,12 +13,14 @@ const ContentContainer = styled.div`
 `;
 
 function App() {
+  const pathname = window.location.pathname;
+
   return (
     // w-16 md:w-32 lg:w-48 bg-red-200
     // 448px가 너비 최대
     <div className="App flex max-w-md mx-auto border border-pink-hot rounded-xl">
       <Sidebar path="" />
-      <MobileNav />
+      {pathname === '/' || pathname === '/login' ? null : <MobileNav />}
       <ContentContainer>
         {/* // v6 outlet 은 // children과 같은 효과 */}
         <Outlet />
