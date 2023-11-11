@@ -19,12 +19,21 @@ func RecommendationHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	recommendations, err := logic.GenerateRecommendations(requestData)
-	if err != nil {
-		http.Error(w, "Error processing request", http.StatusInternalServerError)
-		return
+	selectedClothes := logic.SelectClothes(requestData.ClothesList, requestData.WeatherInfo)
+
+	var aiRecommendations []models.LogicRecommendation
+	for _, rec := range selectedClothes {
+		aiRec := models.LogicRecommendation{
+			ClothesId: rec.ClothesId,
+			RecDate:   rec.RecDate,
+		}
+		aiRecommendations = append(aiRecommendations, aiRec)
+	}
+
+	responseData := models.ResponseData{
+		AIRecommend: aiRecommendations,
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(recommendations)
+	json.NewEncoder(w).Encode(responseData)
 }
