@@ -47,7 +47,7 @@ const TextilInput = ({ onChange }: TextileInputProps) => {
 
   return (
     <>
-      <Label id="textile" value="옷의 소재" />
+      <Label id="textile" value="옷의 소재" isEssential={true} />
       <div className="flex flex-wrap">
         {optionList.map((option, index) => {
           return (

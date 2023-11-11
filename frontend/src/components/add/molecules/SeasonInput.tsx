@@ -47,7 +47,7 @@ const SeasonInput = ({ onChange }: SeasonInputProps) => {
 
   return (
     <>
-      <Label id="season" value="옷의 계절" />
+      <Label id="season" value="옷의 계절" isEssential={true} />
       <div className="flex flex-wrap">
         <CheckInput
           type="checkbox"
