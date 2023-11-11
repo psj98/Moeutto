@@ -1,4 +1,5 @@
 import React, { SetStateAction, useState, useEffect } from 'react';
+import { Fade } from 'react-awesome-reveal';
 import Label from '../atoms/Label';
 import CheckInput from '../atoms/CheckInput';
 
@@ -49,17 +50,19 @@ const TextilInput = ({ onChange }: TextileInputProps) => {
     <>
       <Label id="textile" value="옷의 소재" isEssential={true} />
       <div className="flex flex-wrap">
-        {optionList.map((option, index) => {
-          return (
-            <CheckInput
-              key={index}
-              type="radio"
-              option={option}
-              value="두께"
-              onChange={event => setTextile(event.target.checked ? option.value : null)}
-            />
-          );
-        })}
+        <Fade delay={1e1} cascade direction="down" damping={0.1} triggerOnce>
+          {optionList.map((option, index) => {
+            return (
+              <CheckInput
+                key={index}
+                type="radio"
+                option={option}
+                value="두께"
+                onChange={event => setTextile(event.target.checked ? option.value : null)}
+              />
+            );
+          })}
+        </Fade>
       </div>
     </>
   );

@@ -1,4 +1,5 @@
 import React, { SetStateAction } from 'react';
+import { Fade } from 'react-awesome-reveal';
 import Label from '../atoms/Label';
 import ColorRadioInput from '../atoms/ColorRadioInput';
 import ColorPalette from '../../common/ColorPalette';
@@ -34,17 +35,19 @@ const ColorInput = ({ onChange }: AddClothFormProps) => {
     <>
       <Label id="color" value="옷의 색깔" isEssential={true} />
       <div className="flex flex-wrap">
-        {ColorPalette.map((option, index) => {
-          return (
-            <ColorRadioInput
-              key={index}
-              type="radio"
-              option={option}
-              value="color"
-              onChange={event => onChange(event.target.checked ? option.name : '')}
-            />
-          );
-        })}
+        <Fade delay={1e1} cascade direction="down" damping={0.1} triggerOnce>
+          {ColorPalette.map((option, index) => {
+            return (
+              <ColorRadioInput
+                key={index}
+                type="radio"
+                option={option}
+                value="color"
+                onChange={event => onChange(event.target.checked ? option.name : '')}
+              />
+            );
+          })}
+        </Fade>
       </div>
     </>
   );
