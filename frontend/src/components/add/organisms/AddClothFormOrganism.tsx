@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, SetStateAction, Dispatch } from 'react';
+import React, { useState, MouseEvent, ChangeEvent, SetStateAction, Dispatch } from 'react';
 import styled from 'styled-components';
 import PictureInput from '../molecules/PictureInput';
 import CategoryInput from '../molecules/CategoryInput';
@@ -10,7 +10,7 @@ import NameInput from '../molecules/NameInput';
 import PriceInput from '../molecules/PriceInput';
 import BrandInput from '../molecules/BrandInput';
 import SubmitButton from '../molecules/SubmitButton';
-import { ClothInfoType  } from '../../../pages/AddClothPage';
+import { ClothInfoType } from '../../../pages/AddClothPage';
 
 interface Props {
   setStateValue: Dispatch<SetStateAction<FormData>>;
@@ -47,9 +47,10 @@ const AddClothFormOrganism = ({ setStateValue }: Props) => {
   const [clothBrand, setClothBrand] = useState<string>(''); // string
 
   // 옷 카테고리 입력 받는 함수
-  const handleClothCategory = (e: ChangeEvent<HTMLSelectElement>) => {
-    if (e.target.value) {
-      setClothCategory(e.target.value);
+  const handleClothCategory = (e: MouseEvent<HTMLButtonElement>) => {
+    if (e.target as HTMLButtonElement) {
+      setClothCategory((e.target as HTMLButtonElement).value);
+      console.log(clothCategory);
     }
   };
 
@@ -122,7 +123,7 @@ const AddClothFormOrganism = ({ setStateValue }: Props) => {
       <Form>
         <PictureInput setStateValue={setClothPic} />
         <div className="text-WebBody2 text-center mt-[28px]">옷의 정보</div>
-        <CategoryInput onChange={handleClothCategory} />
+        <CategoryInput onClick={handleClothCategory} value={clothCategory} />
         <SeasonInput onChange={setClothSeason} />
         <ThicknessInput onChange={setClothThickness} />
         <TextilInput onChange={setClothTextile} />
