@@ -113,7 +113,9 @@ const CategorySelect = ({ id, value, onClick }: CategoryProps) => {
           카테고리를 선택하세요.
         </option>
         {largeCategory.map(item => (
-          <option value={item.id}>{item.name}</option>
+          <option key={item.id} value={item.id}>
+            {item.name}
+          </option>
         ))}
       </select>
       {/* <select id="middle" value={value} defaultValue="0" onChange={onChange}> */}
