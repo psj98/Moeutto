@@ -32,25 +32,29 @@ const Pic = styled.div`
 
 const Container = styled.div`
   position: relative;
-  /* display: flex; */
-  /* justify-content: center; */
-  /* flex-direction: column; */
-  /* button {
-    width: calc(70vw * 0.8 * 0.7);
-    max-width: 460px;
-    margin: 10px auto;
-  } */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: '#1a1a1a';
+
+  .mid {
+    /* display: inline-block; */
+    /* width: calc(70vw * 0.8 * 0.7);
+    height: calc(70vw * 0.8 * 0.7); */
+    display: inline;
+    margin: 0 auto;
+  }
   .delete {
     position: absolute;
-    bottom: 10px;
-    left: 30px;
+    bottom: 10%;
+    left: 10%;
     z-index: 100;
   }
   .delete:hover::after {
     position: absolute;
     content: '다시찍기';
-    bottom: 20px;
-    left: 50px;
+    /* bottom: ;
+    left: 50px; */
     z-index: 100;
     width: 120px;
     font-size: 20px;
@@ -59,15 +63,13 @@ const Container = styled.div`
 
   .removeBG {
     position: absolute;
-    top: 10px;
-    right: 30px;
+    bottom: 10%;
+    right: 10%;
     z-index: 100;
   }
   .removeBG:hover::after {
     position: absolute;
     content: '배경지우기';
-    top: 30px;
-    right: 60px;
     width: 120px;
     font-size: 20px;
     font-weight: 800;
@@ -102,6 +104,7 @@ const PictureInput = ({ setStateValue }: Props) => {
       setFile(null);
     }
     inputRef.current.click();
+    console.log('dfSDFSDFS');
   };
   const removeBG = () => {
     // api 연결 // Return 받은 이미지 file 에 저장 originFile에 이미지 저장후 애니메이션
@@ -133,16 +136,17 @@ const PictureInput = ({ setStateValue }: Props) => {
         <Pic>
           <ImageInput onChange={handleFileChange} inputRef={inputRef} />
           {preview ? <PreviewImage imageSrc={preview} /> : null}
+          {preview ? ( // 이미지를 제출하면 보입니다
+            <span className="mid">
+              <IconButton onClick={undo} className="inline-block delete" aria-label="delete" size="large">
+                <TbTrashXFilled className="w-[60px]" size="60" />
+              </IconButton>
+              <IconButton onClick={removeBG} className="inline-block removeBG" aria-label="removeBG" size="large">
+                <PiSelectionBackgroundDuotone className="w-[60px]" size="60" />
+              </IconButton>
+            </span>
+          ) : null}
         </Pic>
-        {/* <Button color="secondary"> */}
-        <IconButton className="inline-block delete" aria-label="delete" size="large">
-          <TbTrashXFilled onClick={undo} className="w-[60px]" size="60" />
-        </IconButton>
-        {/* </Button> */}
-        <IconButton className="inline-block removeBG" aria-label="removeBG" size="large">
-          <PiSelectionBackgroundDuotone onClick={removeBG} className="w-[60px]" size="60" />
-        </IconButton>
-        {/* <StyledButton onClick={removeBG} value="배경제거" /> */}
       </Container>
     </>
   );
