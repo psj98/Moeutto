@@ -14,6 +14,7 @@ const ContentContainer = styled.div`
 `;
 
 function App() {
+  const pathname = window.location.pathname;
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -32,7 +33,7 @@ function App() {
     // 448px가 너비 최대
     <div className="App flex max-w-md mx-auto">
       <Sidebar path="" />
-      <MobileNav />
+      {pathname === '/' || pathname === '/login' ? null : <MobileNav />}
       <ContentContainer>
         {/* // v6 outlet 은 // children과 같은 효과 */}
         <Outlet />
