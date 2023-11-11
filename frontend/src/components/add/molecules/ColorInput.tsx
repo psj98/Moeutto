@@ -32,7 +32,7 @@ export const colorList: Color[] = [
 const ColorInput = ({ onChange }: AddClothFormProps) => {
   return (
     <>
-      <Label id="color" value="옷의 색깔" />
+      <Label id="color" value="옷의 색깔" isEssential={true} />
       <div className="flex flex-wrap">
         {ColorPalette.map((option, index) => {
           return (

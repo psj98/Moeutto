@@ -35,7 +35,7 @@ const ThicknessInput = ({ onChange }: ThicknessInputProps) => {
 
   return (
     <>
-      <Label id="thickness" value="옷의 두께" />
+      <Label id="thickness" value="옷의 두께" isEssential={true} />
       <div className="flex flex-wrap">
         {optionList.map((option, index) => (
           <CheckInput

@@ -10,7 +10,7 @@ interface CategoryProps {
 const CategoryInput = ({ value, onChange }: CategoryProps) => {
   return (
     <>
-      <Label id="category" value="카테고리" />
+      <Label id="category" value="카테고리" isEssential={true} />
       <CategorySelect id="category" value={value} onChange={onChange} />
     </>
   );
