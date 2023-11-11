@@ -1,4 +1,5 @@
 import React, { SetStateAction, useState, useEffect } from 'react';
+import { Fade } from 'react-awesome-reveal';
 import Label from '../atoms/Label';
 import CheckInput from '../atoms/CheckInput';
 
@@ -37,15 +38,17 @@ const ThicknessInput = ({ onChange }: ThicknessInputProps) => {
     <>
       <Label id="thickness" value="옷의 두께" isEssential={true} />
       <div className="flex flex-wrap">
-        {optionList.map((option, index) => (
-          <CheckInput
-            key={index}
-            type="radio"
-            option={option}
-            value="thickness"
-            onChange={event => setThickness(event.target.checked ? index + 1 : null)}
-          />
-        ))}
+        <Fade delay={1e1} cascade direction="down" damping={0.1} triggerOnce>
+          {optionList.map((option, index) => (
+            <CheckInput
+              key={index}
+              type="radio"
+              option={option}
+              value="thickness"
+              onChange={event => setThickness(event.target.checked ? index + 1 : null)}
+            />
+          ))}
+        </Fade>
       </div>
     </>
   );

@@ -26,8 +26,9 @@ const Check = styled.div`
 
   label {
     display: inline-block;
-    width: 60px;
-    padding: 2px;
+    /* width: 60px; */
+    min-width: 60px;
+    padding: 2px 10px;
     /* height: 30px; */
     text-align: center;
     border: 1px solid black;
