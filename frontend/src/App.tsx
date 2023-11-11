@@ -14,15 +14,15 @@ const ContentContainer = styled.div`
 `;
 
 function App() {
-  const pathname = window.location.pathname;
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     const accessToken = sessionStorage.getItem('accessToken');
-    const isLoginUrl = location.pathname.includes('login');
+    const isLoginUrl = location.pathname.includes('login'); // 처음 인덱스 페이지에서는 이하 기능을 수행하지 않도록 수정하였습니다
+    const isRoot = location.pathname === '/';
 
-    if (!accessToken && !isLoginUrl) {
+    if (!accessToken && !isLoginUrl && !isRoot) {
       alert('로그인을 먼저 진행해주세요');
       navigate('/login');
     }
@@ -33,7 +33,7 @@ function App() {
     // 448px가 너비 최대
     <div className="App flex max-w-md mx-auto">
       <Sidebar path="" />
-      {pathname === '/' || pathname === '/login' ? null : <MobileNav />}
+      {location.pathname === '/' || location.pathname === '/login' ? null : <MobileNav />}
       <ContentContainer>
         {/* // v6 outlet 은 // children과 같은 효과 */}
         <Outlet />
