@@ -108,7 +108,7 @@ const CategorySelect = ({ id, value, onClick }: CategoryProps) => {
 
   return (
     <Select>
-      <select id={id} value={selectedLargeCategory} defaultValue="0" onChange={handleLargeCategory}>
+      <select id={id} value={selectedLargeCategory} onChange={handleLargeCategory}>
         <option value="0" disabled hidden>
           카테고리를 선택하세요.
         </option>

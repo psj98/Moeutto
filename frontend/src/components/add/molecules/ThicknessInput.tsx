@@ -9,6 +9,7 @@ interface Option {
 }
 
 interface ThicknessInputProps {
+  value: number | null;
   onChange: (value: SetStateAction<number>) => void;
 }
 
@@ -27,12 +28,19 @@ const optionList: Option[] = [
   },
 ];
 
-const ThicknessInput = ({ onChange }: ThicknessInputProps) => {
+const ThicknessInput = ({ value, onChange }: ThicknessInputProps) => {
   const [thickness, setThickness] = useState<number | null>();
 
   useEffect(() => {
     onChange(thickness);
   }, [thickness]);
+
+  useEffect(() => {
+    // 이미지 재제출 시 초기화위해 추가한 코드
+    if (value === null) {
+      setThickness(null);
+    }
+  }, [value]);
 
   return (
     <>
@@ -45,6 +53,7 @@ const ThicknessInput = ({ onChange }: ThicknessInputProps) => {
               type="radio"
               option={option}
               value="thickness"
+              checked={thickness === index + 1} // 이미지 재제출 시 초기화위해 추가한 코드
               onChange={event => setThickness(event.target.checked ? index + 1 : null)}
             />
           ))}

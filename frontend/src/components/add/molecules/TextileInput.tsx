@@ -9,6 +9,7 @@ interface Option {
 }
 
 interface TextileInputProps {
+  value: string | null;
   onChange: (value: SetStateAction<string | null>) => void;
 }
 
@@ -39,25 +40,33 @@ const optionList: Option[] = [
   },
 ];
 
-const TextilInput = ({ onChange }: TextileInputProps) => {
+const TextilInput = ({ value, onChange }: TextileInputProps) => {
   const [textile, setTextile] = useState<string | null>('');
 
   useEffect(() => {
     onChange(textile);
   }, [textile]);
 
+  useEffect(() => {
+    // 사진 재체출시 초기화
+    if (value === null) {
+      setTextile(null);
+    }
+  }, [value]);
+
   return (
     <>
       <Label id="textile" value="옷의 소재" isEssential={true} />
       <div className="flex flex-wrap">
-        <Fade delay={1e1} cascade direction="down" damping={0.1} triggerOnce>
+        <Fade delay={0.5} cascade direction="down" damping={0.1}>
           {optionList.map((option, index) => {
             return (
               <CheckInput
                 key={index}
                 type="radio"
                 option={option}
-                value="두께"
+                value="textile"
+                checked={textile === option.value}
                 onChange={event => setTextile(event.target.checked ? option.value : null)}
               />
             );

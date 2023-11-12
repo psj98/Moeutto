@@ -11,6 +11,7 @@ interface Color {
 }
 
 interface AddClothFormProps {
+  value: string;
   onChange: (value: SetStateAction<string>) => void;
 }
 
@@ -30,12 +31,12 @@ export const colorList: Color[] = [
   { name: '혼합', background: 'linear-gradient(180deg, #F19494 0%, #FFFCBC 51.56%, #22D7FF 86.98%, #DF18FF 100%)' },
 ];
 
-const ColorInput = ({ onChange }: AddClothFormProps) => {
+const ColorInput = ({ value, onChange }: AddClothFormProps) => {
   return (
     <>
       <Label id="color" value="옷의 색깔" isEssential={true} />
       <div className="flex flex-wrap">
-        <Fade delay={1e1} cascade direction="down" damping={0.1} triggerOnce>
+        <Fade delay={1e2} cascade direction="down" damping={0.1}>
           {ColorPalette.map((option, index) => {
             return (
               <ColorRadioInput
@@ -43,6 +44,7 @@ const ColorInput = ({ onChange }: AddClothFormProps) => {
                 type="radio"
                 option={option}
                 value="color"
+                checked={value === option.name} // 이미지 재제출 시 초기화위해 추가한 코드
                 onChange={event => onChange(event.target.checked ? option.name : '')}
               />
             );
