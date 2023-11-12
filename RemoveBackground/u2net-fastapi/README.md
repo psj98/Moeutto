@@ -5,6 +5,12 @@
 - 가운데 픽셀 기준으로 rgb -> hex 값 반환
 - 카테고리 분류
 
+# 테스트
+## postman
+- main.py 실행 (cpu)
+- key : file
+- value : 이미지 파일 등록
+- http://localhost:9010/predict -> send
 
 
 # Copyright
