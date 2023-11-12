@@ -1,16 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RxBookmark, RxBookmarkFilled } from "react-icons/rx";
 import { authInstance } from "../../../api/api";
 
 interface PropsType {
     imgUrl: string;
     id: number;
+    isStar: number;
 }
 
 // 그냥 여기서 즐겨찾기 api 불러오기
 
-const ClothesDetailImg = ({ imgUrl, id }: PropsType ) => {
-    const [star, setStar] = useState<boolean>(false);
+const ClothesDetailImg = ({ imgUrl, id, isStar }: PropsType ) => {
+    const [star, setStar] = useState<boolean>();
+
+    useEffect(() => {
+        if (isStar === 1) {
+            setStar(true)
+        } else {
+            setStar(false)
+        }
+    }, [])
+    
 
     const onClickBookMark = async () => {
         setStar((prev) => !prev)
