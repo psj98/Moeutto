@@ -26,7 +26,7 @@ const MapSettingForm: React.FC<MapSettingPropsType> = ({
         <>
             <div className="flex justify-center items-center w-full">
                     <LocationSet />
-                <div className="flex items-center justify-end">
+                <div className="absolute right-3 top-3">
                     <AiOutlineClose onClick={showLocationClick} size={25} />
                 </div>
             </div>
@@ -34,8 +34,8 @@ const MapSettingForm: React.FC<MapSettingPropsType> = ({
             <CurrentLocationBtn 
                 setResetLocation={setResetLocation}
             />
-            <div className="flex gap-1">
-                <MapIcon color={'black'} />
+            <div className="flex gap-1 mt-4 mb-4">
+                <MapIcon color={'gray'} />
                 <UserLocation currentLocation={currentLocation} address={address} color={'black'} />
             </div>
         </>
