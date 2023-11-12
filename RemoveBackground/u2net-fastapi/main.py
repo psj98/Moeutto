@@ -5,7 +5,8 @@ import process as kjg
 from PIL import Image
 from io import BytesIO
 
-from fastapi.responses import StreamingResponse
+from fastapi.responses import JSONResponse,StreamingResponse
+import base64
 
 app = FastAPI()
 
@@ -21,19 +22,26 @@ async def create_report(file: UploadFile = File(...)):
     # img = Image.open(BytesIO(content)).convert('RGB')
     #  이 사이에서 문제 발생
 
-
-    print("img Type : "+str(type(img)))
+    # print("img Type : "+str(type(img)))
     ret = kjg.main(img)
-    print("predict 완료")
-    print("ret type:"+str(type(ret)))
+    # print("predict 완료")
+    # print("ret type:"+str(type(ret)))
+    width, height = ret.size
+    center_pixel = ret.getpixel((width // 2, height // 2))
+    hex_color = '#{:02x}{:02x}{:02x}'.format(center_pixel[0], center_pixel[1], center_pixel[2])
+
     # ret tpye:<class 'PIL.Image.Image'>
     # ret-> segmented img
     # return {'file': ret}
     buffer = BytesIO()
     ret.save(buffer, format='JPEG')
     buffer.seek(0)
+    encoded_image = base64.b64encode(buffer.getvalue()).decode()
 
-    return StreamingResponse(buffer, media_type="image/jpeg")
+    # JSON 응답으로 이미지와 색상 정보 반환
+    # multipart response
+    # return StreamingResponse(buffer, media_type="image/jpeg")
+    return JSONResponse(content={"image": encoded_image, "color": hex_color})
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=9010)
