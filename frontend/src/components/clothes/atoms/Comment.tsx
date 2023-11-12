@@ -14,7 +14,7 @@ const Comment = ({ frequency, recentDate, name }: propsType) => {
         // 주어진 날짜와 현재 날짜 계산
         const calculateDaysPassed = () => {
             // 백에서 어떤 형식으로 줄 지는 모르겠음
-            const givenDate = new Date('2023-10-20');
+            const givenDate = new Date(recentDate);
             const currentDate = new Date();
             
             // 주어진 날짜와 현재 날짜의 차이를 계산 (밀리초 단위)
