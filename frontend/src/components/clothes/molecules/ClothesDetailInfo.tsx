@@ -9,7 +9,7 @@ interface PropsType {
 const ClothesDetailInfo = ({ labelList, contentList }: PropsType) => {
     return (
         <div className="flex">
-            <div className="space-y-8 flex flex-col items-end me-10 w-[65px]">
+            <div className="space-y-8 flex flex-col items-end me-10 w-[80px]">
                 {labelList.map((title, index) => (
                     <LabelContent title={title} index={index} />
                 ) )}
