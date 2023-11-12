@@ -1,7 +1,6 @@
 package logic
 
 import (
-	"math/rand"
 	"myapp/internal/pkg/models"
 	"sort"
 	"strconv"
@@ -18,35 +17,72 @@ func SelectClothes(clothesList models.ClothesList, weatherInfos []models.Weather
 			RecDate:   weather.Date,
 		}
 
-		// 카테고리별 옷 선택
-		recommendation.ClothesId = append(recommendation.ClothesId, selectClothForCategory(clothesList.Outer, weather))
-		recommendation.ClothesId = append(recommendation.ClothesId, selectClothForCategory(clothesList.Top, weather))
-		recommendation.ClothesId = append(recommendation.ClothesId, selectClothForCategory(clothesList.Bottom, weather))
-		recommendation.ClothesId = append(recommendation.ClothesId, selectClothForCategory(clothesList.Item, weather))
+		outerClothesId, outerIndex := selectClothForCategory(clothesList.Outer, weather)
+		topClothesId, topIndex := selectClothForCategory(clothesList.Top, weather)
+		bottomClothesId, bottomIndex := selectClothForCategory(clothesList.Bottom, weather)
+		itemClothesId, itemIndex := selectClothForCategory(clothesList.Item, weather)
+
+		recommendation.ClothesId = append(recommendation.ClothesId, outerClothesId, topClothesId, bottomClothesId, itemClothesId)
+
+		// 각 카테고리별로 ClothesId에 해당하는 옷의 빈도와 최근 착용 날짜 업데이트
+		updateClothesUsage(&clothesList, []int{outerIndex, topIndex, bottomIndex, itemIndex}, weather.Date)
 
 		recommendations = append(recommendations, recommendation)
-
 	}
 
 	return recommendations
 }
 
 // selectClothForCategory - 특정 카테고리의 옷 중에서 최적의 옷을 선택
-func selectClothForCategory(clothes []models.Clothes, weather models.WeatherInfo) int {
-	suitableClothes := filterByWeather(clothes, weather)
-	sortByFrequencyAndDiversity(&suitableClothes)
-	demoteRecentlyWornClothes(&suitableClothes, 3)
+func selectClothForCategory(clothes []models.Clothes, weather models.WeatherInfo) (int, int) {
+	// 현재 날짜 구하기
+	currentTime, _ := time.Parse("2006-01-02", weather.Date)
+	yesterday := currentTime.AddDate(0, 0, -1).Format("2006-01-02")
 
-	// 모든 옷이 최근에 착용되었다면, 첫 번째 옷을 반환
-	if len(suitableClothes) == 0 && len(clothes) > 0 {
-		return clothes[0].ClothesId
+	// 착용 횟수, 최근 착용 날짜, 계절 고려 정렬
+	sort.SliceStable(clothes, func(i, j int) bool {
+		// 계절 부합성 확인
+		isSeasonMatchI := isSeasonMatch(clothes[i].Season, determineSeason(weather))
+		isSeasonMatchJ := isSeasonMatch(clothes[j].Season, determineSeason(weather))
+
+		// 최근 착용 날짜 확인
+		recentWornI := clothes[i].RecentDate == weather.Date || clothes[i].RecentDate == yesterday
+		recentWornJ := clothes[j].RecentDate == weather.Date || clothes[j].RecentDate == yesterday
+
+		// 착용 횟수 확인
+		frequentWornI := clothes[i].Frequency >= 30
+		frequentWornJ := clothes[j].Frequency >= 30
+
+		// 조건별 우선 순위 결정
+		if frequentWornI != frequentWornJ {
+			return !frequentWornI // 착용 횟수가 30회 미만인 옷 우선
+		} else if recentWornI != recentWornJ {
+			return !recentWornI // 최근에 착용하지 않은 옷 우선
+		} else if isSeasonMatchI != isSeasonMatchJ {
+			return isSeasonMatchI // 계절에 맞는 옷 우선
+		} else {
+			return clothes[i].Frequency > clothes[j].Frequency // 나머지 경우 착용 횟수가 많은 옷 우선
+		}
+	})
+
+	// 최적의 옷 선택
+	if len(clothes) > 0 {
+		return clothes[0].ClothesId, 0
 	}
 
-	if len(suitableClothes) > 0 {
-		return suitableClothes[0].ClothesId
-	}
+	return -1, -1
+}
 
-	return -1
+// updateClothesUsage - 옷의 사용 정보 업데이트
+func updateClothesUsage(clothesList *models.ClothesList, indices []int, date string) {
+	categories := []*[]models.Clothes{&clothesList.Outer, &clothesList.Top, &clothesList.Bottom, &clothesList.Item}
+	for i, index := range indices {
+		if index != -1 {
+			category := categories[i]
+			(*category)[index].Frequency++
+			(*category)[index].RecentDate = date
+		}
+	}
 }
 
 // filterByWeather - 날씨 조건에 맞는 옷을 필터링
@@ -102,30 +138,5 @@ func isThicknessSuitable(thickness int, weather models.WeatherInfo) bool {
 		return thickness <= 2 // 중간 날씨에는 중간 두께
 	default:
 		return thickness >= 3 // 추운 날씨에는 두꺼운 옷
-	}
-}
-
-// sortByFrequencyAndDiversity - 착용 횟수와 다양성을 고려하여 옷을 정렬
-func sortByFrequencyAndDiversity(clothes *[]models.Clothes) {
-	rand.Seed(time.Now().UnixNano())
-	sort.SliceStable(*clothes, func(i, j int) bool {
-		if (*clothes)[i].Frequency == (*clothes)[j].Frequency {
-			return rand.Intn(2) == 0 // 동일한 빈도일 때는 무작위로 선택
-		}
-		return (*clothes)[i].Frequency > (*clothes)[j].Frequency
-	})
-}
-
-// demoteRecentlyWornClothes - 최근에 착용한 옷을 리스트의 뒤로 이동
-func demoteRecentlyWornClothes(clothes *[]models.Clothes, days int) {
-	today := time.Now()
-	for i := 0; i < len(*clothes); i++ {
-		clothDate, _ := time.Parse("2006-01-02", (*clothes)[i].RecentDate)
-		if today.Sub(clothDate).Hours() < float64(days*24) {
-			// 최근에 착용한 옷은 리스트 뒤로 이동
-			*clothes = append(*clothes, (*clothes)[i])
-			*clothes = append((*clothes)[:i], (*clothes)[i+1:]...)
-			i-- // 다음 옷을 확인하기 위해 인덱스 조정
-		}
 	}
 }

@@ -19,10 +19,11 @@ func RecommendationHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	//같은 옷이 추천되는 문제 해결 필요
 	selectedClothes := logic.SelectClothes(requestData.ClothesList, requestData.WeatherInfo)
 
 	var aiRecommendations []models.LogicRecommendation
-	for _, rec := range selectedClothes {
+	for _, rec := range selectedClothes { //3회 반복
 		aiRec := models.LogicRecommendation{
 			ClothesId: rec.ClothesId,
 			RecDate:   rec.RecDate,
