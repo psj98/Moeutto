@@ -38,16 +38,17 @@ func selectClothForCategory(clothes []models.Clothes, weather models.WeatherInfo
 	// 현재 날짜 구하기
 	currentTime, _ := time.Parse("2006-01-02", weather.Date)
 	yesterday := currentTime.AddDate(0, 0, -1).Format("2006-01-02")
+	dayBeforeYesterday := currentTime.AddDate(0, 0, -2).Format("2006-01-02") // 2일 전 날짜 추가
 
 	// 착용 횟수, 최근 착용 날짜, 계절 고려 정렬
 	sort.SliceStable(clothes, func(i, j int) bool {
 		// 계절 부합성 확인
-		isSeasonMatchI := isSeasonMatch(clothes[i].Season, determineSeason(weather))
-		isSeasonMatchJ := isSeasonMatch(clothes[j].Season, determineSeason(weather))
+		isSeasonMatchI := isSeasonMatch(clothes[i].Season, determineSeason(weather)) //bool
+		isSeasonMatchJ := isSeasonMatch(clothes[j].Season, determineSeason(weather)) //bool
 
 		// 최근 착용 날짜 확인
-		recentWornI := clothes[i].RecentDate == weather.Date || clothes[i].RecentDate == yesterday
-		recentWornJ := clothes[j].RecentDate == weather.Date || clothes[j].RecentDate == yesterday
+		recentWornI := clothes[i].RecentDate == weather.Date || clothes[i].RecentDate == yesterday || clothes[i].RecentDate == dayBeforeYesterday
+		recentWornJ := clothes[j].RecentDate == weather.Date || clothes[j].RecentDate == yesterday || clothes[j].RecentDate == dayBeforeYesterday
 
 		// 착용 횟수 확인
 		frequentWornI := clothes[i].Frequency >= 30
