@@ -64,7 +64,11 @@ const ClothesDetailPage = () => {
             {clothesData && (
                 <>
                     <div>
-                        <ClothesDetailImg imgUrl={clothesData.imageUrl} id={clothesData?.id} />
+                        <ClothesDetailImg 
+                            imgUrl={clothesData.imageUrl} 
+                            id={clothesData?.id} 
+                            isStar={clothesData?.star}
+                        />
                         <div className="mt-4">
                             <ClothesInfo 
                                 category={clothesData.middleCategoryId} 
