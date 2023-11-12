@@ -22,6 +22,7 @@ const ClothesDetailImg = ({ imgUrl, star, setStar }: PropsType ) => {
                         id="img"
                         src={imgUrl} alt="clothes" 
                         className="w-2/3 h-2/3 min-w-[223px] m-auto border rounded-3xl border" 
+                        style={{ objectFit: "cover" }}
                     />
                     <div className={`babo absolute -top-2 w-[60px] right-[20px] sm:right-[30px] md:right-[50px] lg:right-[60px]`}>
                         {star ? (
