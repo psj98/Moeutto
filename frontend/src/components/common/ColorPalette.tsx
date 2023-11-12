@@ -5,11 +5,11 @@ export interface Color {
 }
 
 export const ColorPalette: Color[] = [
-  { name: 'red', kr: '빨강', background: '#FFA7A7' },
-  { name: 'orange', kr: '주황', background: '#FFA7A7' },
+  { name: 'red', kr: '빨강', background: '#ff7777' },
+  { name: 'orange', kr: '주황', background: '#ff944c' },
   { name: 'yellow', kr: '노랑', background: '#FDFF9E' },
   { name: 'green', kr: '초록', background: '#A0FF90' },
-  { name: 'blue', kr: '파랑', background: '#BEADFF' },
+  { name: 'blue', kr: '파랑', background: '#3fa6ff' },
   { name: 'purple', kr: '보라', background: '#D09AD9' },
   { name: 'pink', kr: '핑크', background: '#FF98D6' },
   { name: 'khaki', kr: '카키', background: '#C0AE6F' },
