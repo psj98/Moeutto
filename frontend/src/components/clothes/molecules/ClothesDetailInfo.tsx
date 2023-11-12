@@ -8,11 +8,8 @@ interface PropsType {
 }
 
 const ClothesDetailInfo = ({ labelList, contentList }: PropsType) => {
-    // const oneCount = contentList[1].filter(char => char === '1').length;
+    const oneCount: number = (contentList[1].match(/1/g) || []).length;    
     
-    // console.log(oneCount)
-    const oneCount: number = 3;
-
     return (
         <div className="flex">
             <div className="space-y-8 flex flex-col items-end me-10 w-[120px]">

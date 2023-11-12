@@ -1,6 +1,10 @@
 // 그냥 여기서 수정 api 불러오기
 
-const EditBtn = () => {
+interface Clothes {
+    id: number
+}
+
+const EditBtn = ({ id }: Clothes) => {
     // 수정 페이지로 이동
     return (
         <>
