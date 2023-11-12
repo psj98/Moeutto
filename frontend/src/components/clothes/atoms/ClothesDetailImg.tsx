@@ -1,17 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { RxBookmark, RxBookmarkFilled } from "react-icons/rx";
+import { authInstance } from "../../../api/api";
 
 interface PropsType {
     imgUrl: string;
-    star: boolean;
-    setStar: React.Dispatch<React.SetStateAction<boolean>>;
+    id: number;
 }
 
 // 그냥 여기서 즐겨찾기 api 불러오기
 
-const ClothesDetailImg = ({ imgUrl, star, setStar }: PropsType ) => {
-    const onClickBookMark = () => {
+const ClothesDetailImg = ({ imgUrl, id }: PropsType ) => {
+    const [star, setStar] = useState<boolean>(false);
+
+    const onClickBookMark = async () => {
         setStar((prev) => !prev)
+      
+        try {
+            const axiosInstance = authInstance({ ContentType: 'application/json' });
+            const response = await axiosInstance.get(`/clothes/star/${id}`);
+
+            console.log('즐겨찾기 등록/해제 성공', response)
+            setStar(response.data.data.star)
+        } catch (error) {
+            console.log('즐겨찾기 등록/해제 실패', error)
+        }
+        
     }
 
     return (
