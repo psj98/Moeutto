@@ -11,6 +11,7 @@ interface CheckInputProps {
   option: Option;
   type: string;
   value: string; // 이 값은 <input type="radio" value="계절" 의 value이다. 라디오나 체크박스의 범위를 체크하기위해 필수적이므로 잊지말자
+  checked?: boolean;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -43,11 +44,18 @@ const Check = styled.div`
   }
 `;
 
-const CheckInput = ({ option, type, value, onChange }: CheckInputProps) => {
+const CheckInput = ({ option, type, value, checked, onChange }: CheckInputProps) => {
   return (
     <Check>
       <span>
-        <input type={type} id={option.name} name={value} value={option.value} onChange={onChange} />
+        <input
+          type={type}
+          id={option.name}
+          name={value}
+          checked={checked} // 사용자가 이미지를 재제출했을때 초기화해주기 위해 추가하였다
+          value={option.value}
+          onChange={onChange}
+        />
         <label htmlFor={option.name}>{option.name}</label>
       </span>
     </Check>

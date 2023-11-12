@@ -28,6 +28,51 @@ const Pic = styled.div`
     border: 5px solid black;
     border-radius: 35px;
   }
+
+  .isRemoving {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: black;
+    text-align: center;
+    vertical-align: middle;
+    width: calc(70vw * 0.8 * 0.7);
+    height: calc(70vw * 0.8 * 0.7);
+    max-width: 460px;
+    max-height: 460px;
+    background: #878787;
+    opacity: 0.7;
+    border: double 1em transparent;
+    border-radius: 35px;
+    background-image: linear-gradient(white, white),
+      linear-gradient(to right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+
+    animation: borderRainbow 10s infinite linear;
+    -webkit-animation: borderRainbow 10s infinite linear; // for Chrome
+  }
+
+  @-webkit-keyframes borderRainbow {
+    from {
+      background-position: -3000px;
+    }
+    to {
+      background-position: 0px;
+    }
+  }
+
+  @keyframes borderRainbow {
+    from {
+      background-position: -3000px;
+    }
+    to {
+      background-position: 0px;
+    }
+  }
 `;
 
 const Container = styled.div`
@@ -104,7 +149,6 @@ const PictureInput = ({ setStateValue }: Props) => {
       setFile(null);
     }
     inputRef.current.click();
-    console.log('dfSDFSDFS');
   };
   const removeBG = () => {
     // api 연결 // Return 받은 이미지 file 에 저장 originFile에 이미지 저장후 애니메이션
@@ -135,7 +179,12 @@ const PictureInput = ({ setStateValue }: Props) => {
       <Container>
         <Pic>
           <ImageInput onChange={handleFileChange} inputRef={inputRef} />
-          {preview ? <PreviewImage imageSrc={preview} /> : null}
+          {preview ? (
+            <>
+              <PreviewImage imageSrc={preview} />
+              <span className="isRemoving">이미지 배경 제거 중</span>
+            </>
+          ) : null}
           {preview ? ( // 이미지를 제출하면 보입니다
             <span className="mid">
               <IconButton onClick={undo} className="inline-block delete" aria-label="delete" size="large">

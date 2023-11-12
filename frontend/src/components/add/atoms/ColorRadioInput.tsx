@@ -1,11 +1,13 @@
 import React, { ChangeEvent } from 'react';
 import styled from 'styled-components';
+import { ImCheckmark } from 'react-icons/im';
 import { Color } from '../../common/ColorPalette';
 
 interface ColorInputProps {
   option: Color;
   type: string;
   value: string; // 이 값은 <input type="radio" value="계절" 의 value이다. 라디오나 체크박스의 범위를 체크하기위해 필수적이므로 잊지말자
+  checked: boolean;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -38,11 +40,13 @@ const Check = styled.div`
   }
 `;
 
-const ColorRadioInput = ({ option, type, value, onChange }: ColorInputProps) => {
+const ColorRadioInput = ({ option, type, value, checked, onChange }: ColorInputProps) => {
   return (
     <Check>
-      <input type={type} id={option.name} name={value} value={value} onChange={onChange} />
-      <label style={{ background: option.background }} htmlFor={option.name}></label>
+      <input type={type} id={option.name} name={value} value={value} checked={checked} onChange={onChange} />
+      <label style={{ background: option.background }} htmlFor={option.name} className="flex items-center">
+        {checked ? <ImCheckmark className="m-[6.5px]" /> : null}
+      </label>
       <div>{option.kr}</div>
     </Check>
   );
