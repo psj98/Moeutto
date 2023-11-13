@@ -5,8 +5,12 @@ import process as kjg
 from PIL import Image
 from io import BytesIO
 
+from color import closest_color
+
 from fastapi.responses import JSONResponse,StreamingResponse
 import base64
+
+
 
 app = FastAPI()
 
@@ -37,6 +41,7 @@ async def create_report(file: UploadFile = File(...)):
         width, height = ret.size
         center_pixel = ret.getpixel((width // 2, height // 2))
         hex_color = '#{:02x}{:02x}{:02x}'.format(center_pixel[0], center_pixel[1], center_pixel[2])
+        str_color = closest_color(hex_color)
 
         # ret tpye:<class 'PIL.Image.Image'>
         # ret-> segmented img
@@ -54,7 +59,7 @@ async def create_report(file: UploadFile = File(...)):
         category = "top"
 
 
-        return JSONResponse(content={"file": encoded_image, "color": hex_color, "category" : category})
+        return JSONResponse(content={"file": encoded_image, "color": str_color, "category" : category})
 
     except Exception as e:
         # 예외가 발생하면 오류 메시지를 반환합니다.

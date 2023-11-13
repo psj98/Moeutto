@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { authInstance, defaultInstance } from '../api/api';
 
 import IntroComment from '../components/report/atoms/IntroComment';
@@ -20,6 +22,12 @@ let mostCount;
 let leastCount;
 
 const ReportFrequencyPage = () => {
+  const naviagte = useNavigate();
+
+  const goMainPage = () => {
+    naviagte('/main');
+  };
+
   const [myMostFrequency, setMyMostFrequency] = useState([]);
   const [myLeastFrequency, setMyLeastFrequency] = useState([]);
   const [mostFrequencyComment, setMostFrequencyComment] = useState('');
@@ -29,43 +37,48 @@ const ReportFrequencyPage = () => {
     const axiosInstance = authInstance({ ContentType: 'application/json' });
     const response = await axiosInstance.get('/clothes/analysis-frequency');
 
-    mostCount = response.data.data.myMostFrequency[0].frequency;
-    leastCount = response.data.data.myLeastFrequency[0].frequency;
+    if (response.data.code === 3002) {
+      alert('옷을 먼저 등록해주세요.');
+      goMainPage();
+    } else {
+      mostCount = response.data.data.myMostFrequency[0].frequency;
+      leastCount = response.data.data.myLeastFrequency[0].frequency;
 
-    const most: frequencyItem[] = response.data.data.myMostFrequency.map((row, index) => ({
-      divColor: colorArray[index],
-      clothesImage: row.imageUrl,
-      frequencyAmount: row.frequency,
-    }));
+      const most: frequencyItem[] = response.data.data.myMostFrequency.map((row, index) => ({
+        divColor: colorArray[index],
+        clothesImage: row.imageUrl,
+        frequencyAmount: row.frequency,
+      }));
 
-    const least: frequencyItem[] = response.data.data.myLeastFrequency.map((row, index) => ({
-      divColor: colorArray[index],
-      clothesImage: row.imageUrl,
-      frequencyAmount: row.frequency,
-    }));
+      const least: frequencyItem[] = response.data.data.myLeastFrequency.map((row, index) => ({
+        divColor: colorArray[index],
+        clothesImage: row.imageUrl,
+        frequencyAmount: row.frequency,
+      }));
 
-    setMyMostFrequency(most);
-    setMyLeastFrequency(least);
+      setMyMostFrequency(most);
+      setMyLeastFrequency(least);
 
-    const axiosMostCategoryInstance = defaultInstance();
-    const mostCategoryResponse = await axiosMostCategoryInstance.get(
-      `/middle-categories/${response.data.data.myMostFrequency[0].middleCategoryId}`
-    );
+      const axiosMostCategoryInstance = defaultInstance();
+      const mostCategoryResponse = await axiosMostCategoryInstance.get(
+        `/middle-categories/${response.data.data.myMostFrequency[0].middleCategoryId}`
+      );
 
-    const axiosLeastCategoryResponse = defaultInstance();
-    const leastcategoryResponse = await axiosLeastCategoryResponse.get(
-      `/middle-categories/${response.data.data.myLeastFrequency[0].middleCategoryId}`
-    );
+      const axiosLeastCategoryResponse = defaultInstance();
+      const leastcategoryResponse = await axiosLeastCategoryResponse.get(
+        `/middle-categories/${response.data.data.myLeastFrequency[0].middleCategoryId}`
+      );
 
-    const mostCategory = mostCategoryResponse.data.data.name;
-    const leastCategory = leastcategoryResponse.data.data.name;
+      const mostCategory = mostCategoryResponse.data.data.name;
+      const leastCategory = leastcategoryResponse.data.data.name;
 
-    // 현재 코멘트는 중분류 카테고리 id 로만 코멘트 줌
-    setMostFrequencyComment(`${mostCategory} 을/를 자주 입으시는 군요`);
+      // 현재 코멘트는 중분류 카테고리 id 로만 코멘트 줌
+      setMostFrequencyComment(`${mostCategory} 을/를 자주 입으시는 군요`);
 
-    setLeastFrequencyComment(
-      `${leastCategory} 을/를 제일 적게 입으시는 군요\n혹시 입지 않으신다면 나눔을 하는 것은 어떨까요?`
-    );
+      setLeastFrequencyComment(
+        `${leastCategory} 을/를 제일 적게 입으시는 군요\n혹시 입지 않으신다면 나눔을 하는 것은 어떨까요?`
+      );
+    }
   };
 
   useEffect(() => {

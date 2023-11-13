@@ -32,6 +32,10 @@ const PickTitle = () => {
       fetchData();
     } else {
       setNickname(sessionStorage.getItem(nickname));
+      // 빈 값인 경우 나의 옷장이다
+      if (!nickname) {
+        setNickname('나')
+      }
     }
   }, [])
 
