@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 import { authInstance } from '../api/api';
 
@@ -15,6 +17,12 @@ interface HalfDoughnutChartDataItem {
 }
 
 const ReportVolumePage = () => {
+  const naviagte = useNavigate();
+
+  const goMainPage = () => {
+    naviagte('/main');
+  };
+
   // 대분류 카테고리
   const largeCategory = {
     '001': '아우터',
@@ -53,13 +61,31 @@ const ReportVolumePage = () => {
     const axiosInstance = authInstance({ ContentType: 'application/json' });
     const response = await axiosInstance.get('/clothes/analysis-amount');
 
-    setMyTotalAmount(response.data.data.myTotalAmount);
-    setUserTotalAmountAvg(response.data.data.userTotalAmountAvg);
-    setMyAnalysisAmount(response.data.data.myAnalysisAmount);
+    if (response.data.code === 3002) {
+      Swal.fire({
+        icon: 'error',
+        html: '옷을 먼저 등록해주세요',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
+      goMainPage();
+    } else {
+      setMyTotalAmount(response.data.data.myTotalAmount);
+      setUserTotalAmountAvg(response.data.data.userTotalAmountAvg);
+      setMyAnalysisAmount(response.data.data.myAnalysisAmount);
 
-    // 아래 삼항연산자는 추후 값을 조정해서
-    setShortReportComment(myTotalAmount >= userTotalAmountAvg ? '집이 넓으신가요?' : '집에 도둑이 들렀나요?');
-    setReportComment(myTotalAmount >= userTotalAmountAvg ? '당신은 맥시멀리스트입니다!' : '당신은 미니멀리스트입니다!');
+      // 아래 삼항연산자는 추후 값을 조정해서
+      setShortReportComment(
+        response.data.data.myTotalAmount >= response.data.data.userTotalAmountAvg
+          ? '집이 넓으신가요?'
+          : '집에 도둑이 들었나요?'
+      );
+      setReportComment(
+        response.data.data.myTotalAmount >= response.data.data.userTotalAmountAvg
+          ? '당신은 맥시멀리스트입니다!'
+          : '당신은 미니멀리스트입니다!'
+      );
+    }
   };
 
   useEffect(() => {
@@ -98,7 +124,7 @@ const ReportVolumePage = () => {
       />
 
       {/* 도넛 차트 */}
-      <HalfDoughnutChart halfDoughnutChartProp={halfDoughnutChartData} />
+      {myTotalAmount !== 0 ? <HalfDoughnutChart halfDoughnutChartProp={halfDoughnutChartData} /> : <></>}
     </>
   );
 };

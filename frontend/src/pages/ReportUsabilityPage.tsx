@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import styled, { keyframes } from 'styled-components';
+import Swal from 'sweetalert2';
 import { authInstance } from '../api/api';
 
 import IntroComment from '../components/report/atoms/IntroComment';
@@ -50,15 +51,30 @@ const ReportCostPage = () => {
       const response = await axiosInstance.get('/clothes/analysis-use');
 
       if (response.data.code === 2001) {
-        alert('로그인 정보가 없습니다.');
+        Swal.fire({
+          icon: 'question',
+          html: '회원 정보가 없어요',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        });
       }
 
       if (response.data.code === 2002) {
-        alert('세션이 만료되었습니다.');
+        Swal.fire({
+          icon: 'warning',
+          html: '세션이 만료되었습니다',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        });
       }
 
       if (response.data.code === 5001) {
-        alert('대분류 카테고리가 존재하지 않습니다.');
+        Swal.fire({
+          icon: 'error',
+          html: '대분류 카테고리가 존재하지 않습니다.',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        });
       }
 
       setTotalAmount(response.data.data?.totalAmount);
@@ -66,7 +82,11 @@ const ReportCostPage = () => {
       setAnalysisAmountList(response.data.data.analysisAmountList);
 
       setShortReportComment(
-        (response.data.data?.usedAmount * 100) / response.data.data?.totalAmount >= 50 ? 'OO?' : '스폰지밥인가요?'
+        (response.data.data?.usedAmount * 100) /
+          (response.data.data?.totalAmount === 0 ? 1 : response.data.data?.totalAmount) >=
+          50
+          ? '옷 종류가 많군요'
+          : '스폰지밥인가요?'
       );
 
       setMaxLargeCategoryName(response.data.data.maxLargeCategoryName);
@@ -88,20 +108,23 @@ const ReportCostPage = () => {
       {/* 간단 분석 문구 */}
       <ShortReportComment
         imageDivClass="absolute top-[-35px] left-[0px]"
-        imageUrl={`${(usedAmount * 100) / totalAmount >= 50 ? '/images/uniform.png' : '/images/sponge.png'}`}
+        imageUrl={`${
+          (usedAmount * 100) / (totalAmount === 0 ? 1 : totalAmount) >= 50
+            ? '/images/uniform.png'
+            : '/images/sponge.png'
+        }`}
         imageClass="w-24 inline-block"
         mainTitle={shortReportComment}
       />
 
       <div className="flex flex-col items-center my-10">
         <OuterContainer>
-          <InnerContainer className={`w-[${(usedAmount * 100) / totalAmount}%]`} />
+          <InnerContainer className={`w-[${(usedAmount * 100) / (totalAmount === 0 ? 1 : totalAmount)}%]`} />
         </OuterContainer>
         <div className="flex gap-[200px] mt-1 mb-8">
           <div className="text-[12px] text-gray-dark">단벌신사</div>
           <div className="text-[12px] text-gray-dark">패셔니스타</div>
         </div>
-
         {/* <div className="grid grid-cols-2 gap-x-8 gap-y-4">
           <div className="w-[140px] h-[140px] p-2 bg-gray-button rounded-2xl flex flex-col justify-center items-center shadow-[1px_4px_4px_0px_rgba(0,0,0,0.15)]">
             <PieChart1 className="pie-chart pie-chart1">
@@ -136,15 +159,25 @@ const ReportCostPage = () => {
             <div className="text-[16px] mt-2">아이템</div>
           </div>
         </div> */}
-
         <div className="grid grid-cols-2 gap-8 mb-10">
           <div className="w-[140px] h-[140px] p-2 bg-gray-button rounded-2xl flex flex-col justify-center items-center shadow-[1px_4px_4px_0px_rgba(0,0,0,0.15)]">
             <div className="w-[100px] relative">
               <PieChartUsability
-                percent={Math.round((analysisAmountList[0]?.usedAmount * 100) / analysisAmountList[0]?.totalAmount)}
+                percent={
+                  Number.isNaN(
+                    Math.round((analysisAmountList[0]?.usedAmount * 100) / analysisAmountList[0]?.totalAmount)
+                  )
+                    ? 0
+                    : Math.round((analysisAmountList[0].usedAmount * 100) / analysisAmountList[0].totalAmount)
+                }
               />
               <span className="absolute top-[45px] left-[20px]">
-                {Math.round((analysisAmountList[0]?.usedAmount * 100) / analysisAmountList[0]?.totalAmount)}%
+                {Number.isNaN(
+                  Math.round((analysisAmountList[0]?.usedAmount * 100) / analysisAmountList[0]?.totalAmount)
+                )
+                  ? 0
+                  : Math.round((analysisAmountList[0].usedAmount * 100) / analysisAmountList[0].totalAmount)}
+                %
               </span>
             </div>
             <div className="text-lg mt-2">아우터</div>
@@ -152,10 +185,21 @@ const ReportCostPage = () => {
           <div className="w-[140px] h-[140px] p-2 bg-gray-button rounded-2xl flex flex-col justify-center items-center shadow-[1px_4px_4px_0px_rgba(0,0,0,0.15)]">
             <div className="w-[100px] relative">
               <PieChartUsability
-                percent={Math.round((analysisAmountList[1]?.usedAmount * 100) / analysisAmountList[1]?.totalAmount)}
+                percent={
+                  Number.isNaN(
+                    Math.round((analysisAmountList[1]?.usedAmount * 100) / analysisAmountList[1]?.totalAmount)
+                  )
+                    ? 0
+                    : Math.round((analysisAmountList[1].usedAmount * 100) / analysisAmountList[1].totalAmount)
+                }
               />
               <span className="absolute top-[45px] left-[20px]">
-                {Math.round((analysisAmountList[1]?.usedAmount * 100) / analysisAmountList[1]?.totalAmount)}%
+                {Number.isNaN(
+                  Math.round((analysisAmountList[1]?.usedAmount * 100) / analysisAmountList[1]?.totalAmount)
+                )
+                  ? 0
+                  : Math.round((analysisAmountList[1].usedAmount * 100) / analysisAmountList[1].totalAmount)}
+                %
               </span>
             </div>
             <div className="text-lg mt-2">상의</div>
@@ -163,10 +207,21 @@ const ReportCostPage = () => {
           <div className="w-[140px] h-[140px] p-2 bg-gray-button rounded-2xl flex flex-col justify-center items-center shadow-[1px_4px_4px_0px_rgba(0,0,0,0.15)]">
             <div className="w-[100px] relative">
               <PieChartUsability
-                percent={Math.round((analysisAmountList[2]?.usedAmount * 100) / analysisAmountList[2]?.totalAmount)}
+                percent={
+                  Number.isNaN(
+                    Math.round((analysisAmountList[2]?.usedAmount * 100) / analysisAmountList[2]?.totalAmount)
+                  )
+                    ? 0
+                    : Math.round((analysisAmountList[2].usedAmount * 100) / analysisAmountList[2].totalAmount)
+                }
               />
               <span className="absolute top-[45px] left-[20px]">
-                {Math.round((analysisAmountList[2]?.usedAmount * 100) / analysisAmountList[2]?.totalAmount)}%
+                {Number.isNaN(
+                  Math.round((analysisAmountList[2]?.usedAmount * 100) / analysisAmountList[2]?.totalAmount)
+                )
+                  ? 0
+                  : Math.round((analysisAmountList[2].usedAmount * 100) / analysisAmountList[2].totalAmount)}
+                %
               </span>
             </div>
             <div className="text-lg mt-2">하의</div>
@@ -174,22 +229,32 @@ const ReportCostPage = () => {
           <div className="w-[140px] h-[140px] p-2 bg-gray-button rounded-2xl flex flex-col justify-center items-center shadow-[1px_4px_4px_0px_rgba(0,0,0,0.15)]">
             <div className="w-[100px] relative">
               <PieChartUsability
-                percent={Math.round((analysisAmountList[3]?.usedAmount * 100) / analysisAmountList[3]?.totalAmount)}
+                percent={
+                  Number.isNaN(
+                    Math.round((analysisAmountList[3]?.usedAmount * 100) / analysisAmountList[3]?.totalAmount)
+                  )
+                    ? 0
+                    : Math.round((analysisAmountList[3].usedAmount * 100) / analysisAmountList[3].totalAmount)
+                }
               />
               <span className="absolute top-[45px] left-[20px]">
-                {Math.round((analysisAmountList[3]?.usedAmount * 100) / analysisAmountList[3]?.totalAmount)}%
+                {Number.isNaN(
+                  Math.round((analysisAmountList[3]?.usedAmount * 100) / analysisAmountList[3]?.totalAmount)
+                )
+                  ? 0
+                  : Math.round((analysisAmountList[3].usedAmount * 100) / analysisAmountList[3].totalAmount)}
+                %
               </span>
             </div>
             <div className="text-lg mt-2">아이템</div>
           </div>
         </div>
-
         {/* 분석 문구 */}
         <div className="w-[90%] p-5 flex flex-col rounded-2xl bg-gray-button shadow-[1px_4px_4px_0px_rgba(0,0,0,0.15)]">
           <p className="text-xl font-bold mb-2">{`${sessionStorage.getItem('nickname')}`}님!</p>
-          <p className="text-base">{maxLargeCategoryName}를 잘 활용하고 계시네요</p>
-          <p className="text-base">하지만 {minLargeCategoryName}을 활용하지 못하고 있어요</p>
-          <p className="text-base">옷장에서 {minLargeCategoryName}을 정리해보는건 어때요?</p>
+          <p className="text-base">{maxLargeCategoryName}를(을) 잘 활용하고 계시네요</p>
+          <p className="text-base">하지만 {minLargeCategoryName}를(을) 활용하지 못하고 있어요</p>
+          <p className="text-base">옷장에서 {minLargeCategoryName}를(을) 정리해보는건 어때요?</p>
         </div>
       </div>
     </>

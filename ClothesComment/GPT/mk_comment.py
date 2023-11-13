@@ -73,7 +73,7 @@ if __name__ == "__main__":
     from dotenv import load_dotenv
 
     load_dotenv()
-    os.environ["OPENAI_API_KEY"] = os.getenv("mykey")
+    os.environ["OPENAI_API_KEY"] = os.getenv("apikey")
 
     my_req = """
     {

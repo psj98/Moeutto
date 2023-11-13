@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import AddClothFormTemplate from '../components/add/templates/AddClothFormTemplate';
 import MyClosetBar from '../components/common/MyClosetBar';
@@ -38,10 +39,21 @@ function AddClothPage() {
       if (response.data) {
         setClothId(response.data.data.clothes.id); // 등록된 옷의 id값을 저장한다
         // eslint-disable-next-line no-alert
-        alert('옷장 등록에 성공했어요');
+        Swal.fire({
+          icon: 'success',
+          title: "<h5 style='color:blue'>'성공'",
+          html: '옷장 등록에 성공했어요',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        });
       } else {
-        // eslint-disable-next-line no-alert
-        alert('실패했습니다. ㅜ0ㅜ');
+        Swal.fire({
+          icon: 'error',
+          title: "<h5 style='color:red'>'실패'",
+          html: '옷장 등록에 실패했어요',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        });
       }
     } catch (error) {
       throw new Error('옷 등록 실패');
