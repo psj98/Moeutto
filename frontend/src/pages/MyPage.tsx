@@ -22,7 +22,6 @@ const MyPage = () => {
   const [myPageInfo, setMyPageInfo] = useState<MyPageItemType | null>();
   // const [payload, setPayload] = useState<JSON | null>(null);
 
-
   const redirectUrl = process.env.REACT_APP_LOGOUT_REDIRECT_URL;
   const link = `https://kauth.kakao.com/oauth/logout?client_id=bab90d2b24304bb1f5b4c07938ff0fcc&logout_redirect_uri=${redirectUrl}`;
 
@@ -56,6 +55,9 @@ const MyPage = () => {
     const response = await axiosInstance.put('/members/modify', memberUpdateMyInfoRequestDto);
 
     if (response.data) {
+      console.log('1234', response.data);
+      sessionStorage.setItem('nickname', nickname);
+
       alert('회원 정보 변경 성공');
     } else {
       alert('회원 정보 변경 실패');
@@ -96,6 +98,8 @@ const MyPage = () => {
       setMyPageInfo(response.data.data);
       setImageUrl(response.data.data.imageUrl);
       setNickname(response.data.data.nickname);
+      // sessionStorage.deleteItem('nickname');
+
       setAccountFind(response.data.data.accountFind);
       setClosetFind(response.data.data.closetFind);
 
@@ -173,8 +177,8 @@ const MyPage = () => {
             </Button>
             {/* 로그 아웃 버튼 */}
             <Button
-                className="pt-2 pb-1 px-3 mr-4 rounded-xl bg-neutral-100 shadow-[1px_4px_4px_0px_rgba(0,0,0,0.15)]"
-                onClick={logout}>
+              className="pt-2 pb-1 px-3 mr-4 rounded-xl bg-neutral-100 shadow-[1px_4px_4px_0px_rgba(0,0,0,0.15)]"
+              onClick={logout}>
               로그아웃
             </Button>
             {/* 회원 탈퇴 버튼 */}
