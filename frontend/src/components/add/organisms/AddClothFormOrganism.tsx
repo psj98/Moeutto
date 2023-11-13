@@ -53,6 +53,7 @@ const AddClothFormOrganism = ({ setStateValue, handleRemoveBG }: Props) => {
   const [clothName, setClothName] = useState<string | null>(''); // string
   const [clothPrice, setClothPrice] = useState<number>(0); // int : null 허용
   const [clothBrand, setClothBrand] = useState<string>(''); // string
+  const [aiLargeCategory, setAiLargeCategory] = useState<string>('');
 
   // 옷 카테고리 입력 받는 함수
   const handleClothCategory = (e: MouseEvent<HTMLButtonElement>) => {
@@ -133,13 +134,23 @@ const AddClothFormOrganism = ({ setStateValue, handleRemoveBG }: Props) => {
 
   // 배경지우는 함수
   const RemoveBGIconClick = async () => {
-    console.log('올가니즘 단계');
     try {
       const res = await handleRemoveBG(clothPic as File);
 
-      console.log('모드리치님 제발', res);
-      setClothColor(res.data.color);
-      setClothCategory(res.data.category);
+      if (res.data.category === 'top') {
+        setAiLargeCategory('002');
+      } else if (res.data.category === 'bottom') {
+        setAiLargeCategory('003');
+      } else if (res.data.category === 'outer') {
+        setAiLargeCategory('001');
+      } else if (res.data.category === 'item') {
+        setAiLargeCategory('004'); // Default category
+      }
+
+      setTimeout(() => {
+        setClothColor(res.data.color);
+      }, 1000);
+
       return res;
     } catch (error) {
       console.error('에러 발생:', error);
@@ -159,6 +170,7 @@ const AddClothFormOrganism = ({ setStateValue, handleRemoveBG }: Props) => {
       setClothName('');
       setClothPrice(0);
       setClothBrand('');
+      setAiLargeCategory('');
     }
   }, [clothPic]);
 
@@ -174,12 +186,20 @@ const AddClothFormOrganism = ({ setStateValue, handleRemoveBG }: Props) => {
             transition: 'transform 0.5s, visibility 0.5s', //  즉 위에서 아래로 내려오는 애니메이션 효과가 생깁니다
           }}>
           <div className="text-WebBody2 text-center mt-[28px]">옷의 정보</div>
-          <CategoryInput onClick={handleClothCategory} value={clothCategory} />
+          <CategoryInput onClick={handleClothCategory} value={clothCategory} aiLargeCategory={aiLargeCategory} />
         </div>
         <div
           style={{
-            transform: clothCategory ? 'translateY(0)' : 'translateY(-50px)',
-            visibility: clothCategory ? 'visible' : 'hidden',
+            transform: clothCategory || aiLargeCategory ? 'translateY(0)' : 'translateY(-50px)',
+            visibility: clothCategory || aiLargeCategory ? 'visible' : 'hidden',
+            transition: 'transform 0.5s, visibility 0.5s',
+          }}>
+          <ColorInput onChange={setClothColor} value={clothColor} />
+        </div>
+        <div
+          style={{
+            transform: clothColor ? 'translateY(0)' : 'translateY(-50px)',
+            visibility: clothColor ? 'visible' : 'hidden',
             transition: 'transform 0.5s, visibility 0.5s',
           }}>
           <SeasonInput onChange={setClothSeason} value={clothSeason} />
@@ -204,14 +224,6 @@ const AddClothFormOrganism = ({ setStateValue, handleRemoveBG }: Props) => {
           style={{
             transform: clothTextile !== null ? 'translateY(0)' : 'translateY(-50px)',
             visibility: clothTextile !== null ? 'visible' : 'hidden',
-            transition: 'transform 0.5s, visibility 0.5s',
-          }}>
-          <ColorInput onChange={setClothColor} value={clothColor} />
-        </div>
-        <div
-          style={{
-            transform: clothColor ? 'translateY(0)' : 'translateY(-50px)',
-            visibility: clothColor ? 'visible' : 'hidden',
             transition: 'transform 0.5s, visibility 0.5s',
           }}>
           <NameInput onChange={handleClothNameChange} value={clothName} />
