@@ -1,11 +1,15 @@
 import DeleteBtn from "../atoms/DeleteBtn";
 import EditBtn from "../atoms/EditBtn";
 
-const ClothesBtn = () => {
+interface Clothes {
+    id: number
+}
+
+const ClothesBtn = ({ id }: Clothes) => {
     return (
         <>
-            <EditBtn />
-            <DeleteBtn />
+            <EditBtn id={id} />
+            <DeleteBtn id={id} />
         </>
     )
 }

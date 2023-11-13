@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import MainInfo from '../components/main/organisms/MainInfo';
 import PickButtonTap from '../components/main/organisms/PickButtonTap';
@@ -10,6 +10,8 @@ import UserName from '../components/main/atoms/UserName';
 import MainWeatherTap from '../components/main/organisms/MainWeatherTap';
 import Alert from '../components/common/Alert';
 import MainComment from '../components/main/atoms/MainComment';
+import Calendar from '../components/calendar/organisms/Calendar';
+import Scroll from '../components/common/scroll/molecules/Scroll';
 // import AddTap from '../components/main/atoms/AdTap';
 // import { authInstance } from '../api/api';
 
@@ -17,7 +19,7 @@ import MainComment from '../components/main/atoms/MainComment';
 // import Weather from "../api/Weather";
 
 const MainPage = () => {
-  //   const navigate = useNavigate();
+    const navigate = useNavigate();
   // 현재 위치
   const [currentLocation, setCurrentLocation] = useState<{
     latitude: number;
@@ -40,6 +42,7 @@ const MainPage = () => {
   // 지도 화면 출력 클릭 이벤트
   const showLocationClick = () => {
     setLocationState(!locationState);
+    console.log('주소 불러오는거 클릭함')
   };
 
   // 지도 다시 불러오기
@@ -273,12 +276,17 @@ const MainPage = () => {
           <AnalysisTap />
 
           {/* 달력 컴포넌트화 시킬 예정 */}
-          <div className='bg-white rounded-2xl shadow-md p-4 relative'>
+          <div className='bg-white rounded-2xl shadow-md p-4 relative'
+            onClick={() => navigate('/calendar')}
+          >
             <div className='flex'>
               <MainComment title={`오늘 입은 옷을 \n기록해보세요`} />
               <img src="/images/camera3D.png" alt="camera" className='w-1/3 absolute -top-6 right-0' />
             </div>
-            <div className='bg-pink'>이 자리에 달력이 옵니다.</div>
+            <div className='flex justify-center items-center mt-6 border rounded-2xl shadow-md border-pink border-2 p-4 shadow-md relative'>
+              <Calendar state={1} />
+            </div>
+
           </div>
 
           {/* 광고 입니다 */}
@@ -286,7 +294,7 @@ const MainPage = () => {
     
           {/* 지도  */}
           {locationState && (
-            <div className="absolute z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-[60vh] w-[50vw] max-w-[400px] min-w-[300px]">
+            <div className="absolute z-50 left-1/2 transform -translate-x-1/2 h-[60%] w-[80%] max-w-[400px] min-w-[300px]">
               <MapModal
                 currentLocation={currentLocation}
                 address={address}
@@ -302,6 +310,9 @@ const MainPage = () => {
             </div>
           )}
         </div>
+        <div className="fixed bottom-1/3 right-0 me-[5vw]">
+          <Scroll />
+      </div>
     </div>
   );
 };

@@ -12,8 +12,9 @@ interface ItemPropsType {
 
 const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId }) => {
   const dispatch = useDispatch();
-  const pathname = window.location.href;
+  const pathname = window.location.pathname;
 
+  console.log(pathname);
   ScrollReveal().reveal('.clothes');
 
   const [isSelected, setIsSelected] = useState(false);
@@ -33,9 +34,10 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId }) => 
         src={imgUrl}
         id={clothesId}
         alt="옷"
-        className={`clothes w-[13vw] h-[13vw] border border-gray rounded-3xl ${
+        className={`clothes w-[110px] h-[110px] border border-gray rounded-3xl ${
           isSelected ? 'bg-gray-300 border-pink-hot border-2' : ''
         }`}
+        style={{ objectFit: 'cover', minWidth: '110px', minHeight: '110px' }}     
         onClick={pathname === '/calendar/post' ? handlePostCalendar : handleClick}
       />
     </>
