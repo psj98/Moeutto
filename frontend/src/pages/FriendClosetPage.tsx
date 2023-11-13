@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
 // axios
+
 import { authInstance } from '../api/api';
 // redux
 import { RootState } from '../redux/store';
@@ -145,7 +148,12 @@ const FriendClosetPage = () => {
       localStorage.setItem('selectedClosetIds', JSON.stringify(selectedClosetIds));
       navigate('/analysis');
     } else {
-      alert('선택한 옷이 없어요');
+      Swal.fire({
+        icon: 'question',
+        html: '선택한 옷이 없어요',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
     }
   };
 
@@ -176,7 +184,12 @@ const FriendClosetPage = () => {
     };
 
     postData().then(() => {
-      alert('방명록을 작성하셨습니다.');
+      Swal.fire({
+        icon: 'success',
+        html: '방명록이 작성되었습니다',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
       setGuestbookText(''); // 방명록을 작성하였으므로 인풋값을 비워줍니다.
       fetchData();
     });

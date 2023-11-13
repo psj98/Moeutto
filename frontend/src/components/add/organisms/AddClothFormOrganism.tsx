@@ -1,4 +1,5 @@
 import React, { useState, useEffect, MouseEvent, ChangeEvent, SetStateAction, Dispatch } from 'react';
+import Swal from 'sweetalert2';
 import styled from 'styled-components';
 import PictureInput from '../molecules/PictureInput';
 import CategoryInput from '../molecules/CategoryInput';
@@ -119,7 +120,13 @@ const AddClothFormOrganism = ({ setStateValue }: Props) => {
       // 필수 인풋 값이 하나라도 비어있다면
 
       // eslint-disable-next-line no-alert
-      alert('사진, 카테고리, 색상, 계절, 두께 모두 입력해주세요.');
+      Swal.fire({
+        icon: 'warning',
+        title: "<h5 style='color:red'> 항목 확인",
+        html: '사진, 카테고리, 색상, 계절, 두께 모두 입력해주세요.',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
     }
   };
 

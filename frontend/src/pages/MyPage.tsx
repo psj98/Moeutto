@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React, { ChangeEvent, useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 import { authInstance } from '../api/api';
 
 import Label from '../components/add/atoms/Label';
@@ -58,9 +59,19 @@ const MyPage = () => {
       console.log('1234', response.data);
       sessionStorage.setItem('nickname', nickname);
 
-      alert('회원 정보 변경 성공');
+      Swal.fire({
+        icon: 'success',
+        html: '회원 정보가 변경되었습니다',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
     } else {
-      alert('회원 정보 변경 실패');
+      Swal.fire({
+        icon: 'error',
+        html: '정보 변경 실패',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
     }
   };
 

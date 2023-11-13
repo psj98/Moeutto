@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import styled, { keyframes } from 'styled-components';
+import Swal from 'sweetalert2';
 import { authInstance } from '../api/api';
 
 import IntroComment from '../components/report/atoms/IntroComment';
@@ -50,15 +51,30 @@ const ReportCostPage = () => {
       const response = await axiosInstance.get('/clothes/analysis-use');
 
       if (response.data.code === 2001) {
-        alert('로그인 정보가 없습니다.');
+        Swal.fire({
+          icon: 'question',
+          html: '회원 정보가 없어요',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        });
       }
 
       if (response.data.code === 2002) {
-        alert('세션이 만료되었습니다.');
+        Swal.fire({
+          icon: 'warning',
+          html: '세션이 만료되었습니다',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        });
       }
 
       if (response.data.code === 5001) {
-        alert('대분류 카테고리가 존재하지 않습니다.');
+        Swal.fire({
+          icon: 'error',
+          html: '대분류 카테고리가 존재하지 않습니다.',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        });
       }
 
       setTotalAmount(response.data.data?.totalAmount);
