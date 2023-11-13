@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // import { useSelector } from 'react-redux';
 // import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import styled from 'styled-components';
 // axios
 import { authInstance } from '../api/api';
@@ -109,7 +110,13 @@ const calendarPostPage = () => {
       if (response.data.data) {
         setClothesData(response.data.data);
       } else {
-        // alert('옷 목록이 없어요')
+        Swal.fire({
+          icon: 'question',
+          title: "<h5 style='color:red'>'조회 실패'",
+          html: '옷 목록이 존재하지 않아요',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        });
         setClothesData([]);
       }
 
@@ -170,7 +177,13 @@ const calendarPostPage = () => {
       const response = await axiosInstance.post('/calendars/regist', formData);
 
       if (response) {
-        alert('캘린더 제출이 완료되었습니다.');
+        Swal.fire({
+          icon: 'success',
+          title: "<h5 style='color:red'>'성공'",
+          html: '캘린더 제출이 완료되었습니다',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        });
       } else {
         // Handle the case when the request is not successful
       }
