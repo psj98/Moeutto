@@ -1,4 +1,6 @@
 # 개요
+- u2net
+- fashion - clip
 
 # 주요 기능
 - 배경을 제거하고 하나의 의류 이미지로 변환
@@ -11,6 +13,51 @@
 - key : file
 - value : 이미지 파일 등록
 - http://localhost:9010/predict -> send
+
+
+# 파이썬 환경 설정
+### 가상환경(virtual venv)
+- python -m venv myvenv 로 가상환경을 만들어주세요
+- source myvenv/Scripts/activate 로 가상환경을 실행해주세요
+### 필수 패키지 설치
+- pip install -r requirements.txt 로 필요한 패키지를 설치해주세요
+### main.py run
+- main.py 파일을 run 해주세요
+
+
+# pyenv 
+
+- 여러 버전의 파이썬을 관리
+## 사용법 
+### 가상환경 생성
+- pyenv virtualenv venv
+- ~/.pyenv/versions 디텍터리 내에 저장
+### 가상 환경 활성화
+pyenv local venv
+- 현재 디렉토리에서 venv 환경 사용
+
+
+# conda 
+## 사용법
+
+### conda virtual venv create
+
+```bash
+conda --version
+conda create -n venv
+conda activate venv
+
+```
+
+## CUDA
+### pytorch
+### 현재 환경
+- RTX 2060
+- cuda 11.8
+- [pytorch 2.1.0](https://pytorch.org/get-started/locally/)
+```bash
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+```
 
 
 # Copyright
