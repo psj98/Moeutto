@@ -1,5 +1,7 @@
 package com.ssafy.moeutto.domain.aiCheckOutfit.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.AICheckOutfitClientRequestDto;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.ClientRequestClothesListDto;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.PythonRequestClothesList;
@@ -19,7 +21,9 @@ import com.ssafy.moeutto.global.response.BaseException;
 import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -38,9 +42,9 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
     private final AuthTokensGenerator authTokensGenerator;
     private final MemberRepository memberRepository;
 
-    // 아직 필요없음 (python request URL임 )
-//    @Value("${python.check.request.url}")
-//    private String checkRequestUrl;
+    // ai check outfit url
+    @Value("${python.check.request.url}")
+    private String checkRequestUrl;
 
     @Override
     public AICheckOutfitClientResponseDto checkOutfit(String token, AICheckOutfitClientRequestDto aiCheckOutfitClientRequestDto) throws BaseException {
@@ -106,56 +110,56 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
          * 여기 아래부턴 테스트 필요
          */
 
-//        // 파이썬 서버로 전달
-//        RestTemplate restTemplate = new RestTemplate();
-//
-//        // 파이썬 서버로부터 반환된 데이터
-//        String pythonResponse = restTemplate.postForObject(checkRequestUrl, pythonRequestClothesLists, String.class);
-//
-//        // AICheckOutfitPythonResponseDto 로 매핑
-//        // ObjectMapper의 리플렉션을 이용하여 Json문자열로 부터 객체를 만드는 역직렬화 하여줌 ( 반대도 가능 )
-//        ObjectMapper mapper = new ObjectMapper();
-//        AICheckOutfitPythonResponseDto aiCheckOutfitPythonResponseDto;
-//
-//        try {
-//            aiCheckOutfitPythonResponseDto =
-//                    mapper.readValue(pythonResponse, AICheckOutfitPythonResponseDto.class);
-//        } catch (JsonProcessingException e) {
-//            throw new BaseException(BaseResponseStatus.JSON_PARSE_ERROR);
-//        }
+        // 파이썬 서버로 전달
+        RestTemplate restTemplate = new RestTemplate();
 
-        // AiCheckOutfitPythonResponseDto 임시 더미 데이터 Start ------
-        List<PythonResponseClothesResult> tempPythonResponseClothesResult = new ArrayList<>();
-        for (int i = 1; i <= 4; i++) {
-            PythonResponseClothesResult item = new PythonResponseClothesResult(i, "무난해요", 50);
+        // 파이썬 서버로부터 반환된 데이터
+        String pythonResponse = restTemplate.postForObject(checkRequestUrl, pythonRequestClothesLists, String.class);
 
-            System.out.println(i + " 번째 : " + item);
+        // AICheckOutfitPythonResponseDto 로 매핑
+        // ObjectMapper의 리플렉션을 이용하여 Json문자열로 부터 객체를 만드는 역직렬화 하여줌 ( 반대도 가능 )
+        ObjectMapper mapper = new ObjectMapper();
+        AICheckOutfitPythonResponseDto aiCheckOutfitPythonResponseDto;
 
-            tempPythonResponseClothesResult.add(item);
+        try {
+            aiCheckOutfitPythonResponseDto =
+                    mapper.readValue(pythonResponse, AICheckOutfitPythonResponseDto.class);
+        } catch (JsonProcessingException e) {
+            throw new BaseException(BaseResponseStatus.JSON_PARSE_ERROR);
         }
 
-        ResponseClothesFeature tempClothesFeature = ResponseClothesFeature.builder()
-                .temperature(5)
-                .darkness(5)
-                .seasonX(5)
-                .seasonY(5)
-                .build();
-
-        System.out.println("tempClothesFeature : " + tempClothesFeature);
-
-        ResponseWeatherInfo tempWeatherInfo = ResponseWeatherInfo.builder()
-                .minTemperature(10)
-                .maxTemperature(20)
-                .weather(0)
-                .build();
-
-        System.out.println("tempWeatherInfo : " + tempWeatherInfo);
-
-        AICheckOutfitPythonResponseDto aiCheckOutfitPythonResponseDto = AICheckOutfitPythonResponseDto.builder()
-                .clothesResult(tempPythonResponseClothesResult)
-                .clothesFeature(tempClothesFeature)
-                .weatherInfo(tempWeatherInfo)
-                .build();
+        // AiCheckOutfitPythonResponseDto 임시 더미 데이터 Start ------
+//        List<PythonResponseClothesResult> tempPythonResponseClothesResult = new ArrayList<>();
+//        for (int i = 1; i <= 4; i++) {
+//            PythonResponseClothesResult item = new PythonResponseClothesResult(i, "무난해요", 50);
+//
+//            System.out.println(i + " 번째 : " + item);
+//
+//            tempPythonResponseClothesResult.add(item);
+//        }
+//
+//        ResponseClothesFeature tempClothesFeature = ResponseClothesFeature.builder()
+//                .temperature(5)
+//                .darkness(5)
+//                .seasonX(5)
+//                .seasonY(5)
+//                .build();
+//
+//        System.out.println("tempClothesFeature : " + tempClothesFeature);
+//
+//        ResponseWeatherInfo tempWeatherInfo = ResponseWeatherInfo.builder()
+//                .minTemperature(10)
+//                .maxTemperature(20)
+//                .weather(0)
+//                .build();
+//
+//        System.out.println("tempWeatherInfo : " + tempWeatherInfo);
+//
+//        AICheckOutfitPythonResponseDto aiCheckOutfitPythonResponseDto = AICheckOutfitPythonResponseDto.builder()
+//                .clothesResult(tempPythonResponseClothesResult)
+//                .clothesFeature(tempClothesFeature)
+//                .weatherInfo(tempWeatherInfo)
+//                .build();
         // AiCheckOutfitPythonResponseDto 임시 더미 데이터 End ------
 
 
