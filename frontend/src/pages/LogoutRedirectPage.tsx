@@ -9,6 +9,7 @@ const LogoutRedirectPage = () => {
 
   // 성공 ~
   useEffect(() => {
+    alert('안전하게 로그아웃 되었습니다.');
     navigate('/login');
   }, []);
 
