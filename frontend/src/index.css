@@ -87,6 +87,14 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'GmarketSansLight';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: bold;
+  font-style: bold;
+}
+
+
 body {
   margin: 0;
   font-family: 'LeferiPoint-WhiteObliqueA', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
