@@ -90,6 +90,9 @@ class KJGResponse(BaseModel):
 
     comment_input_txt = "{" + outer_input_txt + top_input_txt + bottom_input_txt + item_input_txt + temperature_input_txt + "}"
     comment_output_txt = mk_comment(comment_input_txt)
+
+    # print(comment_input_txt)
+
     comment_output_json = json.loads(comment_output_txt)
 
     # {
@@ -144,7 +147,7 @@ class KJGResponse(BaseModel):
     #     }
     #
     # }
-    return {ret}
+    return ret
 
 
 # 각 옷착장 평가
