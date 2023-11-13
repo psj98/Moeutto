@@ -50,8 +50,6 @@ const ClothesDetailPage = () => {
         }
     };
 
-    const [star, setStar] = useState<boolean>();
-
     // 두께
     const thicknessLevels = ["얇음", "중간", "두꺼움"];
     const thickness = clothesData ? thicknessLevels[clothesData.thickness - 1] : "";
@@ -66,7 +64,11 @@ const ClothesDetailPage = () => {
             {clothesData && (
                 <>
                     <div>
-                        <ClothesDetailImg imgUrl={clothesData.imageUrl} star={star} setStar={setStar} />
+                        <ClothesDetailImg 
+                            imgUrl={clothesData.imageUrl} 
+                            id={clothesData?.id} 
+                            isStar={clothesData?.star}
+                        />
                         <div className="mt-4">
                             <ClothesInfo 
                                 category={clothesData.middleCategoryId} 
@@ -86,7 +88,7 @@ const ClothesDetailPage = () => {
                 </>
             )}
                 <div className="mt-10 flex justify-center">
-                    <ClothesBtn />
+                    <ClothesBtn id={clothesData?.id} />
                 </div>
         </div>
         </>

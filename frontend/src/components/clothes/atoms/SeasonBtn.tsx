@@ -23,7 +23,7 @@ const SeasonBtn = ({ season }: PropsType) => {
     }
 
     return (
-        <div className="flex gap-4">
+        <div className={`flex gap-4 ${seasonList.length > 2 ? 'flex-wrap' : ''}`}>
             {seasonList.map((item, index) => (
                 <div key={index} className="text-AppBody1 rounded-2xl min-w-[80px] flex justify-center items-center shadow-md max-w-[110px]"
                     style={{ backgroundColor: `${item.color}50` }}

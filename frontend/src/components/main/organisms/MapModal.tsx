@@ -31,7 +31,7 @@ const MapModal: React.FC<MapModalPropsType> = ({
     return (
         <>
         {locationState &&
-        <div className="border border-pink rounded-xl shadow-lg flex flex-col items-center bg-white p-8">
+        <div className="border-2 border-pink rounded-xl shadow-lg flex flex-col items-center bg-white p-8">
             <MapSettingForm 
                 setResetLocation={setResetLocation}
                 currentLocation={currentLocation} 
