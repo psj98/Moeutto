@@ -2,12 +2,14 @@ package com.ssafy.moeutto.domain.clothes.service;
 
 import com.ssafy.moeutto.domain.S3.dto.response.S3ResponseDto;
 import com.ssafy.moeutto.domain.S3.service.S3Service;
-import com.ssafy.moeutto.domain.clothes.dto.request.ClothesListRequestDto;
-import com.ssafy.moeutto.domain.clothes.dto.request.ClothesRegistRequestDto;
-import com.ssafy.moeutto.domain.clothes.dto.request.ClothesUpdateRequestDto;
+import com.ssafy.moeutto.domain.clothes.dto.request.*;
 import com.ssafy.moeutto.domain.clothes.dto.response.*;
 import com.ssafy.moeutto.domain.clothes.entity.*;
 import com.ssafy.moeutto.domain.clothes.repository.ClothesRepository;
+import com.ssafy.moeutto.domain.guestBook.dto.response.GuestBookListResponseDto;
+import com.ssafy.moeutto.domain.guestBook.service.GuestBookService;
+import com.ssafy.moeutto.domain.largeCategory.entity.LargeCategory;
+import com.ssafy.moeutto.domain.largeCategory.repository.LargeCategoryRepository;
 import com.ssafy.moeutto.domain.member.entity.Member;
 import com.ssafy.moeutto.domain.member.repository.MemberRepository;
 import com.ssafy.moeutto.domain.middleCategory.entity.MiddleCategory;
@@ -33,7 +35,9 @@ public class ClothesServiceImpl implements ClothesService {
     private final ClothesRepository clothesRepository;
     private final MemberRepository memberRepository;
     private final MiddleCategoryRepository middleCategoryRepository;
+    private final LargeCategoryRepository largeCategoryRepository;
     private final S3Service s3Service;
+    private final GuestBookService guestBookService;
 
     /**
      * 옷 정보를 등록합니다.
@@ -159,6 +163,34 @@ public class ClothesServiceImpl implements ClothesService {
 
         // 필요한 속성 추출 및 옷 정보 반환
         return getClothesListResponseDto(clothesList);
+    }
+
+    /**
+     * 옷 목록과 방명록을 가져옵니다.
+     *
+     * @param memberId
+     * @return ClothesListAndGuestBookResponseDto
+     * @throws BaseException
+     */
+    @Override
+    public ClothesListAndGuestBookResponseDto listClothesAndGuestBooks(UUID memberId) throws BaseException {
+        // 옷 목록에 필요한 매개변수 => 기본 정렬
+        ClothesListRequestDto clothesListRequestDto = ClothesListRequestDto.builder()
+                .categoryId("000")
+                .sortBy("initial")
+                .orderBy(0)
+                .build();
+
+        List<ClothesListResponseDto> clothesListResponseDtoList = listClothes(memberId, clothesListRequestDto); // 옷 목록
+        List<GuestBookListResponseDto> guestBookListResponseDtoList = guestBookService.listGuestBook(memberId); // 방명록 글 목록
+
+        // 전달 데이터 정제
+        ClothesListAndGuestBookResponseDto clothesListAndGuestBookResponseDto = ClothesListAndGuestBookResponseDto.builder()
+                .clothesListResponseDto(clothesListResponseDtoList)
+                .guestBookListResponseDto(guestBookListResponseDtoList)
+                .build();
+
+        return clothesListAndGuestBookResponseDto;
     }
 
     /**
@@ -560,12 +592,102 @@ public class ClothesServiceImpl implements ClothesService {
         // 최근 n개월 내 입은 옷 분석 - 대분류 카테고리 별 분석
         List<IClothesAnalysisAvailability> amountList = clothesRepository.findMyAnalysisAmountByMemberId(memberId);
 
+        int max = -1, min = 101;
+        String maxLargeCategoryId = "001", minLargeCategoryId = "001";
+        for (IClothesAnalysisAvailability iClothesAnalysisAvailability : amountList) {
+            if (iClothesAnalysisAvailability.getTotalAmount() == 0) {
+                continue;
+            }
+
+            if (max < iClothesAnalysisAvailability.getUsedAmount() * 100 / iClothesAnalysisAvailability.getTotalAmount()) {
+                max = iClothesAnalysisAvailability.getUsedAmount() * 100 / iClothesAnalysisAvailability.getTotalAmount();
+                maxLargeCategoryId = iClothesAnalysisAvailability.getLargeCategoryId();
+            }
+
+            if (min > iClothesAnalysisAvailability.getUsedAmount() * 100 / iClothesAnalysisAvailability.getTotalAmount()) {
+                min = iClothesAnalysisAvailability.getUsedAmount() * 100 / iClothesAnalysisAvailability.getTotalAmount();
+                minLargeCategoryId = iClothesAnalysisAvailability.getLargeCategoryId();
+            }
+        }
+
+        String maxLargeCategoryName = largeCategoryRepository.findById(maxLargeCategoryId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_LARGE_CATEGORY)).getName();
+        String minLargeCategoryName = largeCategoryRepository.findById(minLargeCategoryId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_LARGE_CATEGORY)).getName();
+
         ClothesAnalysisAvailabilityResponseDto responseDto = ClothesAnalysisAvailabilityResponseDto.builder()
                 .totalAmount(totalAmount)
                 .usedAmount(usedAmount)
                 .analysisAmountList(amountList)
+                .maxLargeCategoryName(maxLargeCategoryName)
+                .minLargeCategoryName(minLargeCategoryName)
                 .build();
 
         return responseDto;
+    }
+
+    /**
+     * 친구가 소유한 옷 목록을 보여줍니다.
+     *
+     * @param memberId
+     * @param clothesListByFriendsRequestDto
+     * @return List<ClothesListByFriendsResponseDto>
+     * @throws BaseException
+     */
+    @Override
+    public List<ClothesListResponseDto> getListByFriends(UUID memberId, ClothesListByFriendsRequestDto clothesListByFriendsRequestDto) throws BaseException {
+        // 친구 정보 조회
+        Member friendInfo = memberRepository.findByEmail(clothesListByFriendsRequestDto.getEmail()).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+
+        String categoryId = clothesListByFriendsRequestDto.getCategoryId(); // 카테고리 id
+        String largeCategoryId = categoryId.substring(0, 3); // 대분류 카테고리 id
+        String middleCategoryId = categoryId.substring(3); // 중분류 카테고리 id
+        String sortBy = clothesListByFriendsRequestDto.getSortBy(); // 정렬 기준
+        Integer orderBy = clothesListByFriendsRequestDto.getOrderBy(); // 정렬 순서
+
+        List<Clothes> clothesList; // 옷 목록 정보
+
+        // 조회 조건에 따른 조건문
+        if (largeCategoryId.equals("000")) { // 전체 조회
+            clothesList = listClothesAll(friendInfo.getId(), sortBy, orderBy);
+        } else if (middleCategoryId.equals("000")) { // 대분류 카테고리 조회
+            clothesList = listClothesByLargeCategoryId(friendInfo.getId(), largeCategoryId, sortBy, orderBy);
+        } else { // 중분류 카테고리 조회
+            clothesList = listClothesByMiddleCategoryId(friendInfo.getId(), categoryId, sortBy, orderBy);
+        }
+
+        if (clothesList == null || clothesList.size() == 0) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES_LIST);
+        }
+
+        // 필요한 속성 추출 및 옷 정보 반환
+        return getClothesListResponseDto(clothesList);
+    }
+
+    /**
+     * 친구가 소유한 옷 목록과 방명록을 조회합니다.
+     *
+     * @param memberId
+     * @param email
+     * @return List<ClothesListAndGuestBookResponseDto>
+     */
+    @Override
+    public ClothesListAndGuestBookResponseDto getListClothesAndGuestBookByFriends(UUID memberId, String email) throws BaseException {
+        ClothesListByFriendsRequestDto clothesListByFriendsRequestDto = ClothesListByFriendsRequestDto.builder()
+                .email(email)
+                .categoryId("000")
+                .sortBy("initial")
+                .orderBy(0)
+                .build();
+
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+
+        List<ClothesListResponseDto> clothesListResponseDtoList = getListByFriends(memberId, clothesListByFriendsRequestDto);
+        List<GuestBookListResponseDto> guestBookListResponseDtoList = guestBookService.listGuestBook(member.getId());
+
+        ClothesListAndGuestBookResponseDto clothesListAndGuestBookResponseDto = ClothesListAndGuestBookResponseDto.builder()
+                .clothesListResponseDto(clothesListResponseDtoList)
+                .guestBookListResponseDto(guestBookListResponseDtoList)
+                .build();
+
+        return clothesListAndGuestBookResponseDto;
     }
 }

@@ -23,13 +23,17 @@ public class MemberLoginServiceImpl implements MemberLoginService {
     @Value("${kakao.secret}")
     private String secret;
 
+    @Value("${kakao.redirect.url}")
+    private String redirectURL;
+
     @Override
     public String getKakaoPermissionCode() {
         String requestURL = "https://kauth.kakao.com/oauth/authorize";
-        String redirectURL = "http://localhost:8080/api/members/check";
         String code = "";
 
         try {
+            System.out.println("print redirectURL : "+redirectURL);
+
             URL url = new URL(requestURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -37,6 +41,7 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 //            connection.setDoOutput(true);
 
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
+
 
             String str = "response_type=code" +
                     "&client_id=" + apiKey +
@@ -91,10 +96,10 @@ public class MemberLoginServiceImpl implements MemberLoginService {
         String accessToken = "";
         String refreshToken = "";
         String requestURL = "https://kauth.kakao.com/oauth/token";
-        String redirectURL = "http://localhost:8080/api/members/check";
-//        String redirectURL = "http://localhost:8080/api/oauth/kakao";
 
         try {
+            System.out.println("redirectURL : "+redirectURL);
+
             URL url = new URL(requestURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -171,7 +176,7 @@ public class MemberLoginServiceImpl implements MemberLoginService {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
-            connection.setRequestProperty("Authorization", "Bearer " + accessToken);
+            connection.setRequestProperty("Authorization","Bearer "+ accessToken);
 
             int responseCode = connection.getResponseCode();
 

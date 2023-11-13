@@ -17,11 +17,11 @@ const UserLocation: React.FC<UserLocationPropsType> = ({ currentLocation, addres
     return (
         <div>
             {currentAddress ? (
-                <div className={`text-${color}`}>
+                <div className={`text-[${color}] text-AppBody2`}>
                     {currentAddress}
                 </div>
             ) : (
-                <div className={`text-${color}`}>위치를 설정하러 가볼까요?</div>
+                <div className={`text-${color} text-AppBody1`}>위치를 설정하러 가볼까요?</div>
             )}
         </div>
     )

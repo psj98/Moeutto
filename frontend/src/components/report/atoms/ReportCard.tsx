@@ -1,10 +1,9 @@
-import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { CardProps } from '../../../pages/MyClosetReportPage';
 
 const Card = styled.div`
-  width: 80%;
+  width: 400px;
   height: 204px;
   flex-shrink: 0;
   border-radius: 10px;
@@ -17,12 +16,17 @@ const Card = styled.div`
 `;
 
 const ReportCard = ({ contents, url }: CardProps) => {
+  const navigate = useNavigate();
+
+  function handleClick() {
+    navigate(url);
+  }
   return (
-    <Link to={url}>
-      <Card>
+    <div className="mw-[300px]">
+      <Card onClick={() => handleClick()}>
         <div className="text-WebBody2">{contents}</div>
       </Card>
-    </Link>
+    </div>
   );
 };
 
