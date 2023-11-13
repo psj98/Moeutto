@@ -284,7 +284,7 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
      * @param memberId
      * @return
      */
-    @Query(value = "SELECT ROUND(SUM(c.price)) FROM clothes c " + "WHERE c.member_id = ?1 ", nativeQuery = true)
+    @Query(value = "SELECT IFNULL(ROUND(SUM(c.price)), 0) FROM clothes c " + "WHERE c.member_id = ?1 ", nativeQuery = true)
     Integer findPriceByMemberId(UUID memberId);
 
     /**
