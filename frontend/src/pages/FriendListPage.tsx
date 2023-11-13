@@ -27,7 +27,7 @@ const FriendListPage = () => {
   const [data, setData] = useState<FriendType[] | null>(null); // 친구 목록 데이터
 
   // 진입시 내 친구 목록 조회 api 날리기
-  const fetchData = async () => {
+  const getMyFriends = async () => {
     try {
       // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
       const axiosInstance = authInstance({ ContentType: 'application/json' });
@@ -40,7 +40,7 @@ const FriendListPage = () => {
   };
 
   useEffect(() => {
-    fetchData().then(res => {
+    getMyFriends().then(res => {
       setData(res.data);
     });
   }, []);
@@ -61,6 +61,11 @@ const FriendListPage = () => {
   useEffect(() => {
     if (search) {
       SearchData().then(res => {
+        setData(res.data);
+      });
+    } else {
+      console.log(search, 'getmyfriends 시작');
+      getMyFriends().then(res => {
         setData(res.data);
       });
     }

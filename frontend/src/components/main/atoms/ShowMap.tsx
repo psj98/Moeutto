@@ -127,7 +127,7 @@ const ShowMap: React.FC<ShowMapPropsType> = ({
     return (
         <>
             <div ref={mapRef} style={{
-                width: '200px',
+                width: '250px',
                 height: '300px'
                 }}
                 className="rounded-xl"

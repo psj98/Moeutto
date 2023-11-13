@@ -78,57 +78,82 @@ const PostEditorTemplate = ({ setFile }: Props) => {
   };
 
   function loadAndAddImageFromServer() {
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-    const targetUrl = imgUrl;
+    // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    // const targetUrl = imgUrl;
 
-    fetch(proxyUrl + targetUrl).then(response => {
-      // if (!response.ok) {
-      //   throw new Error(`HTTP error${response.status}`);
-      // }
-      return response.arrayBuffer();
-    });
+    // fetch(proxyUrl + targetUrl).then(response => {
+    //   // if (!response.ok) {
+    //   //   throw new Error(`HTTP error${response.status}`);
+    //   // }
+    //   return response.arrayBuffer();
+    // });
 
-    function arrayBufferToBase64(buffer) {
-      let binary = '';
-      const bytes = [].slice.call(new Uint8Array(buffer));
+    // function arrayBufferToBase64(buffer) {
+    //   let binary = '';
+    //   const bytes = [].slice.call(new Uint8Array(buffer));
 
-      bytes.forEach(b => (binary += String.fromCharCode(b)));
-      return window.btoa(binary);
-    }
+    //   bytes.forEach(b => (binary += String.fromCharCode(b)));
+    //   return window.btoa(binary);
+    // }
 
-    fetch(proxyUrl + targetUrl)
-      .then(response => response.arrayBuffer())
-      .then(buffer => {
-        const base64Flag = 'data:image/jpeg;base64,';
-        const imageStr = arrayBufferToBase64(buffer);
+    // fetch(proxyUrl + targetUrl)
+    //   .then(response => response.arrayBuffer())
+    //   .then(buffer => {
+    //     const base64Flag = 'data:image/jpeg;base64,';
+    //     const imageStr = arrayBufferToBase64(buffer);
 
-        fabric.Image.fromURL(base64Flag + imageStr, function (img) {
-          img.setControlsVisibility(HideControls);
-          img.crossOrigin = 'anonymous'; // Set crossOrigin directly on the fabric.js image
+    //     fabric.Image.fromURL(base64Flag + imageStr, function (img) {
+    //       img.setControlsVisibility(HideControls);
+    //       img.crossOrigin = 'anonymous'; // Set crossOrigin directly on the fabric.js image
 
-          const canvasWidth = editor?.canvas.width || 0;
-          const canvasHeight = editor?.canvas.height || 0;
-          const imgWidth = img.width || 0;
-          const imgHeight = img.height || 0;
+    //       const canvasWidth = editor?.canvas.width || 0;
+    //       const canvasHeight = editor?.canvas.height || 0;
+    //       const imgWidth = img.width || 0;
+    //       const imgHeight = img.height || 0;
 
-          if (imgWidth > canvasWidth || imgHeight > canvasHeight) {
-            const scale = Math.min((canvasWidth / imgWidth) * 0.5, (canvasHeight / imgHeight) * 0.5);
+    //       if (imgWidth > canvasWidth || imgHeight > canvasHeight) {
+    //         const scale = Math.min((canvasWidth / imgWidth) * 0.5, (canvasHeight / imgHeight) * 0.5);
 
-            img.scale(scale);
-          }
+    //         img.scale(scale);
+    //       }
 
-          img.set({
-            left: (canvasWidth - img.width * img.scaleX) / 2,
-            top: (canvasHeight - img.height * img.scaleY) / 2,
-          });
+    //       img.set({
+    //         left: (canvasWidth - img.width * img.scaleX) / 2,
+    //         top: (canvasHeight - img.height * img.scaleY) / 2,
+    //       });
 
-          editor?.canvas.add(img);
-          editor?.canvas.renderAll();
-        });
-      })
-      .catch(error => {
-        console.error('Failed to load image from server:', error);
+    //       editor?.canvas.add(img);
+    //       editor?.canvas.renderAll();
+    //     });
+    //   })
+    //   .catch(error => {
+    //     console.error('Failed to load image from server:', error);
+    //   });
+
+    // -------------------------------------------------------------------------------------------------------
+    fabric.Image.fromURL(imgUrl, function (img) {
+      img.setControlsVisibility(HideControls);
+      img.crossOrigin = 'anonymous'; // Set crossOrigin directly on the fabric.js image
+
+      const canvasWidth = editor?.canvas.width || 0;
+      const canvasHeight = editor?.canvas.height || 0;
+      const imgWidth = img.width || 0;
+      const imgHeight = img.height || 0;
+
+      if (imgWidth > canvasWidth || imgHeight > canvasHeight) {
+        const scale = Math.min((canvasWidth / imgWidth) * 0.5, (canvasHeight / imgHeight) * 0.5);
+
+        img.scale(scale);
+      }
+
+      img.set({
+        left: (canvasWidth - img.width * img.scaleX) / 2,
+        top: (canvasHeight - img.height * img.scaleY) / 2,
       });
+
+      editor?.canvas.add(img);
+      editor?.canvas.renderAll();
+    });
   }
 
   const capture: MouseEventHandler<HTMLButtonElement> = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

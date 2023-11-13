@@ -33,13 +33,13 @@ type RequestData struct {
 	WeatherInfo []WeatherInfo `json:"weatherInfo"` // 3일간의 날씨 정보를 담는 배열
 }
 
-// AIRecommendation 구조체는 하루에 대한 옷 추천 정보를 담습니다.
-type AIRecommendation struct {
+// LogicRecommendation 구조체는 하루에 대한 옷 추천 정보를 담습니다.
+type LogicRecommendation struct {
 	ClothesId []int  `json:"clothesId"` // 순서대로 outer, top, bottom, item에 해당
 	RecDate   string `json:"recDate"`   // 추천 날짜
 }
 
 // ResponseData 구조체는 클라이언트에게 보낼 응답 데이터를 나타냅니다.
 type ResponseData struct {
-	AIRecommend []AIRecommendation `json:"aiRecommend"` // 3일간의 옷 추천 정보
+	AIRecommend []LogicRecommendation `json:"aiRecommend"` // 3일간의 옷 추천 정보
 }
