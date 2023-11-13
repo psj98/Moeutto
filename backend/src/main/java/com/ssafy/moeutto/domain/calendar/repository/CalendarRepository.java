@@ -22,4 +22,7 @@ public interface CalendarRepository extends JpaRepository<Calendar, Integer> {
      * @param id       : 착장 Id
      */
     Optional<Calendar> findByIdAndMemberId(Integer id, UUID memberId);
+
+
+    Optional<Calendar> findByRegDate(Date regDate);
 }
