@@ -70,6 +70,10 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
             }
 
             clothesList.add(clothesAIRecOutfitCombineList);
+
+            for (IClothesAIRecOutfitCombine iClothesAIRecOutfitCombine : clothesAIRecOutfitCombineList) {
+                System.out.println(iClothesAIRecOutfitCombine.getClothesId() + " " + iClothesAIRecOutfitCombine.getRecentDate());
+            }
         }
 
         // 대분류 카테고리에 따라 값 저장
@@ -98,6 +102,8 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
                 .weatherInfo(aiRecOutfitCombineWeatherByAiRequestDtoList)
                 .build();
 
+        System.out.println(aiRecOutfitCombineByAIRequestDto);
+
         for (int i = 0; i < aiRecOutfitCombineByAIRequestDto.getClothesList().getBottom().size(); i++) {
             System.out.println("AiRecOutfitServiceImpl 파이썬 전달 정보 (clothesList.getBottom) " + i + " 번째 : " + aiRecOutfitCombineByAIRequestDto.getClothesList().getBottom().get(i));
         }
@@ -108,6 +114,8 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
         // 파이썬으로 정보 전달
         String url = "http://localhost:9000/recommend"; // 파이썬 요청 url
         RestTemplate restTemplate = new RestTemplate();
+
+
 
         // AI가 착장 추천해주기 및 데이터 반환
         String response = restTemplate.postForObject(url, aiRecOutfitCombineByAIRequestDto, String.class);

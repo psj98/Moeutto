@@ -5,6 +5,7 @@ import (
 	"myapp/internal/app/logic"
 	"myapp/internal/pkg/models"
 	"net/http"
+	"fmt"
 )
 
 func RecommendationHandler(w http.ResponseWriter, r *http.Request) {
@@ -15,8 +16,10 @@ func RecommendationHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var requestData models.RequestData
+	fmt.Println(requestData)
 	if err := json.NewDecoder(r.Body).Decode(&requestData); err != nil {
-		http.Error(w, "Invalid request payload", http.StatusBadRequest)
+		http.Error(w, "Invalid request payload", http.StatusBadRequest) 
+		fmt.Println(r.Body)
 		return
 	}
 
