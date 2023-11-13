@@ -15,16 +15,17 @@ public class AiRecOutfitCombineWeatherByAiRequestDto {
 
     // 날씨 정보
     @NotNull
-    private Float tmn; // 최저 기온
+    private Date date; // 날짜 정보
 
     @NotNull
     private Float tmx; // 최고 기온
 
     @NotNull
-    private Float wsd; // 풍속
+    private Float tmn; // 최저 기온
 
     @NotNull
-    private Date date; // 날짜 정보
+    private Float wsd; // 풍속
+
 
     @Builder(toBuilder = true)
     public AiRecOutfitCombineWeatherByAiRequestDto(Float tmn, Float tmx, Float wsd, Date date) {
