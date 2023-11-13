@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import Swal from 'sweetalert2';
 import { authInstance } from '../api/api';
 
 import ClosetReportTemplate from '../components/report/templates/ClosetReportTemplate';
@@ -32,7 +32,12 @@ function ReportColorPage() {
     const response = await axiosInstance.get('/clothes/analysis-color');
 
     if (response.data.code === 3002) {
-      alert('옷을 먼저 등록해주세요.');
+      Swal.fire({
+        icon: 'error',
+        html: '옷을 먼저 등록해주세요',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
       goMainPage();
     } else {
       setMyAnalysisColor(response.data.data.myAnalysisColor);

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
 import styled from 'styled-components';
 import Sidebar from './components/common/SideNav';
 import MobileNav from './components/common/MobileNav';
@@ -24,7 +26,15 @@ function App() {
     const isLogoutUrl = location.pathname.includes('logout');
 
     if (!accessToken && !isLoginUrl && !isRoot && !isLogoutUrl) {
-      alert('로그인을 먼저 진행해주세요');
+      Swal.fire({
+        icon: 'warning',
+        title: "<h5 style='color:red'>로그인 필요!",
+        html: `
+        로그인을 먼저 진행해주세요!
+        `,
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
       navigate('/login');
     }
   }, [navigate, location.pathname]);
