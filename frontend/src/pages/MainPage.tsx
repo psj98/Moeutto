@@ -11,6 +11,7 @@ import MainWeatherTap from '../components/main/organisms/MainWeatherTap';
 import Alert from '../components/common/Alert';
 import MainComment from '../components/main/atoms/MainComment';
 import Calendar from '../components/calendar/organisms/Calendar';
+import Scroll from '../components/common/scroll/molecules/Scroll';
 // import AddTap from '../components/main/atoms/AdTap';
 // import { authInstance } from '../api/api';
 
@@ -309,6 +310,9 @@ const MainPage = () => {
             </div>
           )}
         </div>
+        <div className="fixed bottom-1/3 right-0 me-[5vw]">
+          <Scroll />
+      </div>
     </div>
   );
 };
