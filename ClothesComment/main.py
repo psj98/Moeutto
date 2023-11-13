@@ -22,7 +22,7 @@ import json
 
 
 load_dotenv()
-os.environ["OPENAI_API_KEY"] = os.getenv("mykey")
+os.environ["OPENAI_API_KEY"] = os.getenv("apikey")
 
 
 app = FastAPI()
@@ -66,7 +66,8 @@ class KJGResponse(BaseModel):
     max_temp = clothes_request.weatherInfo.maxTemperature
     avg_temp = int((min_temp + max_temp)/2)
 
-    season = get_temp_weather()
+    #
+    season = get_temp_weather() # 1 2 3 4 봄 여름 가을 겨울
     score_list = [calculate_total_score(clothes_request.outer.thickness, min_temp, max_temp, season),
                   calculate_total_score(clothes_request.top.thickness, min_temp, max_temp, season),
                   calculate_total_score(clothes_request.bottom.thickness, min_temp, max_temp, season),
