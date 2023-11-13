@@ -169,7 +169,7 @@ const MainPage = () => {
             <UserName />
             
             {/* 날씨 기반 추천 리스트 */}
-            {clothesListData.length > 0 ? (
+            {clothesListData && clothesListData.length > 0 ? (
               <>
                 <RecommendList clothesListData={clothesListData} weatherListData={weatherListData} />
               </>
