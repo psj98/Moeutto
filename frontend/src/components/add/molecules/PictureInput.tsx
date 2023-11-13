@@ -179,19 +179,16 @@ const PictureInput = ({ setStateValue, handleIconClick }: Props) => {
   const removeBG = async () => {
     setIsRemoving(true); // 작업 중 true로 바꾸고
     await handleIconClick().then(res => {
-      console.log('작업을 완료', res.data);
       const base64String = res.data.file; // Base64 문자열을 여기에 넣으세요
       const fileName = 'image.png'; // 이미지 파일 이름을 설정하세요
 
       const imageFile = base64ToImageFile(base64String, fileName);
 
-      console.log('새로 들어왔어요 .imageFile로 file 새로 저장할게요');
       setPreview(base64String);
       setFile(imageFile);
       // // 이미지 파일을 브라우저에서 표시
       const imageUrl = URL.createObjectURL(imageFile);
 
-      console.log(imageUrl);
       setPreview(imageUrl);
       const img = new Image();
 
@@ -199,7 +196,6 @@ const PictureInput = ({ setStateValue, handleIconClick }: Props) => {
       // // ai에 넘겨주고 받아온다
       setIsRemoving(false); // 작업 완료되면 false로 바꾼다  // 사용 예시
     });
-    console.log('멀리큐어단계');
     return true;
   };
 
