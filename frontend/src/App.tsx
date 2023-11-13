@@ -21,8 +21,9 @@ function App() {
     const accessToken = sessionStorage.getItem('accessToken');
     const isLoginUrl = location.pathname.includes('login'); // 처음 인덱스 페이지에서는 이하 기능을 수행하지 않도록 수정하였습니다
     const isRoot = location.pathname === '/';
+    const isLogoutUrl = location.pathname.includes('logout');
 
-    if (!accessToken && !isLoginUrl && !isRoot) {
+    if (!accessToken && !isLoginUrl && !isRoot && !isLogoutUrl) {
       alert('로그인을 먼저 진행해주세요');
       navigate('/login');
     }
