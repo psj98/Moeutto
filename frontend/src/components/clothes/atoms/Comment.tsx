@@ -1,14 +1,25 @@
 import { useState, useEffect } from "react";
+import { middleCategory } from "../../common/CategoryType";
 
 interface propsType {
     frequency: number;
     recentDate: string;
     name: string;
+    color: string;
+    category: string;
 }
 
-const Comment = ({ frequency, recentDate, name }: propsType) => {
+const Comment = ({ frequency, recentDate, name, color, category }: propsType) => {
     // 몇일 전인지 구하기
     const [daysPassed, setDaysPassed] = useState<number | null>(null);
+
+    const [newName, setNewName] = useState<string>(name);
+
+    const getNameById = (idToFind: string): string | undefined => {
+        const foundCategory = middleCategory.find(item => item.id === idToFind);
+
+        return foundCategory ? foundCategory.name : undefined;
+    };
 
     useEffect(() => {
         // 주어진 날짜와 현재 날짜 계산
@@ -27,22 +38,30 @@ const Comment = ({ frequency, recentDate, name }: propsType) => {
         };
 
         calculateDaysPassed();
+
+
+        // 이름을 입력하지 않은 경우 자동으로 이름 만들어주기
+        if (!name) {
+            setNewName(`${color} ${getNameById(category)}`);
+        }
     }, []);
+    console.log('새로운 이름', newName)
 
     return (
         <>
             <div className="text-AppBody2 tracking-wider">
-                <span className="text-deepblack font-bold">{name}</span>
+                <span className="text-deepblack font-bold">{newName}</span>
                 <span className="text-gray-dark">을 총 </span>
                 <span className="text-pink-hot font-bold">{frequency}</span>
                 <span className="text-gray-dark">번 입었어요</span>
             </div>
             <div className="text-AppBody2 tracking-wider">
-                <span className="text-deepblack font-bold">{name}</span>
+                <span className="text-deepblack font-bold">{newName}</span>
                 <span className="text-gray-dark">을 </span>
                 <span className="text-pink-hot font-bold">{daysPassed}</span>
                 <span className="text-gray-dark">일 전에 입었어요</span>
             </div>
+
         </>
     )
 }
