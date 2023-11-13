@@ -1,7 +1,7 @@
 import React, { Dispatch } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
-import SearchLocation from "../atoms/SearchLocation";
+// import SearchLocation from "../atoms/SearchLocation";
 import UserLocation from "../atoms/UserLocation";
 import CurrentLocationBtn from "../atoms/CurrentLocationBtn";
 import LocationSet from "../atoms/LocationSet";
@@ -30,7 +30,7 @@ const MapSettingForm: React.FC<MapSettingPropsType> = ({
                     <AiOutlineClose onClick={showLocationClick} size={25} />
                 </div>
             </div>
-            <SearchLocation handleInputChange={handleInputChange}  />
+            {/* <SearchLocation handleInputChange={handleInputChange}  /> */}
             <CurrentLocationBtn 
                 setResetLocation={setResetLocation}
             />
