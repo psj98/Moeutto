@@ -14,6 +14,7 @@ import { ClothInfoType } from '../../../pages/AddClothPage';
 
 interface Props {
   setStateValue: Dispatch<SetStateAction<FormData>>;
+  handleRemoveBG: (imgWithBG: File) => Promise<any>;
 }
 
 const FormContainer = styled.div`
@@ -41,8 +42,9 @@ const Form = styled.div`
   }
 `;
 
-const AddClothFormOrganism = ({ setStateValue }: Props) => {
+const AddClothFormOrganism = ({ setStateValue, handleRemoveBG }: Props) => {
   const [clothPic, setClothPic] = useState<File | null>(null);
+  const [clothBase64WithoutBG, setClothBase64WithoutBG] = useState<string>(''); // ai로 배경지운 이미지
   const [clothCategory, setClothCategory] = useState<string>(''); // String
   const [clothSeason, setClothSeason] = useState<string>('0000'); // ex) string: 가을겨울옷이라면 0011
   const [clothThickness, setClothThickness] = useState<number | null>(); // ex) int: 얇음 , 중간 , 두꺼움
@@ -123,6 +125,20 @@ const AddClothFormOrganism = ({ setStateValue }: Props) => {
     }
   };
 
+  // 배경지우는 함수
+  const RemoveBGIconClick = async () => {
+    console.log(typeof clothPic, '파일인가요? 모드리치님 ㅜ');
+    if (clothPic !== null) {
+      handleRemoveBG(clothPic as File).then(res => {
+        console.log(res);
+        setClothBase64WithoutBG(res.file);
+        setClothColor(res.color);
+        setClothCategory(res.category);
+      });
+    }
+    return true;
+  };
+
   useEffect(() => {
     // 사용자가 다시찍기를 할 수 있기 때문에 필요한 과정입니다.
     if (clothPic === null) {
@@ -141,7 +157,11 @@ const AddClothFormOrganism = ({ setStateValue }: Props) => {
   return (
     <FormContainer>
       <Form>
-        <PictureInput setStateValue={setClothPic} />
+        <PictureInput
+          setStateValue={setClothPic}
+          handleIconClick={RemoveBGIconClick}
+          clothBase64WithoutBG={clothBase64WithoutBG}
+        />
         <div
           style={{
             // 이 스타일들은 차곡차곡 생기는 form 애니메이션을 위해 작성되었습니다. 참고는 카카오페이입니다
