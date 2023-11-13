@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 // axios
 // import { useQuery } from 'react-query';
@@ -142,7 +143,12 @@ const PickPickPage = () => {
       localStorage.setItem('selectedClosetIds', JSON.stringify(selectedClosetIds));
       navigate('/analysis');
     } else {
-      alert('선택한 옷이 없어요');
+      Swal.fire({
+        icon: 'question',
+        html: '선택한 옷이 없어요',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
     }
   };
 

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
 import styled from 'styled-components';
 import Sidebar from './components/common/SideNav';
 import MobileNav from './components/common/MobileNav';
@@ -21,9 +23,18 @@ function App() {
     const accessToken = sessionStorage.getItem('accessToken');
     const isLoginUrl = location.pathname.includes('login'); // 처음 인덱스 페이지에서는 이하 기능을 수행하지 않도록 수정하였습니다
     const isRoot = location.pathname === '/';
+    const isLogoutUrl = location.pathname.includes('logout');
 
-    if (!accessToken && !isLoginUrl && !isRoot) {
-      alert('로그인을 먼저 진행해주세요');
+    if (!accessToken && !isLoginUrl && !isRoot && !isLogoutUrl) {
+      Swal.fire({
+        icon: 'warning',
+        title: "<h5 style='color:red'>로그인 필요!",
+        html: `
+        로그인을 먼저 진행해주세요!
+        `,
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
       navigate('/login');
     }
   }, [navigate, location.pathname]);
