@@ -12,7 +12,7 @@ const MainWeather = () => {
                 <TodayTemp />
             </div>
             <div className="text-[#131313] font-bold text-AppBody1 p-4">오늘은 날씨가 흐리고 <br/> 바람이 많이 붑니다</div>
-            <img src="/images/weather1.png" className="w-1/2 absolute -top-20"/>
+            <img src="/images/27.png" className="w-1/2 absolute -top-14"/>
         </div>
             <div className="bg-white rounded-xl shadow-md p-3 relative">
                 <img src="/images/light.png" className="w-[10%] absolute -top-6 right-4" />
