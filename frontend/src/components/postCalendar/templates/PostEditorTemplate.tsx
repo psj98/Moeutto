@@ -78,10 +78,10 @@ const PostEditorTemplate = ({ setFile }: Props) => {
   };
 
   function loadAndAddImageFromServer() {
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
     const targetUrl = imgUrl;
 
-    fetch(proxyUrl + targetUrl).then(response => {
+    fetch(`${targetUrl}?v=${new Date().getTime()}`).then(response => {
       // if (!response.ok) {
       //   throw new Error(`HTTP error${response.status}`);
       // }
@@ -96,7 +96,7 @@ const PostEditorTemplate = ({ setFile }: Props) => {
       return window.btoa(binary);
     }
 
-    fetch(proxyUrl + targetUrl)
+    fetch(`${targetUrl}?v=${new Date().getTime()}`)
       .then(response => response.arrayBuffer())
       .then(buffer => {
         const base64Flag = 'data:image/jpeg;base64,';
@@ -129,6 +129,31 @@ const PostEditorTemplate = ({ setFile }: Props) => {
       .catch(error => {
         console.error('Failed to load image from server:', error);
       });
+
+    // -------------------------------------------------------------------------------------------------------
+    // fabric.Image.fromURL(imgUrl, function (img) {
+    //   img.setControlsVisibility(HideControls);
+    //   img.crossOrigin = 'anonymous'; // Set crossOrigin directly on the fabric.js image
+
+    //   const canvasWidth = editor?.canvas.width || 0;
+    //   const canvasHeight = editor?.canvas.height || 0;
+    //   const imgWidth = img.width || 0;
+    //   const imgHeight = img.height || 0;
+
+    //   if (imgWidth > canvasWidth || imgHeight > canvasHeight) {
+    //     const scale = Math.min((canvasWidth / imgWidth) * 0.5, (canvasHeight / imgHeight) * 0.5);
+
+    //     img.scale(scale);
+    //   }
+
+    //   img.set({
+    //     left: (canvasWidth - img.width * img.scaleX) / 2,
+    //     top: (canvasHeight - img.height * img.scaleY) / 2,
+    //   });
+
+    //   editor?.canvas.add(img);
+    //   editor?.canvas.renderAll();
+    // });
   }
 
   const capture: MouseEventHandler<HTMLButtonElement> = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -160,20 +185,39 @@ const PostEditorTemplate = ({ setFile }: Props) => {
     //   return file;
     // }
 
+    function base64ToImageFile(base64, filename) {
+      const byteCharacters = atob(base64);
+      const byteNumbers = new Array(byteCharacters.length);
+
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'image/png' }); // 이미지 유형에 따라 변경
+
+      const imageFile = new File([blob], filename, { type: 'image/png' }); // 이미지 유형에 따라 변경
+
+      return imageFile;
+    }
+
+    // 콘솔에 이미지 표시
     htmlToImage
       .toPng(target.current, { cacheBust: true })
       .then(function (dataUrl) {
         console.log(dataUrl);
-        // setFile(dataUrl);
-        // const IMG = dataURLtoFile(dataUrl, 'file.png');
-        const formData = new FormData();
+        const base64String = 'dataUrl'; // Base64 문자열을 여기에 넣으세요
+        const fileName = 'file.png'; // 이미지 파일 이름을 설정하세요
 
-        formData.append('imageUrl', real); // 이제 파일 크기가 0이 아니어야 함
-        console.log(formData);
+        const imageFile = base64ToImageFile(base64String, fileName);
 
-        for (const values of formData.values()) {
-          console.log('아 폼에 있냐고~~~~~~~~~', values);
-        }
+        // 이미지 파일을 브라우저에서 표시
+        // const imageUrl = URL.createObjectURL(imageFile);
+        // const img = new Image();
+        // img.src = imageUrl;
+        console.log(imageFile);
+
+        setFile(imageFile);
       })
       .catch(function (error) {
         console.error('oops, something went wrong!', error);
