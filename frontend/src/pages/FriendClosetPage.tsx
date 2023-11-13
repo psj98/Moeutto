@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
 // axios
+
 import { authInstance } from '../api/api';
 // redux
 import { RootState } from '../redux/store';
@@ -31,7 +34,7 @@ export interface GuestBookListType {
 
 const FriendClosetPage = () => {
   const navigate = useNavigate();
-  const [guestbookText, setGuestbookTect] = useState<GuestbookTextType>(''); // 방명록 인풋 값
+  const [guestbookText, setGuestbookText] = useState<GuestbookTextType>(''); // 방명록 인풋 값
   const [guestbookAll, setGuestbookAll] = useState<GuestBookListType[]>([]); // 방명록 전체 조회
 
   // 카테고리
@@ -126,6 +129,7 @@ const FriendClosetPage = () => {
         console.log('친구 옷의 옷 데이터 가져오기', response.data.data.clothesListResponseDto)
       } else {
         setClothesData([]);
+        setGuestbookAll([]);
       }
       return response.data;
     } catch (error) {
@@ -150,33 +154,18 @@ const FriendClosetPage = () => {
       localStorage.setItem('selectedClosetIds', JSON.stringify(selectedClosetIds));
       navigate('/analysis');
     } else {
-      alert('선택한 옷이 없어요');
+      Swal.fire({
+        icon: 'question',
+        html: '선택한 옷이 없어요',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
     }
   };
 
-  // const getGuestbook = async () => {
-  //   try {
-  //     // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
-
-  //     const axiosInstance = authInstance({ ContentType: 'application/json' });
-  //     const response = await axiosInstance.get('/guestbooks');
-
-  //     if (response.data) {
-  //       console.log(response.data.data);
-  //       setGuestbookAll(response.data.data);
-  //     } else {
-  //       setClothesData([]);
-  //     }
-  //   } catch (error) {
-  //     throw new Error('게스트북 전체 조회 실패');
-  //   }
-  //   return true;
-  // };
-
   useEffect(() => {
+    // 페이지 처음 들어오면 방명록 데이터를 다 지워야합니다. 안 그러면 처음 입장할 때 다른 친구의 방명록이 계속 보입니다.
     setGuestbookAll([]);
-    // getGuestbook();
-    console.log('useEffect', guestbookAll);
   }, []);
 
   const handleGuestbookPost = async () => {
@@ -201,6 +190,13 @@ const FriendClosetPage = () => {
     };
 
     postData().then(() => {
+      Swal.fire({
+        icon: 'success',
+        html: '방명록이 작성되었습니다',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
+      setGuestbookText(''); // 방명록을 작성하였으므로 인풋값을 비워줍니다.
       fetchData();
     });
   };
@@ -210,7 +206,7 @@ const FriendClosetPage = () => {
       <GuestbookTemplate
         value={guestbookText}
         posts={guestbookAll}
-        setValue={setGuestbookTect}
+        setValue={setGuestbookText}
         onClick={handleGuestbookPost}
       />
       <PickComponent

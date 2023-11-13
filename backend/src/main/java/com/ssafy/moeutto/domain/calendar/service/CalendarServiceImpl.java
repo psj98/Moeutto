@@ -49,6 +49,16 @@ public class CalendarServiceImpl implements CalendarService {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER);
         }
 
+        Date todayDate = Date.valueOf(LocalDate.now());
+        log.info("today" + todayDate);
+
+        Optional<Calendar> calendarOptional = calendarRepository.findByRegDate(todayDate);
+
+        //캘린더가 이미 존재하는지 여부 파악
+        if(calendarOptional.isPresent()){
+            throw new BaseException(BaseResponseStatus.DUPLICATED_CALENDAR_INFO);
+        }
+
         S3ResponseDto s3ResponseDto;
 
         //옷 사진 S3에 등록
