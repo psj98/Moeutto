@@ -3,11 +3,12 @@ import React, { useState, useEffect, useRef, ChangeEvent, SetStateAction, Dispat
 import styled from 'styled-components';
 import { TbTrashXFilled } from 'react-icons/tb';
 import { PiSelectionBackgroundDuotone } from 'react-icons/pi';
-// import { Base64 } from 'js-base64';
 import { IconButton } from '@mui/material';
+import { Fade } from 'react-awesome-reveal';
+
 import ImageInput from '../atoms/ImageInput';
 import PreviewImage from '../atoms/PreviewPicture';
-// import StyledButton from '../atoms/Button';
+
 interface Props {
   setStateValue: Dispatch<SetStateAction<File>>;
   handleIconClick: () => Promise<any>;
@@ -29,6 +30,10 @@ const Pic = styled.div`
     max-height: 460px;
     border: 5px solid black;
     border-radius: 35px;
+    @media screen and (max-width: 500px) {
+      width: calc(70vw * 0.8);
+      height: calc(70vw * 0.8);
+    }
   }
 
   .isNotRemoving {
@@ -60,6 +65,10 @@ const Pic = styled.div`
 
     animation: borderRainbow 10s infinite linear;
     -webkit-animation: borderRainbow 10s infinite linear; // for Chrome
+    @media screen and (max-width: 500px) {
+      width: calc(70vw * 0.8);
+      height: calc(70vw * 0.8);
+    }
   }
 
   @-webkit-keyframes borderRainbow {
@@ -211,13 +220,11 @@ const PictureInput = ({ setStateValue, handleIconClick }: Props) => {
     } else {
       setPreview(null);
     }
-    console.log('새로 들어왔어요 .그래서 프리뷰 다시 할게요');
   }, [file]);
 
   useEffect(() => {
     // organism의 form의 상태로 저장하기 위해 실행하는 setState 함수
     setStateValue(file);
-    console.log('새로 들어왔어요 .그래서 파일 다시 할게요');
   }, [file]);
 
   return (
@@ -229,7 +236,11 @@ const PictureInput = ({ setStateValue, handleIconClick }: Props) => {
             <>
               <PreviewImage imageSrc={preview} />
               {/* <span className={`${isRemoving ? 'isRemoving' : ''}`}> */}
-              <span className={`${isRemoving ? 'isRemoving' : 'isNotRemoving'}`}>이미지 배경을 제거 중 입니다</span>
+              <span className={`${isRemoving ? 'isRemoving' : 'isNotRemoving'}`}>
+                <Fade delay={1e1} cascade damping={1e-1}>
+                  배경을 제거 중입니다
+                </Fade>
+              </span>
             </>
           ) : null}
           {preview ? ( // 이미지를 제출하면 배경 지우기 버튼과 다시 찍기 버튼이 보입니다

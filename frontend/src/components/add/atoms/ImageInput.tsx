@@ -1,6 +1,7 @@
 import React, { ChangeEvent, Ref } from 'react';
 import styled from 'styled-components';
-import { FaRegFileImage } from 'react-icons/fa';
+import { PiTShirtDuotone } from 'react-icons/pi';
+import { Bounce } from 'react-awesome-reveal';
 
 interface PictureInputProps {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -25,9 +26,15 @@ const Image = styled.div`
     max-height: 460px;
     position: relative;
     display: flex;
+    flex-direction: col;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    padding: 10px;
+    @media screen and (max-width: 500px) {
+      width: calc(70vw * 0.8);
+      height: calc(70vw * 0.8);
+    }
   }
 `;
 
@@ -36,7 +43,9 @@ const ImageInput = ({ onChange, inputRef }: PictureInputProps) => {
     <Image>
       <label htmlFor="pic">
         <input id="pic" type="file" onChange={onChange} ref={inputRef} />
-        <FaRegFileImage size={70} />
+        <Bounce>
+          <PiTShirtDuotone size={80} />
+        </Bounce>
       </label>
     </Image>
   );
