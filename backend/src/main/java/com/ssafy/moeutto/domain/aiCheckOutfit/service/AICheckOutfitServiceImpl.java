@@ -96,12 +96,18 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
             }
         }
 
+        ResponseWeatherInfo pythonRequestWeatherInfo = new ResponseWeatherInfo().toBuilder()
+                .maxTemperature((int)(aiCheckOutfitClientRequestDto.getWeatherInfo().getTmx()))
+                .minTemperature((int)(aiCheckOutfitClientRequestDto.getWeatherInfo().getTmn()))
+                .weather(aiCheckOutfitClientRequestDto.getWeatherInfo().getPty())
+                .build();
+
         PythonRequestClothesList pythonRequestClothesLists = PythonRequestClothesList.builder()
                 .outer(outerTemp)
                 .top(topTemp)
                 .bottom(bottomTemp)
                 .item(itemTemp)
-                .weatherInfo(aiCheckOutfitClientRequestDto.getWeatherInfo())
+                .weatherInfo(pythonRequestWeatherInfo)
                 .build();
 
         System.out.println(pythonRequestClothesLists);
@@ -124,6 +130,8 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
         try {
             aiCheckOutfitPythonResponseDto =
                     mapper.readValue(pythonResponse, AICheckOutfitPythonResponseDto.class);
+
+            System.out.println("AICHECKOUTFITSERVICE Python Response Dto : "+aiCheckOutfitPythonResponseDto);
         } catch (JsonProcessingException e) {
             throw new BaseException(BaseResponseStatus.JSON_PARSE_ERROR);
         }
