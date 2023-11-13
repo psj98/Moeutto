@@ -5,10 +5,14 @@ import (
 	"sort"
 	"strconv"
 	"time"
+	"fmt"
 )
 
 // SelectClothes - 날씨 정보와 옷 목록을 바탕으로 최적의 옷을 선택하여 추천 결과를 생성
 func SelectClothes(clothesList models.ClothesList, weatherInfos []models.WeatherInfo) []models.LogicRecommendation {
+	fmt.Println(clothesList)
+	fmt.Println(weatherInfos)
+	
 	var recommendations []models.LogicRecommendation
 
 	for _, weather := range weatherInfos {

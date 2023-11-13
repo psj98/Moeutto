@@ -1,5 +1,7 @@
 package com.ssafy.moeutto.domain.clothes.entity;
 
+import java.util.Date;
+
 public interface IClothesAIRecOutfitCombine {
 
     Integer getId(); // 옷 정보 id
@@ -13,4 +15,6 @@ public interface IClothesAIRecOutfitCombine {
     String getTextile(); // 소재
 
     Integer getFrequency(); // 빈도
+
+    Date getRecentDate(); // 최근입은 날짜
 }

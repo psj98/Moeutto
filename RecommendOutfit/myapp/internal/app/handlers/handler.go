@@ -8,6 +8,7 @@ import (
 )
 
 func RecommendationHandler(w http.ResponseWriter, r *http.Request) {
+	
 	if r.Method != http.MethodPost {
 		http.Error(w, "Only POST method is accepted", http.StatusMethodNotAllowed)
 		return
