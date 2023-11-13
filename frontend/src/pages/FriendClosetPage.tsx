@@ -106,6 +106,8 @@ const FriendClosetPage = () => {
   const pathname = window.location.pathname; // url에서 path 가져와서
   const friend = pathname.split('/')[3]; // path에서 email 가져오기
 
+  console.log(categoryId, sortBy, orderBy)
+  
   const fetchData = async () => {
     try {
       // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
@@ -113,11 +115,15 @@ const FriendClosetPage = () => {
       const axiosInstance = authInstance({ ContentType: 'application/json' });
       const response = await axiosInstance.post('/clothes/list/friend-all', {
         email: friend, // 친구 email
+        categoryId,
+        sortBy,
+        orderBy
       });
 
       if (response.data.data) {
         setClothesData(response.data.data.clothesListResponseDto);
         setGuestbookAll(response.data.data.guestBookListResponseDto);
+        console.log('친구 옷의 옷 데이터 가져오기', response.data.data.clothesListResponseDto)
       } else {
         setClothesData([]);
       }
