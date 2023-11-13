@@ -2,6 +2,7 @@ package com.ssafy.moeutto.domain.aiRecOutfit.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.ssafy.moeutto.domain.aiRecOutfit.dto.request.AiRecOutfitCombineByAIRequestDto;
 import com.ssafy.moeutto.domain.aiRecOutfit.dto.request.AiRecOutfitCombineClothesListByAIRequestDto;
 import com.ssafy.moeutto.domain.aiRecOutfit.dto.request.AiRecOutfitCombineRequestDto;
@@ -26,6 +27,11 @@ import com.ssafy.moeutto.global.response.BaseException;
 import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.entity.ContentType;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -115,84 +121,99 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
         String url = "http://localhost:9000/recommend"; // 파이썬 요청 url
         RestTemplate restTemplate = new RestTemplate();
 
+        // 현우 테스트 코드 시작
+        ObjectMapper obj = new ObjectMapper();
+        obj.enable(SerializationFeature.INDENT_OUTPUT);
+        String jsonString = obj.writeValueAsString(aiRecOutfitCombineByAIRequestDto);
 
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<AiRecOutfitCombineByAIRequestDto> requestEntity = new HttpEntity<>(aiRecOutfitCombineByAIRequestDto, headers);
+
+        ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
+
+        System.out.println(response);
+        // 현우 테스트 코드 끝
 
         // AI가 착장 추천해주기 및 데이터 반환
-        String response = restTemplate.postForObject(url, aiRecOutfitCombineByAIRequestDto, String.class);
+//        String response = restTemplate.postForObject(url, aiRecOutfitCombineByAIRequestDto, String.class);
 
         // AiRecOutfitCombineListByAIResponseDto로 매핑
-        ObjectMapper mapper = new ObjectMapper();
-        AiRecOutfitCombineListByAIResponseDto aiRecOutfitCombineListByAIResponseDto = mapper.readValue(response, AiRecOutfitCombineListByAIResponseDto.class);
-
-        List<AiRecOutfitCombineResponseDto> aiRecOutfitCombineResponseDtoList = new ArrayList<>(); // 클라이언트에 전달할 정보
-        List<AiRecOutfitCombineByAIResponseDto> aiRecOutfitCombineByAIResponseDtoList = aiRecOutfitCombineListByAIResponseDto.getAiRecOutfitCombineByAIResponseDtoList(); // 날짜별 추천 옷
-
-        // AI 추천 옷 목록 (날짜별) 데이터 정제
-        for (AiRecOutfitCombineByAIResponseDto aiRecOutfitCombineByAIResponseDto : aiRecOutfitCombineByAIResponseDtoList) {
-            Date recDate = aiRecOutfitCombineByAIResponseDto.getRecDate();
-
-            // 날짜로 있는지 확인
-            Optional<AiRecOutfit> aiRecOutfitOptional = aiRecOutfitRepository.findByMemberIdAndRecDate(memberId, recDate);
-
-            // 없으면 save
-            if (!aiRecOutfitOptional.isPresent()) {
-                AiRecOutfit aiRecOutfit = AiRecOutfit.builder()
-                        .recDate(recDate)
-                        .member(member)
-                        .build();
-
-                aiRecOutfitRepository.save(aiRecOutfit);
-            } else {
-                // aiRecOutfitId에 해당하는 복합키 삭제
-                clothesInAiOutfitRepository.deleteAllByAiRecOutfitId(aiRecOutfitOptional.get().getId());
-            }
-
-            AiRecOutfit aiRecOutfit = aiRecOutfitRepository.findByMemberIdAndRecDate(memberId, recDate).get();
-
-            List<AiRecOutfitCombineClothesInfoResponseDto> aiRecOutfitCombineClothesInfoResponseDtoList = new ArrayList<>(); // AI가 추천해준 옷 정보 목록
-
-            // 날짜별 추천 받은 옷 목록을 DB에 저장 및 클라이언트에 전달할 수 있도록 데이터 정제
-            List<Integer> clothesIdList = aiRecOutfitCombineByAIResponseDto.getClothesId();
-            for (Integer clothesId : clothesIdList) {
-                // 복합키 생성
-                ClothesInAiRecOutfitId clothesInAiOutfitId = ClothesInAiRecOutfitId.builder()
-                        .clothesId(clothesId)
-                        .aiRecOutfitId(aiRecOutfit.getId())
-                        .build();
-
-                // id에 따른 옷 정보 조회
-                Clothes clothes = clothesRepository.findById(clothesId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES));
-
-                // 착장 저장
-                ClothesInAiRecOutfit clothesInAiRecOutfit = ClothesInAiRecOutfit.builder()
-                        .id(clothesInAiOutfitId)
-                        .clothes(clothes)
-                        .aiRecOutfit(aiRecOutfit)
-                        .build();
-
-                clothesInAiOutfitRepository.save(clothesInAiRecOutfit);
-
-                // 클라이언트에 전달할 옷 정보 저장
-                AiRecOutfitCombineClothesInfoResponseDto aiRecOutfitCombineClothesInfoResponseDto = AiRecOutfitCombineClothesInfoResponseDto.builder()
-                        .clothesId(clothes.getId())
-                        .largeCategoryId(clothes.getMiddleCategory().getLargeCategory().getId())
-                        .imageUrl(clothes.getImageUrl())
-                        .build();
-
-                aiRecOutfitCombineClothesInfoResponseDtoList.add(aiRecOutfitCombineClothesInfoResponseDto);
-            }
-
-            // 클라이언트에 전달할 정보를 추천 날짜와 함께 저장
-            AiRecOutfitCombineResponseDto aiRecOutfitCombineResponseDto = AiRecOutfitCombineResponseDto.builder()
-                    .clothesInfo(aiRecOutfitCombineClothesInfoResponseDtoList)
-                    .recDate(recDate)
-                    .build();
-
-            aiRecOutfitCombineResponseDtoList.add(aiRecOutfitCombineResponseDto);
-        }
-
-        return aiRecOutfitCombineResponseDtoList;
+//        ObjectMapper mapper = new ObjectMapper();
+//        AiRecOutfitCombineListByAIResponseDto aiRecOutfitCombineListByAIResponseDto = mapper.readValue(response, AiRecOutfitCombineListByAIResponseDto.class);
+//
+//        List<AiRecOutfitCombineResponseDto> aiRecOutfitCombineResponseDtoList = new ArrayList<>(); // 클라이언트에 전달할 정보
+//        List<AiRecOutfitCombineByAIResponseDto> aiRecOutfitCombineByAIResponseDtoList = aiRecOutfitCombineListByAIResponseDto.getAiRecOutfitCombineByAIResponseDtoList(); // 날짜별 추천 옷
+//
+//        // AI 추천 옷 목록 (날짜별) 데이터 정제
+//        for (AiRecOutfitCombineByAIResponseDto aiRecOutfitCombineByAIResponseDto : aiRecOutfitCombineByAIResponseDtoList) {
+//            Date recDate = aiRecOutfitCombineByAIResponseDto.getRecDate();
+//
+//            // 날짜로 있는지 확인
+//            Optional<AiRecOutfit> aiRecOutfitOptional = aiRecOutfitRepository.findByMemberIdAndRecDate(memberId, recDate);
+//
+//            // 없으면 save
+//            if (!aiRecOutfitOptional.isPresent()) {
+//                AiRecOutfit aiRecOutfit = AiRecOutfit.builder()
+//                        .recDate(recDate)
+//                        .member(member)
+//                        .build();
+//
+//                aiRecOutfitRepository.save(aiRecOutfit);
+//            } else {
+//                // aiRecOutfitId에 해당하는 복합키 삭제
+//                clothesInAiOutfitRepository.deleteAllByAiRecOutfitId(aiRecOutfitOptional.get().getId());
+//            }
+//
+//            AiRecOutfit aiRecOutfit = aiRecOutfitRepository.findByMemberIdAndRecDate(memberId, recDate).get();
+//
+//            List<AiRecOutfitCombineClothesInfoResponseDto> aiRecOutfitCombineClothesInfoResponseDtoList = new ArrayList<>(); // AI가 추천해준 옷 정보 목록
+//
+//            // 날짜별 추천 받은 옷 목록을 DB에 저장 및 클라이언트에 전달할 수 있도록 데이터 정제
+//            List<Integer> clothesIdList = aiRecOutfitCombineByAIResponseDto.getClothesId();
+//            for (Integer clothesId : clothesIdList) {
+//                // 복합키 생성
+//                ClothesInAiRecOutfitId clothesInAiOutfitId = ClothesInAiRecOutfitId.builder()
+//                        .clothesId(clothesId)
+//                        .aiRecOutfitId(aiRecOutfit.getId())
+//                        .build();
+//
+//                // id에 따른 옷 정보 조회
+//                Clothes clothes = clothesRepository.findById(clothesId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES));
+//
+//                // 착장 저장
+//                ClothesInAiRecOutfit clothesInAiRecOutfit = ClothesInAiRecOutfit.builder()
+//                        .id(clothesInAiOutfitId)
+//                        .clothes(clothes)
+//                        .aiRecOutfit(aiRecOutfit)
+//                        .build();
+//
+//                clothesInAiOutfitRepository.save(clothesInAiRecOutfit);
+//
+//                // 클라이언트에 전달할 옷 정보 저장
+//                AiRecOutfitCombineClothesInfoResponseDto aiRecOutfitCombineClothesInfoResponseDto = AiRecOutfitCombineClothesInfoResponseDto.builder()
+//                        .clothesId(clothes.getId())
+//                        .largeCategoryId(clothes.getMiddleCategory().getLargeCategory().getId())
+//                        .imageUrl(clothes.getImageUrl())
+//                        .build();
+//
+//                aiRecOutfitCombineClothesInfoResponseDtoList.add(aiRecOutfitCombineClothesInfoResponseDto);
+//            }
+//
+//            // 클라이언트에 전달할 정보를 추천 날짜와 함께 저장
+//            AiRecOutfitCombineResponseDto aiRecOutfitCombineResponseDto = AiRecOutfitCombineResponseDto.builder()
+//                    .clothesInfo(aiRecOutfitCombineClothesInfoResponseDtoList)
+//                    .recDate(recDate)
+//                    .build();
+//
+//            aiRecOutfitCombineResponseDtoList.add(aiRecOutfitCombineResponseDto);
+//        }
+//
+//        return aiRecOutfitCombineResponseDtoList;
+        return null;
     }
+
 
     /**
      * Front & Back 테스트 코드

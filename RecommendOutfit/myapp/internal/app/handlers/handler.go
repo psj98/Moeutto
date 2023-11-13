@@ -17,6 +17,7 @@ func RecommendationHandler(w http.ResponseWriter, r *http.Request) {
 
 	var requestData models.RequestData
 	fmt.Println(requestData)
+	fmt.Println("콘텐츠 타입 : ",r.Header.Get("Content-Type"))
 	if err := json.NewDecoder(r.Body).Decode(&requestData); err != nil {
 		http.Error(w, "Invalid request payload", http.StatusBadRequest) 
 		fmt.Println(r.Body)
