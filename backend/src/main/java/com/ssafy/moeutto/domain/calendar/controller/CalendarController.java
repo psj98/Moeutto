@@ -46,7 +46,7 @@ public class CalendarController {
 
 //            String todayDate = calendarListRequestDto.getRegDate().toString();
 
-            log.info("123"+ calendarListRequestDto.getRegDate());
+            log.info("데이터"+ calendarListRequestDto.getRegDate());
             CalendarListResponseDto calendarListResponseDto = calendarService.getCalendarList(memberId, calendarListRequestDto.getRegDate());
             return baseResponseService.getSuccessResponse(calendarListResponseDto);
         } catch (BaseException e) {

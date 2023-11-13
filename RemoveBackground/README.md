@@ -48,13 +48,6 @@ conda create -n venv
 conda activate venv
 
 ```
-
-## CUDA
-### pytorch
-### 현재 환경
-- RTX 2060
-- cuda 11.8
-- [pytorch 2.1.0](https://pytorch.org/get-started/locally/)
 ```bash
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 ```
