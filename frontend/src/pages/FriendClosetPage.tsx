@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
 // axios
+
 import { authInstance } from '../api/api';
 // redux
 import { RootState } from '../redux/store';
@@ -106,6 +109,8 @@ const FriendClosetPage = () => {
   const pathname = window.location.pathname; // url에서 path 가져와서
   const friend = pathname.split('/')[3]; // path에서 email 가져오기
 
+  console.log(categoryId, sortBy, orderBy)
+  
   const fetchData = async () => {
     try {
       // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
@@ -113,11 +118,15 @@ const FriendClosetPage = () => {
       const axiosInstance = authInstance({ ContentType: 'application/json' });
       const response = await axiosInstance.post('/clothes/list/friend-all', {
         email: friend, // 친구 email
+        categoryId,
+        sortBy,
+        orderBy
       });
 
       if (response.data.data) {
         setClothesData(response.data.data.clothesListResponseDto);
         setGuestbookAll(response.data.data.guestBookListResponseDto);
+        console.log('친구 옷의 옷 데이터 가져오기', response.data.data.clothesListResponseDto)
       } else {
         setClothesData([]);
         setGuestbookAll([]);
@@ -145,7 +154,12 @@ const FriendClosetPage = () => {
       localStorage.setItem('selectedClosetIds', JSON.stringify(selectedClosetIds));
       navigate('/analysis');
     } else {
-      alert('선택한 옷이 없어요');
+      Swal.fire({
+        icon: 'question',
+        html: '선택한 옷이 없어요',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
     }
   };
 
@@ -176,7 +190,12 @@ const FriendClosetPage = () => {
     };
 
     postData().then(() => {
-      alert('방명록을 작성하셨습니다.');
+      Swal.fire({
+        icon: 'success',
+        html: '방명록이 작성되었습니다',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
       setGuestbookText(''); // 방명록을 작성하였으므로 인풋값을 비워줍니다.
       fetchData();
     });

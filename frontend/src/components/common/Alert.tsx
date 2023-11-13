@@ -1,4 +1,5 @@
 import { useState } from "react";
+import MyGuestBook from "../main/organisms/MyGuestBook";
 
 const Alert = () => {
     const [isAlertModalOpen, setIsAlertModalOpen] = useState<boolean>(false);
@@ -14,13 +15,10 @@ const Alert = () => {
                 alt="alert" 
                 className="w-[5%] min-w-[70px] absolute mt-[3%] right-0"
                 onClick={showAlertModal} 
+                style={{ position: 'fixed', top: 0, right: 0, zIndex: 50 }}
             />
             {isAlertModalOpen && (
-                <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <div className="bg-pink-hot w-[300px]">
-                        <div>방명록</div>
-                    </div>
-                </div>
+                <MyGuestBook setIsAlertModalOpen={setIsAlertModalOpen} />
             )}
         </>
     )
