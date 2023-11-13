@@ -252,7 +252,10 @@ const MainPage = () => {
       </div>
 
       {/* 알림 */}
-      <Alert />
+      <div className='absolute z-50 left-1/2 transform -translate-x-1/2 h-[40%] w-[90%] max-w-[400px] min-w-[300px]'>
+        <Alert />
+      </div>
+      
 
         <div className="flex flex-col p-4 mb-4">
           {/* 주소 */}
