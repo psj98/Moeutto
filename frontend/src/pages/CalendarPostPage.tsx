@@ -38,7 +38,7 @@ const calendarPostPage = () => {
   const [categoryId, setCategoryId] = useState<string>('000000');
   const [sortBy, setSortBy] = useState<string>('initial');
   const [orderBy, setOrderBy] = useState<number>(0); // 0: 오름차순, 1: 내림차순
-  const [file, setFile] = useState<FormData>();
+  const [file, setFile] = useState<File>();
 
   // 카테고리 선택 확인
   useEffect(() => {
@@ -159,13 +159,15 @@ const calendarPostPage = () => {
 
       // Configure the axios instance with the correct headers
       const axiosInstance = authInstance({ ContentType: 'multipart/form-data' }); // No need to specify Content-Type here
+      const formData = new FormData();
 
+      console.log(typeof file);
+      formData.append('file', file as File); // 이제 파일 크기가 0이 아니어야 함
+      for (const values of formData.values()) {
+        console.log('아 폼에 있냐고~~~~~~~~~', values);
+      }
       // Send the FormData in a POST request
-      const response = await axiosInstance.post('/calendars/regist', file, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await axiosInstance.post('/calendars/regist', formData);
 
       if (response) {
         alert('캘린더 제출이 완료되었습니다.');
@@ -175,7 +177,8 @@ const calendarPostPage = () => {
 
       return response.data;
     } catch (error) {
-      throw new Error('옷 목록 데이터 조회 실패 토큰을 확인하세요');
+      console.log(error);
+      throw new Error('캘린더 제출 실패했습니다');
     }
   };
 
