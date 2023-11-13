@@ -3,10 +3,7 @@ torchvision
 Pillow
 opencv-python
 numpy
-
-
 fastapi
 uvicorn
 python-multipart
-
 gdown

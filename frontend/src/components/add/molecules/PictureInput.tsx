@@ -1,9 +1,12 @@
 // input 컴포넌트와 프리뷰 컴포넌트가 합쳐져 이루어짐
 import React, { useState, useEffect, useRef, ChangeEvent, SetStateAction, Dispatch } from 'react';
 import styled from 'styled-components';
+import { TbTrashXFilled } from 'react-icons/tb';
+import { PiSelectionBackgroundDuotone } from 'react-icons/pi';
+import { IconButton } from '@mui/material';
 import ImageInput from '../atoms/ImageInput';
 import PreviewImage from '../atoms/PreviewPicture';
-import StyledButton from '../atoms/Button';
+// import StyledButton from '../atoms/Button';
 
 interface Props {
   setStateValue: Dispatch<SetStateAction<File>>;
@@ -25,17 +28,96 @@ const Pic = styled.div`
     border: 5px solid black;
     border-radius: 35px;
   }
+
+  .isRemoving {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: black;
+    text-align: center;
+    vertical-align: middle;
+    width: calc(70vw * 0.8 * 0.7);
+    height: calc(70vw * 0.8 * 0.7);
+    max-width: 460px;
+    max-height: 460px;
+    background: #878787;
+    opacity: 0.7;
+    border: double 1em transparent;
+    border-radius: 35px;
+    background-image: linear-gradient(white, white),
+      linear-gradient(to right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+
+    animation: borderRainbow 10s infinite linear;
+    -webkit-animation: borderRainbow 10s infinite linear; // for Chrome
+  }
+
+  @-webkit-keyframes borderRainbow {
+    from {
+      background-position: -3000px;
+    }
+    to {
+      background-position: 0px;
+    }
+  }
+
+  @keyframes borderRainbow {
+    from {
+      background-position: -3000px;
+    }
+    to {
+      background-position: 0px;
+    }
+  }
 `;
 
 const Container = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
-  flex-direction: column;
-  button {
-    width: calc(70vw * 0.8 * 0.7);
-    max-width: 460px;
-    margin: 10px auto;
+  align-items: center;
+  color: '#1a1a1a';
+
+  .mid {
+    /* display: inline-block; */
+    /* width: calc(70vw * 0.8 * 0.7);
+    height: calc(70vw * 0.8 * 0.7); */
+    display: inline;
+    margin: 0 auto;
+  }
+  .delete {
+    position: absolute;
+    bottom: 10%;
+    left: 10%;
+    z-index: 100;
+  }
+  .delete:hover::after {
+    position: absolute;
+    content: '다시찍기';
+    /* bottom: ;
+    left: 50px; */
+    z-index: 100;
+    width: 120px;
+    font-size: 20px;
+    font-weight: 800;
+  }
+
+  .removeBG {
+    position: absolute;
+    bottom: 10%;
+    right: 10%;
+    z-index: 100;
+  }
+  .removeBG:hover::after {
+    position: absolute;
+    content: '배경지우기';
+    width: 120px;
+    font-size: 20px;
+    font-weight: 800;
   }
 `;
 
@@ -97,10 +179,23 @@ const PictureInput = ({ setStateValue }: Props) => {
       <Container>
         <Pic>
           <ImageInput onChange={handleFileChange} inputRef={inputRef} />
-          {preview ? <PreviewImage imageSrc={preview} /> : null}
+          {preview ? (
+            <>
+              <PreviewImage imageSrc={preview} />
+              <span className="isRemoving">이미지 배경 제거 중</span>
+            </>
+          ) : null}
+          {preview ? ( // 이미지를 제출하면 보입니다
+            <span className="mid">
+              <IconButton onClick={undo} className="inline-block delete" aria-label="delete" size="large">
+                <TbTrashXFilled className="w-[60px]" size="60" />
+              </IconButton>
+              <IconButton onClick={removeBG} className="inline-block removeBG" aria-label="removeBG" size="large">
+                <PiSelectionBackgroundDuotone className="w-[60px]" size="60" />
+              </IconButton>
+            </span>
+          ) : null}
         </Pic>
-        <StyledButton onClick={undo} value="다시찍기" />
-        <StyledButton onClick={removeBG} value="배경제거" />
       </Container>
     </>
   );

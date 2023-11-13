@@ -1,46 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { RxBookmark, RxBookmarkFilled } from "react-icons/rx";
+import { authInstance } from "../../../api/api";
 
 interface PropsType {
     imgUrl: string;
-    star: boolean;
-    setStar: React.Dispatch<React.SetStateAction<boolean>>;
+    id: number;
+    isStar: number;
 }
 
 // 그냥 여기서 즐겨찾기 api 불러오기
 
-const ClothesDetailImg = ({ imgUrl, star, setStar }: PropsType ) => {
-    const onClickBookMark = () => {
+const ClothesDetailImg = ({ imgUrl, id, isStar }: PropsType ) => {
+    const [star, setStar] = useState<boolean>();
+
+    useEffect(() => {
+        if (isStar === 1) {
+            setStar(true)
+        } else {
+            setStar(false)
+        }
+    }, [])
+    
+
+    const onClickBookMark = async () => {
         setStar((prev) => !prev)
+      
+        try {
+            const axiosInstance = authInstance({ ContentType: 'application/json' });
+            const response = await axiosInstance.get(`/clothes/star/${id}`);
+
+            console.log('즐겨찾기 등록/해제 성공', response)
+            setStar(response.data.data.star)
+        } catch (error) {
+            console.log('즐겨찾기 등록/해제 실패', error)
+        }
+        
     }
-
-    // let width: number = 15;
-    // let c: string = "";
-
-    // useEffect(() => {
-    //     const setRightStyle = () => {
-    //         const element = document.querySelector<HTMLElement>(".babo");
-    
-    //         if (element&& window.screen.availWidth > 390) {
-    //             const width = Math.min(document.getElementById("img").clientWidth * 0.3, 50);
-    //             const c = `${width.toString()}px`;
-    
-    //             console.log(c, typeof c, "11111");
-    
-    //             element.style.right = c;
-    //         }else{
-    //             const c = `20px`;
-    
-    //             console.log(c, typeof c, "11111");
-    
-    //             element.style.right = c;
-    //         }
-    //     };
-    
-    //     // Run the function after the initial render to ensure that the DOM is ready.
-    //     setTimeout(setRightStyle, 0);
-    // }, []);
-    
 
     return (
         <>
@@ -50,14 +45,14 @@ const ClothesDetailImg = ({ imgUrl, star, setStar }: PropsType ) => {
                         id="img"
                         src={imgUrl} alt="clothes" 
                         className="w-2/3 h-2/3 min-w-[223px] m-auto border rounded-3xl border" 
+                        style={{ objectFit: "cover" }}
                     />
                     <div className={`babo absolute -top-2 w-[60px] right-[20px] sm:right-[30px] md:right-[50px] lg:right-[60px]`}>
                         {star ? (
                                 <RxBookmark size={60} color="FAA0BF" onClick={onClickBookMark} />
-                            
                             ) : (
                                 <RxBookmarkFilled size={60} color="FAA0BF" onClick={onClickBookMark} />
-                                )}
+                            )}
                     </div>
 
                 </div>
