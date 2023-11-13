@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { authInstance } from '../api/api';
 
@@ -15,6 +16,12 @@ interface HalfDoughnutChartDataItem {
 }
 
 const ReportCostPage = () => {
+  const naviagte = useNavigate();
+
+  const goMainPage = () => {
+    naviagte('/main');
+  };
+
   // 대분류 카테고리
   const largeCategory = {
     '001': '아우터',
@@ -51,13 +58,16 @@ const ReportCostPage = () => {
 
   const fetchData = async () => {
     const axiosInstance = authInstance({ ContentType: 'application/json' });
-
     const response = await axiosInstance
       .get('/clothes/analysis-cost')
       .then(res => {
-        setMyAnalysisCost(res.data.data.myAnalysisCost); // 내 옷장 분석 내용
-        setMyTotalCost(res.data.data.myTotalCost); // 내 옷장 총 비용 (만원 단위)
-        setUserTotalAvgCost(Math.round(res.data.data.userTotalAvgCost / 10000)); // 사용자 옷장 평균 비용 (만원 단위)
+        if (res.data.code === 3003) {
+          goMainPage();
+        } else {
+          setMyAnalysisCost(res.data.data.myAnalysisCost); // 내 옷장 분석 내용
+          setMyTotalCost(res.data.data.myTotalCost); // 내 옷장 총 비용 (만원 단위)
+          setUserTotalAvgCost(Math.round(res.data.data.userTotalAvgCost / 10000)); // 사용자 옷장 평균 비용 (만원 단위)
+        }
 
         return res;
       })
@@ -65,21 +75,26 @@ const ReportCostPage = () => {
 
     const data = response.data.data;
 
-    setHalfDoughnutChartData(halfDoughnutChartDataList);
+    if (response.data.code === 3003) {
+      alert('옷을 먼저 등록해주세요');
+      goMainPage();
+    } else {
+      setHalfDoughnutChartData(halfDoughnutChartDataList);
 
-    // 간단 분석 문구
-    setShortReportComment(
-      Math.round(data.myTotalCost / 10000) > Math.round(data.userTotalAvgCost / 10000)
-        ? '지갑은 괜찮아요?'
-        : '옷을 사는 건 어떨까요?'
-    );
+      // 간단 분석 문구
+      setShortReportComment(
+        Math.round(data.myTotalCost / 10000) > Math.round(data.userTotalAvgCost / 10000)
+          ? '지갑은 괜찮아요?'
+          : '옷을 사는 건 어떨까요?'
+      );
 
-    // 분석 문구
-    setReportComment(
-      Math.round(data.myTotalCost / 10000) > Math.round(data.userTotalAvgCost / 10000)
-        ? '당신의 옷장 가치는 높은 편입니다.\n안 입는 옷을 기부하는건 어떨까요?'
-        : '당신의 옷장 가치는 낮은 편입니다.\n옷을 구매하는건 어떨까요?'
-    );
+      // 분석 문구
+      setReportComment(
+        Math.round(data.myTotalCost / 10000) > Math.round(data.userTotalAvgCost / 10000)
+          ? '당신의 옷장 가치는 높은 편입니다.\n안 입는 옷을 기부하는건 어떨까요?'
+          : '당신의 옷장 가치는 낮은 편입니다.\n옷을 구매하는건 어떨까요?'
+      );
+    }
   };
 
   useEffect(() => {
@@ -118,7 +133,7 @@ const ReportCostPage = () => {
       />
 
       {/* 도넛 차트 */}
-      <HalfDoughnutChart halfDoughnutChartProp={halfDoughnutChartData} />
+      {myTotalCost === 0 ? <></> : <HalfDoughnutChart halfDoughnutChartProp={halfDoughnutChartData} />}
     </>
   );
 };
