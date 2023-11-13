@@ -31,7 +31,7 @@ export interface GuestBookListType {
 
 const FriendClosetPage = () => {
   const navigate = useNavigate();
-  const [guestbookText, setGuestbookTect] = useState<GuestbookTextType>(''); // 방명록 인풋 값
+  const [guestbookText, setGuestbookText] = useState<GuestbookTextType>(''); // 방명록 인풋 값
   const [guestbookAll, setGuestbookAll] = useState<GuestBookListType[]>([]); // 방명록 전체 조회
 
   // 카테고리
@@ -120,6 +120,7 @@ const FriendClosetPage = () => {
         setGuestbookAll(response.data.data.guestBookListResponseDto);
       } else {
         setClothesData([]);
+        setGuestbookAll([]);
       }
       return response.data;
     } catch (error) {
@@ -148,29 +149,9 @@ const FriendClosetPage = () => {
     }
   };
 
-  // const getGuestbook = async () => {
-  //   try {
-  //     // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
-
-  //     const axiosInstance = authInstance({ ContentType: 'application/json' });
-  //     const response = await axiosInstance.get('/guestbooks');
-
-  //     if (response.data) {
-  //       console.log(response.data.data);
-  //       setGuestbookAll(response.data.data);
-  //     } else {
-  //       setClothesData([]);
-  //     }
-  //   } catch (error) {
-  //     throw new Error('게스트북 전체 조회 실패');
-  //   }
-  //   return true;
-  // };
-
   useEffect(() => {
+    // 페이지 처음 들어오면 방명록 데이터를 다 지워야합니다. 안 그러면 처음 입장할 때 다른 친구의 방명록이 계속 보입니다.
     setGuestbookAll([]);
-    // getGuestbook();
-    console.log('useEffect', guestbookAll);
   }, []);
 
   const handleGuestbookPost = async () => {
@@ -195,6 +176,8 @@ const FriendClosetPage = () => {
     };
 
     postData().then(() => {
+      alert('방명록을 작성하셨습니다.');
+      setGuestbookText(''); // 방명록을 작성하였으므로 인풋값을 비워줍니다.
       fetchData();
     });
   };
@@ -204,7 +187,7 @@ const FriendClosetPage = () => {
       <GuestbookTemplate
         value={guestbookText}
         posts={guestbookAll}
-        setValue={setGuestbookTect}
+        setValue={setGuestbookText}
         onClick={handleGuestbookPost}
       />
       <PickComponent
