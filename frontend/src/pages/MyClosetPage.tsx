@@ -112,6 +112,7 @@ const MyClosetPage = () => {
   return (
     <>
       <div className="font-bold text-WebBody1">나의 옷장</div>
+
       <MyClosetBar state={1} />
       <CategoryTapOrganism />
 

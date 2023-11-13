@@ -40,9 +40,9 @@ const PickTitle = () => {
   }, []);
 
   return (
-    <div className="mt-[30px] text-center">
-      <div className="shadow-md max-w-md mx-auto p-4 rounded-lg bg-white text-black text-4xl font-extrabold theJamsil">
-        <h1>{nickname}의 옷장</h1>
+    <div className="mt-30px text-center">
+      <div className="shadow-md max-w-md mx-auto p-4 rounded-lg ba-rgba(255, 255, 255, 0.5); text-black text-4xl font-extrabold theJamsil">
+        <h1>{nickname ? `${nickname}의 옷장` : '옷장 로딩 중...'}</h1>
       </div>
     </div>
   );
