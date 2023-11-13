@@ -133,12 +133,13 @@ const PictureInput = ({ setStateValue }: Props) => {
 
       if (selectedFile && selectedFile.type.substring(0, 5)) {
         // 이미지 파일이면
-        setFile(selectedFile);
+        setFile(selectedFile); // 받아들입니다
+        event.target.value = ''; // 같은 파일 입력받기 위해서 필요합니다
       } else {
         // 이미지 파일 아니면
-        setFile(null);
+        setFile(null); // 받아들이지 않습니다.
+        event.target.value = ''; // 같은 파일 입력받기 위해서 필요합니다
       }
-
       // 프리뷰에 파일을 전달함
       // onPreview(selectedFile);
     }
