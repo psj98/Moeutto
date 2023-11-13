@@ -204,9 +204,9 @@ const RenderCells = ({
                         )}
 
                         {/* 오늘 날짜에 착장을 추가하지 않았을 경우 + 아이콘 출력 */}
-                        {!clothesImgUrl && isSameDay(day, new Date()) && (
+                        {!clothesImgUrl && isSameDay(day, new Date()) &&  (
                             <div className="absolute top-2 left-2 text-pink-hot hover:scale-105 cursor-pointer"
-                                onClick={() => navigate('/calendar/post') }
+                                onClick={() => location.pathname === '/calendar' && navigate('/calendar/post')}
                             >
                                 <FaPlus size={35} />
                             </div>
