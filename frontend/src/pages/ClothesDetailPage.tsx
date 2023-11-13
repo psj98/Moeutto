@@ -79,11 +79,17 @@ const ClothesDetailPage = () => {
                                 price={clothesData.price} 
                                 shop={clothesData.shop}
                                 name={clothesData.name}
-                                />    
+                            />    
                         </div>
                     </div>
                     <div className="mt-10 flex flex-col items-center">
-                        <Comment frequency={clothesData.frequency} recentDate={clothesData.recentDate} name={clothesData.name} />
+                        <Comment 
+                            frequency={clothesData.frequency} 
+                            recentDate={clothesData.recentDate} 
+                            name={clothesData.name}
+                            color={clothesData.color}
+                            category={clothesData.middleCategoryId} 
+                        />
                     </div>
                 </>
             )}
