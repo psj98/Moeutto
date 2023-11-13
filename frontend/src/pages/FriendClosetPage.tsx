@@ -114,13 +114,9 @@ const FriendClosetPage = () => {
   const fetchData = async () => {
     try {
       // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
-
       const axiosInstance = authInstance({ ContentType: 'application/json' });
       const response = await axiosInstance.post('/clothes/list/friend-all', {
         email: friend, // 친구 email
-        categoryId,
-        sortBy,
-        orderBy
       });
 
       if (response.data.data) {
@@ -136,6 +132,11 @@ const FriendClosetPage = () => {
       throw new Error('친구 옷 목록 데이터 조회 실패 토큰을 확인하세요');
     }
   };
+
+  const getClothesItem = async () => {
+    const axiosInstance = authInstance({ ContentType: 'application/json' });
+    const response = await axiosInstance.post('clothes/list/friend')
+  }
 
   useEffect(() => {
     fetchData();
