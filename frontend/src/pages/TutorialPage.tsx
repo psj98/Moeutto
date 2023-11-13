@@ -11,6 +11,8 @@ import 'swiper/css/autoplay';
 import tutorialImageFirst from '../assets/images/tutorial/recommend.png';
 import friendsCloset from '../assets/images/tutorial/friends-closet.png';
 import scoreMyOutfit from '../assets/images/tutorial/pickpick.png';
+import myCloset from '../assets/images/tutorial/my-closet.png';
+import analysis from '../assets/images/tutorial/analysis.png';
 
 const TutorialPage = () => {
   const navigate = useNavigate();
@@ -44,7 +46,7 @@ const TutorialPage = () => {
           onSlideChange={handleSlideChange}>
           <SwiperSlide>
             <div className="">
-              <img src={tutorialImageFirst} className="w-full h-[500px]" alt="Tutorial First"></img>
+              <img src={myCloset} className="w-full h-[500px]" alt="Tutorial First"></img>
             </div>
             <div className="text-center mt-[30px]">내 옷장을 모으또에 등록하세요!</div>
             <div className="mt-[50px]"></div>
@@ -72,9 +74,9 @@ const TutorialPage = () => {
           </SwiperSlide>
           <SwiperSlide className="lastPage">
             <div className="">
-              <img src={friendsCloset} className="h-[500px] w-full" alt="Friends Closet Last"></img>
+              <img src={analysis} className="h-[500px] w-full" alt="Friends Closet Last"></img>
             </div>
-            <div className="text-center mt-[30px]">친구의 옷장을 구경하고 댓글을 달아보세요.</div>
+            <div className="text-center mt-[30px]">모으또가 여러분들의 옷장을 분석해줍니다.</div>
             <div className="mt-[50px]"></div>
           </SwiperSlide>
         </Swiper>
