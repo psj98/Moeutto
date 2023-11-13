@@ -41,10 +41,10 @@ const FriendListTemplate = ({ seachAction, friendList, value, setValue }: Friend
           {friendList?.length === 0 && value ? `"${value}"라는 ` : null}친구가 없어요 (ㅜ0ㅜ)
         </div>
       ) : (
-        friendList.map(item => {
+        friendList.map((item, index) => {
           return (
             <ProfileCard
-              key={item.email}
+              key={index}
               nickname={item.nickname}
               email={item.email}
               profileImage={item.profileImage}
