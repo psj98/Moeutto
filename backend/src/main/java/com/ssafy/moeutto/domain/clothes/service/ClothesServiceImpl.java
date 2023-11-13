@@ -2,13 +2,15 @@ package com.ssafy.moeutto.domain.clothes.service;
 
 import com.ssafy.moeutto.domain.S3.dto.response.S3ResponseDto;
 import com.ssafy.moeutto.domain.S3.service.S3Service;
-import com.ssafy.moeutto.domain.clothes.dto.request.*;
+import com.ssafy.moeutto.domain.clothes.dto.request.ClothesListByFriendsRequestDto;
+import com.ssafy.moeutto.domain.clothes.dto.request.ClothesListRequestDto;
+import com.ssafy.moeutto.domain.clothes.dto.request.ClothesRegistRequestDto;
+import com.ssafy.moeutto.domain.clothes.dto.request.ClothesUpdateRequestDto;
 import com.ssafy.moeutto.domain.clothes.dto.response.*;
 import com.ssafy.moeutto.domain.clothes.entity.*;
 import com.ssafy.moeutto.domain.clothes.repository.ClothesRepository;
 import com.ssafy.moeutto.domain.guestBook.dto.response.GuestBookListResponseDto;
 import com.ssafy.moeutto.domain.guestBook.service.GuestBookService;
-import com.ssafy.moeutto.domain.largeCategory.entity.LargeCategory;
 import com.ssafy.moeutto.domain.largeCategory.repository.LargeCategoryRepository;
 import com.ssafy.moeutto.domain.member.entity.Member;
 import com.ssafy.moeutto.domain.member.repository.MemberRepository;
@@ -446,6 +448,10 @@ public class ClothesServiceImpl implements ClothesService {
         List<IClothesAnalysisColor> clothesAnalysisColorMyList = clothesRepository.findByColorMember(memberId); // 내 옷장 분석
         List<IClothesAnalysisColor> clothesAnalysisColorUserList = clothesRepository.findByColor(); // 모든 사용자 옷장 분석
 
+        if (clothesAnalysisColorMyList.size() == 0) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES_LIST);
+        }
+
         // 색상 분석 정보 반환
         ClothesAnalysisColorResponseDto clothesAnalysisColorResponseDto = ClothesAnalysisColorResponseDto.builder()
                 .myAnalysisColor(clothesAnalysisColorMyList)
@@ -498,6 +504,10 @@ public class ClothesServiceImpl implements ClothesService {
         List<IClothesAnalysisFrequency> maxList = clothesRepository.findByFrequencyMax(memberId); // 빈도가 높은 최대 3개 분석
         List<IClothesAnalysisFrequency> minList = clothesRepository.findByFrequencyMin(memberId); // 빈도가 높은 최소 3개 분석
 
+        if (maxList.size() == 0 || minList.size() == 0) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES_LIST);
+        }
+
         // 빈도 분석 정보 반환
         ClothesAnalysisFrequencyResponseDto clothesAnalysisFrequencyResponseDto = ClothesAnalysisFrequencyResponseDto.builder()
                 .myMostFrequency(maxList)
@@ -527,9 +537,9 @@ public class ClothesServiceImpl implements ClothesService {
 
         // 카데고리별 정보 받아오기
         List<IClothesAnalysisCost> itemList = clothesRepository.findCostOfMyClothesByCategory(memberId);
-        if (itemList.size() == 0) {
-            throw new BaseException(BaseResponseStatus.NOT_FOUND_CATEGORY_ANALYSIS_INFO);
-        }
+//        if (itemList.size() == 0) {
+//            throw new BaseException(BaseResponseStatus.NOT_FOUND_CATEGORY_ANALYSIS_INFO);
+//        }
 
         // 가격 분석 정보 반환
         ClothesAnalysisCostResponseDto clothesAnalysisCostResponseDto = ClothesAnalysisCostResponseDto.builder()
