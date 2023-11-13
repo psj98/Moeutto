@@ -54,7 +54,7 @@ async def create_report(file: UploadFile = File(...)):
         category = "top"
 
 
-        return JSONResponse(content={"image": encoded_image, "color": hex_color, "category" : category})
+        return JSONResponse(content={"file": encoded_image, "color": hex_color, "category" : category})
 
     except Exception as e:
         # 예외가 발생하면 오류 메시지를 반환합니다.
