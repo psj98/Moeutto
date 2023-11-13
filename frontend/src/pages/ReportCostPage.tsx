@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import Swal from 'sweetalert2';
 import { authInstance } from '../api/api';
 
 import IntroComment from '../components/report/atoms/IntroComment';
@@ -76,7 +76,12 @@ const ReportCostPage = () => {
     const data = response.data.data;
 
     if (response.data.code === 3003) {
-      alert('옷을 먼저 등록해주세요');
+      Swal.fire({
+        icon: 'error',
+        html: '옷을 먼저 등록해주세요',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
       goMainPage();
     } else {
       setHalfDoughnutChartData(halfDoughnutChartDataList);
