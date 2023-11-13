@@ -216,10 +216,22 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
                 .item(clothesList.get(3))
                 .build();
 
+        List<AiRecOutfitCombineWeatherByAiRequestDto> aiRecOutfitCombineWeatherByAiRequestDtoList = new ArrayList<>();
+        for (AiRecOutfitCombineRequestDto weatherInfo : aiRecOutfitCombineRequestDtoList) {
+            AiRecOutfitCombineWeatherByAiRequestDto aiRecOutfitCombineWeatherByAiRequestDto = AiRecOutfitCombineWeatherByAiRequestDto.builder()
+                    .date(weatherInfo.getDate())
+                    .tmn(weatherInfo.getTmn())
+                    .tmx(weatherInfo.getTmx())
+                    .wsd(weatherInfo.getWsd())
+                    .build();
+
+            aiRecOutfitCombineWeatherByAiRequestDtoList.add(aiRecOutfitCombineWeatherByAiRequestDto);
+        }
+
         // 파이썬에 전달할 정보
         AiRecOutfitCombineByAIRequestDto aiRecOutfitCombineByAIRequestDto = AiRecOutfitCombineByAIRequestDto.builder()
                 .clothesList(aiRecOutfitCombineClothesListByAIRequestDto)
-//                .weatherInfo(aiRecOutfitCombineRequestDtoList)
+                .weatherInfo(aiRecOutfitCombineWeatherByAiRequestDtoList)
                 .build();
 
 
@@ -282,7 +294,7 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
                 int randomNum = random.nextInt(clothesList.get(i).size());
 
                 // 옷 정보 확인
-                Clothes clothes = clothesRepository.findById(clothesList.get(i).get(randomNum).getId()).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES));
+                Clothes clothes = clothesRepository.findById(clothesList.get(i).get(randomNum).getClothesId()).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES));
 
                 AiRecOutfitCombineClothesInfoResponseDto aiRecOutfitCombineClothesInfoResponseDto = AiRecOutfitCombineClothesInfoResponseDto.builder()
                         .clothesId(clothes.getId())

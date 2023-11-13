@@ -388,7 +388,7 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
      * @param middleCategoryId
      * @return List<IClothesAIRecOutfitCombine>
      */
-    @Query(value = "SELECT * FROM clothes c " +
+    @Query(value = "SELECT c.id AS clothesId, c.season, c.color, c.thickness, c.textile, c.frequency, c.recent_date AS recentDate FROM clothes c " +
             "WHERE c.member_id = ?1 " +
             "AND SUBSTRING(c.middle_category_id, 1, 3) = ?2 ", nativeQuery = true)
     List<IClothesAIRecOutfitCombine> findAllByMemberIdAndMiddleCategory(UUID memberId, String middleCategoryId);
