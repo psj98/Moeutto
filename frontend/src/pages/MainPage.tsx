@@ -95,7 +95,12 @@ const MainPage = () => {
       const response = await axiosInstance.post('/ai-rec-outfits/combine', requesBody);
 
       console.log('추천 착장 조회 성공', response.data.data);
-      setClothesListData(response.data.data);
+      
+      if (response.data.data) {
+        setClothesListData(response.data.data);
+      } else {
+        setClothesListData([]);
+      }
 
       return response.data;
     } catch (error) {
