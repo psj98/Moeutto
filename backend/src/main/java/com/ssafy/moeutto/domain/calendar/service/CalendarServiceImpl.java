@@ -54,6 +54,7 @@ public class CalendarServiceImpl implements CalendarService {
 
         Optional<Calendar> calendarOptional = calendarRepository.findByRegDate(todayDate);
 
+        //캘린더가 이미 존재하는지 여부 파악
         if(calendarOptional.isPresent()){
             throw new BaseException(BaseResponseStatus.DUPLICATED_CALENDAR_INFO);
         }
