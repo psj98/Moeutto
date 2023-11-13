@@ -181,12 +181,20 @@ const ChartBackground = styled.div`
   }
   .bar {
     animation: ${motion} 3s 1s ease-in-out forwards;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: #faa0bf;
+    border-radius: 10px;
   }
 `;
 
 const VerticalBar = ({ score }: ClothProps) => {
   let barHeight: string = '0';
 
+  console.log(score);
   function calBarHeight() {
     if (typeof score === 'number') {
       barHeight = `${score}%`;
@@ -199,7 +207,9 @@ const VerticalBar = ({ score }: ClothProps) => {
     if (score) {
       calBarHeight();
     }
-    const domObj = window.document.getElementById('bar');
+    const domObj = window.document.getElementById(score.toString());
+
+    console.log(domObj);
 
     if (domObj) {
       domObj.style.height = barHeight;
@@ -209,7 +219,7 @@ const VerticalBar = ({ score }: ClothProps) => {
 
   return (
     <ChartBackground>
-      <div id="bar"></div>
+      <div id={score.toString()} className="bar"></div>
     </ChartBackground>
   );
 };

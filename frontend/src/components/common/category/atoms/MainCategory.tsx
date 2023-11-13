@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const RadioWrapper = styled.div`
   display: flex;
   gap: 40px;
-  font-size: 24px;
+  font-size: 16px;
   margin-top: 58px;
 `;
 
@@ -26,11 +26,11 @@ interface PropsType {
 }
 
 const MainCategory: React.FC<PropsType> = ({ selectedOption, setSelectedOption }) => {
-  const categories = ['전체', '상의', '하의', '아우터'];
+  const categories = ['전체', '상의', '하의', '아우터', '아이템'];
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.id === '전체') {
-      setSelectedOption("000000")
+      setSelectedOption('000000');
     } else {
       setSelectedOption(e.target.id);
     }

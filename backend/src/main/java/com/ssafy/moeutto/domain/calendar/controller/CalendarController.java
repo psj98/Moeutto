@@ -43,7 +43,11 @@ public class CalendarController {
                                              @RequestBody CalendarListRequestDto calendarListRequestDto) {
         try {
             UUID memberId = getMemberIdFromToken(token);
-            CalendarListResponseDto calendarListResponseDto = calendarService.getCalendarList(memberId, Date.valueOf(calendarListRequestDto.getRegDate()));
+
+//            String todayDate = calendarListRequestDto.getRegDate().toString();
+
+            log.info("123"+ calendarListRequestDto.getRegDate());
+            CalendarListResponseDto calendarListResponseDto = calendarService.getCalendarList(memberId, calendarListRequestDto.getRegDate());
             return baseResponseService.getSuccessResponse(calendarListResponseDto);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
@@ -60,11 +64,11 @@ public class CalendarController {
      */
     @PostMapping("/regist")
     public BaseResponse<Object> registCalendar(@RequestHeader(value = "accessToken", required = false) String token,
-                                               @RequestPart("file") MultipartFile file) {
+                                               @RequestPart(value = "file") MultipartFile file) {
         try {
             UUID memberId = getMemberIdFromToken(token);
             calendarService.registMyOutfit(memberId, token, file);
-            return baseResponseService.getSuccessResponse();
+            return baseResponseService.getSuccessResponse(BaseResponseStatus.CALENDAR_REGIST_SUCCESS);
 
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
@@ -105,7 +109,7 @@ public class CalendarController {
         try {
             UUID memberId = getMemberIdFromToken(token);
             calendarService.scoreOutfit(memberId, requestDto);
-            return baseResponseService.getSuccessResponse();
+            return baseResponseService.getSuccessResponse(BaseResponseStatus.SUCCESS);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.getStatus());
         }

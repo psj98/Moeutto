@@ -6,11 +6,12 @@ import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
 import com.ssafy.moeutto.domain.member.entity.Member;
 import com.ssafy.moeutto.domain.member.repository.MemberRepository;
 import com.ssafy.moeutto.global.response.BaseException;
-import com.ssafy.moeutto.global.response.BaseResponseService;
 import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -30,6 +31,7 @@ public class OAuthLoginService {
      */
     public AuthTokens login(String email, String nickname) throws BaseException {
         UUID memberId = findOrCreateMember(email, nickname);
+
         return authTokensGenerator.generate(memberId);
     }
 
@@ -41,16 +43,15 @@ public class OAuthLoginService {
      * @return
      */
     private UUID findOrCreateMember(String email, String nickname) throws BaseException {
+        Optional<Member> memberOptional = memberRepository.findByEmail(email);
 
-        Member findMember = memberRepository.findMemberByEmail(email);
-
-        System.out.println("findMember : " + findMember);
-
-        if (findMember == null) {
+        if (!memberOptional.isPresent()) {
             return newMember(email, nickname);
         }
 
-        return findMember.getId();
+        System.out.println("findMember : " + memberOptional.get());
+
+        return memberOptional.get().getId();
     }
 
     /**

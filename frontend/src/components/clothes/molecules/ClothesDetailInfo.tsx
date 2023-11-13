@@ -3,18 +3,21 @@ import Content from "../atoms/Content";
 
 interface PropsType {
     labelList: string[];
-    contentList: (string | number)[];
+    // contentList: (string | number)[];
+    contentList: any;
 }
 
 const ClothesDetailInfo = ({ labelList, contentList }: PropsType) => {
+    const oneCount: number = (contentList[1].match(/1/g) || []).length;    
+    
     return (
         <div className="flex">
-            <div className="space-y-[4vh] flex flex-col items-end me-[5vw] w-[65px]">
+            <div className="space-y-8 flex flex-col items-end me-10 w-[120px]">
                 {labelList.map((title, index) => (
-                    <LabelContent title={title} index={index} />
+                    <LabelContent title={title} index={index} oneCount={oneCount}  />
                 ) )}
             </div>
-            <div className="space-y-[4vh] flex flex-col">
+            <div className="space-y-8 flex flex-col">
                 {contentList.map((content, index) => (
                     <Content content={content} id={index} />
                 ))}

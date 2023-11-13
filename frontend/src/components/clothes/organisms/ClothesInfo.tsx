@@ -20,10 +20,10 @@ const ClothesInfo = ({ category, season, thickness, color, textile, price, shop,
     contentList.push(category, season, thickness, color, textile, price, shop);
 
     return (
-        <>
+        <div className="w-full flex flex-col items-center">
             <ClothesName name={name} />
             <ClothesDetailInfo labelList={labelList} contentList={contentList} />
-        </>
+        </div>
     )
 }
 
