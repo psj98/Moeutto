@@ -11,7 +11,7 @@ const Labelsection = styled.div`
   width: 100%;
   text-align: left;
   margin: 20px 0 5px 0;
-  background: white;
+  font-weight: 800;
 `;
 
 const Label = ({ id, value, isEssential }: LabelProps) => {
