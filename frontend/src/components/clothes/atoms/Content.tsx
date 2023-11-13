@@ -47,7 +47,11 @@ const Content = ({ content, id }: PropsType) => {
 
     switch (id) {
         case 5:
-            renderContent = <div className="text-AppBody1 text-gray-dark tracking-wider">{content.toLocaleString()}원</div>;
+            renderContent = content > 0 ? (
+                <div className="text-AppBody1 text-gray-dark tracking-wider">
+                    {content.toLocaleString()}원
+                </div>
+            ) : null;
             break;
         case 0:
             renderContent = <div className="text-AppBody1 text-gray-dark tracking-wider">{name}</div>;
