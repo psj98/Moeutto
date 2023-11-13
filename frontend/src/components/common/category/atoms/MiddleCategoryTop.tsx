@@ -14,7 +14,8 @@ const HiddenRadioInput = styled.input`
 
 const BoldLabel = styled.label<{ selected: boolean }>`
   cursor: pointer;
-  background: ${({ selected }) => (selected ? 'bold' : 'normal')};
+  background: ${({ selected }) => (selected ? 'rgba(163, 163, 163, 0.4)' : 'normal')};
+  color: ${({ selected }) => (selected ? 'white' : 'normal')};
   &:hover {
     background-color: rgba(163, 163, 163, 0.4);
     color: white;
