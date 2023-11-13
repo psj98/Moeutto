@@ -37,6 +37,12 @@ eval "$(pyenv virtualenv-init -)"
 - eval "$(pyenv virtualenv-init -)": pyenv와 함께 pyenv-virtualenv 플러그인을 사용할 수 있도록 초기화합니다.
 ```
 
+### cron 로그 확인
+- cat /var/log/syslog | grep CRON
+
+### shell 변경 
+- SHELL=/bin/bash
+- 
 ### /home/ubuntu/.pyenv/versions/venv9/lib/pypy3.9/site-packages/certifi/cacert.pem None
 - requests 라이브러리에서 내부적으로 사용하는 certifi의 CA인증서 파일 참조 문제
   - pip uninstall certifi, pip install certifi를 사용한 재설치
