@@ -75,10 +75,7 @@ function AddClothPage() {
           },
         });
 
-        if (response) {
-          console.log(response.data);
-        }
-        return response.data;
+        return response;
       }
     } catch (error) {
       console.log(error);
