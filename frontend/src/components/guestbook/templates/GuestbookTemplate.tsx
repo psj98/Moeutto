@@ -16,7 +16,7 @@ const GuestbookTemplate = ({ value, setValue, onClick, posts }: GuestbookPropsTy
         <div className="flex justify-between h-[30%] mb-3">
           <input
             className="rounded-lg w-[75%] h-[40px] shadow-md px-3"
-            defaultValue={value}
+            value={value}
             onChange={e => setValue(e.target.value)}
             placeholder="방명록을 작성해보세요"
           />
@@ -32,7 +32,6 @@ const GuestbookTemplate = ({ value, setValue, onClick, posts }: GuestbookPropsTy
             .slice(0)
             .reverse() // 댓글 최신순이 가장 먼저 오기 위해서 역정렬을 한다
             .map((item, index) => {
-              console.log(index);
               const Date = item.regDate.split('-');
 
               return (
