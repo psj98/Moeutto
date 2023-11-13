@@ -45,7 +45,6 @@ const Form = styled.div`
 
 const AddClothFormOrganism = ({ setStateValue, handleRemoveBG }: Props) => {
   const [clothPic, setClothPic] = useState<File | null>(null);
-  const [clothBase64WithoutBG, setClothBase64WithoutBG] = useState<string>(''); // ai로 배경지운 이미지
   const [clothCategory, setClothCategory] = useState<string>(''); // String
   const [clothSeason, setClothSeason] = useState<string>('0000'); // ex) string: 가을겨울옷이라면 0011
   const [clothThickness, setClothThickness] = useState<number | null>(); // ex) int: 얇음 , 중간 , 두꺼움
@@ -134,14 +133,16 @@ const AddClothFormOrganism = ({ setStateValue, handleRemoveBG }: Props) => {
 
   // 배경지우는 함수
   const RemoveBGIconClick = async () => {
-    console.log(typeof clothPic, '파일인가요? 모드리치님 ㅜ');
-    if (clothPic !== null) {
-      handleRemoveBG(clothPic as File).then(res => {
-        console.log(res);
-        setClothBase64WithoutBG(res.file);
-        setClothColor(res.color);
-        setClothCategory(res.category);
-      });
+    console.log('올가니즘 단계');
+    try {
+      const res = await handleRemoveBG(clothPic as File);
+
+      console.log('모드리치님 제발', res);
+      setClothColor(res.data.color);
+      setClothCategory(res.data.category);
+      return res;
+    } catch (error) {
+      console.error('에러 발생:', error);
     }
     return true;
   };
@@ -164,11 +165,7 @@ const AddClothFormOrganism = ({ setStateValue, handleRemoveBG }: Props) => {
   return (
     <FormContainer>
       <Form>
-        <PictureInput
-          setStateValue={setClothPic}
-          handleIconClick={RemoveBGIconClick}
-          clothBase64WithoutBG={clothBase64WithoutBG}
-        />
+        <PictureInput setStateValue={setClothPic} handleIconClick={RemoveBGIconClick} />
         <div
           style={{
             // 이 스타일들은 차곡차곡 생기는 form 애니메이션을 위해 작성되었습니다. 참고는 카카오페이입니다
