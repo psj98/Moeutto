@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.moeutto.domain.aiRecOutfit.dto.request.AiRecOutfitCombineByAIRequestDto;
 import com.ssafy.moeutto.domain.aiRecOutfit.dto.request.AiRecOutfitCombineClothesListByAIRequestDto;
 import com.ssafy.moeutto.domain.aiRecOutfit.dto.request.AiRecOutfitCombineRequestDto;
+import com.ssafy.moeutto.domain.aiRecOutfit.dto.request.AiRecOutfitCombineWeatherByAiRequestDto;
 import com.ssafy.moeutto.domain.aiRecOutfit.dto.response.AiRecOutfitCombineByAIResponseDto;
 import com.ssafy.moeutto.domain.aiRecOutfit.dto.response.AiRecOutfitCombineClothesInfoResponseDto;
 import com.ssafy.moeutto.domain.aiRecOutfit.dto.response.AiRecOutfitCombineListByAIResponseDto;
@@ -79,14 +80,33 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
                 .item(clothesList.get(3))
                 .build();
 
+        List<AiRecOutfitCombineWeatherByAiRequestDto> aiRecOutfitCombineWeatherByAiRequestDtoList = new ArrayList<>();
+        for (AiRecOutfitCombineRequestDto weatherInfo : aiRecOutfitCombineRequestDtoList) {
+            AiRecOutfitCombineWeatherByAiRequestDto aiRecOutfitCombineWeatherByAiRequestDto = AiRecOutfitCombineWeatherByAiRequestDto.builder()
+                    .date(weatherInfo.getDate())
+                    .tmn(weatherInfo.getTmn())
+                    .tmx(weatherInfo.getTmx())
+                    .wsd(weatherInfo.getWsd())
+                    .build();
+
+            aiRecOutfitCombineWeatherByAiRequestDtoList.add(aiRecOutfitCombineWeatherByAiRequestDto);
+        }
+
         // 파이썬에 전달할 정보
         AiRecOutfitCombineByAIRequestDto aiRecOutfitCombineByAIRequestDto = AiRecOutfitCombineByAIRequestDto.builder()
                 .clothesList(aiRecOutfitCombineClothesListByAIRequestDto)
-                .weatherInfo(aiRecOutfitCombineRequestDtoList)
+                .weatherInfo(aiRecOutfitCombineWeatherByAiRequestDtoList)
                 .build();
 
+        for (int i = 0; i < aiRecOutfitCombineByAIRequestDto.getClothesList().getBottom().size(); i++) {
+            System.out.println("AiRecOutfitServiceImpl 파이썬 전달 정보 (clothesList.getBottom) " + i + " 번째 : " + aiRecOutfitCombineByAIRequestDto.getClothesList().getBottom().get(i));
+        }
+        for (int i = 0; i < aiRecOutfitCombineByAIRequestDto.getWeatherInfo().size(); i++) {
+            System.out.println("AiRecOutfitServiceImpl 파이썬 전달 정보 (weatherInfo) " + i + " 번째 : " + aiRecOutfitCombineByAIRequestDto.getWeatherInfo().get(i));
+        }
+
         // 파이썬으로 정보 전달
-        String url = "http://localhost:9080/api/ml/ai-recommend"; // 파이썬 요청 url
+        String url = "http://localhost:9000/recommend"; // 파이썬 요청 url
         RestTemplate restTemplate = new RestTemplate();
 
         // AI가 착장 추천해주기 및 데이터 반환
@@ -199,7 +219,7 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
         // 파이썬에 전달할 정보
         AiRecOutfitCombineByAIRequestDto aiRecOutfitCombineByAIRequestDto = AiRecOutfitCombineByAIRequestDto.builder()
                 .clothesList(aiRecOutfitCombineClothesListByAIRequestDto)
-                .weatherInfo(aiRecOutfitCombineRequestDtoList)
+//                .weatherInfo(aiRecOutfitCombineRequestDtoList)
                 .build();
 
 

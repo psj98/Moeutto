@@ -15,10 +15,10 @@ public class AiRecOutfitCombineByAIRequestDto {
     private AiRecOutfitCombineClothesListByAIRequestDto clothesList;
 
     @NotNull
-    private List<AiRecOutfitCombineRequestDto> weatherInfo;
+    private List<AiRecOutfitCombineWeatherByAiRequestDto> weatherInfo;
 
     @Builder(toBuilder = true)
-    public AiRecOutfitCombineByAIRequestDto(AiRecOutfitCombineClothesListByAIRequestDto clothesList, List<AiRecOutfitCombineRequestDto> weatherInfo) {
+    public AiRecOutfitCombineByAIRequestDto(AiRecOutfitCombineClothesListByAIRequestDto clothesList, List<AiRecOutfitCombineWeatherByAiRequestDto> weatherInfo) {
         this.clothesList = clothesList;
         this.weatherInfo = weatherInfo;
     }
