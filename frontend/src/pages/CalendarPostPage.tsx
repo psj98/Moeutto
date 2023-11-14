@@ -181,7 +181,7 @@ const calendarPostPage = () => {
       if (response) {
         Swal.fire({
           icon: 'success',
-          title: "<h5 style='color:red'>'성공'",
+          title: "<h5 style='color:blue'>성공",
           html: '캘린더 제출이 완료되었습니다',
           showCancelButton: false,
           confirmButtonText: '확인',
