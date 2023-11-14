@@ -106,7 +106,7 @@ def generate_mask(input_image, onnx_model, palette):
 
 def main():
     palette = get_palette(4)
-    image_path = 'input/03615_00.jpg'
+    image_path = 'classification/test.jpg'
     onnx_model_path = 'model/u2net_cloth_seg.onnx'
     img = Image.open(image_path).convert('RGB')
     cloth_seg = generate_mask(img, onnx_model_path, palette)
