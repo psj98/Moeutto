@@ -4,10 +4,16 @@ import { authInstance } from '../../../api/api';
 const PickTitle = () => {
   const pathname = window.location.pathname;
 
-  const [nickname, setNickname] = useState<string>('');
+  console.log('pathname', pathname)
+
+  const name: string = window.sessionStorage.getItem('nickname');
+  const [nickname, setNickname] = useState<string>(name);
 
   useEffect(() => {
     if (pathname.split('/').length > 2) {
+      if (pathname === '/calendar/post') {
+        setNickname('나');
+      } 
       const email = pathname.split('/')[3]; // ['', 'notmycloset', 'friend', 'email']\
       
       const fetchData = async () => {
@@ -31,13 +37,10 @@ const PickTitle = () => {
       
       fetchData();
     } else {
-      setNickname(sessionStorage.getItem(nickname));
-      // 빈 값인 경우 나의 옷장이다
-      if (!nickname) {
-        setNickname('나')
-      }
+      setNickname('나');
     }
   }, [])
+  console.log('nickname: ', nickname)
 
   return <div className="text-[28px] font-bold tracking-wider">{nickname}의 옷장</div>;
 };

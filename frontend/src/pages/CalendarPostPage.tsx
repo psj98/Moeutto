@@ -110,13 +110,13 @@ const calendarPostPage = () => {
       if (response.data.data) {
         setClothesData(response.data.data);
       } else {
-        Swal.fire({
-          icon: 'question',
-          title: "<h5 style='color:red'>'조회 실패'",
-          html: '옷 목록이 존재하지 않아요',
-          showCancelButton: false,
-          confirmButtonText: '확인',
-        });
+        // Swal.fire({
+        //   icon: 'question',
+        //   title: "<h5 style='color:red'>'조회 실패'",
+        //   html: '옷 목록이 존재하지 않아요',
+        //   showCancelButton: false,
+        //   confirmButtonText: '확인',
+        // });
         setClothesData([]);
       }
 
