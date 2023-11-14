@@ -185,7 +185,12 @@ const calendarPostPage = () => {
           html: '캘린더 제출이 완료되었습니다',
           showCancelButton: false,
           confirmButtonText: '확인',
-        });
+        }).then((result) => {
+          // 확인 버튼이 눌렸을 때 캘린더 페이지로 이동
+          if (result.isConfirmed) {
+            window.location.href = '/calendar';
+          }
+        })
       } else {
         // Handle the case when the request is not successful
       }
