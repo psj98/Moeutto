@@ -24,8 +24,8 @@ public class MiddleCategoryServiceImpl implements MiddleCategoryService {
     /**
      * 중분류 카테고리 목록을 조회합니다.
      *
-     * @return List<MiddleCategoryDetailResponseDto>
-     * @throws BaseException
+     * @return List<MiddleCategoryDetailResponseDto> - 중분류 카테고리 목록
+     * @throws BaseException - BaseResponse Error 처리
      */
     @Override
     public List<MiddleCategoryDetailResponseDto> getMiddleCategoryList() throws BaseException {
@@ -54,37 +54,35 @@ public class MiddleCategoryServiceImpl implements MiddleCategoryService {
     /**
      * 중분류 카테고리를 조회합니다.
      *
-     * @param id
-     * @return MiddleCategoryDetailResponseDto
-     * @throws BaseException
+     * @param id - 중분류 카테고리 id
+     * @return MiddleCategoryDetailResponseDto - 중분류 카테고리 정보
+     * @throws BaseException - BaseResponse Error 처리
      */
     @Override
     public MiddleCategoryDetailResponseDto getMiddleCategoryDetail(String id) throws BaseException {
         Optional<MiddleCategory> middleCategoryOptional = middleCategoryRepository.findById(id); // 중분류 카테고리 조회
 
         // 카테고리가 있는지 체크
-        if (!middleCategoryOptional.isPresent()) {
+        if (middleCategoryOptional.isEmpty()) {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_MIDDLE_CATEGORY);
         }
 
         MiddleCategory middleCategory = middleCategoryOptional.get();
 
-        // 데이터 저장 및 반환
-        MiddleCategoryDetailResponseDto middleCategoryDetailResponseDto = MiddleCategoryDetailResponseDto.builder()
+        // 중분류 카테고리 정보 반환
+        return MiddleCategoryDetailResponseDto.builder()
                 .id(middleCategory.getId())
                 .name(middleCategory.getName())
                 .largeCategory(middleCategory.getLargeCategory())
                 .build();
-
-        return middleCategoryDetailResponseDto;
     }
 
     /**
      * 대분류 카테고리에 해당하는 중분류 카테고리를 조회합니다.
      *
-     * @param id
-     * @return List<MiddleCategoryByLargeCategoryResponseDto>
-     * @throws BaseException
+     * @param id - 대분류 카테고리 id
+     * @return List<MiddleCategoryByLargeCategoryResponseDto>  - 대분류 카테고리에 해당하는 중분류 카테고리 목록
+     * @throws BaseException - BaseResponse Error 처리
      */
     @Override
     public List<MiddleCategoryByLargeCategoryResponseDto> getMiddleCategoryByLargeCategory(String id) throws BaseException {
@@ -108,5 +106,4 @@ public class MiddleCategoryServiceImpl implements MiddleCategoryService {
 
         return middleCategoryByLargeCategoryResponseDtoList;
     }
-
 }
