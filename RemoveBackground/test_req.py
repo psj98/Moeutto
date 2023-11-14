@@ -3,7 +3,7 @@ from PIL import Image
 from io import BytesIO
 
 if __name__ == "__main__":
-    test_img_path = "input/03615_00.jpg"
+    test_img_path = "classification/test.jpg"
     url = "http://127.0.0.1:9010/predict/"  # FastAPI 서버 주소
     files = {'file': ('image.jpg', open(test_img_path, 'rb'))}  # 보낼 파일
 

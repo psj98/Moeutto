@@ -153,7 +153,7 @@ def load_seg_model(checkpoint_path, device='cpu'):
 def main():
     device = 'cpu'
     checkpoint_path = 'model/cloth_segm.pth'
-    image_path = 'input/03615_00.jpg'
+    image_path = 'classification/test.jpg'
 
     model = load_seg_model(checkpoint_path, device=device)
     palette = get_palette(4)
