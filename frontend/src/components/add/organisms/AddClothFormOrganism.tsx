@@ -124,7 +124,6 @@ const AddClothFormOrganism = ({ setStateValue, handleRemoveBG }: Props) => {
       // eslint-disable-next-line no-alert
       Swal.fire({
         icon: 'warning',
-        title: "<h5 style='color:red'> 항목 확인",
         html: '사진, 카테고리, 색상, 계절, 두께 모두 입력해주세요.',
         showCancelButton: false,
         confirmButtonText: '확인',
