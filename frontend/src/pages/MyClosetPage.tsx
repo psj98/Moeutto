@@ -6,6 +6,7 @@
 // import ClothesItemComponent from '../components/clothes/atoms/ClothesItem';
 import MyClosetBar from '../components/common/MyClosetBar';
 import CategoryTapOrganism from '../components/mycloset/organisms/CategoryTapOrganism';
+import PickTitle from '../components/pickpick/atoms/PickTitle';
 
 const MyClosetPage = () => {
   // 카테고리 데이터 가져오기
@@ -111,7 +112,8 @@ const MyClosetPage = () => {
 
   return (
     <>
-      <div className="font-bold text-WebBody1">나의 옷장</div>
+      <PickTitle></PickTitle>
+
       <MyClosetBar state={1} />
       <CategoryTapOrganism />
 
