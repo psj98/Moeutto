@@ -4,12 +4,12 @@ WORKDIR /app
 COPY . /app
 
 RUN echo "$PWD"
-RUN ls -al
+RUN ls
 
 WORKDIR /myapp/cmd/myapp
 
 RUN echo "$PWD"
-RUN ls -al
+RUN ls
 RUN go env -w GO111MODULE=off
 RUN go build -o main.go
 
