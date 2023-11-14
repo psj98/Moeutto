@@ -1,8 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { PiSmileyBold, PiSmileySadBold } from 'react-icons/pi';
-import { BsSnow, BsPencil } from 'react-icons/bs';
-import { FaRegSun } from 'react-icons/fa';
+import { BsPencil } from 'react-icons/bs';
 
 import CalendarTemplates from '../components/calendar/templates/CalendarTemplates';
 import { authInstance } from '../api/api';
@@ -110,7 +108,7 @@ const CalendarPage = () => {
             >평가하기</button>
           </div>
           <div className='flex justify-center items-center p-6'>
-            <img src={showSelectedImg} alt="OutFit" className='w-[60%] h-1/2' />
+            <img src={showSelectedImg} alt="OutFit" className='w-[60%] h-1/2 bg-white rounded-xl ' />
           </div>
           {/* {isLikedOutFit && (
             <img src="/images/report-happy.png" alt="" />
@@ -129,8 +127,8 @@ const CalendarPage = () => {
           >
             <div className='-mt-[20px]'>착장에 대한 평가를 해주세요</div>
             <div className='flex gap-10 justify-center items-center mt-[20px]'>
-              <PiSmileyBold onClick={() => onHandleSubmitScore(1)} size={80} color='#FAA0BF' className='hover:scale-105' />
-              <PiSmileySadBold onClick={handleSecondModalOpen} size={80} color='#FAA0BF' className='hover:scale-105' />
+              <img src="/images/good.png" alt="good" className='w-1/3 hover:scale-105' onClick={() => onHandleSubmitScore(1)} />
+              <img src="/images/bad.png" alt="bad" className='w-1/3 hover:scale-105' onClick={handleSecondModalOpen} />
             </div>
           </div>
       </div>
@@ -146,8 +144,8 @@ const CalendarPage = () => {
           >
             <div className='-mt-[20px]'>착장에 대한 평가를 해주세요</div>
             <div className='flex gap-10 justify-center items-center mt-[20px]'>
-              <FaRegSun onClick={() => onHandleSubmitScore(2)} size={70} color={"red"} className='hover:scale-105' />
-              <BsSnow onClick={() => onHandleSubmitScore(3)} size={70} color={"blue"} className='hover:scale-105' />
+              <img src="/images/hot-face.png" alt="hot" className='hover:scale-105 w-1/3' onClick={() => onHandleSubmitScore(2)} />
+              <img src="/images/cold.png" alt="cold" className='hover:scale-105 w-1/3' onClick={() => onHandleSubmitScore(3)} />
             </div>
           </div>
       </div>
