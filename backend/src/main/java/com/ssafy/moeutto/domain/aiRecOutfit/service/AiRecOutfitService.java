@@ -29,7 +29,7 @@ public interface AiRecOutfitService {
      * @param memberId
      * @return AiRecOutfitCombineClothesListByAIRequestDto
      */
-    AiRecOutfitCombineClothesListByAIRequestDto getClothesInfo(UUID memberId);
+    AiRecOutfitCombineClothesListByAIRequestDto getClothesInfo(UUID memberId) throws BaseException;
 
     /**
      * Go로 전달할 날씨 정보 정제
@@ -46,7 +46,7 @@ public interface AiRecOutfitService {
      * @return AiRecOutfitCombineListByAIResponseDto
      * @throws JsonProcessingException
      */
-    AiRecOutfitCombineListByAIResponseDto getOutfitByAI(AiRecOutfitCombineByAIRequestDto aiRecOutfitCombineByAIRequestDto) throws JsonProcessingException;
+    AiRecOutfitCombineListByAIResponseDto getOutfitByAI(AiRecOutfitCombineByAIRequestDto aiRecOutfitCombineByAIRequestDto) throws JsonProcessingException, BaseException;
 
     /**
      * Client & Back 테스트 코드

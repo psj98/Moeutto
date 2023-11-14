@@ -5,10 +5,7 @@ import com.ssafy.moeutto.domain.guestBook.dto.response.GuestBookListResponseDto;
 import com.ssafy.moeutto.domain.guestBook.dto.response.GuestBookRegistResponseDto;
 import com.ssafy.moeutto.domain.guestBook.service.GuestBookService;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
-import com.ssafy.moeutto.global.response.BaseException;
-import com.ssafy.moeutto.global.response.BaseResponse;
-import com.ssafy.moeutto.global.response.BaseResponseService;
-import com.ssafy.moeutto.global.response.BaseResponseStatus;
+import com.ssafy.moeutto.global.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,9 +24,9 @@ public class GuestBookController {
     /**
      * 방명록을 등록합니다.
      *
-     * @param token
-     * @param guestBookRegistRequestDto
-     * @return
+     * @param token                     - accessToken
+     * @param guestBookRegistRequestDto - 방명록에 등록할 정보
+     * @return GuestBookRegistResponseDto - 방명록에 등록된 정보
      */
     @PostMapping("")
     public BaseResponse<Object> registGuestBook(@RequestHeader(value = "accessToken", required = false) String token,
@@ -53,8 +50,8 @@ public class GuestBookController {
     /**
      * 옷장을 조회할 때, 사용자 id에 따른 방명록 목록을 반환합니다.
      *
-     * @param token
-     * @return List<GuestBookListResponseDto>
+     * @param token - accessToken
+     * @return List<GuestBookListResponseDto> - 방명록 목록 정보
      */
     @GetMapping("")
     public BaseResponse<Object> listGuestBook(@RequestHeader(value = "accessToken", required = false) String token) {
