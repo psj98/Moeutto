@@ -1,5 +1,8 @@
 package com.ssafy.moeutto.domain.clothes.entity;
 
+/**
+ * 옷 활용도 분석 - Interface Projection
+ */
 public interface IClothesAnalysisAvailability {
 
     String getLargeCategoryId(); // 대분류 카테고리 id

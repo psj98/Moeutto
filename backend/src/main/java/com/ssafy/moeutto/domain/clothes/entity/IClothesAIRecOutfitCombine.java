@@ -1,7 +1,8 @@
 package com.ssafy.moeutto.domain.clothes.entity;
 
-import java.sql.Date;
-
+/**
+ * AI 착장 추천 정보 - Interface Projection
+ */
 public interface IClothesAIRecOutfitCombine {
 
     Integer getClothesId(); // 옷 정보 id

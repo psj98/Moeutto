@@ -1,20 +1,23 @@
 package com.ssafy.moeutto.domain.clothes.entity;
 
+/**
+ * 옷 빈도 분석 - Interface Projection
+ */
 public interface IClothesAnalysisFrequency {
 
-    String getMiddleCategoryId();
+    String getMiddleCategoryId(); // 대분류 카테고리 id
 
-    String getSeason();
+    String getSeason(); // 계절
 
-    String getColor();
+    String getColor(); // 색상
 
-    String getThickness();
+    String getThickness(); // 두께
 
-    Integer getPrice();
+    Integer getPrice(); // 가격
 
-    String getTextile();
+    String getTextile(); // 소재
 
-    Integer getFrequency();
+    Integer getFrequency(); // 빈도
 
-    String getImageUrl();
+    String getImageUrl(); // 이미지
 }

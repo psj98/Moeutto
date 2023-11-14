@@ -15,9 +15,9 @@ import com.ssafy.moeutto.domain.aiRecOutfit.repository.AiRecOutfitRepository;
 import com.ssafy.moeutto.domain.clothes.entity.Clothes;
 import com.ssafy.moeutto.domain.clothes.entity.IClothesAIRecOutfitCombine;
 import com.ssafy.moeutto.domain.clothes.repository.ClothesRepository;
-import com.ssafy.moeutto.domain.clothesInAiOutfit.entity.ClothesInAiRecOutfit;
-import com.ssafy.moeutto.domain.clothesInAiOutfit.entity.ClothesInAiRecOutfitId;
-import com.ssafy.moeutto.domain.clothesInAiOutfit.repository.ClothesInAiRecOutfitRepository;
+import com.ssafy.moeutto.domain.clothesInAiRecOutfit.entity.ClothesInAiRecOutfit;
+import com.ssafy.moeutto.domain.clothesInAiRecOutfit.entity.ClothesInAiRecOutfitId;
+import com.ssafy.moeutto.domain.clothesInAiRecOutfit.repository.ClothesInAiRecOutfitRepository;
 import com.ssafy.moeutto.domain.largeCategory.entity.LargeCategory;
 import com.ssafy.moeutto.domain.largeCategory.repository.LargeCategoryRepository;
 import com.ssafy.moeutto.domain.member.entity.Member;
@@ -46,11 +46,11 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
     /**
      * AI가 날씨에 따라 착장을 추천해줍니다.
      *
-     * @param memberId
-     * @param aiRecOutfitCombineRequestDtoList
+     * @param memberId                         - 사용자 UUID
+     * @param aiRecOutfitCombineRequestDtoList - Go에 전달할 날씨 데이터
      * @return List<AiRecOutfitCombineResponseDto>
-     * @throws BaseException
-     * @throws JsonProcessingException
+     * @throws BaseException           - BaseResponse Error 처리
+     * @throws JsonProcessingException - Json Parsing Error 처리
      */
     @Override
     public List<AiRecOutfitCombineResponseDto> recommendAiOutfit(UUID memberId, List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) throws BaseException, JsonProcessingException {
@@ -83,7 +83,7 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
             Optional<AiRecOutfit> aiRecOutfitOptional = aiRecOutfitRepository.findByMemberIdAndRecDate(memberId, recDate);
 
             // 없으면 save
-            if (!aiRecOutfitOptional.isPresent()) {
+            if (aiRecOutfitOptional.isEmpty()) {
                 AiRecOutfit aiRecOutfit = AiRecOutfit.builder()
                         .recDate(recDate)
                         .member(member)
@@ -150,11 +150,11 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
     /**
      * Go로 전달할 대분류 카테고리 별 옷 정보 정제
      *
-     * @param memberId
+     * @param memberId - 사용자 UUID
      * @return AiRecOutfitCombineClothesListByAIRequestDto
      */
     @Override
-    public AiRecOutfitCombineClothesListByAIRequestDto getClothesInfo(UUID memberId) {
+    public AiRecOutfitCombineClothesListByAIRequestDto getClothesInfo(UUID memberId) throws BaseException {
         List<List<IClothesAIRecOutfitCombine>> clothesList = new ArrayList<>(); // 대분류 카테고리 별 옷 목록
         List<LargeCategory> largeCategoryList = largeCategoryRepository.findAll(); // 대분류 카테고리 정보
         for (LargeCategory largeCategory : largeCategoryList) {
@@ -164,21 +164,24 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
             clothesList.add(clothesAIRecOutfitCombineList); // 옷 목록 저장
         }
 
-        // 대분류 카테고리에 따라 옷 목록 저장
-        AiRecOutfitCombineClothesListByAIRequestDto aiRecOutfitCombineClothesListByAIRequestDto = AiRecOutfitCombineClothesListByAIRequestDto.builder()
+        // 아우터, 상의, 하의가 적으면 추천 X
+        if (clothesList.get(0).size() == 0 || clothesList.get(0).size() == 1 || clothesList.get(0).size() == 2) {
+            throw new BaseException(BaseResponseStatus.TOO_LITTLE_CLOTHES_FROM_LARGE_CATEGORY);
+        }
+
+        // 대분류 카테고리에 따른 옷 목록 반환
+        return AiRecOutfitCombineClothesListByAIRequestDto.builder()
                 .outer(clothesList.get(0))
                 .top(clothesList.get(1))
                 .bottom(clothesList.get(2))
                 .item(clothesList.get(3))
                 .build();
-
-        return aiRecOutfitCombineClothesListByAIRequestDto;
     }
 
     /**
      * Go로 전달할 날씨 정보 정제
      *
-     * @param aiRecOutfitCombineRequestDtoList
+     * @param aiRecOutfitCombineRequestDtoList - 날씨 정보
      * @return List<AiRecOutfitCombineWeatherByAiRequestDto>
      */
     @Override
@@ -203,31 +206,43 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
     /**
      * Go로 옷 정보 + 날씨 정보 전달 및 추천 데이터 반환
      *
-     * @param aiRecOutfitCombineByAIRequestDto
+     * @param aiRecOutfitCombineByAIRequestDto - 옷 목록 정보 + 날씨 정보
      * @return AiRecOutfitCombineListByAIResponseDto
-     * @throws JsonProcessingException
+     * @throws JsonProcessingException - Json Parsing Error 처리
      */
     @Override
-    public AiRecOutfitCombineListByAIResponseDto getOutfitByAI(AiRecOutfitCombineByAIRequestDto aiRecOutfitCombineByAIRequestDto) throws JsonProcessingException {
+    public AiRecOutfitCombineListByAIResponseDto getOutfitByAI(AiRecOutfitCombineByAIRequestDto aiRecOutfitCombineByAIRequestDto) throws JsonProcessingException, BaseException {
         // Go로 정보 전달
         String url = "http://localhost:9000/recommend"; // Go 요청 url
         RestTemplate restTemplate = new RestTemplate();
 
         // 착장 추천 및 데이터 반환
-        String response = restTemplate.postForObject(url, aiRecOutfitCombineByAIRequestDto, String.class);
+        String response = null;
+        try {
+            response = restTemplate.postForObject(url, aiRecOutfitCombineByAIRequestDto, String.class);
+        } catch (Exception e) {
+            throw new BaseException(BaseResponseStatus.RECOMMENDATION_ERROR);
+        }
 
-        // AiRecOutfitCombineListByAIResponseDto 매핑
+        // 반환 데이터 매핑
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(response, AiRecOutfitCombineListByAIResponseDto.class);
+        AiRecOutfitCombineListByAIResponseDto aiRecOutfitCombineListByAIResponseDto = null;
+        try {
+            aiRecOutfitCombineListByAIResponseDto = mapper.readValue(response, AiRecOutfitCombineListByAIResponseDto.class);
+        } catch (JsonProcessingException e) {
+            throw new BaseException(BaseResponseStatus.JSON_PARSE_ERROR);
+        }
+
+        return aiRecOutfitCombineListByAIResponseDto;
     }
 
     /**
      * Front & Back 테스트 코드
      *
-     * @param memberId
-     * @param aiRecOutfitCombineRequestDtoList
-     * @return AiRecOutfitCombineByAIRequestDto
-     * @throws BaseException
+     * @param memberId                         - 사용자 UUID
+     * @param aiRecOutfitCombineRequestDtoList - Go에 전달할 날씨 데이터
+     * @return AiRecOutfitCombineByAIRequestDto - 옷 목록 정보 + 날씨 정보
+     * @throws BaseException - BaseResponse Error 처리
      */
     @Override
     public AiRecOutfitCombineByAIRequestDto recommendAiOutfitBackFrontTest(UUID memberId, List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) throws BaseException {
@@ -240,22 +255,20 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
         // ---------- Go로 전달할 날씨 정보 정제 ---------- //
         List<AiRecOutfitCombineWeatherByAiRequestDto> aiRecOutfitCombineWeatherByAiRequestDtoList = getWeatherInfo(aiRecOutfitCombineRequestDtoList);
 
-        // ---------- 파이썬에 전달할 정보 ---------- //
-        AiRecOutfitCombineByAIRequestDto aiRecOutfitCombineByAIRequestDto = AiRecOutfitCombineByAIRequestDto.builder()
+        // ---------- 파이썬에 전달할 정보 반환 ---------- //
+        return AiRecOutfitCombineByAIRequestDto.builder()
                 .clothesList(aiRecOutfitCombineClothesListByAIRequestDto)
                 .weatherInfo(aiRecOutfitCombineWeatherByAiRequestDtoList)
                 .build();
-
-        return aiRecOutfitCombineByAIRequestDto;
     }
 
     /**
      * Python & Back & Front Test Code
      *
-     * @param memberId
-     * @param aiRecOutfitCombineRequestDtoList
+     * @param memberId                         - 사용자 UUID
+     * @param aiRecOutfitCombineRequestDtoList - Go에 전달할 날씨 데이터
      * @return List<AiRecOutfitCombineResponseDto>
-     * @throws BaseException
+     * @throws BaseException - BaseResponse Error 처리
      */
     @Override
     public List<AiRecOutfitCombineResponseDto> recommendAiOutfitBackPythonFrontTest(UUID memberId, List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) throws BaseException {
@@ -282,7 +295,7 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
             Optional<AiRecOutfit> aiRecOutfitOptional = aiRecOutfitRepository.findByMemberIdAndRecDate(memberId, recDate);
 
             // 없으면 save
-            if (!aiRecOutfitOptional.isPresent()) {
+            if (aiRecOutfitOptional.isEmpty()) {
                 AiRecOutfit aiRecOutfit = AiRecOutfit.builder()
                         .recDate(recDate)
                         .member(member)
@@ -344,9 +357,9 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
     /**
      * 현재 날짜 기준으로 AI가 추천한 착장을 조회합니다.
      *
-     * @param memberId
+     * @param memberId - 사용자 UUID
      * @return List<AiRecOutfitCombineResponseDto>
-     * @throws BaseException
+     * @throws BaseException - BaseResponse Error 처리
      */
     @Override
     public List<AiRecOutfitCombineResponseDto> detailAiOutfit(UUID memberId) throws BaseException {

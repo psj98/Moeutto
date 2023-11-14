@@ -4,6 +4,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * 옷 목록 정보 Request Dto
+ */
 @Getter
 @NoArgsConstructor
 public class ClothesListRequestDto {
