@@ -15,6 +15,7 @@ import { ClothInfoType } from '../../../pages/AddClothPage';
 
 interface Props {
   setStateValue: Dispatch<SetStateAction<FormData>>;
+  handleRemoveBG: (imgWithBG: File) => Promise<any>;
 }
 
 const FormContainer = styled.div`
@@ -42,7 +43,7 @@ const Form = styled.div`
   }
 `;
 
-const AddClothFormOrganism = ({ setStateValue }: Props) => {
+const AddClothFormOrganism = ({ setStateValue, handleRemoveBG }: Props) => {
   const [clothPic, setClothPic] = useState<File | null>(null);
   const [clothCategory, setClothCategory] = useState<string>(''); // String
   const [clothSeason, setClothSeason] = useState<string>('0000'); // ex) string: 가을겨울옷이라면 0011
@@ -52,6 +53,7 @@ const AddClothFormOrganism = ({ setStateValue }: Props) => {
   const [clothName, setClothName] = useState<string | null>(''); // string
   const [clothPrice, setClothPrice] = useState<number>(0); // int : null 허용
   const [clothBrand, setClothBrand] = useState<string>(''); // string
+  const [aiLargeCategory, setAiLargeCategory] = useState<string>('');
 
   // 옷 카테고리 입력 받는 함수
   const handleClothCategory = (e: MouseEvent<HTMLButtonElement>) => {
@@ -130,6 +132,32 @@ const AddClothFormOrganism = ({ setStateValue }: Props) => {
     }
   };
 
+  // 배경지우는 함수
+  const RemoveBGIconClick = async () => {
+    try {
+      const res = await handleRemoveBG(clothPic as File);
+
+      if (res.data.category === 'top') {
+        setAiLargeCategory('002');
+      } else if (res.data.category === 'bottom') {
+        setAiLargeCategory('003');
+      } else if (res.data.category === 'outer') {
+        setAiLargeCategory('001');
+      } else if (res.data.category === 'item') {
+        setAiLargeCategory('004'); // Default category
+      }
+
+      setTimeout(() => {
+        setClothColor(res.data.color);
+      }, 1000);
+
+      return res;
+    } catch (error) {
+      console.error('에러 발생:', error);
+    }
+    return true;
+  };
+
   useEffect(() => {
     // 사용자가 다시찍기를 할 수 있기 때문에 필요한 과정입니다.
     if (clothPic === null) {
@@ -142,13 +170,14 @@ const AddClothFormOrganism = ({ setStateValue }: Props) => {
       setClothName('');
       setClothPrice(0);
       setClothBrand('');
+      setAiLargeCategory('');
     }
   }, [clothPic]);
 
   return (
     <FormContainer>
       <Form>
-        <PictureInput setStateValue={setClothPic} />
+        <PictureInput setStateValue={setClothPic} handleIconClick={RemoveBGIconClick} />
         <div
           style={{
             // 이 스타일들은 차곡차곡 생기는 form 애니메이션을 위해 작성되었습니다. 참고는 카카오페이입니다
@@ -157,12 +186,20 @@ const AddClothFormOrganism = ({ setStateValue }: Props) => {
             transition: 'transform 0.5s, visibility 0.5s', //  즉 위에서 아래로 내려오는 애니메이션 효과가 생깁니다
           }}>
           <div className="text-WebBody2 text-center mt-[28px]">옷의 정보</div>
-          <CategoryInput onClick={handleClothCategory} value={clothCategory} />
+          <CategoryInput onClick={handleClothCategory} value={clothCategory} aiLargeCategory={aiLargeCategory} />
         </div>
         <div
           style={{
-            transform: clothCategory ? 'translateY(0)' : 'translateY(-50px)',
-            visibility: clothCategory ? 'visible' : 'hidden',
+            transform: clothCategory || aiLargeCategory ? 'translateY(0)' : 'translateY(-50px)',
+            visibility: clothCategory || aiLargeCategory ? 'visible' : 'hidden',
+            transition: 'transform 0.5s, visibility 0.5s',
+          }}>
+          <ColorInput onChange={setClothColor} value={clothColor} />
+        </div>
+        <div
+          style={{
+            transform: clothColor ? 'translateY(0)' : 'translateY(-50px)',
+            visibility: clothColor ? 'visible' : 'hidden',
             transition: 'transform 0.5s, visibility 0.5s',
           }}>
           <SeasonInput onChange={setClothSeason} value={clothSeason} />
@@ -187,14 +224,6 @@ const AddClothFormOrganism = ({ setStateValue }: Props) => {
           style={{
             transform: clothTextile !== null ? 'translateY(0)' : 'translateY(-50px)',
             visibility: clothTextile !== null ? 'visible' : 'hidden',
-            transition: 'transform 0.5s, visibility 0.5s',
-          }}>
-          <ColorInput onChange={setClothColor} value={clothColor} />
-        </div>
-        <div
-          style={{
-            transform: clothColor ? 'translateY(0)' : 'translateY(-50px)',
-            visibility: clothColor ? 'visible' : 'hidden',
             transition: 'transform 0.5s, visibility 0.5s',
           }}>
           <NameInput onChange={handleClothNameChange} value={clothName} />

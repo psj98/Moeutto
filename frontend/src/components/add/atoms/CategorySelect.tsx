@@ -1,5 +1,5 @@
 // CategorySelect.tsx < CategoryInput.tsx < AddClothForm.tsx
-import React, { ChangeEvent, MouseEvent, useState } from 'react';
+import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { CgSelect } from 'react-icons/cg';
 import { Slide } from 'react-awesome-reveal';
 import styled from 'styled-components';
@@ -9,6 +9,7 @@ interface CategoryProps {
   value?: string; // selected 된 아이템
   id: string; // category 영역이라는 명시용
   onClick: (event: MouseEvent<HTMLButtonElement>) => void; // handleClothCategory
+  aiLargeCategory: string;
 }
 
 const Select = styled.div`
@@ -60,7 +61,7 @@ const Select = styled.div`
   }
 `;
 
-const CategorySelect = ({ id, value, onClick }: CategoryProps) => {
+const CategorySelect = ({ id, value, onClick, aiLargeCategory }: CategoryProps) => {
   // 카테고리 셀렉트를 위한 중분류 카테고리 array 생성
   const outerArray = middleCategory.filter(item => item.largeCategory.name === '아우터'); // 아우터의 미들 카테고리 array를 생성
   const topArray = middleCategory.filter(item => item.largeCategory.name === '상의');
@@ -106,10 +107,15 @@ const CategorySelect = ({ id, value, onClick }: CategoryProps) => {
     }
   };
 
+  useEffect(() => {
+    console.log(aiLargeCategory);
+    setSelectedLargeCategory(aiLargeCategory);
+  }, [aiLargeCategory]);
+
   return (
     <Select>
       <select id={id} value={selectedLargeCategory} onChange={handleLargeCategory}>
-        <option value="0" disabled hidden>
+        <option value="000" disabled hidden>
           카테고리를 선택하세요.
         </option>
         {largeCategory.map(item => (
