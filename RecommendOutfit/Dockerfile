@@ -7,8 +7,9 @@ RUN echo "$PWD"
 RUN ls
 
 RUN go env -w GO111MODULE=auto
-RUN go build -o /app/myapp/cmd/myapp/main.go
+RUN cd myapp/cmd/myapp | echo "$PWD" | ls
+RUN go build -o main.go
 
 EXPOSE 9000
 
-CMD ["./app/myapp/cmd/myapp/main.go"]
+CMD ["./main.go"]
