@@ -68,12 +68,10 @@ const CategoryTap = ({ title, id, categories, uniqueId }) => {
       setCategoryId('004002');
     } else if (selectedOptionMiddle === '목도리') {
       setCategoryId('004003');
-    } else if (selectedOptionMiddle.slice(0,2) === '전체') {
-      console.log('지금 선택한 값', selectedOptionMiddle)
+    } else if (selectedOptionMiddle.slice(0, 2) === '전체') {
+      console.log('지금 선택한 값', selectedOptionMiddle);
       setCategoryId(id);
-    } else if (selectedOptionMiddle)
-
-    console.log('지금 선택한 카테고리', selectedOptionMiddle, uniqueId);
+    } else if (selectedOptionMiddle) console.log('지금 선택한 카테고리', selectedOptionMiddle, uniqueId);
   }, [selectedOptionMiddle]);
 
   const [categoryValue, setCategoryValue] = useState<string>('');
@@ -99,9 +97,22 @@ const CategoryTap = ({ title, id, categories, uniqueId }) => {
   };
 
   return (
-    <div className="mb-8">
-      <MainCategory title={title} />
-      <div className="text-GmarketSansMedium flex flex-row items-center">
+    <div className="mb-8 mx-5">
+      <div className="flex flex-row justify-between items-center">
+        <MainCategory title={title} />
+        <select
+          className="text-GmarketSansLight text-base"
+          value={categoryValue}
+          defaultValue="initial"
+          onChange={onChange}>
+          <option value="initial">정렬</option>
+          <option value="regDate">등록순</option>
+          <option value="frequency1">많이 입은 순</option>
+          <option value="frequency0">적게 입은 순</option>
+          <option value="color">색상 순</option>
+        </select>
+      </div>
+      <div className="text-AppBody2 text-GmarketSansMedium flex flex-row items-center">
         <MiddleCategory
           selectedOptionMiddle={selectedOptionMiddle}
           setSelectedOptionMiddle={setSelectedOptionMiddle}
@@ -109,13 +120,7 @@ const CategoryTap = ({ title, id, categories, uniqueId }) => {
           uniqueId={uniqueId}
         />
         {/* <div className="text-AppBody2 ms-10 h-5"> */}
-        <select className="text-GmarketSansLight ms-8" value={categoryValue} defaultValue="initial" onChange={onChange}>
-          <option value="initial">정렬</option>
-          <option value="regDate">등록순</option>
-          <option value="frequency1">많이 입은 순</option>
-          <option value="frequency0">적게 입은 순</option>
-          <option value="color">색상 순</option>
-        </select>
+
         {/* </div> */}
       </div>
       <div className="flex gap-1 overflow-x-auto mt-1">
