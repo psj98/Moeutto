@@ -1,10 +1,12 @@
 import MyClosetBar from '../components/common/MyClosetBar';
 import CategoryTapOrganism from '../components/mycloset/organisms/CategoryTapOrganism';
+import PickTitle from '../components/pickpick/atoms/PickTitle';
 
 const MyClosetPage = () => {
   return (
     <>
-      <div className="font-bold text-WebBody1">나의 옷장</div>
+      <PickTitle></PickTitle>
+
       <MyClosetBar state={1} />
       <CategoryTapOrganism />
     </>
