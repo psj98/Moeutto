@@ -1,0 +1,9 @@
+FROM golang:1.21:alpine
+ENV GO111MODULE=on
+WORKDIR /app
+COPY go.mod .
+COPY go.sum .
+COPY . .
+EXPOSE 9000
+RUN go build myapp/cmd/myapp/main.go
+CMD ["./main.go"]
