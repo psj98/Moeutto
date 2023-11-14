@@ -43,7 +43,6 @@ function AddClothPage() {
         // eslint-disable-next-line no-alert
         Swal.fire({
           icon: 'success',
-          title: "<h5 style='color:blue'>'성공'",
           html: '옷장 등록에 성공했어요',
           showCancelButton: false,
           confirmButtonText: '확인',
@@ -51,7 +50,6 @@ function AddClothPage() {
       } else {
         Swal.fire({
           icon: 'error',
-          title: "<h5 style='color:red'>'실패'",
           html: '옷장 등록에 실패했어요',
           showCancelButton: false,
           confirmButtonText: '확인',
