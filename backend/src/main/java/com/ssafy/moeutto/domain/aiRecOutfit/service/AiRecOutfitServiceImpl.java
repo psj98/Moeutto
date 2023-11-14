@@ -86,7 +86,7 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
                 .build();
 
         // 파이썬으로 정보 전달
-        String url = "http://localhost:9080/api/ml/ai-recommend"; // 파이썬 요청 url
+        String url = "http://localhost:9000/recommend"; // 파이썬 요청 url
         RestTemplate restTemplate = new RestTemplate();
 
         // AI가 착장 추천해주기 및 데이터 반환

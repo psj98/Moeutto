@@ -1,4 +1,5 @@
-import React, { useState, ChangeEvent, SetStateAction, Dispatch } from 'react';
+import React, { useState, useEffect, MouseEvent, ChangeEvent, SetStateAction, Dispatch } from 'react';
+import Swal from 'sweetalert2';
 import styled from 'styled-components';
 import PictureInput from '../molecules/PictureInput';
 import CategoryInput from '../molecules/CategoryInput';
@@ -10,10 +11,11 @@ import NameInput from '../molecules/NameInput';
 import PriceInput from '../molecules/PriceInput';
 import BrandInput from '../molecules/BrandInput';
 import SubmitButton from '../molecules/SubmitButton';
-import { ClothInfoType  } from '../../../pages/AddClothPage';
+import { ClothInfoType } from '../../../pages/AddClothPage';
 
 interface Props {
   setStateValue: Dispatch<SetStateAction<FormData>>;
+  handleRemoveBG: (imgWithBG: File) => Promise<any>;
 }
 
 const FormContainer = styled.div`
@@ -32,24 +34,31 @@ const Form = styled.div`
     border: 1px solid black;
     padding: 0 30px;
     border-radius: 40px;
+    transition: transform 3s;
+  }
+
+  button {
+    transition: transform 2s;
+    cursor: pointer;
   }
 `;
 
-const AddClothFormOrganism = ({ setStateValue }: Props) => {
+const AddClothFormOrganism = ({ setStateValue, handleRemoveBG }: Props) => {
   const [clothPic, setClothPic] = useState<File | null>(null);
   const [clothCategory, setClothCategory] = useState<string>(''); // String
-  const [clothSeason, setClothSeason] = useState<string>(''); // ex) string: 가을겨울옷이라면 0011
+  const [clothSeason, setClothSeason] = useState<string>('0000'); // ex) string: 가을겨울옷이라면 0011
   const [clothThickness, setClothThickness] = useState<number | null>(); // ex) int: 얇음 , 중간 , 두꺼움
   const [clothTextile, setClothTextile] = useState<string | null>(''); // string
   const [clothColor, setClothColor] = useState<string>('');
   const [clothName, setClothName] = useState<string | null>(''); // string
-  const [clothPrice, setClothPrice] = useState<number | null>(0); // int : null 허용
+  const [clothPrice, setClothPrice] = useState<number>(0); // int : null 허용
   const [clothBrand, setClothBrand] = useState<string>(''); // string
+  const [aiLargeCategory, setAiLargeCategory] = useState<string>('');
 
   // 옷 카테고리 입력 받는 함수
-  const handleClothCategory = (e: ChangeEvent<HTMLSelectElement>) => {
-    if (e.target.value) {
-      setClothCategory(e.target.value);
+  const handleClothCategory = (e: MouseEvent<HTMLButtonElement>) => {
+    if (e.target as HTMLButtonElement) {
+      setClothCategory((e.target as HTMLButtonElement).value);
     }
   };
 
@@ -113,24 +122,115 @@ const AddClothFormOrganism = ({ setStateValue }: Props) => {
       // 필수 인풋 값이 하나라도 비어있다면
 
       // eslint-disable-next-line no-alert
-      alert('사진, 카테고리, 색상, 계절, 두께 모두 입력해주세요.');
+      Swal.fire({
+        icon: 'warning',
+        title: "<h5 style='color:red'> 항목 확인",
+        html: '사진, 카테고리, 색상, 계절, 두께 모두 입력해주세요.',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
     }
   };
+
+  // 배경지우는 함수
+  const RemoveBGIconClick = async () => {
+    try {
+      const res = await handleRemoveBG(clothPic as File);
+
+      if (res.data.category === 'top') {
+        setAiLargeCategory('002');
+      } else if (res.data.category === 'bottom') {
+        setAiLargeCategory('003');
+      } else if (res.data.category === 'outer') {
+        setAiLargeCategory('001');
+      } else if (res.data.category === 'item') {
+        setAiLargeCategory('004'); // Default category
+      }
+
+      setTimeout(() => {
+        setClothColor(res.data.color);
+      }, 1000);
+
+      return res;
+    } catch (error) {
+      console.error('에러 발생:', error);
+    }
+    return true;
+  };
+
+  useEffect(() => {
+    // 사용자가 다시찍기를 할 수 있기 때문에 필요한 과정입니다.
+    if (clothPic === null) {
+      // 사용자가 입력했던 인풋값을 다 초기화합니다
+      setClothCategory('');
+      setClothSeason('0000');
+      setClothThickness(null);
+      setClothTextile(null);
+      setClothColor('');
+      setClothName('');
+      setClothPrice(0);
+      setClothBrand('');
+      setAiLargeCategory('');
+    }
+  }, [clothPic]);
 
   return (
     <FormContainer>
       <Form>
-        <PictureInput setStateValue={setClothPic} />
-        <div className="text-WebBody2 text-center mt-[28px]">옷의 정보</div>
-        <CategoryInput onChange={handleClothCategory} />
-        <SeasonInput onChange={setClothSeason} />
-        <ThicknessInput onChange={setClothThickness} />
-        <TextilInput onChange={setClothTextile} />
-        <ColorInput onChange={setClothColor} />
-        <NameInput onChange={handleClothNameChange} value={clothName} />
-        <PriceInput onChange={handleClothPriceChange} value={clothPrice} />
-        <BrandInput onChange={handleClothBrand} value={clothBrand} />
-        <SubmitButton onChange={handleSubmit} />
+        <PictureInput setStateValue={setClothPic} handleIconClick={RemoveBGIconClick} />
+        <div
+          style={{
+            // 이 스타일들은 차곡차곡 생기는 form 애니메이션을 위해 작성되었습니다. 참고는 카카오페이입니다
+            transform: clothPic ? 'translateY(0)' : 'translateY(-50px)',
+            visibility: clothPic ? 'visible' : 'hidden', // clothPic이 존재하면 이 필드가 활성화됩니다.
+            transition: 'transform 0.5s, visibility 0.5s', //  즉 위에서 아래로 내려오는 애니메이션 효과가 생깁니다
+          }}>
+          <div className="text-WebBody2 text-center mt-[28px]">옷의 정보</div>
+          <CategoryInput onClick={handleClothCategory} value={clothCategory} aiLargeCategory={aiLargeCategory} />
+        </div>
+        <div
+          style={{
+            transform: clothCategory || aiLargeCategory ? 'translateY(0)' : 'translateY(-50px)',
+            visibility: clothCategory || aiLargeCategory ? 'visible' : 'hidden',
+            transition: 'transform 0.5s, visibility 0.5s',
+          }}>
+          <ColorInput onChange={setClothColor} value={clothColor} />
+        </div>
+        <div
+          style={{
+            transform: clothColor ? 'translateY(0)' : 'translateY(-50px)',
+            visibility: clothColor ? 'visible' : 'hidden',
+            transition: 'transform 0.5s, visibility 0.5s',
+          }}>
+          <SeasonInput onChange={setClothSeason} value={clothSeason} />
+        </div>
+        <div
+          style={{
+            transform: clothSeason !== '0000' ? 'translateY(0)' : 'translateY(-50px)',
+            visibility: clothSeason !== '0000' ? 'visible' : 'hidden',
+            transition: 'transform 0.5s, visibility 0.5s',
+          }}>
+          <ThicknessInput onChange={setClothThickness} value={clothThickness} />
+        </div>
+        <div
+          style={{
+            transform: clothThickness !== null ? 'translateY(0)' : 'translateY(-50px)',
+            visibility: clothThickness !== null ? 'visible' : 'hidden',
+            transition: 'transform 0.5s, visibility 0.5s',
+          }}>
+          <TextilInput onChange={setClothTextile} value={clothTextile} />
+        </div>
+        <div
+          style={{
+            transform: clothTextile !== null ? 'translateY(0)' : 'translateY(-50px)',
+            visibility: clothTextile !== null ? 'visible' : 'hidden',
+            transition: 'transform 0.5s, visibility 0.5s',
+          }}>
+          <NameInput onChange={handleClothNameChange} value={clothName} />
+          <PriceInput onChange={handleClothPriceChange} value={clothPrice} />
+          <BrandInput onChange={handleClothBrand} value={clothBrand} />
+          <SubmitButton onChange={handleSubmit} />
+        </div>
       </Form>
     </FormContainer>
   );

@@ -1,17 +1,18 @@
-import React, { ChangeEvent } from 'react';
+import React, { MouseEvent } from 'react';
 import Label from '../atoms/Label';
 import CategorySelect from '../atoms/CategorySelect';
 
 interface CategoryProps {
-  value?: number | string;
-  onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+  value?: string;
+  onClick: (event: MouseEvent<HTMLButtonElement>) => void;
+  aiLargeCategory: string;
 }
 
-const CategoryInput = ({ value, onChange }: CategoryProps) => {
+const CategoryInput = ({ value, onClick, aiLargeCategory }: CategoryProps) => {
   return (
     <>
-      <Label id="category" value="카테고리" />
-      <CategorySelect id="category" value={value} onChange={onChange} />
+      <Label id="category" value="카테고리" isEssential={true} />
+      <CategorySelect id="category" value={value} onClick={onClick} aiLargeCategory={aiLargeCategory} />
     </>
   );
 };

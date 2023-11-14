@@ -19,12 +19,22 @@ func RecommendationHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	recommendations, err := logic.GenerateRecommendations(requestData)
-	if err != nil {
-		http.Error(w, "Error processing request", http.StatusInternalServerError)
-		return
+	//같은 옷이 추천되는 문제 해결 필요
+	selectedClothes := logic.SelectClothes(requestData.ClothesList, requestData.WeatherInfo)
+
+	var aiRecommendations []models.LogicRecommendation
+	for _, rec := range selectedClothes { //3회 반복
+		aiRec := models.LogicRecommendation{
+			ClothesId: rec.ClothesId,
+			RecDate:   rec.RecDate,
+		}
+		aiRecommendations = append(aiRecommendations, aiRec)
+	}
+
+	responseData := models.ResponseData{
+		AIRecommend: aiRecommendations,
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(recommendations)
+	json.NewEncoder(w).Encode(responseData)
 }

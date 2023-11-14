@@ -1,20 +1,20 @@
 from datetime import datetime
-def get_temp_weather():
+def get_temp_weather(): # 8 4 2 1
     # 3 4 5 / 6 7 8 / 9 10 11 / 12 1 2
     temp_month = datetime.now().month  # 현재 월 가져오기
     if temp_month > 8:
         if temp_month > 11:
-            return 4
+            return 1
         else:
-            return 3
+            return 2
     else:
         if temp_month < 6:
             if temp_month < 3:
                 return 4
             else:
-                return 1
+                return 8
         else:
-            return 2
+            return 4
 def calculate_temperature_score(thickness, min_temp, max_temp):
     avg_temp = (min_temp + max_temp) / 2
 
@@ -33,9 +33,19 @@ def calculate_temperature_score(thickness, min_temp, max_temp):
 
 
 # season 1 2 3 4 봄 여름 가을 겨울
-def calculate_season_score(season, current_season):
+def calculate_season_score(season = "1111", current_season = 1):
     # 계절이 일치하면 만점(40점), 일치하지 않으면 0점
-    score = 40 if season == current_season else 0
+    # season : 1111
+    int_season =1
+    try:
+        int_season = int(season)
+    except:
+        print("season must be int")
+
+    if (int_season & current_season) > 1:
+        score = 40
+    else:
+        score = 0
     return score
 
 
