@@ -42,14 +42,8 @@ const MiddleCategory: React.FC<MiddleCategoryTopProps> = ({
     console.log('지금 내가 선택한 카테고리', e.target.id)
     const selectedId = e.target.id;
 
-        // Check if the selected option is '전체'
-        if (selectedId === '전체') {
-            // Toggle '전체' category's selection independently
-            setSelectedOptionMiddle(selectedOptionMiddle === '전체' ? '' : '전체');
-        } else {
-            // For non-'전체' categories, simply set the selected option
-            setSelectedOptionMiddle(selectedId);
-        }
+    setSelectedOptionMiddle(selectedId);
+    
   };
 
   return (
@@ -69,7 +63,8 @@ const MiddleCategory: React.FC<MiddleCategoryTopProps> = ({
                 selected={selectedOptionMiddle === category.toLowerCase()}
                 className='border p-1 px-1 pt-2 rounded-2xl flex items-center justify-center min-w-[60px]'
             >
-                {category}
+              {/* 카테고리 이름을 전체1, 전체2, 전체3, 전체4로 한 뒤 출력은 무조건 '전체'로 되게 했음 */}
+                {category.slice(0, 2) === '전체' ? category.slice(0, 2) : category}
             </BoldLabel>
             </div> 
         ))}
