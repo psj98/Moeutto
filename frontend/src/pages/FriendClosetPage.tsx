@@ -114,21 +114,17 @@ const FriendClosetPage = () => {
   const fetchData = async () => {
     try {
       // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
-
       const axiosInstance = authInstance({ ContentType: 'application/json' });
       const response = await axiosInstance.post('/clothes/list/friend-all', {
         email: friend, // 친구 email
-        categoryId,
-        sortBy,
-        orderBy
       });
 
       if (response.data.data) {
-        setClothesData(response.data.data.clothesListResponseDto);
+        // setClothesData(response.data.data.clothesListResponseDto);
         setGuestbookAll(response.data.data.guestBookListResponseDto);
         console.log('친구 옷의 옷 데이터 가져오기', response.data.data.clothesListResponseDto)
       } else {
-        setClothesData([]);
+        // setClothesData([]);
         setGuestbookAll([]);
       }
       return response.data;
@@ -137,8 +133,31 @@ const FriendClosetPage = () => {
     }
   };
 
+  const getClothesItem = async () => {
+    try {
+      const axiosInstance = authInstance({ ContentType: 'application/json' });
+      const response = await axiosInstance.post('clothes/list/friend', {
+        email: friend,
+        categoryId,
+        sortBy,
+        orderBy
+      })
+
+      console.log('친구 옷 조회 성공' ,response)
+
+      if (response.data.data) {
+        setClothesData(response.data.data)
+      } else {
+        setClothesData([]);
+      }
+    } catch (error) {
+      console.log('친구 옷 조회 실패', error)
+    }
+  } 
+
   useEffect(() => {
     fetchData();
+    getClothesItem();
   }, [categoryId, sortBy, orderBy]);
 
   // 제출하기 버튼 동작 시 -> 리덕스에 선택한 옷 정보 저장 후 분석 페이지로 이동
