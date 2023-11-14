@@ -16,7 +16,7 @@ import Scroll from '../components/common/scroll/molecules/Scroll';
 import { authInstance } from '../api/api';
 
 // 날씨 api 사용
-// import Weather from "../api/Weather";
+import Weather from "../api/Weather";
 
 const MainPage = () => {
     const navigate = useNavigate();
@@ -232,6 +232,7 @@ const MainPage = () => {
         <div className="fixed bottom-1/3 right-0 me-[5vw]">
           <Scroll />
       </div>
+      <Weather />
     </div>
   );
 };
