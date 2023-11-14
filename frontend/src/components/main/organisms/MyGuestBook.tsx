@@ -37,15 +37,15 @@ const MyGuestBook = ({ setIsAlertModalOpen }: MyGuestBookProps) => {
 
     return (
         <>
-        <div className="absolute z-99 h-[300px] w-4/5 rounded-2xl left-1/2 top-[230px] transform -translate-x-1/2 -translate-y-1/2 bg-pink">
+        <div className="absolute z-99 h-[600px] shadow-md w-5/6 rounded-2xl left-1/2 top-[290px] transform -translate-x-1/2 -translate-y-1/2 bg-pink">
             <div className="flex">
                 <div className="flex justify-start font-bold text-AppTitle2 text-white p-4">나의 방명록</div>
                 <div className="flex items-center ms-[35%] font-bold text-white" onClick={closeAlert}>X</div>
             </div>
-            <div className="bg-white rounded-2xl w-[80%] justify-center items-center mx-auto mb-6">
+            <div className="bg-white rounded-2xl w-[90%] h-[500px] p-2 justify-center items-center mx-auto mb-6">
                 {myGuestBookData ? (
                     <>
-                         <div className="h-[70%] overflow-auto p-4">
+                         <div className="h-full overflow-auto p-4">
                             {myGuestBookData
                                 .slice(0)
                                 .reverse() // 댓글 최신순이 가장 먼저 오기 위해서 역정렬을 한다
