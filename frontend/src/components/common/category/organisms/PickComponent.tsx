@@ -37,16 +37,18 @@ const PickComponent: React.FC<PropsType> = ({
         setSelectedOptionSort={setSelectedOptionSort}
         handleSubmit={handleSubmit}
       />
-      <div className="flex flex-wrap gap-3.5 mt-4">
-        {clothesData && clothesData.length > 0 ? (
-          clothesData.map((item, index) => (
-            <SelectedClothesItem imgUrl={item.imageUrl} clothesId={item.id.toString()} key={index} />
-          ))
-        ) : (
-          <div>아무것도 없어요</div>
-        )}
+      <div className='flex justify-center m-auto'>
+        <div className="w-[95%] flex flex-wrap gap-3.5 mt-4 justify-start">
+          {clothesData && clothesData.length > 0 ? (
+            clothesData.map((item, index) => (
+              <SelectedClothesItem imgUrl={item.imageUrl} clothesId={item.id.toString()} key={index} />
+            ))
+          ) : (
+            <div>아무것도 없어요</div>
+          )}
+        </div>
       </div>
-    </>
+      </>
   );
 };
 
