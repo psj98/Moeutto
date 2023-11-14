@@ -3,7 +3,6 @@ package com.ssafy.moeutto.domain.member.controller;
 import com.ssafy.moeutto.domain.member.auth.AuthTokens;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
 import com.ssafy.moeutto.domain.member.dto.request.MemberUpdateMyInfoRequestDto;
-import com.ssafy.moeutto.domain.member.entity.Member;
 import com.ssafy.moeutto.domain.member.dto.request.FindNicknameRequestDto;
 import com.ssafy.moeutto.domain.member.service.MemberLoginService;
 import com.ssafy.moeutto.domain.member.service.MemberService;
@@ -11,7 +10,6 @@ import com.ssafy.moeutto.domain.member.service.OAuthLoginService;
 import com.ssafy.moeutto.global.response.BaseException;
 import com.ssafy.moeutto.global.response.BaseResponse;
 import com.ssafy.moeutto.global.response.BaseResponseService;
-import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -19,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -29,7 +26,6 @@ public class MemberController {
 
     private final MemberLoginService memberLoginService;
     private final OAuthLoginService oAuthLoginService;
-    private final AuthTokensGenerator authTokensGenerator;
     private final MemberService memberService;
     private final BaseResponseService baseResponseService;
 
@@ -86,22 +82,21 @@ public class MemberController {
 
     }
 
-
     /**
      * 솔이가 요청한 친구 옷장 보기에서의 닉네임 반환해주는 메서드입니다.
+     *
      * @param requestDto
      * @return
      */
-
     @PostMapping("/find-nickname")
-    public BaseResponse<Object> findNicknameForSol(@RequestBody FindNicknameRequestDto requestDto){
+    public BaseResponse<Object> findNicknameForSol(@RequestBody FindNicknameRequestDto requestDto) {
 
-        try{
+        try {
 
-            log.info("1234"+ requestDto.getEmail());
+            log.info("1234" + requestDto.getEmail());
             String nickname = memberService.findNicknameForSol(requestDto.getEmail());
             return baseResponseService.getSuccessResponse(nickname);
-        }catch(BaseException e){
+        } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
         }
 
@@ -110,12 +105,13 @@ public class MemberController {
     /**
      * 마이페이지에 사용자 정보 전달 ( 프사, 닉네임, 옷장 공개 여부, 계정 공개 여부 )
      * To Do : 이미지 처리해야함 ( 지금은 String으로 이미지를 잘못 받았음 )
+     *
      * @param token
      * @return MemberMyPageResponseDto
      */
     @ResponseBody
     @GetMapping("my-page")
-    public BaseResponse<Object> myPageInfo(@RequestHeader(value = "accessToken", required = false) String token){
+    public BaseResponse<Object> myPageInfo(@RequestHeader(value = "accessToken", required = false) String token) {
         try {
             return baseResponseService.getSuccessResponse(memberService.giveMypageInfo(token));
         } catch (BaseException e) {
@@ -126,15 +122,14 @@ public class MemberController {
     @ResponseBody
     @PutMapping("modify")
     public BaseResponse<Object> updateMyInfo(@RequestHeader(value = "accessToken") String token,
-            @RequestBody MemberUpdateMyInfoRequestDto memberUpdateMyInfoRequestDto){
+                                             @RequestBody MemberUpdateMyInfoRequestDto memberUpdateMyInfoRequestDto) {
 
-        try{
+        try {
             memberService.updateMypageInfo(token, memberUpdateMyInfoRequestDto);
 
             return baseResponseService.getSuccessResponse();
-        } catch (BaseException e){
+        } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
         }
-
     }
 }

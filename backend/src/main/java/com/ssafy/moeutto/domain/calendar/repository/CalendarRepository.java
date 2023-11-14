@@ -23,6 +23,5 @@ public interface CalendarRepository extends JpaRepository<Calendar, Integer> {
      */
     Optional<Calendar> findByIdAndMemberId(Integer id, UUID memberId);
 
-
     Optional<Calendar> findByRegDate(Date regDate);
 }

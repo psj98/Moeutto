@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * 옷 즐겨찾기 여부 Response Dto
+ */
 @Getter
 @NoArgsConstructor
 public class ClothesStarResponseDto {

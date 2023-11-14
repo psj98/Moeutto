@@ -26,15 +26,16 @@ public class S3Controller {
 
     /**
      * S3 Upload 테스트용
-     * @param token
-     * @param file
+     *
+     * @param token - accessToken.
+     * @param file  - 이미지 파일
      * @return s3ResponseDto
      */
     @PostMapping("/upload")
-    public BaseResponse<Object> saveAndInferenceImage(@RequestHeader(value="accessToken",required=false) String token,
+    public BaseResponse<Object> saveAndInferenceImage(@RequestHeader(value = "accessToken", required = false) String token,
                                                       @RequestParam("file") MultipartFile file) {
-
         S3ResponseDto s3ResponseDto;
+
         // S3에 이미지 저장
         try {
             s3ResponseDto = s3Service.uploadImage(token, file);
@@ -47,6 +48,4 @@ public class S3Controller {
 
         return baseResponseService.getSuccessResponse(s3ResponseDto);
     }
-
-
 }
