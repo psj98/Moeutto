@@ -14,4 +14,6 @@ WORKDIR /root/
 
 COPY --from=build-image /go/src/myapp/cmd/myapp/app .
 
+EXPOSE 9000
+
 CMD ["./app"]
