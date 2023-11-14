@@ -48,6 +48,7 @@ const Pic = styled.div`
     font-size: 20px;
     font-weight: 800;
     color: black;
+    flex-direction: column;
     text-align: center;
     vertical-align: middle;
     width: calc(70vw * 0.8 * 0.7);
@@ -236,11 +237,14 @@ const PictureInput = ({ setStateValue, handleIconClick }: Props) => {
             <>
               <PreviewImage imageSrc={preview} />
               {/* <span className={`${isRemoving ? 'isRemoving' : ''}`}> */}
-              <span className={`${isRemoving ? 'isRemoving' : 'isNotRemoving'}`}>
+              <div className={`${isRemoving ? 'isRemoving' : 'isNotRemoving'}`}>
                 <Fade delay={1e1} cascade damping={1e-1}>
-                  배경을 제거 중입니다
+                  ai가 배경을 제거하고
                 </Fade>
-              </span>
+                <Fade delay={1e3} cascade damping={1e-1}>
+                  옷을 분석 중입니다
+                </Fade>
+              </div>
             </>
           ) : null}
           {preview ? ( // 이미지를 제출하면 배경 지우기 버튼과 다시 찍기 버튼이 보입니다

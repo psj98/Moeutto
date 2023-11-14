@@ -61,9 +61,10 @@ def mk_comment(plain_txt: str):
     )
 
     # {"role": "user", "content": "Compose a poem that explains the concept of recursion in programming."}
-    print(completion.choices[0].message)
+    print(completion.choices[0].message.content)
 
-    res_plain_txt = json.loads(completion.choices[0].message.content)
+    # res_plain_txt = json.loads(completion.choices[0].message.content)
+    res_plain_txt = completion.choices[0].message.content
 
     return res_plain_txt
 
