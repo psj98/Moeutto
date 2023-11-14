@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // import { useSelector } from 'react-redux';
 // import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import styled from 'styled-components';
 // axios
 import { authInstance } from '../api/api';
@@ -38,7 +39,7 @@ const calendarPostPage = () => {
   const [categoryId, setCategoryId] = useState<string>('000000');
   const [sortBy, setSortBy] = useState<string>('initial');
   const [orderBy, setOrderBy] = useState<number>(0); // 0: 오름차순, 1: 내림차순
-  const [file, setFile] = useState<FormData>();
+  // const [file, setFile] = useState<File>();
 
   // 카테고리 선택 확인
   useEffect(() => {
@@ -109,7 +110,13 @@ const calendarPostPage = () => {
       if (response.data.data) {
         setClothesData(response.data.data);
       } else {
-        // alert('옷 목록이 없어요')
+        Swal.fire({
+          icon: 'question',
+          title: "<h5 style='color:red'>'조회 실패'",
+          html: '옷 목록이 존재하지 않아요',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        });
         setClothesData([]);
       }
 
@@ -152,44 +159,47 @@ const calendarPostPage = () => {
 
   //   postData();
   // };
+  const [cnt, setCnt] = useState<number>(0);
 
-  const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = async event => {
+  const watchClickSubmit: React.MouseEventHandler<HTMLButtonElement> = () => {
+    setCnt(cnt + 1);
+  };
+
+  const handleSubmit = async (file: File) => {
     try {
       // Create a FormData object and append the file to it
 
       // Configure the axios instance with the correct headers
       const axiosInstance = authInstance({ ContentType: 'multipart/form-data' }); // No need to specify Content-Type here
+      const formData = new FormData();
+
+      formData.append('file', file as File); // 이제 파일 크기가 0이 아니어야 함
 
       // Send the FormData in a POST request
-      const response = await axiosInstance.post('/calendars/regist', file, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await axiosInstance.post('/calendars/regist', formData);
 
       if (response) {
-        alert('캘린더 제출이 완료되었습니다.');
+        Swal.fire({
+          icon: 'success',
+          title: "<h5 style='color:red'>'성공'",
+          html: '캘린더 제출이 완료되었습니다',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        });
       } else {
         // Handle the case when the request is not successful
       }
 
-        return response.data;
-      } catch (error) {
-        throw new Error('옷 목록 데이터 조회 실패 토큰을 확인하세요');
-      }
-    };
-
-    if (postData) {
-      // localStorage.setItem('selectedClosetIds', JSON.stringify(selectedClosetIds));
-      alert('post 제출하기');
-    } else {
-      alert('선택한 옷이 없어요');
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw new Error('캘린더 제출 실패했습니다');
     }
   };
 
   return (
     <>
-      <PostEditorTemplate setFile={setFile}></PostEditorTemplate>
+      <PostEditorTemplate handleSubmit={handleSubmit} cnt={cnt}></PostEditorTemplate>
       <PickComponent
         selectedOptionMain={selectedOptionMain}
         setSelectedOptionMain={setSelectedOptionMain}
@@ -197,7 +207,7 @@ const calendarPostPage = () => {
         setSelectedOptionMiddle={setSelectedOptionMiddle}
         selectedOptionSort={selectedOptionSort}
         setSelectedOptionSort={setSelectedOptionSort}
-        handleSubmit={handleSubmit}
+        handleSubmit={watchClickSubmit}
         clothesData={clothesData}
       />
       <ScrollSection className="scroll fixed bottom-[150px]">

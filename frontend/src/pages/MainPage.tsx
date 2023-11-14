@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import MainInfo from '../components/main/organisms/MainInfo';
 import PickButtonTap from '../components/main/organisms/PickButtonTap';
@@ -10,14 +10,16 @@ import UserName from '../components/main/atoms/UserName';
 import MainWeatherTap from '../components/main/organisms/MainWeatherTap';
 import Alert from '../components/common/Alert';
 import MainComment from '../components/main/atoms/MainComment';
+import Calendar from '../components/calendar/organisms/Calendar';
+import Scroll from '../components/common/scroll/molecules/Scroll';
 // import AddTap from '../components/main/atoms/AdTap';
-// import { authInstance } from '../api/api';
+import { authInstance } from '../api/api';
 
 // 날씨 api 사용
 // import Weather from "../api/Weather";
 
 const MainPage = () => {
-  //   const navigate = useNavigate();
+    const navigate = useNavigate();
   // 현재 위치
   const [currentLocation, setCurrentLocation] = useState<{
     latitude: number;
@@ -40,6 +42,7 @@ const MainPage = () => {
   // 지도 화면 출력 클릭 이벤트
   const showLocationClick = () => {
     setLocationState(!locationState);
+    console.log('주소 불러오는거 클릭함')
   };
 
   // 지도 다시 불러오기
@@ -53,79 +56,75 @@ const MainPage = () => {
   };
 
   // // 옷 추천 리스트
-  // const [clothesListData, setClothesListData] = useState<any>([]);
-  // // const navigate = useNavigate();
-  // const clothesData = async () => {
-  //   const requesBody = [
-  //     {
-  //       // 날씨 정보
-  //       sky: 0, // 하늘 상태
-  //       pty: 0, // 강수 형태
-  //       tmn: 0, // 일 최저 기온
-  //       tmx: 0, // 일 최고 기온
-  //       wsd: 0, // 풍속
-  //       date: '2023-11-02', // 날짜 - "2023-11-02"
-  //     },
-  //     {
-  //       // 날씨 정보
-  //       sky: 0, // 하늘 상태
-  //       pty: 0, // 강수 형태
-  //       tmn: 0, // 일 최저 기온
-  //       tmx: 0, // 일 최고 기온
-  //       wsd: 0, // 풍속
-  //       date: '2023-11-03', // 날짜 - "2023-11-02"
-  //     },
-  //     {
-  //       // 날씨 정보
-  //       sky: 0, // 하늘 상태
-  //       pty: 0, // 강수 형태
-  //       tmn: 0, // 일 최저 기온
-  //       tmx: 0, // 일 최고 기온
-  //       wsd: 0, // 풍속
-  //       date: '2023-11-04', // 날짜 - "2023-11-02"
-  //     },
-  //   ];
+  const [clothesListData, setClothesListData] = useState<any>([]);
+  // const navigate = useNavigate();
+  const clothesData = async () => {
+    const requesBody = [
+      {
+        // 날씨 정보
+        sky: 0, // 하늘 상태
+        pty: 0, // 강수 형태
+        tmn: 0, // 일 최저 기온
+        tmx: 0, // 일 최고 기온
+        wsd: 0, // 풍속
+        date: '2023-11-13', // 날짜 - "2023-11-02"
+      },
+      {
+        // 날씨 정보
+        sky: 0, // 하늘 상태
+        pty: 0, // 강수 형태
+        tmn: 0, // 일 최저 기온
+        tmx: 0, // 일 최고 기온
+        wsd: 0, // 풍속
+        date: '2023-11-14', // 날짜 - "2023-11-02"
+      },
+      {
+        // 날씨 정보
+        sky: 0, // 하늘 상태
+        pty: 0, // 강수 형태
+        tmn: 0, // 일 최저 기온
+        tmx: 0, // 일 최고 기온
+        wsd: 0, // 풍속
+        date: '2023-11-15', // 날짜 - "2023-11-02"
+      },
+    ];
 
-  //   try {
-  //     // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
-  //     const axiosInstance = authInstance({ ContentType: 'application/json' });
-  //     const response = await axiosInstance.post('/ai-rec-outfits/combine', requesBody);
+    try {
+      // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
+      const axiosInstance = authInstance({ ContentType: 'application/json' });
+      const response = await axiosInstance.post('/ai-rec-outfits/combine', requesBody);
 
-  //     console.log('추천 착장 조회 성공', response.data.data);
-  //     setClothesListData(response.data.data);
+      console.log('추천 착장 조회 성공', response.data.data);
+      
+      if (response.data.data) {
+        setClothesListData(response.data.data);
+      } else {
+        setClothesListData([]);
+      }
 
-  //     return response.data;
-  //   } catch (error) {
-  //     console.log('옷 목록 데이터 조회 실패', error);
+      return response.data;
+    } catch (error) {
+      console.log('옷 목록 데이터 조회 실패', error);
 
-  //     // if (error.response.data.status === 500) {
-  //     //     navigate('/mycloset/add-cloth')
-  //     //     // alert('보유한 옷이 적어 추천이 불가능합니다. 옷을 등록해주세요.')
-  //     // }
+      // if (error.response.data.status === 500) {
+      //     navigate('/mycloset/add-cloth')
+      //     // alert('보유한 옷이 적어 추천이 불가능합니다. 옷을 등록해주세요.')
+      // }
 
-  //     // 보유한 옷이 적어 추천이 불가능합니다.
+      // 보유한 옷이 적어 추천이 불가능합니다.
 
-  //     // throw new Error('옷 목록 데이터 조회 실패');
-  //     return null;
-  //   }
-  // };
+      // throw new Error('옷 목록 데이터 조회 실패');
+      return null;
+    }
+  };
 
   // 날씨 기반 리스트
   // const [weatherListData, setWeatherListData] = useState<any>([]);
 
   useEffect(() => {
+    clothesData();
     // setWeatherListData(RecommendClothesListData.recommenWeatherInfo);
   }, []);
-
-  // clothesListData.length > 0 ? (
-  //     <div>
-  //         <br />
-  //         {/* 날씨 기반 추천 리스트 */}
-  //         <RecommendList clothesListData={clothesListData} weatherListData={weatherListData} />
-  //     </div>
-  // ) : (
-  //     <div className="border border-pink-hot w-1/4 h-[50px] flex items-center justify-center rounded-2xl font-WebBody1 font-bold text-pink" onClick={() => navigate('/mycloset/add-cloth')}>옷 등록하러 가기</div>
-  // )}
 
 
   // 중간 점검 이후 덤프 데이터로 다시 UI 구성하는 코드 입니다. 
@@ -149,98 +148,7 @@ const MainPage = () => {
         weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
       },
     ]
-  
-  // 옷 정보
-  const clothesListData = [
-    {
-      "clothesInfo": [
-        {
-          "clothesId": 1, 
-          "largeCategoryId": "100100",
-          "imageUrl": "/images/clothes1.png"
-        },
-        {
-          "clothesId": 2, 
-          "largeCategoryId": "100100",
-          "imageUrl": "/images/clothes2.png"
-        },
-        {
-          "clothesId": 3, 
-          "largeCategoryId": "100100",
-          "imageUrl": "/images/clothes3.png"
-        },
-        {
-          "clothesId": 4, 
-          "largeCategoryId": "100100",
-          "imageUrl": "/images/clothes4.png"
-        }
-      ],
-      "recData": "2023-11-10"
-    },
-    {
-      "clothesInfo": [
-        {
-          "clothesId": 1, 
-          "largeCategoryId": "100100",
-          "imageUrl": "/images/clothes1.png"
-        },
-        {
-          "clothesId": 2, 
-          "largeCategoryId": "100100",
-          "imageUrl": "/images/clothes1.png"
-        },
-        {
-          "clothesId": 3, 
-          "largeCategoryId": "100100",
-          "imageUrl": "/images/clothes1.png"
-        },
-        {
-          "clothesId": 4, 
-          "largeCategoryId": "100100",
-          "imageUrl": "/images/clothes1.png"
-        }
-      ],
-      "recData": "2023-11-10"
-    },
-    {
-      "clothesInfo": [
-        {
-          "clothesId": 1, 
-          "largeCategoryId": "100100",
-          "imageUrl": "/images/clothes1.png"
-        },
-        {
-          "clothesId": 2, 
-          "largeCategoryId": "100100",
-          "imageUrl": "/images/clothes1.png"
-        },
-        {
-          "clothesId": 3, 
-          "largeCategoryId": "100100",
-          "imageUrl": "/images/clothes1.png"
-        },
-        {
-          "clothesId": 4, 
-          "largeCategoryId": "100100",
-          "imageUrl": "/images/clothes1.png"
-        }
-      ],
-      "recData": "2023-11-10"
-    }
-  ]
 
-  useEffect(() => {
-    const body = document.body;
-
-    body.style.background = '#FFF7F9';
-
-    return () => {
-      body.style.background = '';
-    };
-  }, []);
-  
-
-  
 
   return (  
     <div className='relative'>
@@ -249,7 +157,10 @@ const MainPage = () => {
       </div>
 
       {/* 알림 */}
-      <Alert />
+      <div className='absolute z-50 left-1/2 transform -translate-x-1/2 w-[90%] max-w-[400px] min-w-[300px]'>
+        <Alert />
+      </div>
+      
 
         <div className="flex flex-col p-4 mb-4">
           {/* 주소 */}
@@ -263,7 +174,15 @@ const MainPage = () => {
             <UserName />
             
             {/* 날씨 기반 추천 리스트 */}
-            <RecommendList clothesListData={clothesListData} weatherListData={weatherListData} />
+            {clothesListData && clothesListData.length > 0 ? (
+              <>
+                <RecommendList clothesListData={clothesListData} weatherListData={weatherListData} />
+              </>
+            ) : (
+              <>
+                <div className="bg-pink-hot p-4 h-[50px] flex items-center justify-center rounded-2xl font-WebBody1 font-bold text-white" onClick={() => navigate('/mycloset/add-cloth')}>옷 등록하러 가기</div>
+              </>
+            )}
           </div>
           
           {/* 골라골라 */}
@@ -273,12 +192,17 @@ const MainPage = () => {
           <AnalysisTap />
 
           {/* 달력 컴포넌트화 시킬 예정 */}
-          <div className='bg-white rounded-2xl shadow-md p-4 relative'>
+          <div className='bg-white rounded-2xl shadow-md p-4 relative'
+            onClick={() => navigate('/calendar')}
+          >
             <div className='flex'>
               <MainComment title={`오늘 입은 옷을 \n기록해보세요`} />
               <img src="/images/camera3D.png" alt="camera" className='w-1/3 absolute -top-6 right-0' />
             </div>
-            <div className='bg-pink'>이 자리에 달력이 옵니다.</div>
+            <div className='flex justify-center items-center mt-6 border rounded-2xl shadow-md border-pink border-2 p-4 shadow-md relative'>
+              <Calendar state={1} />
+            </div>
+
           </div>
 
           {/* 광고 입니다 */}
@@ -286,7 +210,7 @@ const MainPage = () => {
     
           {/* 지도  */}
           {locationState && (
-            <div className="absolute z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-[60vh] w-[50vw] max-w-[400px] min-w-[300px]">
+            <div className="absolute z-50 left-1/2 transform -translate-x-1/2 h-[60%] w-[80%] max-w-[400px] min-w-[300px]">
               <MapModal
                 currentLocation={currentLocation}
                 address={address}
@@ -302,6 +226,9 @@ const MainPage = () => {
             </div>
           )}
         </div>
+        <div className="fixed bottom-1/3 right-0 me-[5vw]">
+          <Scroll />
+      </div>
     </div>
   );
 };

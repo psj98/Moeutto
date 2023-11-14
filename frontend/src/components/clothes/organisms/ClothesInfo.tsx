@@ -1,6 +1,7 @@
 import ClothesDetailInfo from "../molecules/ClothesDetailInfo";
 import ClothesName from "../atoms/ClothesName";
 
+
 interface PropsType {
     category: string;
     season: string;

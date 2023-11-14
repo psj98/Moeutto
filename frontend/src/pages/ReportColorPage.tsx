@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { authInstance } from '../api/api';
 
 import ClosetReportTemplate from '../components/report/templates/ClosetReportTemplate';
@@ -13,6 +14,12 @@ export interface AnalysisData {
 }
 
 function ReportColorPage() {
+  const naviagte = useNavigate();
+
+  const goMainPage = () => {
+    naviagte('/main');
+  };
+
   const [myAnalysisColor, setMyAnalysisColor] = useState([]);
   const [otherAnalysisColor, setOtherAnalysisColor] = useState([]);
 
@@ -24,9 +31,21 @@ function ReportColorPage() {
     const axiosInstance = authInstance({ ContentType: 'application/json' });
     const response = await axiosInstance.get('/clothes/analysis-color');
 
-    setMyAnalysisColor(response.data.data.myAnalysisColor);
-    setOtherAnalysisColor(response.data.data.userAnalysisColor);
-    setShortReportComment(response.data.data.myAnalysisColor.length >= 7 ? '무지개 인간인가요?' : '무채색 인간인가요?');
+    if (response.data.code === 3002) {
+      Swal.fire({
+        icon: 'error',
+        html: '옷을 먼저 등록해주세요',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
+      goMainPage();
+    } else {
+      setMyAnalysisColor(response.data.data.myAnalysisColor);
+      setOtherAnalysisColor(response.data.data.userAnalysisColor);
+      setShortReportComment(
+        response.data.data.myAnalysisColor.length >= 7 ? '무지개 인간인가요?' : '무채색 인간인가요?'
+      );
+    }
   };
 
   useEffect(() => {

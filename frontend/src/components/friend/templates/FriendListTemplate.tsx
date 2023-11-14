@@ -41,13 +41,13 @@ const FriendListTemplate = ({ seachAction, friendList, value, setValue }: Friend
           {friendList?.length === 0 && value ? `"${value}"라는 ` : null}친구가 없어요 (ㅜ0ㅜ)
         </div>
       ) : (
-        friendList.map(item => {
+        friendList.map((item, index) => {
           return (
             <ProfileCard
-              key={item.email}
+              key={index}
               nickname={item.nickname}
               email={item.email}
-              profileImage={item.profileImage}
+              profileImage="https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg"
               isFollowing={item.isFollowing}
             />
           );
