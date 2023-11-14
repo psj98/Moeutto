@@ -18,6 +18,7 @@ func jinguHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+
 	http.HandleFunc("/recommend", handlers.RecommendationHandler)
 	http.HandleFunc("/kwon", jinguHandler) // "/kwon" 경로에 대한 핸들러 추가
 

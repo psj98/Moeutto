@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
 import java.util.List;
 
 @Getter
@@ -13,10 +12,10 @@ public class AiRecOutfitCombineByAIResponseDto {
 
     private List<Integer> clothesId;
 
-    private Date recDate;
+    private String recDate;
 
     @Builder(toBuilder = true)
-    public AiRecOutfitCombineByAIResponseDto(List<Integer> clothesId, Date recDate) {
+    public AiRecOutfitCombineByAIResponseDto(List<Integer> clothesId, String recDate) {
         this.clothesId = clothesId;
         this.recDate = recDate;
     }
