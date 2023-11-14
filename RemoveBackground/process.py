@@ -138,17 +138,15 @@ def load_seg_model(checkpoint_path, device='cpu'):
     return net
 
 
-def main(img):
-    # 현재 고정된 위치에서 이미지 직접 받아오는 중 -> 인자로 이미지 전달하게 수정해햐 함
+def main(img,model):
     device = 'cpu'
-    checkpoint_path = 'model/cloth_segm.pth'
+    # checkpoint_path = 'model/cloth_segm.pth'
 
 
     print("img segmentation start")
-    # image_path = 'input/03615_00.jpg'
+    # image_path = 'input/test.jpg'
     # img = Image.open(image_path).convert('RGB')
-
-    model = load_seg_model(checkpoint_path, device=device)
+    # model = load_seg_model(checkpoint_path, device=device)
     palette = get_palette(4)
 
     cloth_seg = generate_mask(img, net=model, palette=palette, device=device)
@@ -161,7 +159,7 @@ def main(img):
 
 if __name__ == '__main__':
     # 테스트용 코드
-    image_path = 'input/03615_00.jpg'
+    image_path = 'classification/test.jpg'
     img = Image.open(image_path).convert('RGB')
 
     segmented_image = main(img)
