@@ -53,5 +53,18 @@ const axiosWithAuth = ({ ContentType }: { ContentType: string }): AxiosInstance 
   return instance;
 };
 
+// -----------------AI는 port 9010 입니다--------------------- //
+
+const aiURL = process.env.REACT_APP_AI;
+// 인증 값이 필요하지 않은 AI API
+const axiosAi = () => {
+  const instance: AxiosInstance = axios.create({
+    baseURL: `${aiURL}`,
+  });
+
+  return instance;
+};
+
 export const defaultInstance = axiosApi;
 export const authInstance = axiosWithAuth;
+export const aiInstance = axiosAi;
