@@ -4,12 +4,14 @@ import com.ssafy.moeutto.domain.clothes.entity.IClothesAIRecOutfitCombine;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
+@ToString
 public class AiRecOutfitCombineClothesListByAIRequestDto {
 
     @NotNull

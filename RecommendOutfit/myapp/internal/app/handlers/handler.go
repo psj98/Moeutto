@@ -8,6 +8,11 @@ import (
 )
 
 func RecommendationHandler(w http.ResponseWriter, r *http.Request) {
+
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Max-Age", "10")
+
 	if r.Method != http.MethodPost {
 		http.Error(w, "Only POST method is accepted", http.StatusMethodNotAllowed)
 		return
