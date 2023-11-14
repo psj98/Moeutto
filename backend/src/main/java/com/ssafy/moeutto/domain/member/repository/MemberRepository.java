@@ -44,7 +44,7 @@ public interface MemberRepository extends JpaRepository<Member, UUID> {
             "SELECT 1 FROM following f1 " +
             "WHERE f1.my_id = ?1 AND f1.following_id = m.id) as isFollowing " +
             "FROM member m " +
-            "WHERE m.nickname LIKE CONCAT('%', ?2, '%')", nativeQuery = true)
+            "WHERE m.nickname LIKE CONCAT('%', ?2, '%') AND m.id != ?1 ", nativeQuery = true)
     List<IFriendsListResponseDto> findFriendsListByNickname(UUID memberId, String nickname);
 
 
