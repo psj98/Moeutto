@@ -10,10 +10,10 @@ import java.util.List;
 @NoArgsConstructor
 public class AiRecOutfitCombineListByAIResponseDto {
 
-    private List<AiRecOutfitCombineByAIResponseDto> aiRecOutfitCombineByAIResponseDtoList;
+    private List<AiRecOutfitCombineByAIResponseDto> aiRecommend;
 
     @Builder(toBuilder = true)
-    public AiRecOutfitCombineListByAIResponseDto(List<AiRecOutfitCombineByAIResponseDto> aiRecOutfitCombineByAIResponseDtoList) {
-        this.aiRecOutfitCombineByAIResponseDtoList = aiRecOutfitCombineByAIResponseDtoList;
+    public AiRecOutfitCombineListByAIResponseDto(List<AiRecOutfitCombineByAIResponseDto> aiRecommend) {
+        this.aiRecommend = aiRecommend;
     }
 }
