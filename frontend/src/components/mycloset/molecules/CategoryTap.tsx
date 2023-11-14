@@ -26,7 +26,7 @@ const CategoryTap = ({ title, id, categories, uniqueId }) => {
         orderBy,
       });
 
-      console.log('옷 목록 데이터 조회 성공', response.data);
+      // console.log('옷 목록 데이터 조회 성공', response.data);
 
       if (response.data.data) {
         setClothesData(response.data.data);
@@ -68,12 +68,12 @@ const CategoryTap = ({ title, id, categories, uniqueId }) => {
       setCategoryId('004002');
     } else if (selectedOptionMiddle === '목도리') {
       setCategoryId('004003');
-    } else if (selectedOptionMiddle === '전체') {
+    } else if (selectedOptionMiddle.slice(0,2) === '전체') {
+      console.log('지금 선택한 값', selectedOptionMiddle)
       setCategoryId(id);
-    }
+    } else if (selectedOptionMiddle)
 
-    console.log(clothesData);
-    console.log('지금 선택한 카테고리', selectedOptionMiddle);
+    console.log('지금 선택한 카테고리', selectedOptionMiddle, uniqueId);
   }, [selectedOptionMiddle]);
 
   const [categoryValue, setCategoryValue] = useState<string>('');
