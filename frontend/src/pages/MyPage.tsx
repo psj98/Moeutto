@@ -129,10 +129,10 @@ const MyPage = () => {
   return (
     <>
       {closetFind !== undefined && accountFind !== undefined ? (
-        <div className="flex flex-col text-AppBody1">
+        <div className="flex flex-col text-AppBody1 mx-5">
           {/* 프로필 사진 */}
           <div className="my-10 text-center">
-            <img className="w-24 inline-block" src={`${myPageInfo?.imageUrl}`} alt="프로필 이미지" />
+            <img className="w-24 inline-block rounded-full" src={`${myPageInfo?.imageUrl}`} alt="프로필 이미지" />
           </div>
           {/* 닉네임 */}
           <div className="mb-6">
@@ -149,7 +149,7 @@ const MyPage = () => {
           {/* 옷장 공개 여부 */}
           <div className="mb-6">
             {/* 옷장 공개 여부 글자 */}
-            <p className="mb-2">옷장 공개 여부</p>
+            <p className="mb-2 font-bold">옷장 공개 여부</p>
             {/* on/off 버튼 */}
             <label className="relative inline-flex items-center cursor-pointer">
               <input
@@ -165,7 +165,7 @@ const MyPage = () => {
           {/* 계정 공개 여부 */}
           <div className="mb-6">
             {/* 계정 공개 여부 글자 */}
-            <p className="mb-2">계정 공개 여부</p>
+            <p className="mb-2 font-bold">계정 공개 여부</p>
             {/* on/off 버튼 */}
             <label className="relative inline-flex items-center cursor-pointer">
               <input
@@ -179,21 +179,21 @@ const MyPage = () => {
           </div>
 
           {/* 정보 수정 / 회원 탈퇴 버튼 */}
-          <div className="flex flex-row mb-4">
+          <div className="flex flex-row justify-evenly text-lg font-bold">
             {/* 정보 수정 버튼 */}
             <Button
-              className="pt-2 pb-1 px-3 mr-4 rounded-xl bg-neutral-100 shadow-[1px_4px_4px_0px_rgba(0,0,0,0.15)]"
+              className="pt-2 pb-1 px-3 mr-4 rounded-xl bg-neutral-100 shadow-[1px_4px_4px_0px_rgba(0,0,0,0.15)] hover:bg-[#FAA0B8]"
               onClick={handleModifySubmit}>
               정보수정
             </Button>
             {/* 로그 아웃 버튼 */}
             <Button
-              className="pt-2 pb-1 px-3 mr-4 rounded-xl bg-neutral-100 shadow-[1px_4px_4px_0px_rgba(0,0,0,0.15)]"
+              className="pt-2 pb-1 px-3 mr-4 rounded-xl bg-neutral-100 shadow-[1px_4px_4px_0px_rgba(0,0,0,0.15)] hover:bg-[#FAA0B8]"
               onClick={logout}>
               로그아웃
             </Button>
             {/* 회원 탈퇴 버튼 */}
-            <Button className="pt-2 pb-1 px-3 rounded-xl bg-neutral-100 shadow-[1px_4px_4px_0px_rgba(0,0,0,0.15)]">
+            <Button className="pt-2 pb-1 px-3 rounded-xl bg-neutral-100 shadow-[1px_4px_4px_0px_rgba(0,0,0,0.15)] hover:bg-[#FAA0B8]">
               회원탈퇴
             </Button>
           </div>
