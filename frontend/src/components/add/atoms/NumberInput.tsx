@@ -8,7 +8,7 @@ interface NumberInputProps {
 }
 
 const NumberInput = ({ placeholder, value, onChange }: NumberInputProps) => {
-  return <input type="number" placeholder={placeholder} value={value} onChange={onChange} />;
+  return <input type="number" placeholder={placeholder} value={value.toString()} onChange={onChange} min="0" />;
 };
 
 export default NumberInput;
