@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
 
 @Getter
 @NoArgsConstructor
@@ -18,14 +17,14 @@ public class AiRecOutfitCombineRequestDto {
     private Integer pty; // 강수 상태
 
     @NotNull
-    private Double tmn; // 최저 기온
+    private Float tmn; // 최저 기온
 
     @NotNull
-    private Double tmx; // 최고 기온
+    private Float tmx; // 최고 기온
 
     @NotNull
-    private Double wsd; // 풍속
+    private Float wsd; // 풍속
 
     @NotNull
-    private Date date; // 날짜 정보
+    private String date; // 날짜 정보
 }
