@@ -1,5 +1,6 @@
 package com.ssafy.moeutto.domain.aiCheckOutfit.dto.request;
 
+import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.ResponseWeatherInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,11 +16,11 @@ public class PythonRequestClothesList {
     PythonRequestClothesListItems top;
     PythonRequestClothesListItems bottom;
     PythonRequestClothesListItems item;
-    ClientRequestWeatherInfo weatherInfo;
+    ResponseWeatherInfo weatherInfo;
     @Builder(toBuilder = true)
     public PythonRequestClothesList(PythonRequestClothesListItems outer, PythonRequestClothesListItems top,
                                     PythonRequestClothesListItems bottom, PythonRequestClothesListItems item,
-                                    ClientRequestWeatherInfo weatherInfo){
+                                    ResponseWeatherInfo weatherInfo){
         this.outer = outer;
         this.top = top;
         this.bottom = bottom;
