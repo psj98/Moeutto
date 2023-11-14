@@ -181,6 +181,9 @@ const MainPage = () => {
             ) : (
               <>
                 <div className="bg-pink-hot p-4 h-[50px] flex items-center justify-center rounded-2xl font-WebBody1 font-bold text-white" onClick={() => navigate('/mycloset/add-cloth')}>옷 등록하러 가기</div>
+                <div className='flex justify-center text-[14px] font-gray-dark mt-3'>카테고리별 1가지 이상의 옷을 
+                <br />
+                등록해야 추천받을 수 있어요!</div>
               </>
             )}
           </div>
