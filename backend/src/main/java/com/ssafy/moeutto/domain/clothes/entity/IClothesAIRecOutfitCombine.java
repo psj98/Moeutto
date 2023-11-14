@@ -16,5 +16,5 @@ public interface IClothesAIRecOutfitCombine {
 
     Integer getFrequency(); // 빈도
 
-    Date getRecentDate(); // 최근입은 날짜
+    String getRecentDate(); // 최근입은 날짜
 }

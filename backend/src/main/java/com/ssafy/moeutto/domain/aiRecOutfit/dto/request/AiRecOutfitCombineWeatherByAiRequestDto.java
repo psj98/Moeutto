@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
 
 @Getter
 @NoArgsConstructor
@@ -15,7 +14,7 @@ public class AiRecOutfitCombineWeatherByAiRequestDto {
 
     // 날씨 정보
     @NotNull
-    private Date date; // 날짜 정보
+    private String date; // 날짜 정보
 
     @NotNull
     private Float tmx; // 최고 기온
@@ -28,7 +27,7 @@ public class AiRecOutfitCombineWeatherByAiRequestDto {
 
 
     @Builder(toBuilder = true)
-    public AiRecOutfitCombineWeatherByAiRequestDto(Float tmn, Float tmx, Float wsd, Date date) {
+    public AiRecOutfitCombineWeatherByAiRequestDto(Float tmn, Float tmx, Float wsd, String date) {
         this.tmn = tmn;
         this.tmx = tmx;
         this.wsd = wsd;

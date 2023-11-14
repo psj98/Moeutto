@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
 
 @Getter
 @NoArgsConstructor
@@ -27,5 +26,5 @@ public class AiRecOutfitCombineRequestDto {
     private Float wsd; // 풍속
 
     @NotNull
-    private Date date; // 날짜 정보
+    private String date; // 날짜 정보
 }
