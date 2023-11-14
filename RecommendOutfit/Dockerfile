@@ -1,11 +1,17 @@
 FROM golang:1.21 as build-image
-WORKDIR /recommend
-COPY . /recommend
-RUN go env -w GO111MODULE=auto
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app /recommend/myapp/cmd/myapp/main.go
+
+WORKDIR /go/src/myapp/cmd/myapp
+
+COPY . .
+
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
 
 FROM alpine:latest
+
 RUN apk --no-cache add ca-certificates
+
 WORKDIR /root/
-COPY --from=build-image /recommend/app .
+
+COPY --from=build-image /go/src/myapp/cmd/myapp/app .
+
 CMD ["./app"]
