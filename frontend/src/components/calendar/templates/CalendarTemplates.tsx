@@ -6,13 +6,15 @@ interface TemplateProps {
     setClothesId: React.Dispatch<React.SetStateAction<number>>;
     setIsLikedOutFit: React.Dispatch<React.SetStateAction<number>>;
     handleModalOpen: () => void;
+    updateCalendar: boolean;
 }
 
 const CalendarTemplates = ({
     setShowSelectedImg,
     setClothesId,
     setIsLikedOutFit,
-    handleModalOpen
+    handleModalOpen,
+    updateCalendar
 }: TemplateProps) => {
     return (
         <div className="">
@@ -21,6 +23,7 @@ const CalendarTemplates = ({
                 setClothesId={setClothesId}
                 setIsLikedOutFit={setIsLikedOutFit}
                 handleModalOpen={handleModalOpen}
+                updateCalendar={updateCalendar}
             />
         </div>
     )

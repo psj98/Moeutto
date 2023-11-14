@@ -24,6 +24,9 @@ const CalendarPage = () => {
     // 착장 평가 추워요/더워요 모달
     const [isColdModal, setIsColdModal] = useState<boolean>(false);
 
+    // 착장 등록하면 캘린더 다시 불러오기 위한 state 값
+    const [updateCalendar, setUpdateCalendar] = useState<boolean>(false);
+
     // 상세 페이지 모달 열기
     const handleModalClose = () => {
         setModalVisible(false);
@@ -53,9 +56,11 @@ const CalendarPage = () => {
           likeOutfit
         })
         
-          console.log('착장 평가 성공', response)
-          console.log(isLikedOutFit)
+        console.log('착장 평가 성공', response)
+        console.log('옷 평가 완료', isLikedOutFit)
         
+        setUpdateCalendar(!updateCalendar);
+
       } catch (error) {
         console.log('착장 평가 실패', error)
       }
@@ -63,6 +68,8 @@ const CalendarPage = () => {
 
     // 제출하기
     const onHandleSubmitScore = (number: number): void => {
+      console.log('1. 제출하기 버튼을 눌렀다')
+      console.log('넘버는?', number)
       postScoreData(number);
       setIsOpenedScoreModal(!isOpenedScoreModal);
       // 싫어요 누른 경우
@@ -71,7 +78,6 @@ const CalendarPage = () => {
       }
     }
 
-    // TODO 착장 평가에 성공하면 바로 화면 렌더링 시키기
 
   return (
     <>
@@ -86,6 +92,7 @@ const CalendarPage = () => {
           setClothesId={setClothesId}
           setIsLikedOutFit={setIsLikedOutFit}
           handleModalOpen={handleModalOpen}
+          updateCalendar={updateCalendar}
         />
         <div className='flex gap-2 ms-[20%]'>
           <BsPencil size={15} className='text-gray-dark' /> 
@@ -110,9 +117,6 @@ const CalendarPage = () => {
           <div className='flex justify-center items-center p-6'>
             <img src={showSelectedImg} alt="OutFit" className='w-[60%] h-1/2 bg-white rounded-xl ' />
           </div>
-          {/* {isLikedOutFit && (
-            <img src="/images/report-happy.png" alt="" />
-          )} */}
         </div>
 
       )}
