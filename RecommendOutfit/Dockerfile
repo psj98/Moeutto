@@ -4,6 +4,8 @@ WORKDIR /go/src/myapp/cmd/myapp
 
 COPY . .
 
+RUN go env -w GO111MODULE=auto
+
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
 
 FROM alpine:latest
