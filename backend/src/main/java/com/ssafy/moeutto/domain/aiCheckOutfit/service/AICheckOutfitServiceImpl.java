@@ -246,7 +246,7 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
                 .regDate(now)
                 .clothesResult(clientClothesResult)
                 .clothesFeature(aiCheckOutfitPythonResponseDto.getClothesFeature())
-                .weatherInfo(aiCheckOutfitPythonResponseDto.getWeatherInfo())
+                .weatherInfo(pythonRequestWeatherInfo)
                 .build();
 
         System.out.println("AICheckOutfitServiceImpl aiCheckOutfitClientResponseDto : " + aiCheckOutfitClientResponseDto);
