@@ -5,7 +5,7 @@ import AddClothFormTemplate from '../components/add/templates/AddClothFormTempla
 import MyClosetBar from '../components/common/MyClosetBar';
 
 // api
-import { authInstance } from '../api/api';
+import { authInstance, aiInstance } from '../api/api';
 
 export interface ClothInfoType {
   middleCategoryId: string;
@@ -27,6 +27,8 @@ function AddClothPage() {
   // post api 정의
   const [payload, setPayload] = useState<FormData | null>(null); // forData를 닮을 state
   const [clothId, setClothId] = useState<number>(0); // 저장 완료된 옷의 id
+  // const [imgWithBG, setImgWithBG] = useState<File | null>();
+  // const [base64WithoutBG, setBase64WithoutBG] = useState<string>('');
   const navigate = useNavigate();
 
   const postData = async () => {
@@ -60,6 +62,28 @@ function AddClothPage() {
     }
   };
 
+  const removeBG = async (imgWithBG: File) => {
+    try {
+      if (imgWithBG !== null) {
+        const formdata = new FormData();
+
+        formdata.append('file', imgWithBG as File);
+
+        const response = await aiInstance().post('/predict', formdata, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+        return response;
+      }
+    } catch (error) {
+      console.log(error);
+      throw new Error('AI로 배경 지우기 실패');
+    }
+    return true;
+  };
+
   useEffect(() => {
     // 초기 진입시 post api 호출 함수 실행 방지
     if (payload !== null) {
@@ -80,7 +104,7 @@ function AddClothPage() {
     <div className="myCloset">
       <div className="font-bold text-pink text-WebBody1">My Closet page</div>
       <MyClosetBar state={2} />
-      <AddClothFormTemplate setStateValue={setPayload} />
+      <AddClothFormTemplate setStateValue={setPayload} handleRemoveBG={removeBG} />
     </div>
   );
 }
