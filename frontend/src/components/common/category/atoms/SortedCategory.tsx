@@ -7,6 +7,7 @@ const RadioWrapper = styled.div`
   font-size: 16px;
   margin-top: 14px;
   color: #e2e2e2;
+  font-family: GmarketSansLight;
 `;
 
 const HiddenRadioInput = styled.input`

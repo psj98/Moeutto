@@ -101,7 +101,7 @@ const CategoryTap = ({ title, id, categories, uniqueId }) => {
   return (
     <div className="mb-8">
       <MainCategory title={title} />
-      <div className="flex flex-row items-center">
+      <div className="text-GmarketSansMedium flex flex-row items-center">
         <MiddleCategory
           selectedOptionMiddle={selectedOptionMiddle}
           setSelectedOptionMiddle={setSelectedOptionMiddle}
@@ -109,7 +109,7 @@ const CategoryTap = ({ title, id, categories, uniqueId }) => {
           uniqueId={uniqueId}
         />
         {/* <div className="text-AppBody2 ms-10 h-5"> */}
-        <select className="text-AppBody2 ms-8" value={categoryValue} defaultValue="initial" onChange={onChange}>
+        <select className="text-GmarketSansLight ms-8" value={categoryValue} defaultValue="initial" onChange={onChange}>
           <option value="initial">정렬</option>
           <option value="regDate">등록순</option>
           <option value="frequency1">많이 입은 순</option>
