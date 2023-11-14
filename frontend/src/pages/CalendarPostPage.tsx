@@ -39,7 +39,7 @@ const calendarPostPage = () => {
   const [categoryId, setCategoryId] = useState<string>('000000');
   const [sortBy, setSortBy] = useState<string>('initial');
   const [orderBy, setOrderBy] = useState<number>(0); // 0: 오름차순, 1: 내림차순
-  const [file, setFile] = useState<File>();
+  // const [file, setFile] = useState<File>();
 
   // 카테고리 선택 확인
   useEffect(() => {
@@ -159,8 +159,13 @@ const calendarPostPage = () => {
 
   //   postData();
   // };
+  const [cnt, setCnt] = useState<number>(0);
 
-  const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = async event => {
+  const watchClickSubmit: React.MouseEventHandler<HTMLButtonElement> = () => {
+    setCnt(cnt + 1);
+  };
+
+  const handleSubmit = async (file: File) => {
     try {
       // Create a FormData object and append the file to it
 
@@ -168,11 +173,8 @@ const calendarPostPage = () => {
       const axiosInstance = authInstance({ ContentType: 'multipart/form-data' }); // No need to specify Content-Type here
       const formData = new FormData();
 
-      console.log(typeof file);
       formData.append('file', file as File); // 이제 파일 크기가 0이 아니어야 함
-      for (const values of formData.values()) {
-        console.log('아 폼에 있냐고~~~~~~~~~', values);
-      }
+
       // Send the FormData in a POST request
       const response = await axiosInstance.post('/calendars/regist', formData);
 
@@ -197,7 +199,7 @@ const calendarPostPage = () => {
 
   return (
     <>
-      <PostEditorTemplate setFile={setFile}></PostEditorTemplate>
+      <PostEditorTemplate handleSubmit={handleSubmit} cnt={cnt}></PostEditorTemplate>
       <PickComponent
         selectedOptionMain={selectedOptionMain}
         setSelectedOptionMain={setSelectedOptionMain}
@@ -205,7 +207,7 @@ const calendarPostPage = () => {
         setSelectedOptionMiddle={setSelectedOptionMiddle}
         selectedOptionSort={selectedOptionSort}
         setSelectedOptionSort={setSelectedOptionSort}
-        handleSubmit={handleSubmit}
+        handleSubmit={watchClickSubmit}
         clothesData={clothesData}
       />
       <ScrollSection className="scroll fixed bottom-[150px]">
