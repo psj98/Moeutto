@@ -13,9 +13,9 @@ const Alert = () => {
             <img 
                 src="/images/alert.png" 
                 alt="alert" 
-                className="w-[5%] min-w-[70px] absolute mt-[3%] right-0"
+                className="w-[5%] min-w-[70px] absolute mt-[3%] -right-6"
                 onClick={showAlertModal} 
-                style={{ position: 'fixed', top: 0, right: 0, zIndex: 50 }}
+                style={{ position: 'fixed', top: 0, zIndex: 50 }}
             />
             {isAlertModalOpen && (
                 <MyGuestBook setIsAlertModalOpen={setIsAlertModalOpen} />
