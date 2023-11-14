@@ -26,6 +26,7 @@ import com.ssafy.moeutto.global.response.BaseException;
 import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -43,6 +44,8 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
     private final LargeCategoryRepository largeCategoryRepository;
     private final MemberRepository memberRepository;
 
+    @Value("${go.recommend.request.url}")
+    private String url;
     /**
      * AI가 날씨에 따라 착장을 추천해줍니다.
      *
@@ -213,7 +216,7 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
     @Override
     public AiRecOutfitCombineListByAIResponseDto getOutfitByAI(AiRecOutfitCombineByAIRequestDto aiRecOutfitCombineByAIRequestDto) throws JsonProcessingException, BaseException {
         // Go로 정보 전달
-        String url = "http://localhost:9000/recommend"; // Go 요청 url
+//        String url = "http://localhost:9000/recommend"; // Go 요청 url
         RestTemplate restTemplate = new RestTemplate();
 
         // 착장 추천 및 데이터 반환
