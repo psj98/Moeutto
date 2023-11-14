@@ -4,24 +4,23 @@ import com.ssafy.moeutto.domain.largeCategory.dto.response.LargeCategoryDetailRe
 import com.ssafy.moeutto.global.response.BaseException;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface LargeCategoryService {
 
     /**
      * 대분류 카테고리 목록을 조회합니다.
      *
-     * @return List<LargeCategoryDetailResponseDto>
-     * @throws BaseException
+     * @return List<LargeCategoryDetailResponseDto> - 대분류 카테고리 목록
+     * @throws BaseException - BaseResponse Error 처리
      */
     List<LargeCategoryDetailResponseDto> getLargeCategoryList() throws BaseException;
 
     /**
      * 대분류 카테고리를 조회합니다.
      *
-     * @param id
-     * @return LargeCategoryDetailResponseDto
-     * @throws BaseException
+     * @param id - 대분류 카테고리 id
+     * @return LargeCategoryDetailResponseDto - 대분류 카테고리 정보
+     * @throws BaseException - BaseResponse Error 처리
      */
     LargeCategoryDetailResponseDto getLargeCategoryDetail(String id) throws BaseException;
 }

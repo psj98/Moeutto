@@ -2,7 +2,6 @@ package com.ssafy.moeutto.domain.calendar.service;
 
 import com.ssafy.moeutto.domain.S3.dto.response.S3ResponseDto;
 import com.ssafy.moeutto.domain.S3.service.S3Service;
-import com.ssafy.moeutto.domain.calendar.dto.request.CalendarRegistRequestDto;
 import com.ssafy.moeutto.domain.calendar.dto.request.CalendarScoreRequestDto;
 import com.ssafy.moeutto.domain.calendar.dto.response.CalendarListResponseDto;
 import com.ssafy.moeutto.domain.calendar.dto.response.CalendarResponseDto;
@@ -55,16 +54,16 @@ public class CalendarServiceImpl implements CalendarService {
         Optional<Calendar> calendarOptional = calendarRepository.findByRegDate(todayDate);
 
         //캘린더가 이미 존재하는지 여부 파악
-        if(calendarOptional.isPresent()){
+        if (calendarOptional.isPresent()) {
             throw new BaseException(BaseResponseStatus.DUPLICATED_CALENDAR_INFO);
         }
 
         S3ResponseDto s3ResponseDto;
 
         //옷 사진 S3에 등록
-        try{
+        try {
             s3ResponseDto = s3Service.uploadImage(token, file);
-        }catch (IOException e){
+        } catch (IOException e) {
             throw new BaseException(BaseResponseStatus.S3_FILE_IO_ERROR);
         }
 

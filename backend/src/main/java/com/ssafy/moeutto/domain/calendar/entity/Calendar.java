@@ -32,8 +32,7 @@ public class Calendar {
     private Date regDate;
 
     @Builder(toBuilder = true)
-    public Calendar(Integer id, UUID memberId, Integer likeOutfit,
-                    String imageUrl, Date regDate) {
+    public Calendar(Integer id, UUID memberId, Integer likeOutfit, String imageUrl, Date regDate) {
         this.id = id;
         this.imageUrl = imageUrl;
         this.memberId = memberId;
