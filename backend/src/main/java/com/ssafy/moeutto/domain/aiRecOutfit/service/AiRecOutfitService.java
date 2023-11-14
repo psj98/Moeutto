@@ -2,7 +2,10 @@ package com.ssafy.moeutto.domain.aiRecOutfit.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.moeutto.domain.aiRecOutfit.dto.request.AiRecOutfitCombineByAIRequestDto;
+import com.ssafy.moeutto.domain.aiRecOutfit.dto.request.AiRecOutfitCombineClothesListByAIRequestDto;
 import com.ssafy.moeutto.domain.aiRecOutfit.dto.request.AiRecOutfitCombineRequestDto;
+import com.ssafy.moeutto.domain.aiRecOutfit.dto.request.AiRecOutfitCombineWeatherByAiRequestDto;
+import com.ssafy.moeutto.domain.aiRecOutfit.dto.response.AiRecOutfitCombineListByAIResponseDto;
 import com.ssafy.moeutto.domain.aiRecOutfit.dto.response.AiRecOutfitCombineResponseDto;
 import com.ssafy.moeutto.global.response.BaseException;
 
@@ -19,6 +22,31 @@ public interface AiRecOutfitService {
      * @return List<AIRecOutfitCombineResponseDto>
      */
     List<AiRecOutfitCombineResponseDto> recommendAiOutfit(UUID memberId, List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) throws BaseException, JsonProcessingException;
+
+    /**
+     * Go로 전달할 대분류 카테고리 별 옷 정보 정제
+     *
+     * @param memberId
+     * @return AiRecOutfitCombineClothesListByAIRequestDto
+     */
+    AiRecOutfitCombineClothesListByAIRequestDto getClothesInfo(UUID memberId);
+
+    /**
+     * Go로 전달할 날씨 정보 정제
+     *
+     * @param aiRecOutfitCombineRequestDtoList
+     * @return List<AiRecOutfitCombineWeatherByAiRequestDto>
+     */
+    List<AiRecOutfitCombineWeatherByAiRequestDto> getWeatherInfo(List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList);
+
+    /**
+     * Go로 옷 정보 + 날씨 정보 전달 및 추천 데이터 반환
+     *
+     * @param aiRecOutfitCombineByAIRequestDto
+     * @return AiRecOutfitCombineListByAIResponseDto
+     * @throws JsonProcessingException
+     */
+    AiRecOutfitCombineListByAIResponseDto getOutfitByAI(AiRecOutfitCombineByAIRequestDto aiRecOutfitCombineByAIRequestDto) throws JsonProcessingException;
 
     /**
      * Client & Back 테스트 코드
@@ -44,7 +72,7 @@ public interface AiRecOutfitService {
      * 현재 날짜 기준으로 AI가 추천한 착장을 조회합니다.
      *
      * @param memberId
-     * @return
+     * @return List<AiRecOutfitCombineResponseDto>
      */
     List<AiRecOutfitCombineResponseDto> detailAiOutfit(UUID memberId) throws BaseException;
 }

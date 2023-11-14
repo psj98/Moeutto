@@ -32,8 +32,7 @@ public class AiRecOutfitController {
      * @param aiRecOutfitCombineRequestDtoList
      * @return List<AiRecOutfitCombineResponseDto>
      */
-//    @PostMapping("/combine")
-    @PostMapping("/combine-python-back-front")
+    @PostMapping("/combine")
     public BaseResponse<Object> recommendAiOutfit(@RequestHeader(value = "accessToken", required = false) String token,
                                                   @RequestBody List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) {
         try {
@@ -48,7 +47,7 @@ public class AiRecOutfitController {
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
         } catch (JsonProcessingException e) {
-            return baseResponseService.getFailureResponse(BaseResponseStatus.NOT_FOUND_MEMBER);
+            return baseResponseService.getFailureResponse(BaseResponseStatus.JSON_PARSE_ERROR);
         }
     }
 
@@ -83,8 +82,7 @@ public class AiRecOutfitController {
      * @param aiRecOutfitCombineRequestDtoList
      * @return AiRecOutfitCombineByAIRequestDto
      */
-//    @PostMapping("/combine-python-back-front")
-    @PostMapping("/combine")
+    @PostMapping("/combine-front")
     public BaseResponse<Object> recommendAiOutfitTestPythonBackFront(@RequestHeader(value = "accessToken", required = false) String token,
                                                                      @RequestBody List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) {
         try {
