@@ -1,7 +1,7 @@
 FROM golang:1.21 as build-image
 WORKDIR /recommend
 COPY . /recommend
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app /myapp/cmd/myapp/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app /recommend
 
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
