@@ -6,13 +6,9 @@ COPY . /app
 RUN echo "$PWD"
 RUN ls
 
-WORKDIR /myapp/cmd/myapp
-
-RUN echo "$PWD"
-RUN ls
 RUN go env -w GO111MODULE=off
-RUN go build -o main.go
+RUN go build -o /myapp/cmd/myapp/main.go
 
 EXPOSE 9000
 
-CMD ["./main.go"]
+CMD ["./myapp/cmd/myapp/main.go"]
