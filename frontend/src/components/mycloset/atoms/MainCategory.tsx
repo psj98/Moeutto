@@ -1,13 +1,13 @@
 interface PropsType {
-    title: string;
+  title: string;
 }
 
-const MainCategory = ({ title }: PropsType ) => {
-    return (
-        <>
-            <div>{title}</div>
-        </>
-    )
-}
+const MainCategory = ({ title }: PropsType) => {
+  return (
+    <>
+      <div className="font-bold">{title}</div>
+    </>
+  );
+};
 
 export default MainCategory;

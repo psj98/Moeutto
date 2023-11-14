@@ -4,7 +4,6 @@ import styled from 'styled-components';
 const RadioWrapper = styled.div`
   display: flex;
   gap: 10px;
-  font-size: 16px;
   margin-top: 7px;
 `;
 
@@ -14,7 +13,6 @@ const HiddenRadioInput = styled.input`
 
 const BoldLabel = styled.label<{ selected: boolean }>`
   cursor: pointer;
-  font-size: 12px;
   background-color: ${({ selected }) => (selected ? 'rgba(163, 163, 163, 0.4)' : '')};
   color: ${({ selected }) => (selected ? 'white' : '')};
   &:hover {
@@ -30,45 +28,40 @@ interface MiddleCategoryTopProps {
   uniqueId: number;
 }
 
-
-const MiddleCategory: React.FC<MiddleCategoryTopProps> = ({ 
-    categories, 
-    selectedOptionMiddle, 
-    setSelectedOptionMiddle 
+const MiddleCategory: React.FC<MiddleCategoryTopProps> = ({
+  categories,
+  selectedOptionMiddle,
+  setSelectedOptionMiddle,
 }: MiddleCategoryTopProps) => {
-
-
-  const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => { 
-    console.log('지금 내가 선택한 카테고리', e.target.id)
+  const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('지금 내가 선택한 카테고리', e.target.id);
     const selectedId = e.target.id;
 
     setSelectedOptionMiddle(selectedId);
-    
   };
 
   return (
-    <div className='mb-2'>
-        <RadioWrapper>
+    <div className="mb-2">
+      <RadioWrapper>
         {categories?.map((category, index) => (
-            <div key={index}>
+          <div key={index}>
             <HiddenRadioInput
-                type="radio"
-                id={category.toLowerCase()}
-                name="category"
-                checked={selectedOptionMiddle === category.toLowerCase()}
-                onChange={handleOptionChange}
+              type="radio"
+              id={category.toLowerCase()}
+              name="category"
+              checked={selectedOptionMiddle === category.toLowerCase()}
+              onChange={handleOptionChange}
             />
-            <BoldLabel 
-                htmlFor={category.toLowerCase()} 
-                selected={selectedOptionMiddle === category.toLowerCase()}
-                className='border p-1 px-1 pt-2 rounded-2xl flex items-center justify-center min-w-[60px]'
-            >
+            <BoldLabel
+              htmlFor={category.toLowerCase()}
+              selected={selectedOptionMiddle === category.toLowerCase()}
+              className="text-sm font-bold border p-1 px-1 pt-2 rounded-2xl flex items-center justify-center min-w-[60px]">
               {/* 카테고리 이름을 전체1, 전체2, 전체3, 전체4로 한 뒤 출력은 무조건 '전체'로 되게 했음 */}
-                {category.slice(0, 2) === '전체' ? category.slice(0, 2) : category}
+              {category.slice(0, 2) === '전체' ? category.slice(0, 2) : category}
             </BoldLabel>
-            </div> 
+          </div>
         ))}
-        </RadioWrapper>
+      </RadioWrapper>
     </div>
   );
 };
