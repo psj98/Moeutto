@@ -1,8 +1,8 @@
 FROM golang:1.21
 ENV GO111MODULE=on
 WORKDIR /app
-RUN ls -al
-RUN echo "$(pwd)"
+RUN pwd
+RUN echo "$PWD"
 COPY ./myapp/go.mod .
 COPY ./myapp/go.sum .
 COPY . .
