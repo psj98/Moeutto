@@ -30,6 +30,8 @@
     "fabric": "^5.3.0",
     "fabricjs-react": "^1.2.1",
     "html-to-image": "^1.11.11",
+    "http-proxy-middleware": "^2.0.6",
+    "js-base64": "^3.7.5",
     "postcss": "^8.4.31",
     "postcss-loader": "6",
     "prettier": "^2.8.8",
