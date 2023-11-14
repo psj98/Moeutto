@@ -67,7 +67,7 @@ const MiddleCategory: React.FC<MiddleCategoryTopProps> = ({
             <BoldLabel 
                 htmlFor={category.toLowerCase()} 
                 selected={selectedOptionMiddle === category.toLowerCase()}
-                className='border p-1 px-1 pt-2 rounded-2xl flex items-center justify-center min-w-[55px]'
+                className='border p-1 px-1 pt-2 rounded-2xl flex items-center justify-center min-w-[60px]'
             >
                 {category}
             </BoldLabel>
