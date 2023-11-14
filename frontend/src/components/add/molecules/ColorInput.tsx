@@ -35,7 +35,7 @@ const ColorInput = ({ value, onChange }: AddClothFormProps) => {
   return (
     <>
       <Label id="color" value="옷의 색깔" isEssential={true} />
-      <div className="flex flex-wrap">
+      <div className="grid grid-cols-6">
         <Fade delay={1e2} cascade direction="down" damping={0.1} triggerOnce>
           {ColorPalette.map((option, index) => {
             return (

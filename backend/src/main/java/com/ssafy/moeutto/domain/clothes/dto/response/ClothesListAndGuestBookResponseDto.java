@@ -5,14 +5,20 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
+/**
+ * 옷 목록 + 방명록 목록 Response Dto
+ */
 @Getter
 @NoArgsConstructor
 public class ClothesListAndGuestBookResponseDto {
 
+    @NotNull
     private List<ClothesListResponseDto> clothesListResponseDto; // 옷 목록
 
+    @NotNull
     private List<GuestBookListResponseDto> guestBookListResponseDto; // 방명록 목록
 
     @Builder(toBuilder = true)

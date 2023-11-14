@@ -29,10 +29,10 @@ public class GuestBookServiceImpl implements GuestBookService {
     /**
      * 방명록을 등록합니다.
      *
-     * @param memberId
-     * @param guestBookRegistRequestDto
-     * @return GuestBookRegistResponseDto
-     * @throws BaseException
+     * @param memberId                  - 사용자 UUID
+     * @param guestBookRegistRequestDto - 방명록 주인 이메일 + 글 정보
+     * @return GuestBookRegistResponseDto - 방명록 등록 정보
+     * @throws BaseException - BaseResponse Error 처리
      */
     @Override
     public GuestBookRegistResponseDto registGuestBook(UUID memberId, GuestBookRegistRequestDto guestBookRegistRequestDto) throws BaseException {
@@ -49,20 +49,18 @@ public class GuestBookServiceImpl implements GuestBookService {
 
         GuestBook newGuestBook = guestBookRepository.save(guestBook); // 방명록 저장
 
-        // 반환할 방명록 (TEST용)
-        GuestBookRegistResponseDto guestBookRegistResponseDto = GuestBookRegistResponseDto.builder()
+        // 등록된 방명록 정보 - TEST 용도
+        return GuestBookRegistResponseDto.builder()
                 .guestBook(newGuestBook)
                 .build();
-
-        return guestBookRegistResponseDto;
     }
 
     /**
      * 옷장을 조회할 때, 사용자 id에 따른 방명록 목록을 반환합니다.
      *
-     * @param memberId
-     * @return List<GuestBookListResponseDto>
-     * @throws BaseException
+     * @param memberId - 사용자 UUID
+     * @return List<GuestBookListResponseDto> - 방명록 목록
+     * @throws BaseException - BaseResponse Error 처리
      */
     public List<GuestBookListResponseDto> listGuestBook(UUID memberId) throws BaseException {
         // 사용자 정보 체크
@@ -70,6 +68,7 @@ public class GuestBookServiceImpl implements GuestBookService {
 
         List<GuestBook> guestBookList = guestBookRepository.findAllByOwnerId(memberId); // 주인 옷장에 적힌 방명록 목록 가져오기
 
+        // 방명록 목록에서 반환할 데이터 정제
         List<GuestBookListResponseDto> guestBookListResponseDtoList = new ArrayList<>();
         for (GuestBook guestBook : guestBookList) {
             GuestBookListResponseDto guestBookListResponseDto = GuestBookListResponseDto.builder()

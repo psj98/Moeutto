@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+/**
+ * 옷 색상 분석 Response Dto
+ */
 @Getter
 @NoArgsConstructor
 public class ClothesAnalysisColorResponseDto {

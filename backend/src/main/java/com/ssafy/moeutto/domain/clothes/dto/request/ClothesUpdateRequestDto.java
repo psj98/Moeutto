@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * 옷 수정 정보 Request Dto
+ */
 @Getter
 @NoArgsConstructor
 public class ClothesUpdateRequestDto {
