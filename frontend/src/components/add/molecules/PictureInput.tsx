@@ -4,12 +4,15 @@ import styled from 'styled-components';
 import { TbTrashXFilled } from 'react-icons/tb';
 import { PiSelectionBackgroundDuotone } from 'react-icons/pi';
 import { IconButton } from '@mui/material';
+import { Fade } from 'react-awesome-reveal';
+
 import ImageInput from '../atoms/ImageInput';
 import PreviewImage from '../atoms/PreviewPicture';
-// import StyledButton from '../atoms/Button';
 
 interface Props {
   setStateValue: Dispatch<SetStateAction<File>>;
+  handleIconClick: () => Promise<any>;
+  // clothBase64WithoutBG: string; // 배경 제거된 이미지 base64 값
 }
 
 const Pic = styled.div`
@@ -27,9 +30,17 @@ const Pic = styled.div`
     max-height: 460px;
     border: 5px solid black;
     border-radius: 35px;
+    @media screen and (max-width: 500px) {
+      width: calc(70vw * 0.8);
+      height: calc(70vw * 0.8);
+    }
   }
 
+  .isNotRemoving {
+    display: none;
+  }
   .isRemoving {
+    z-index: 200;
     position: absolute;
     display: flex;
     justify-content: center;
@@ -37,6 +48,7 @@ const Pic = styled.div`
     font-size: 20px;
     font-weight: 800;
     color: black;
+    flex-direction: column;
     text-align: center;
     vertical-align: middle;
     width: calc(70vw * 0.8 * 0.7);
@@ -54,6 +66,10 @@ const Pic = styled.div`
 
     animation: borderRainbow 10s infinite linear;
     -webkit-animation: borderRainbow 10s infinite linear; // for Chrome
+    @media screen and (max-width: 500px) {
+      width: calc(70vw * 0.8);
+      height: calc(70vw * 0.8);
+    }
   }
 
   @-webkit-keyframes borderRainbow {
@@ -121,37 +137,75 @@ const Container = styled.div`
   }
 `;
 
-const PictureInput = ({ setStateValue }: Props) => {
+const PictureInput = ({ setStateValue, handleIconClick }: Props) => {
   const [file, setFile] = useState<File | null>(null);
-  // const [originFile, setOriginFile]= useState<File | null>(null); // 배경제거후 애니메이션을 위해 사용
+  const [isRemoving, setIsRemoving] = useState<Boolean>(false); // 배경 제거 표시 애니메이션을 위해 사용
   const [preview, setPreview] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
+  // 파일 입력 다루는 함수 : 유저가 파일을 업로드하면 받아들이는 함수
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files[0]) {
       const selectedFile = event.target.files[0];
 
       if (selectedFile && selectedFile.type.substring(0, 5)) {
         // 이미지 파일이면
-        setFile(selectedFile);
+        setFile(selectedFile); // 받아들입니다
+        event.target.value = ''; // 같은 파일 입력받기 위해서 필요합니다
       } else {
         // 이미지 파일 아니면
-        setFile(null);
+        setFile(null); // 받아들이지 않습니다.
+        event.target.value = ''; // 같은 파일 입력받기 위해서 필요합니다
       }
-
       // 프리뷰에 파일을 전달함
       // onPreview(selectedFile);
     }
   };
+  // 다시 찍기 함수 : '다시찍기' 버튼 클릭 시 input을 초기화하고 클릭합니다.
   const undo = e => {
-    // '다시찍기' 버튼 클릭 시 input을 초기화하고 클릭합니다.
     if (file) {
-      setFile(null);
+      setFile(null); // input을 초기화
     }
-    inputRef.current.click();
+    inputRef.current.click(); // input element를 클릭한 것처럼 행동하게 하기
   };
-  const removeBG = () => {
-    // api 연결 // Return 받은 이미지 file 에 저장 originFile에 이미지 저장후 애니메이션
+  // 배경 지우기 함수 :
+
+  // base64를 이미지 파일로 변환
+  function base64ToImageFile(base64, filename) {
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length);
+
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: 'image/png' }); // 이미지 유형에 따라 변경
+
+    const imageFile = new File([blob], filename, { type: 'image/png' }); // 이미지 유형에 따라 변경
+
+    return imageFile;
+  }
+
+  const removeBG = async () => {
+    setIsRemoving(true); // 작업 중 true로 바꾸고
+    await handleIconClick().then(res => {
+      const base64String = res.data.file; // Base64 문자열을 여기에 넣으세요
+      const fileName = 'image.png'; // 이미지 파일 이름을 설정하세요
+
+      const imageFile = base64ToImageFile(base64String, fileName);
+
+      setPreview(base64String);
+      setFile(imageFile);
+      // // 이미지 파일을 브라우저에서 표시
+      const imageUrl = URL.createObjectURL(imageFile);
+
+      setPreview(imageUrl);
+      const img = new Image();
+
+      img.src = imageUrl;
+      // // ai에 넘겨주고 받아온다
+      setIsRemoving(false); // 작업 완료되면 false로 바꾼다  // 사용 예시
+    });
     return true;
   };
 
@@ -169,8 +223,8 @@ const PictureInput = ({ setStateValue }: Props) => {
     }
   }, [file]);
 
-  // 올가니즘에서 상태로 저장하기 위해 실행하는 코드
   useEffect(() => {
+    // organism의 form의 상태로 저장하기 위해 실행하는 setState 함수
     setStateValue(file);
   }, [file]);
 
@@ -182,10 +236,18 @@ const PictureInput = ({ setStateValue }: Props) => {
           {preview ? (
             <>
               <PreviewImage imageSrc={preview} />
-              <span className="isRemoving">이미지 배경 제거 중</span>
+              {/* <span className={`${isRemoving ? 'isRemoving' : ''}`}> */}
+              <div className={`${isRemoving ? 'isRemoving' : 'isNotRemoving'}`}>
+                <Fade delay={1e1} cascade damping={1e-1}>
+                  ai가 배경을 제거하고
+                </Fade>
+                <Fade delay={1e3} cascade damping={1e-1}>
+                  옷을 분석 중입니다
+                </Fade>
+              </div>
             </>
           ) : null}
-          {preview ? ( // 이미지를 제출하면 보입니다
+          {preview ? ( // 이미지를 제출하면 배경 지우기 버튼과 다시 찍기 버튼이 보입니다
             <span className="mid">
               <IconButton onClick={undo} className="inline-block delete" aria-label="delete" size="large">
                 <TbTrashXFilled className="w-[60px]" size="60" />

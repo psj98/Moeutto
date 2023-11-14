@@ -108,6 +108,7 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
                         .aiRecOutfitId(aiRecOutfit.getId())
                         .build();
 
+                // 데이터가 없는 경우 체크
                 if (clothesId == -1) {
                     continue;
                 }
@@ -183,7 +184,7 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
     @Override
     public List<AiRecOutfitCombineWeatherByAiRequestDto> getWeatherInfo(List<AiRecOutfitCombineRequestDto> aiRecOutfitCombineRequestDtoList) {
         List<AiRecOutfitCombineWeatherByAiRequestDto> aiRecOutfitCombineWeatherByAiRequestDtoList = new ArrayList<>();
-        
+
         // 날씨 정보 정제
         for (AiRecOutfitCombineRequestDto weatherInfo : aiRecOutfitCombineRequestDtoList) {
             AiRecOutfitCombineWeatherByAiRequestDto aiRecOutfitCombineWeatherByAiRequestDto = AiRecOutfitCombineWeatherByAiRequestDto.builder()

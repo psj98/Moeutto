@@ -77,25 +77,6 @@ const ShowMap: React.FC<ShowMapPropsType> = ({
         }
     } 
 
-    // 키워드로 장소 검색하기
-    // const placesSearchCB = (data, status, pagination) => {
-    //     if (status === window.kakao.maps.services.Status.OK) {
-    //         const bounds = new window.kakao.maps.LatLngBounds();
-
-    //         for (let i=0; i<data.length; i++) { 
-    //             bounds.extend(new window.kakao.maps.LatLng(data[i].y, data[i].x));
-    //         } 
-
-    //         map.setBounds(bounds);
-    //     }
-    // }
-
-    // if (ps) {
-    //     ps.keywordSearch(newLocation, placesSearchCB);
-    // }
-
-
-
     useEffect(() => {
         if (mapRef.current) {
             const container = mapRef.current; // 지도를 담을 영역의 DOM
