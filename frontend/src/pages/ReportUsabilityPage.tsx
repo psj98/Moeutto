@@ -37,11 +37,10 @@ const InnerContainer = styled.div`
 `;
 
 const ReportCostPage = () => {
-  const [totalAmount, setTotalAmount] = useState(Number);
-  const [usedAmount, setUsedAmount] = useState(Number);
   const [analysisAmountList, setAnalysisAmountList] = useState([]);
   const [minLargeCategoryName, setMinLargeCategoryName] = useState('');
   const [maxLargeCategoryName, setMaxLargeCategoryName] = useState('');
+  const [barValue, setBarValue] = useState(Number);
 
   const [shortReportComment, setShortReportComment] = useState('');
 
@@ -77,8 +76,6 @@ const ReportCostPage = () => {
         });
       }
 
-      setTotalAmount(response.data.data?.totalAmount);
-      setUsedAmount(response.data.data?.usedAmount);
       setAnalysisAmountList(response.data.data.analysisAmountList);
 
       setShortReportComment(
@@ -91,6 +88,10 @@ const ReportCostPage = () => {
 
       setMaxLargeCategoryName(response.data.data.maxLargeCategoryName);
       setMinLargeCategoryName(response.data.data.minLargeCategoryName);
+      setBarValue(
+        (response.data.data?.usedAmount * 100) /
+          (response.data.data?.totalAmount === 0 ? 1 : response.data.data?.totalAmount)
+      );
     } catch (error) {
       throw new Error('옷이 부족합니다.');
     }
@@ -108,18 +109,14 @@ const ReportCostPage = () => {
       {/* 간단 분석 문구 */}
       <ShortReportComment
         imageDivClass="absolute top-[-35px] left-[0px]"
-        imageUrl={`${
-          (usedAmount * 100) / (totalAmount === 0 ? 1 : totalAmount) >= 50
-            ? '/images/uniform.png'
-            : '/images/sponge.png'
-        }`}
+        imageUrl={`${barValue >= 50 ? '/images/uniform.png' : '/images/sponge.png'}`}
         imageClass="w-24 inline-block"
         mainTitle={shortReportComment}
       />
 
       <div className="flex flex-col items-center my-10">
         <OuterContainer>
-          <InnerContainer className={`w-[${(usedAmount * 100) / (totalAmount === 0 ? 1 : totalAmount)}%]`} />
+          <InnerContainer style={{ width: `${barValue}%` }} />
         </OuterContainer>
         <div className="flex gap-[200px] mt-1 mb-8">
           <div className="text-[12px] text-gray-dark">단벌신사</div>
