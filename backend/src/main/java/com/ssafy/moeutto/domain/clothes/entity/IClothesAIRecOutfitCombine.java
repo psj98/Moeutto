@@ -1,8 +1,10 @@
 package com.ssafy.moeutto.domain.clothes.entity;
 
+import java.sql.Date;
+
 public interface IClothesAIRecOutfitCombine {
 
-    Integer getId(); // 옷 정보 id
+    Integer getClothesId(); // 옷 정보 id
 
     String getSeason(); // 계절
 
@@ -13,4 +15,6 @@ public interface IClothesAIRecOutfitCombine {
     String getTextile(); // 소재
 
     Integer getFrequency(); // 빈도
+
+    String getRecentDate(); // 최근입은 날짜
 }
