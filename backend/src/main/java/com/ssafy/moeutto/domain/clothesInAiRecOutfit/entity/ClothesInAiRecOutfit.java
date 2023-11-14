@@ -1,4 +1,4 @@
-package com.ssafy.moeutto.domain.clothesInAiOutfit.entity;
+package com.ssafy.moeutto.domain.clothesInAiRecOutfit.entity;
 
 import com.ssafy.moeutto.domain.aiRecOutfit.entity.AiRecOutfit;
 import com.ssafy.moeutto.domain.clothes.entity.Clothes;

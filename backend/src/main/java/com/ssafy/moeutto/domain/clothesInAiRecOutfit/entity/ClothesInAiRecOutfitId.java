@@ -1,4 +1,4 @@
-package com.ssafy.moeutto.domain.clothesInAiOutfit.entity;
+package com.ssafy.moeutto.domain.clothesInAiRecOutfit.entity;
 
 import lombok.*;
 
