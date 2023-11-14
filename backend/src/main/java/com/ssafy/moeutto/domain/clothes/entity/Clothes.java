@@ -12,6 +12,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
+/**
+ * 옷 Entity
+ */
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

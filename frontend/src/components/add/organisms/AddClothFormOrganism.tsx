@@ -228,7 +228,9 @@ const AddClothFormOrganism = ({ setStateValue, handleRemoveBG }: Props) => {
           <NameInput onChange={handleClothNameChange} value={clothName} />
           <PriceInput onChange={handleClothPriceChange} value={clothPrice} />
           <BrandInput onChange={handleClothBrand} value={clothBrand} />
-          <SubmitButton onChange={handleSubmit} />
+          <div className="mt-5 font-bold">
+            <SubmitButton onChange={handleSubmit} />
+          </div>
         </div>
       </Form>
     </FormContainer>

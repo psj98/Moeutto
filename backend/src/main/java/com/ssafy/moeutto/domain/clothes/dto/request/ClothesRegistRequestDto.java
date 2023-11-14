@@ -2,10 +2,12 @@ package com.ssafy.moeutto.domain.clothes.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * 옷 등록 정보 Request Dto
+ */
 @Getter
 @NoArgsConstructor
 public class ClothesRegistRequestDto {
@@ -30,5 +32,4 @@ public class ClothesRegistRequestDto {
     private String shop; // 구매처
 
     private String textile; // 소재
-
 }

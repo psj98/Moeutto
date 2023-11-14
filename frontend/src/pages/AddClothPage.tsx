@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import AddClothFormTemplate from '../components/add/templates/AddClothFormTemplate';
@@ -100,9 +100,11 @@ function AddClothPage() {
 
   return (
     <div className="myCloset">
-      <div className="font-bold text-pink text-WebBody1">My Closet page</div>
+      {/* <div className="font-bold text-pink text-WebBody1">My Closet page</div> */}
       <MyClosetBar state={2} />
-      <AddClothFormTemplate setStateValue={setPayload} handleRemoveBG={removeBG} />
+      <div className="mt-8">
+        <AddClothFormTemplate setStateValue={setPayload} handleRemoveBG={removeBG} />
+      </div>
     </div>
   );
 }
