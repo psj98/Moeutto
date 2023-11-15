@@ -79,7 +79,8 @@ const Weather = ({ setWeatherListData }) => {
 
     useEffect(() => {
         console.log('1. 날씨 api 호출하기')
-        getWeatherData();
+        console.log(getWeatherData);
+        // getWeatherData();
         console.log('3. 날씨 api호출 함수가 끝났음')
         setTimeout(() => {
           console.log('4. 데이터 가공 시작')

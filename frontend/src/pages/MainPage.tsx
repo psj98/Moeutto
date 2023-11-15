@@ -12,6 +12,7 @@ import Alert from '../components/common/Alert';
 import MainComment from '../components/main/atoms/MainComment';
 import Calendar from '../components/calendar/organisms/Calendar';
 import Scroll from '../components/common/scroll/molecules/Scroll';
+import RecommendListOnlyWeather from '../components/main/organisms/RecommendListOnlyWeather';
 // import AddTap from '../components/main/atoms/AdTap';
 import { authInstance } from '../api/api';
 
@@ -123,30 +124,32 @@ const MainPage = () => {
   useEffect(() => {
     clothesData();
     console.log('날씨 데이터 잘 받는거 확인했잖아', weatherListData)
-  }, [weatherListData]);
+  }, []);
 
 
   // 중간 점검 이후 덤프 데이터로 다시 UI 구성하는 코드 입니다. 
   // 날씨 api 논의 후 다시 작성할 예정.
   // 날씨 정보 (프론트에서 open API로 직접 불러온 정보 3일치 날씨 데이터 가공)
-  // const weatherListData = [
-  //     // 추천 날씨 목록
-  //     {
-  //       minTemperature: 10, // 최저 기온
-  //       maxTemperature: 20, // 최고 기온
-  //       weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
-  //     },
-  //     {
-  //       minTemperature: 15, // 최저 기온
-  //       maxTemperature: 25, // 최고 기온
-  //       weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
-  //     },
-  //     {
-  //       minTemperature: 5, // 최저 기온
-  //       maxTemperature: 10, // 최고 기온
-  //       weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
-  //     },
-  //   ]
+  // 해: 1, 구름: 2, 해&구름: 3, 비: 4, 눈: 5, 번개: 6 
+
+  const weatherListDataFake = [
+      // 추천 날씨 목록
+      {
+        minTemperature: 0, // 최저 기온
+        maxTemperature: 12, // 최고 기온
+        weather: 3, // 날씨 정보 (맑음, 구름 조금 등)
+      },
+      {
+        minTemperature: 4, // 최저 기온
+        maxTemperature: 10, // 최고 기온
+        weather: 4, // 날씨 정보 (맑음, 구름 조금 등)
+      },
+      {
+        minTemperature: -3, // 최저 기온
+        maxTemperature: 4, // 최고 기온
+        weather: 5, // 날씨 정보 (맑음, 구름 조금 등)
+      },
+    ]
 
 
   return (  
@@ -166,7 +169,7 @@ const MainPage = () => {
           <MainInfo currentLocation={currentLocation} address={address} showLocationClick={showLocationClick} />
           
           {/* 날씨 정보 */}
-          <MainWeatherTap weatherListData={weatherListData[0]} />
+          <MainWeatherTap weatherListData={weatherListDataFake} />
           <div className='mt-6 bg-white rounded-2xl shadow-md p-4 mb-[70px]'>
             
             {/* 사용자 이름 */}
@@ -175,14 +178,12 @@ const MainPage = () => {
             {/* 날씨 기반 추천 리스트 */}
             {clothesListData && clothesListData.length > 0 ? (
               <>
-                <RecommendList clothesListData={clothesListData} weatherListData={weatherListData} />
+                <RecommendList clothesListData={clothesListData} weatherListData={weatherListDataFake} />
               </>
             ) : (
               <>
-                <div className="bg-pink-hot p-4 h-[50px] flex items-center justify-center rounded-2xl font-WebBody1 font-bold text-white" onClick={() => navigate('/mycloset/add-cloth')}>옷 등록하러 가기</div>
-                <div className='flex justify-center text-[14px] font-gray-dark mt-3'>카테고리별 1가지 이상의 옷을 
-                <br />
-                등록해야 추천받을 수 있어요!</div>
+              {/* 옷 추천이 안되는 경우 날씨 컴포넌트 띄우기 */}
+                <RecommendListOnlyWeather clothesListData={clothesListData} weatherListData={weatherListDataFake} />
               </>
             )}
           </div>
