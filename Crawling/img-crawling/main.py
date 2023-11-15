@@ -1,14 +1,80 @@
-# from multiprocessing import pool
-import multiprocessing
-import time
-import pandas as pd
 from bs4 import BeautifulSoup
 import requests
+from io import BytesIO
+from fashion_clip.fashion_clip import FashionCLIP
+from PIL import Image
+
+import sys
+#sys.path.append("fashion-clip/")
+from transformers import CLIPProcessor, CLIPModel
 import re
+import time
+import pandas as pd
+import numpy as np
+from collections import Counter
+
+import numpy as np
+from sklearn.metrics import classification_report
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import *
+from sklearn.linear_model import LogisticRegression
+
+import chromadb
+
+#function
+def img_vector(image):
+    images = []
+    images.append(image)
+    embeded_cloth = fclip.encode_images(images, batch_size=1)
+    embeded_list = [float(x) for x in embeded_cloth[0]]
+
+    return embeded_list  # numpy.ndarray
+
+def origin_run(goods_soup, img):
+    # 카테고리
+    category = goods_soup.find_all('p', attrs={'class': 'item_categories'})[0]  # 대분류 이름
+    category_id = category.get_text()
+    category_detail = category_id.replace(' ', '').replace('\n', '').replace('(무신사스탠다드)', '').split('>')  # 중분류 이름
+    if (len(category.select('a')) <= 2):
+        # continue
+        return
+
+    # 타이틀
+    print(img['title'])
+    # class
+    price = goods_soup.find_all('span', attrs={'class': 'product_article_price'})[0]  # 가격 정보
+    print(price)
+    # 이미지 태그 추출
+    image_tag = goods_soup.find('img', {'id': 'bigimg'})
+
+    # 이미지 URL 추출
+    image_url = image_tag['src']
+    if not image_url.startswith('http:'):
+        image_url = 'http:' + image_url
+
+    # 이미지 다운로드
+    image_response = requests.get(image_url)
+
+    # 이미지 표시
+    image = Image.open(BytesIO(image_response.content))
+    # display(image)
+    # 임베딩
+    embeded_list = img_vector(image)  # numpy.ndarray
+    # chromadb - all_clothes 에 임베딩
+    collection.add(
+        # documents=["doc1"], # 비구조화된 추가정보
+        embeddings=[embeded_list],
+        metadatas=[{"title": str(img['title']), "price": str(price), "image": image_url}],  # 구조화된 추가정보
+        ids=[category_id]  # 고유 식별자
+    )
+    print(start, "finish")
+
+    # fclip = FashionCLIP('fashion-clip')
 
 
-# while start < 37:  # 1페이지~36페이지
-def crawl(start, title_list, url_list, category_list, price_list, gender_list):
+# def crawl(start, title_list, url_list, category_list, price_list, gender_list):
+# 전역
+def crawl(start):
     print(start, " start")
 
     url = ('https://www.musinsa.com/brands/musinsastandard?category3DepthCodes=&category2DepthCodes'
@@ -26,64 +92,25 @@ def crawl(start, title_list, url_list, category_list, price_list, gender_list):
         goods_response = requests.get(goods_url, headers={"User-Agent": "Chrome/39.0.2171.95"})
         goods_soup = BeautifulSoup(goods_response.text, 'lxml')
 
-        category = goods_soup.find_all('p', attrs={'class': 'item_categories'})[0] # 대분류 이름
-        category_detail = category.get_text().replace(' ', '').replace('\n', '').replace('(무신사스탠다드)', '').split('>') # 중분류 이름
-
-        if(len(category.select('a')) <= 2):
-            continue
-
-        category_top = str(category.select('a')[0]).split('"')[1].split('/')[-1] # 대분류 번호
-        category_bottom = str(category.select('a')[1]).split('"')[1].split('/')[-1] # 중분류 번호
-
-        title_list.append(img['title'])
-        url_list.append('https:' + img['href'])
-        category_info = [category_detail[0], category_detail[1], category_top, category_bottom]
-        category_list.append(category_info)
-# class
-        price = goods_soup.find_all('span', attrs={'class': 'product_article_price'})[0] # 가격 정보
-        price_list.append(re.sub(r'[^0-9]', '', price.get_text().split()[-1]))
-# 수정 필요 : 성별 추가
-        gender = goods_soup.find_all('span', attrs={'class': 'txt_gender'})[0] # 성별 정보
-        gender_list.append(gender.get_text())
-    # for article in soup.find_all('div', attrs={'class': 'article_info'}):
-    #     price = article.find_all('p', attrs={'class': 'price'})
-    #     price_list.append(re.sub(r'[^0-9]', '', price[0].get_text().split()[-1]))
-
-    print(start, " finish")
+        # 상세 페이지 분류 시작
+        origin_run(goods_soup, img)
 
     return
 
 
+
+
+
+
+
 if __name__ == '__main__':
-    manager = multiprocessing.Manager()
-    title_list = manager.list()
-    url_list = manager.list()
-    category_list = manager.list()
-    price_list = manager.list()
-    # 성별 추가
-    gender_list = manager.list()
 
-    start_time = time.time()
-    print("--- %s seconds ---" % start_time)
+    chroma_client = chromadb.Client()
+    try:
+        collection = chroma_client.get_collection(name="all_clothes")
+    except:
+        collection = chroma_client.create_collection(name="all_clothes")
+    fclip = FashionCLIP('fashion-clip')
 
-    pool = multiprocessing.Pool(processes=8)
-    pool.starmap(crawl, [(start + 1, title_list, url_list, category_list, price_list, gender_list) for start in range(20)])
-    pool.close()
-    pool.join()
-
-    title_list = list(title_list)
-    price_list = list(price_list)
-    url_list = list(url_list)
-    # 성별 리스트 추가
-    gender_list = list(gender_list)
-
-    large_category_name = [sublist[0] for sublist in category_list]
-    middle_category_name = [sublist[1] for sublist in category_list]
-    large_category_num = [sublist[2] for sublist in category_list]
-    middle_category_num = [sublist[3] for sublist in category_list]
-
-    df = pd.DataFrame({'상품명': title_list, 'url': url_list, '가격': price_list, '성별': gender_list,
-                        '대분류 이름': large_category_name, '중분류 이름': middle_category_name,
-                        '대분류 번호': large_category_num, '중분류 번호': middle_category_num})
-    df.to_csv('무신사.csv', encoding='utf-8-sig')
-    print("--- %s seconds ---" % (time.time() - start_time))
+    for start in range(1, 20):
+        crawl(start)
