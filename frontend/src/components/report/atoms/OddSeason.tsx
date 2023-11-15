@@ -1,8 +1,8 @@
 import styled, { keyframes } from 'styled-components';
 import { CategoryAmountType } from '../../../pages/ReportSeasonPage';
 import { largeCategory } from '../../common/CategoryType';
-import spring from '../../../assets/images/season/spring.png';
-import atumn from '../../../assets/images/season/atumn.png';
+// import spring from '../../../assets/images/season/spring.png';
+// import atumn from '../../../assets/images/season/atumn.png';
 
 interface SeasonData {
   season: CategoryAmountType[];
@@ -24,7 +24,7 @@ const motion = keyframes`
 const Card = styled.div`
   margin-left: 30px;
   margin-top: 30px;
-  width: 200px;
+  width: 30%;
   height: 400px;
   box-shadow: 4px 4px 4px 0 gray;
   border-radius: 25px;
@@ -33,13 +33,13 @@ const Card = styled.div`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  animation: ${motion} 3s 1s linear infinite alternate; // Apply the animation here
+  /* animation: ${motion} 3s 1s linear infinite alternate; // Apply the animation here */
 `;
 
 const OddSeason = ({ season, name }: SeasonData) => {
   const result2 = largeCategory
     .filter(item => {
-      return season.find(c => c.largeCategoryId === item.id) !== undefined;
+      return season.find(c => c.largeCategoryId === item.id) !== undefined; // id를 한글 이름으로 맵핑한다
     })
     .map((item, index) => {
       return {
@@ -48,11 +48,18 @@ const OddSeason = ({ season, name }: SeasonData) => {
       };
     });
 
+  /* result2 의 결과값
+   [{name: '아우터', amount: 1},
+  {name: '상의', amount: 3},
+  {name: '하의', amount: 2},
+  {name: '아이템', amount: 0}]
+  */
+
   return (
     <Card
       style={{
         position: 'relative',
-        background: name === '봄' ? 'rgba(255, 44, 167, 0.199)' : 'rgba(243, 149, 42, 0.199)',
+        background: name === '봄' ? '#69C683' : '#BA9BEB',
       }}>
       <div className="text-WebTitle">{name}</div>
       <div>
@@ -62,7 +69,7 @@ const OddSeason = ({ season, name }: SeasonData) => {
           </div>
         ))}
       </div>
-      <img src={name === '봄' ? spring : atumn} className="w-[800px] object-fill " />
+      {/* <img src={name === '봄' ? spring : atumn} className="w-[800px] object-fill " /> */}
     </Card>
   );
 };

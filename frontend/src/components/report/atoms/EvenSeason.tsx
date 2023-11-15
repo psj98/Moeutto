@@ -33,7 +33,7 @@ const Card = styled.div`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  animation: ${motion} 3s 1s linear infinite alternate; // Apply the animation here
+  /* animation: ${motion} 3s 1s linear infinite alternate; // Apply the animation here */
 `;
 
 const EvenSeason = ({ season, name }: SeasonData) => {
