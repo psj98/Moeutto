@@ -1,10 +1,10 @@
 import MainWeather from "../molecules/MainWeather"
 
-const MainWeatherTap = () => {
+const MainWeatherTap = ({ weatherListData }) => {
     return (
         <>
             <div className="mb-6">
-                <MainWeather />
+                <MainWeather weatherListData={weatherListData} />
             </div>
         </>
     )
