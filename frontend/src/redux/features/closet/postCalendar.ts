@@ -27,8 +27,6 @@ const postCalendar = createSlice({
         // 이미지 url이 들어오면 리덕스가 관리하는 state에 추가합니다
         state.selectedClosetUrls = [...state.selectedClosetUrls, action.payload];
       }
-      console.log(action.payload);
-      console.log(state.selectedClosetUrls);
     },
   },
 });
