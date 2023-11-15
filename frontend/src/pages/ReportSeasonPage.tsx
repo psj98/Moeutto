@@ -1,4 +1,6 @@
+import React, { useState, useEffect } from 'react';
 import ClosetReportSeasonTemplate from '../components/report/templates/ClosetReportSeasonTemplate';
+import { authInstance } from '../api/api';
 
 export interface CategoryAmountType {
   largeCategoryId: string;
@@ -16,85 +18,29 @@ export interface SeasonDataType {
   fourSeason: SeasonClothesType;
 }
 
-const data: SeasonClothesType = {
-  springClothes: [
-    {
-      largeCategoryId: '001',
-      amount: 3,
-    },
-    {
-      largeCategoryId: '002',
-      amount: 0,
-    },
-    {
-      largeCategoryId: '003',
-      amount: 0,
-    },
-    {
-      largeCategoryId: '004',
-      amount: 1,
-    },
-  ],
-  summerClothes: [
-    {
-      largeCategoryId: '001',
-      amount: 12,
-    },
-    {
-      largeCategoryId: '002',
-      amount: 0,
-    },
-    {
-      largeCategoryId: '003',
-      amount: 0,
-    },
-    {
-      largeCategoryId: '004',
-      amount: 0,
-    },
-  ],
-  autumnClothes: [
-    {
-      largeCategoryId: '001',
-      amount: 8,
-    },
-    {
-      largeCategoryId: '002',
-      amount: 0,
-    },
-    {
-      largeCategoryId: '003',
-      amount: 0,
-    },
-    {
-      largeCategoryId: '004',
-      amount: 4,
-    },
-  ],
-  winterClothes: [
-    {
-      largeCategoryId: '001',
-      amount: 8,
-    },
-    {
-      largeCategoryId: '002',
-      amount: 0,
-    },
-    {
-      largeCategoryId: '003',
-      amount: 0,
-    },
-    {
-      largeCategoryId: '004',
-      amount: 1,
-    },
-  ],
-};
-
 const ReportSeasonPage = () => {
+  const [seasonData, setSeasonData] = useState<SeasonClothesType | null>(null);
+  // 데이터 가져오기
+  const getSeasonData = async () => {
+    try {
+      const axiosInstance = authInstance({ ContentType: 'application/json' });
+      const response = await axiosInstance.get('/clothes/analysis-season');
+
+      // setSeasonData(response.data);
+      console.log(response);
+      setSeasonData(response.data.data);
+    } catch (error) {
+      console.log('캘린더 목록 조회 실패', error);
+    }
+  };
+
+  useEffect(() => {
+    getSeasonData();
+  }, []);
+
   return (
     <div>
-      <ClosetReportSeasonTemplate fourSeason={data} />
+      <ClosetReportSeasonTemplate fourSeason={seasonData} />
     </div>
   );
 };
