@@ -13,7 +13,7 @@ const Card = styled.div<{ photo?: string }>`
   display: flex;
   align-items: center;
   justify-content: start;
-  margin: 10px 0;
+  margin: 10px auto;
   color: black;
   background: none;
   font-weight: 800;
@@ -21,7 +21,7 @@ const Card = styled.div<{ photo?: string }>`
   word-wrap: break-word;
   box-sizing: border-box;
   border-radius: 10px;
-background: white;
+  background: white;
 
   // &:hover {
   //   /* font-weight: 900; */
@@ -82,7 +82,7 @@ const ReportCard = ({ title, copy, url, photo }: CardProps) => {
     navigate(url);
   }
   return (
-    <Fade>
+    <Fade className="">
       <Card photo={photo} onClick={() => handleClick()} className="shadow-xl cards">
         <img src={photo} className="h-[100px] w-[100px] rounded-lg object-cover" />
         <div className="flex flex-col h-full mx-3 justify-evenly">
