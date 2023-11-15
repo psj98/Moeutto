@@ -219,7 +219,7 @@ const VerticalBar = ({ score }: ClothProps) => {
 
   return (
     <ChartBackground>
-      <div id={score.toString()} className="bar"></div>
+      <div id={score?.toString()} className="bar"></div>
     </ChartBackground>
   );
 };

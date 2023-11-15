@@ -47,7 +47,7 @@ const ClothScoreSection = ({ score, contents }: ClothProps) => {
           ? transformedData.map(item => (
               <Container>
                 <ClothItem imgUrl={item.images} clothesId={item.id} />
-                <VerticalBar score={item.score} />
+                <VerticalBar score={item?.score} />
                 <div className="text-WebBody2 font-bold mt-2 text-center">{item.score}점</div>
                 <div className="text-WebBody4 mt-3">{contents}</div>
               </Container>

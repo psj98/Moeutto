@@ -132,7 +132,7 @@ const MainPage = () => {
   // 날씨 정보 (프론트에서 open API로 직접 불러온 정보 3일치 날씨 데이터 가공)
   // 해: 1, 구름: 2, 해&구름: 3, 비: 4, 눈: 5, 번개: 6 
 
-  const weatherListDataFake = [
+ const weatherListDataFake = [
       // 추천 날씨 목록
       {
         minTemperature: 0, // 최저 기온
