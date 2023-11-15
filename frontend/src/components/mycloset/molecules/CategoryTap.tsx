@@ -112,7 +112,7 @@ const CategoryTap = ({ title, id, categories, uniqueId }) => {
           <option value="color">색상 순</option>
         </select>
       </div>
-      <div className="text-AppBody2 text-GmarketSansMedium flex flex-row items-center">
+      <div className="text-AppBody2 flex flex-row items-center">
         <MiddleCategory
           selectedOptionMiddle={selectedOptionMiddle}
           setSelectedOptionMiddle={setSelectedOptionMiddle}
