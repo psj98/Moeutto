@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+/**
+ * 옷 활용도 분석 Response Dto
+ */
 @Getter
 @NoArgsConstructor
 public class ClothesAnalysisAvailabilityResponseDto {
@@ -22,10 +25,10 @@ public class ClothesAnalysisAvailabilityResponseDto {
     private List<IClothesAnalysisAvailability> analysisAmountList; // 최근 n개월 내 입은 옷 개수 - 대분류 카테고리 기준
 
     @NotNull
-    private String maxLargeCategoryName;
+    private String maxLargeCategoryName; // 옷이 가장 많은 대분류 카테고리
 
     @NotNull
-    private String minLargeCategoryName;
+    private String minLargeCategoryName; // 옷이 가장 적은 대분류 카테고리
 
     @Builder(toBuilder = true)
     public ClothesAnalysisAvailabilityResponseDto(Long totalAmount, Long usedAmount, List<IClothesAnalysisAvailability> analysisAmountList, String maxLargeCategoryName, String minLargeCategoryName) {

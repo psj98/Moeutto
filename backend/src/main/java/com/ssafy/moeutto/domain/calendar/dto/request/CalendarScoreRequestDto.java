@@ -10,9 +10,9 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class CalendarScoreRequestDto {
 
-    //착장 Id;
     @NotNull
-    private Integer id;
+    private Integer id; // 착장 id
+
     private Integer likeOutfit;
 
     @Builder(toBuilder = true)
