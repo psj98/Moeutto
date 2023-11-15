@@ -4,7 +4,6 @@ import TodayTemp from "../atoms/TodayTemp";
 import TodayDate from "../atoms/TodayDate";
 import TodayTip from "../atoms/TodayTip";
 
-
 const MainWeather = ({ weatherListData }) => {
     // 해: 1, 구름: 2, 해&구름: 3, 비: 4, 눈: 5, 번개: 6 
     const maxTemp: number = weatherListData[0].maxTemperature;
