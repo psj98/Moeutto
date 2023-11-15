@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { CategoryAmountType } from '../../../pages/ReportSeasonPage';
 import { largeCategory } from '../../common/CategoryType';
 // import spring from '../../../assets/images/season/spring.png';
@@ -7,36 +7,35 @@ import { largeCategory } from '../../common/CategoryType';
 interface SeasonData {
   season: CategoryAmountType[];
   name: string;
+  month: string;
 }
 
-const motion = keyframes`
-  0% {
-    transform: translateY(40px);
-  }
-  50% {
-    transform: translateY(0px);
-  }
-  100% {
-    transform: translateY(40px);
-  }
-`;
-
 const Card = styled.div`
-  /* margin-left: 30px;
-  margin-top: 30px; */
   width: 45%;
-  height: 250px;
-  box-shadow: 4px 4px 4px 0 gray;
-  border-radius: 25px;
+  height: 200px;
+  border-radius: 15px;
   color: black;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  box-shadow: 0px 4px 3px 0 grey;
   align-items: center;
-  /* animation: ${motion} 3s 1s linear infinite alternate; // Apply the animation here */
+  opacity: 0.94;
+  font-weight: 800;
+  margin-bottom: 12px;
+
+  .tags {
+    background-color: white;
+    border-radius: 30px;
+    padding: 9px 9px;
+    margin: 3px 5px;
+    text-align: center;
+    flex-shrink: 0;
+    font-weight: 700;
+  }
 `;
 
-const OddSeason = ({ season, name }: SeasonData) => {
+const OddSeason = ({ season, name, month }: SeasonData) => {
   const result2 = largeCategory
     .filter(item => {
       return season.find(c => c.largeCategoryId === item.id) !== undefined; // id를 한글 이름으로 맵핑한다
@@ -60,16 +59,25 @@ const OddSeason = ({ season, name }: SeasonData) => {
       style={{
         position: 'relative',
         background: name === '봄' ? '#69C683' : '#BA9BEB',
-      }}>
-      <div className="text-WebTitle">{name}</div>
-      <div>
-        {result2.map((item, index) => (
-          <div key={index}>
-            {item.name} - {item.amount} 벌
-          </div>
-        ))}
+      }}
+      className="shadow-lg">
+      <div className="flex justify-between p-1 text-AppTitle text-left bg-red w-full px-3">
+        <div className="bg-black w-[60px] rounded-lg text-white text-center py-1">{name}</div>
+        <div className="text-gray-800 text-AppBody2 my-auto">{month}월</div>
       </div>
-      {/* <img src={name === '봄' ? spring : atumn} className="w-[800px] object-fill " /> */}
+      <div className="flex flex-wrap w-full justify-evenly">
+        {result2.map((item, index) => {
+          if (Number(item.amount) > 0) {
+            return (
+              <div key={index} className="tags text-AppBody2">
+                {item.name} {item.amount}벌
+              </div>
+            );
+          } else {
+            return null;
+          }
+        })}
+      </div>
     </Card>
   );
 };
