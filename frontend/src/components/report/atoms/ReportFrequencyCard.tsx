@@ -7,7 +7,7 @@ const ReportFrequencyCard = ({ divColor, clothesImage }: ReportFrequencyCardProp
   return (
     <>
       <div className={`p-3 mb-3 rounded-3xl bg-[${divColor}] shadow-[1px_4px_4px_0px_rgba(0,0,0,0.15)]`}>
-        <img className="w-20" src={clothesImage} alt="옷 이미지" />
+        <img className="w-16 h-16" src={clothesImage} alt="옷 이미지" />
       </div>
     </>
   );
