@@ -1,35 +1,27 @@
-
 package com.ssafy.moeutto.domain.calendar.controller;
 
 import com.ssafy.moeutto.domain.calendar.dto.request.CalendarListRequestDto;
-import com.ssafy.moeutto.domain.calendar.dto.request.CalendarRegistRequestDto;
 import com.ssafy.moeutto.domain.calendar.dto.request.CalendarScoreRequestDto;
 import com.ssafy.moeutto.domain.calendar.dto.response.CalendarListResponseDto;
 import com.ssafy.moeutto.domain.calendar.service.CalendarService;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
-import com.ssafy.moeutto.domain.member.jwt.JwtTokenProvider;
-import com.ssafy.moeutto.global.response.BaseException;
-import com.ssafy.moeutto.global.response.BaseResponse;
-import com.ssafy.moeutto.global.response.BaseResponseService;
-import com.ssafy.moeutto.global.response.BaseResponseStatus;
+import com.ssafy.moeutto.global.response.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Date;
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequestMapping("/calendars")
 @RequiredArgsConstructor
-@Slf4j
 public class CalendarController {
 
     private final CalendarService calendarService;
     private final BaseResponseService baseResponseService;
     private final AuthTokensGenerator authTokensGenerator;
-
 
     /**
      * 캘린더 목록을 불러오는 메서드 입니다.
@@ -46,7 +38,7 @@ public class CalendarController {
 
 //            String todayDate = calendarListRequestDto.getRegDate().toString();
 
-            log.info("데이터"+ calendarListRequestDto.getRegDate());
+            log.info("데이터" + calendarListRequestDto.getRegDate());
             CalendarListResponseDto calendarListResponseDto = calendarService.getCalendarList(memberId, calendarListRequestDto.getRegDate());
             return baseResponseService.getSuccessResponse(calendarListResponseDto);
         } catch (BaseException e) {

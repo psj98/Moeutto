@@ -10,6 +10,7 @@ public enum BaseResponseStatus {
     // -------- 성공 코드 종료 -------- //
 
     // -------- 실패 코드 시작 -------- //
+    // -------- 필요한 에러 코드 추가 => Code 만들 때 안겹치게 몇번대 사용할 건지 얘기할 것  -------- //
     /**
      * Member
      * Code : 2000번대
@@ -27,6 +28,7 @@ public enum BaseResponseStatus {
     NOT_FOUND_CLOTHES_LIST(false, 3002, "옷 목록이 존재하지 않습니다."),
     NOT_FOUND_CATEGORY_ANALYSIS_INFO(false, 3003, "카테고리별 옷 정보가 존재하지 않습니다."),
     NOT_FOUND_COLOR_ANALYSIS_INFO(false, 3004, "색상 별 옷 정보가 존재하지 않습니다."),
+    TOO_LITTLE_CLOTHES_FROM_LARGE_CATEGORY(false, 3010, "옷이 너무 적습니다."),
 
     /**
      * Calendar
@@ -36,7 +38,7 @@ public enum BaseResponseStatus {
     NOT_FOUND_CALENDAR_INFO(false, 4001, "캘린더가 존재하지 않습니다."),
     NOT_FOUND_CALENDAR_FOR_DATE(false, 4002, "해당 날짜에 캘린더가 존재하지 않습니다."),
     DUPLICATED_CALENDAR_INFO(false, 4003, "해당 날짜에 이미 캘린더가 존재합니다."),
-    CALENDAR_REGIST_SUCCESS(true, 4004, "캘린더 등록에 성공했습니다." ),
+    CALENDAR_REGIST_SUCCESS(true, 4004, "캘린더 등록에 성공했습니다."),
 
 
     /**
@@ -65,9 +67,8 @@ public enum BaseResponseStatus {
      * Code : 8000번대
      */
     TOO_LITTLE_CLOTHES(false, 8001, "보유한 옷이 적어 추천이 불가능합니다."),
-    NO_AI_RECOMMENDED_OUTFIT_FOR_CUR_DATE(false, 8002, "현재 날짜에 추천된 착장이 없습니다.");
-
-    // -------- 필요한 에러 코드 추가 => Code 만들 때 안겹치게 몇번대 사용할 건지 얘기할 것  -------- //
+    RECOMMENDATION_ERROR(false, 8002, "추천하는 과정에서 오류가 발생하였습니다."),
+    NO_AI_RECOMMENDED_OUTFIT_FOR_CUR_DATE(false, 8003, "현재 날짜에 추천된 착장이 없습니다.");
 
     // -------- 실패 코드 종료 -------- //
 
@@ -82,7 +83,7 @@ public enum BaseResponseStatus {
      * @param code
      * @param message
      */
-    private BaseResponseStatus(boolean isSuccess, int code, String message) {
+    BaseResponseStatus(boolean isSuccess, int code, String message) {
         this.isSuccess = isSuccess;
         this.code = code;
         this.message = message;

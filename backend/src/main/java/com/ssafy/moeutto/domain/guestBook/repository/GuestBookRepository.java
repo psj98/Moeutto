@@ -10,7 +10,7 @@ public interface GuestBookRepository extends JpaRepository<GuestBook, Integer> {
 
     /**
      * 방명록 주인 id에 따른 글 목록을 조회합니다.
-     * 
+     *
      * @param ownerId
      * @return
      */

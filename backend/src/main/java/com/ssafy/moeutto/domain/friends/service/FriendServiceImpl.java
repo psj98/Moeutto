@@ -1,6 +1,5 @@
 package com.ssafy.moeutto.domain.friends.service;
 
-
 import com.ssafy.moeutto.domain.friends.dto.request.FollowRequestDto;
 import com.ssafy.moeutto.domain.friends.dto.request.FriendsListRequestDto;
 import com.ssafy.moeutto.domain.friends.dto.response.IFriendsListResponseDto;
@@ -28,15 +27,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FriendServiceImpl implements FriendService {
 
-
     private final FollowingRepository followingRepository;
     private final FollowerRepository followerRepository;
     private final MemberRepository memberRepository;
 
-
     /**
      * 팔로우 서비스 입니다.
-     * @param memberId : 내 아이디
+     *
+     * @param memberId   : 내 아이디
      * @param requestDto : 팔로우 하려는 사람의 id
      * @throws BaseException
      */
@@ -51,30 +49,30 @@ public class FriendServiceImpl implements FriendService {
         UUID followingId = follow.get().getId();
 
         Following following = Following.builder()
-                        .followingId(new FollowingId(memberId, followingId)).build();
+                .followingId(new FollowingId(memberId, followingId)).build();
 
         Follower follower = Follower.builder()
-                        .followerId(new FollowerId(followingId, memberId)).build();
+                .followerId(new FollowerId(followingId, memberId)).build();
 
         /* 이미 팔로우 되어있는지 확인하기 */
         Optional<Follower> followerOptional = followerRepository.findById(follower.getFollowerId());
         Optional<Following> followingOptional = followingRepository.findById(following.getFollowingId());
 
         /* 이미 팔로우 되어있으면 취소 아니면 팔로우 */
-        if(followerOptional.isPresent() || followingOptional.isPresent()){
+        if (followerOptional.isPresent() || followingOptional.isPresent()) {
             followerRepository.deleteById(follower.getFollowerId());
             followingRepository.deleteById(following.getFollowingId());
-        }else{
+        } else {
             followingRepository.save(following);
             followerRepository.save(follower);
         }
 
     }
 
-
     /**
      * 닉네임과 내 아이디 기반으로 검색
-     * @param memberId : 내 아이디
+     *
+     * @param memberId   : 내 아이디
      * @param requestDto : 친구 리스트 담는 dto
      * @return
      * @throws BaseException
@@ -92,7 +90,8 @@ public class FriendServiceImpl implements FriendService {
     }
 
     /**
-     *내가 팔로우하는 친구들 목록 보기
+     * 내가 팔로우하는 친구들 목록 보기
+     *
      * @param memberId
      * @return
      * @throws BaseException
@@ -101,11 +100,10 @@ public class FriendServiceImpl implements FriendService {
     public List<IMyFriendsListResponseDto> searchMyFollowinglist(UUID memberId) throws BaseException {
 
         /* 멤버 체크 */
-        Member member = memberRepository.findById(memberId).orElseThrow(()-> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
         List<IMyFriendsListResponseDto> list = memberRepository.findMyFollowingListById(memberId);
 
         return list;
     }
-
 }
