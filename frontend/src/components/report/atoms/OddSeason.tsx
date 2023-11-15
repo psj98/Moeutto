@@ -22,10 +22,10 @@ const motion = keyframes`
 `;
 
 const Card = styled.div`
-  margin-left: 30px;
-  margin-top: 30px;
-  width: 30%;
-  height: 400px;
+  /* margin-left: 30px;
+  margin-top: 30px; */
+  width: 45%;
+  height: 250px;
   box-shadow: 4px 4px 4px 0 gray;
   border-radius: 25px;
   color: black;
@@ -44,7 +44,7 @@ const OddSeason = ({ season, name }: SeasonData) => {
     .map((item, index) => {
       return {
         name: item.name, // 예시로 'name'을 가져옴
-        amount: season[index].amount, // 여기에서 실제로 'amount' 값을 가져와야 함
+        amount: season[index]?.amount, // 여기에서 실제로 'amount' 값을 가져와야 함
       };
     });
 

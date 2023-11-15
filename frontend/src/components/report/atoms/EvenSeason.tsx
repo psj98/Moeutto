@@ -1,8 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 import { CategoryAmountType } from '../../../pages/ReportSeasonPage';
 import { largeCategory } from '../../common/CategoryType';
-import summer from '../../../assets/images/season/summer.png';
-import winter from '../../../assets/images/season/winter.png';
 
 interface SeasonData {
   season: CategoryAmountType[];
@@ -24,8 +22,8 @@ const motion = keyframes`
 const Card = styled.div`
   margin-left: 30px;
   margin-top: 30px;
-  width: 200px;
-  height: 400px;
+  width: 45%;
+  height: 250px;
   box-shadow: 4px 4px 4px 0 gray;
   border-radius: 25px;
   color: black;
@@ -33,6 +31,18 @@ const Card = styled.div`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  opacity: 0.94;
+
+  font-weight: 700;
+
+  .tags {
+    background-color: white;
+    border-radius: 30px;
+    padding: 7px 9px;
+    margin: 2px 7px;
+    text-align: center;
+    flex-shrink: 0;
+  }
   /* animation: ${motion} 3s 1s linear infinite alternate; // Apply the animation here */
 `;
 
@@ -42,9 +52,11 @@ const EvenSeason = ({ season, name }: SeasonData) => {
       return season.find(c => c.largeCategoryId === item.id) !== undefined;
     })
     .map((item, index) => {
+      const amount = season[index]?.amount;
+
       return {
         name: item.name, // 예시로 'name'을 가져옴
-        amount: season[index].amount, // 여기에서 실제로 'amount' 값을 가져와야 함
+        amount, // 여기에서 실제로 'amount' 값을 가져와야 함
       };
     });
 
@@ -52,14 +64,13 @@ const EvenSeason = ({ season, name }: SeasonData) => {
     <Card
       style={{
         position: 'relative',
-        background: name === '여름' ? 'rgba(101, 233, 19, 0.253)' : 'rgba(10, 96, 209, 0.2)',
+        background: name === '여름' ? '#F5C249' : '#6A96ED',
       }}>
-      <img src={name === '여름' ? summer : winter} className="w-[800px] object-fill " />
-      <div className="text-WebTitle">{name}</div>
-      <div>
+      <div className="text-AppTitle">{name}</div>
+      <div className="flex flex-wrap w-full">
         {result2.map((item, index) => (
-          <div key={index}>
-            {item.name} - {item.amount} 벌
+          <div key={index} className="tags text-AppBody3">
+            {item.name} {item.amount} 벌
           </div>
         ))}
       </div>

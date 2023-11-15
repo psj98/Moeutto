@@ -19,15 +19,16 @@ export interface SeasonDataType {
 }
 
 const ReportSeasonPage = () => {
-  const [seasonData, setSeasonData] = useState<SeasonClothesType>();
+  const [seasonData, setSeasonData] = useState<SeasonClothesType | null>(null);
   // 데이터 가져오기
   const getSeasonData = async () => {
     try {
       const axiosInstance = authInstance({ ContentType: 'application/json' });
       const response = await axiosInstance.get('/clothes/analysis-season');
 
+      // setSeasonData(response.data);
+      console.log(response);
       setSeasonData(response.data.data);
-      console.log(response.data.data);
     } catch (error) {
       console.log('캘린더 목록 조회 실패', error);
     }
@@ -35,11 +36,11 @@ const ReportSeasonPage = () => {
 
   useEffect(() => {
     getSeasonData();
-  }, [seasonData]);
+  }, []);
 
   return (
     <div>
-      <ClosetReportSeasonTemplate fourSeason={seasonData} />{' '}
+      <ClosetReportSeasonTemplate fourSeason={seasonData} />
     </div>
   );
 };
