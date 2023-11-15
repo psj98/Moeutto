@@ -99,9 +99,9 @@ const ReportVolumePage = () => {
 
       {/* 간단 분석 문구 */}
       <ShortReportComment
-        imageDivClass="absolute top-[-45px] left-[0px]"
+        imageDivClass="absolute top-[-30px] left-[0px]"
         imageUrl="/images/box.png"
-        imageClass="w-24 inline-block"
+        imageClass="w-16 inline-block"
         mainTitle={shortReportComment}
       />
 
@@ -111,7 +111,7 @@ const ReportVolumePage = () => {
           divPadding="p-4"
           imageUrl="/images/report-closet.png"
           imageClass="w-16 inline-block"
-          mainTitle="내 옷장에는 몇 벌의 옷이 있을까요?"
+          mainTitle="내 옷장에 몇 벌의 옷이 있을까요?"
           subTitle={reportComment}
         />
       </div>

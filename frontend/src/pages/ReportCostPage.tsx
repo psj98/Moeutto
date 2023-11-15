@@ -113,9 +113,9 @@ const ReportCostPage = () => {
 
       {/* 간단 분석 문구 */}
       <ShortReportComment
-        imageDivClass="absolute top-[-55px] left-[-10px]"
+        imageDivClass="absolute top-[-40px] left-[0px]"
         imageUrl="/images/wallet.png"
-        imageClass="w-36 inline-block"
+        imageClass="w-24 inline-block"
         mainTitle={shortReportComment}
       />
 
