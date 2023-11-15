@@ -113,41 +113,40 @@ const MainPage = () => {
 
       // 보유한 옷이 적어 추천이 불가능합니다.
 
-      // throw new Error('옷 목록 데이터 조회 실패');
       return null;
     }
   };
 
   // 날씨 기반 리스트
-  // const [weatherListData, setWeatherListData] = useState<any>([]);
+  const [weatherListData, setWeatherListData] = useState<any>([]);
 
   useEffect(() => {
     clothesData();
-    // setWeatherListData(RecommendClothesListData.recommenWeatherInfo);
-  }, []);
+    console.log('날씨 데이터 잘 받는거 확인했잖아', weatherListData)
+  }, [weatherListData]);
 
 
   // 중간 점검 이후 덤프 데이터로 다시 UI 구성하는 코드 입니다. 
   // 날씨 api 논의 후 다시 작성할 예정.
   // 날씨 정보 (프론트에서 open API로 직접 불러온 정보 3일치 날씨 데이터 가공)
-  const weatherListData = [
-      // 추천 날씨 목록
-      {
-        minTemperature: 10, // 최저 기온
-        maxTemperature: 20, // 최고 기온
-        weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
-      },
-      {
-        minTemperature: 15, // 최저 기온
-        maxTemperature: 25, // 최고 기온
-        weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
-      },
-      {
-        minTemperature: 5, // 최저 기온
-        maxTemperature: 10, // 최고 기온
-        weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
-      },
-    ]
+  // const weatherListData = [
+  //     // 추천 날씨 목록
+  //     {
+  //       minTemperature: 10, // 최저 기온
+  //       maxTemperature: 20, // 최고 기온
+  //       weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
+  //     },
+  //     {
+  //       minTemperature: 15, // 최저 기온
+  //       maxTemperature: 25, // 최고 기온
+  //       weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
+  //     },
+  //     {
+  //       minTemperature: 5, // 최저 기온
+  //       maxTemperature: 10, // 최고 기온
+  //       weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
+  //     },
+  //   ]
 
 
   return (  
@@ -167,7 +166,7 @@ const MainPage = () => {
           <MainInfo currentLocation={currentLocation} address={address} showLocationClick={showLocationClick} />
           
           {/* 날씨 정보 */}
-          <MainWeatherTap />
+          <MainWeatherTap weatherListData={weatherListData[0]} />
           <div className='mt-6 bg-white rounded-2xl shadow-md p-4 mb-[70px]'>
             
             {/* 사용자 이름 */}
@@ -232,7 +231,7 @@ const MainPage = () => {
         <div className="fixed bottom-1/3 right-0 me-[5vw]">
           <Scroll />
       </div>
-      <Weather />
+      <Weather setWeatherListData={setWeatherListData} />
     </div>
   );
 };
