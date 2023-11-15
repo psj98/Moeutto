@@ -19,6 +19,7 @@ const Card = styled.div<{ photo?: string }>`
   font-weight: 800;
   padding: 12px;
   word-wrap: break-word;
+  word-break: keep-all;
   box-sizing: border-box;
   border-radius: 10px;
   background: white;
@@ -85,9 +86,9 @@ const ReportCard = ({ title, copy, url, photo }: CardProps) => {
     <Fade className="">
       <Card photo={photo} onClick={() => handleClick()} className="shadow-xl cards">
         <img src={photo} className="h-[100px] w-[100px] rounded-lg object-cover" />
-        <div className="flex flex-col h-full mx-3 justify-evenly">
-          <div className="text-AppBody2 card font-extrabold text-[#1f1f1f]">{title}</div>
-          <div className="text-AppBody3 text-[#707070]">{copy}</div>
+        <div className="flex flex-col h-full ms-3 justify-evenly">
+          <div className="text-AppBody2 min-[320px]:text-[14px] card font-extrabold text-[#1f1f1f]">{title}</div>
+          <div className="text-AppBody3 min-[320px]:text-[12px] text-[#707070]">{copy}</div>
         </div>
       </Card>
     </Fade>

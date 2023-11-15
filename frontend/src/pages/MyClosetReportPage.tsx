@@ -23,9 +23,9 @@ export const cardArray: CardProps[] = [
     photo: rainbow,
   },
   {
-    title: '나는 지금 어떤 계절에 살고있을까?',
+    title: '나는 지금 어떤 계절에 살고 있을까?',
     url: 'season',
-    copy: '혹시 시간여행자인가요? 지금 옷장에서 어떤 계절의 옷이 가장 많은지 알려줄게요.',
+    copy: '혹시 시간 여행자인가요? 지금 옷장에서 어떤 계절의 옷이 가장 많은지 알려줄게요.',
     photo: season,
   },
   {
@@ -37,13 +37,13 @@ export const cardArray: CardProps[] = [
   {
     title: '나는 옷장에 얼마를 썼을까?',
     url: 'costs',
-    copy: '옷장에 차가 한대 있을지도 몰라요. 내가 지출한 금액을 모두 알려줄게요.',
+    copy: '옷장에 차가 한 대 있을지도 몰라요. 내가 지출한 금액을 모두 알려줄게요.',
     photo: money,
   },
   {
     title: '나는 다른 사람보다 옷이 많을까?',
     url: 'volume',
-    copy: '옷장에서 옷의 갯수를 모으또 유저와 비교한다면 맥시멀리스트인지 미니멀리스트인지 알 수 있을 거예요.',
+    copy: '옷장에서 옷의 개수를 모으또 유저와 비교한다면 맥시멀리스트인지 미니멀리스트인지 알 수 있을 거예요.',
     photo: volume,
   },
   {
