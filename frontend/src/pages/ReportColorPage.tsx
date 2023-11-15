@@ -54,16 +54,14 @@ function ReportColorPage() {
 
   return (
     <div className="myCloset">
-      <div className="font-bold text-pink text-WebBody1">My Closet page</div>
-
       {/* 인트로 분석 문구 */}
       <IntroComment nickname={`${sessionStorage.getItem('nickname')}`} imageUrl="/images/report.png" />
 
       {/* 간단 분석 문구 */}
       <ShortReportComment
-        imageDivClass="absolute top-[-35px] left-[0px]"
+        imageDivClass="absolute top-[-30px] left-[0px]"
         imageUrl="/images/rainbow.png"
-        imageClass="w-24 inline-block"
+        imageClass="w-20 inline-block"
         mainTitle={shortReportComment}
       />
 
