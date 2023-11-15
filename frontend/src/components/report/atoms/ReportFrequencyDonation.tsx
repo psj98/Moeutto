@@ -10,7 +10,7 @@ const ReportFrequencyDonation = ({ marginRight, subTitle, storeName, storeLink }
     <>
       <a
         href={storeLink}
-        className={`${marginRight} px-4 pt-5 pb-3 text-center rounded-3xl bg-[#FFFFFF] bg-opacity-80 hover:bg-pink`}>
+        className={`${marginRight} flex flex-col items-center justify-center px-3 pt-4 pb-3 text-center rounded-3xl bg-[#FFFFFF] bg-opacity-80 hover:bg-pink whitespace-break-spaces`}>
         <p className="mb-1 text-xs text-[#878787]">{subTitle}</p>
         <div className="flex flex-row justify-center items-center">
           <p className="text-sm font-bold mr-2">{storeName}</p>
