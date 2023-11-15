@@ -13,7 +13,7 @@ public class MoeuttoApplication {
     @PostConstruct
     public void changeTimeKST() {
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
-        // System.out.println("현재시각 : " + new Date());
+        System.out.println("현재시각 : " + new Date());
     }
     public static void main(String[] args) {
         SpringApplication.run(MoeuttoApplication.class, args);
