@@ -136,12 +136,42 @@ const PickPickPage = () => {
     event.preventDefault();
     // redux에 저장할 데이터
     const requestData = {
-      selectedClosetIds,
+      clothesList: selectedClosetIds,
+      weatherInfo: {
+        sky: 0,
+        pty: 0,
+        tmn: 0,
+        tmx: 0,
+        wsd: 0,
+      },
+    };
+
+    console.log(requestData);
+    const postData = async () => {
+      try {
+        // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
+        const axiosInstance = authInstance({ ContentType: 'application/json' });
+        const response = await axiosInstance.post('/ai-check-outfits/check', requestData);
+
+        if (response.data) {
+          console.log(response.data);
+        } else {
+          // alert('옷 목록이 없어요')
+        }
+
+        return response.data;
+      } catch (error) {
+        console.log('착장 검사 실패:', error);
+
+        throw new Error('착장 검사 실패');
+      }
     };
 
     if (requestData) {
-      localStorage.setItem('selectedClosetIds', JSON.stringify(selectedClosetIds));
-      navigate('/analysis');
+      postData().then(res => {
+        localStorage.setItem('res', JSON.stringify(res));
+        navigate('/analysis');
+      });
     } else {
       Swal.fire({
         icon: 'question',
