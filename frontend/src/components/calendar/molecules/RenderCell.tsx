@@ -76,13 +76,9 @@ const RenderCells = ({
         }
 
         // 내가 받은 리스트가 존재하고, 배열일 때
-        console.log('떠야 되는 것 1번: ', CalendarDataList)
-        console.log('떠야 되는 것 2번: ', CalendarDataList.calendarList)
         if (Array.isArray(CalendarDataList?.calendarList)) {
-            console.log('왜 안뜨냐 ?')
             // 반복문을 돌면서
             CalendarDataList.calendarList.forEach(outfit => {
-                console.log('오늘의 캘린더 정보입니다', outfit)
                 // 만약에 선택한 날과 같은 값을 발견한다면
                 if (format(selectedDate, 'yyyy-MM-dd') === outfit.regDate) {
                     // 이미지 상태를 업데이트 합니다
