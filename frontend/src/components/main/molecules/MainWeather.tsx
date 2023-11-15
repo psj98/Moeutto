@@ -3,13 +3,13 @@ import TodayDate from "../atoms/TodayDate";
 import TodayTip from "../atoms/TodayTip";
 
 
-const MainWeather = () => {
+const MainWeather = ({ weatherListData }) => {
     return (
         <>
         <div className="relative bg-[#FFD8E5] rounded-2xl shadow-md my-4">
             <div className="p-4 mt-16 flex flex-col justify-end items-end">
                 <TodayDate />
-                <TodayTemp />
+                <TodayTemp weatherListData={weatherListData} />
             </div>
             <div className="text-[#131313] font-bold text-AppBody1 p-4">오늘은 날씨가 흐리고 <br/> 바람이 많이 붑니다</div>
             <img src="/images/27.png" className="w-1/2 absolute -top-14"/>
