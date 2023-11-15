@@ -26,6 +26,14 @@ const ReportFrequency = ({ frequencyList, frequencyComment }: ReportFrequencyPro
                 <ReportFrequencyCard divColor={item.divColor} clothesImage={item.clothesImage} />
                 <ReportFrequencyAmount frequencyAmount={item.frequencyAmount} />
               </div>
+              <div className="flex flex-col justify-center">
+                <ReportFrequencyCard divColor={item.divColor} clothesImage={item.clothesImage} />
+                <ReportFrequencyAmount frequencyAmount={item.frequencyAmount} />
+              </div>
+              <div className="flex flex-col justify-center">
+                <ReportFrequencyCard divColor={item.divColor} clothesImage={item.clothesImage} />
+                <ReportFrequencyAmount frequencyAmount={item.frequencyAmount} />
+              </div>
             </>
           ))}
         </div>
