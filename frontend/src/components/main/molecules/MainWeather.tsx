@@ -21,7 +21,7 @@ const MainWeather = ({ weatherListData }) => {
 
     useEffect(() => {
         if (minTemp <= 0) {
-            setFirstTip("최저 기온이 낮네요 두꺼운 아우터를 착용하세요")
+            setFirstTip("두꺼운 아우터를 착용하세요")
         } else {
             if (maxTemp > 10) {
                 setFirstTip("오후에는 따뜻해요")
@@ -30,7 +30,7 @@ const MainWeather = ({ weatherListData }) => {
         }
     
         if (maxTemp - minTemp > 10) {
-            setSecondTip("일교차가 크네요 옷차림에 신경쓰세요");
+            setSecondTip("일교차가 커서 옷차림을 신경써야해요");
         } else if (weatherState === 3 || weatherState === 2) {
                     setSecondTip("구름이 있어요 날씨가 흐리네요");
                 } else if (weatherState === 4) {
