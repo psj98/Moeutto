@@ -131,7 +131,7 @@ const CalendarPage = () => {
           >
             <div className='-mt-[20px]'>착장에 대한 평가를 해주세요</div>
             <div className='flex gap-10 justify-center items-center mt-[20px]'>
-              <img src="/images/good.png" alt="good" className='w-1/3 hover:scale-105' onClick={() => onHandleSubmitScore(1)} />
+              <img src="/images/Good.png" alt="good" className='w-1/3 hover:scale-105' onClick={() => onHandleSubmitScore(1)} />
               <img src="/images/bad.png" alt="bad" className='w-1/3 hover:scale-105' onClick={handleSecondModalOpen} />
             </div>
           </div>

@@ -135,19 +135,19 @@ const MainPage = () => {
  const weatherListDataFake = [
       // 추천 날씨 목록
       {
-        minTemperature: 0, // 최저 기온
-        maxTemperature: 12, // 최고 기온
-        weather: 3, // 날씨 정보 (맑음, 구름 조금 등)
-      },
-      {
-        minTemperature: 4, // 최저 기온
-        maxTemperature: 10, // 최고 기온
+        minTemperature: 3, // 최저 기온
+        maxTemperature: 9, // 최고 기온
         weather: 4, // 날씨 정보 (맑음, 구름 조금 등)
       },
       {
-        minTemperature: -3, // 최저 기온
-        maxTemperature: 4, // 최고 기온
+        minTemperature: -2, // 최저 기온
+        maxTemperature: 5, // 최고 기온
         weather: 5, // 날씨 정보 (맑음, 구름 조금 등)
+      },
+      {
+        minTemperature: -3, // 최저 기온
+        maxTemperature: 8, // 최고 기온
+        weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
       },
     ]
 

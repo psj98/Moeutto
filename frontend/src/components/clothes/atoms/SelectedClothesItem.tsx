@@ -35,7 +35,7 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
         id={clothesId}
         alt={largeCategoryId}
         className={`clothes w-[110px] h-[110px] border border-gray rounded-3xl ${
-          isSelected ? 'bg-gray-300 border-pink-hot border-2' : ''
+          isSelected ? 'bg-gray-300 border-pink-hot border-4' : ''
         }`}
         style={{ objectFit: 'cover', minWidth: '110px', minHeight: '110px' }}
         onClick={pathname === '/calendar/post' ? handlePostCalendar : handleClick}

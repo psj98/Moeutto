@@ -1,50 +1,49 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { CategoryAmountType } from '../../../pages/ReportSeasonPage';
 import { largeCategory } from '../../common/CategoryType';
-import summer from '../../../assets/images/season/summer.png';
-import winter from '../../../assets/images/season/winter.png';
 
 interface SeasonData {
   season: CategoryAmountType[];
   name: string;
+  month: string;
 }
 
-const motion = keyframes`
-  0% {
-    transform: translateY(-40px);
-  }
-  50% {
-    transform: translateY(0px);
-  }
-  100% {
-    transform: translateY(-40px);
-  }
-`;
-
 const Card = styled.div`
-  margin-left: 30px;
-  margin-top: 30px;
-  width: 200px;
-  height: 400px;
-  box-shadow: 4px 4px 4px 0 gray;
-  border-radius: 25px;
+  width: 45%;
+  height: 200px;
+  box-shadow: 0px 4px 3px 0 grey;
+  border-radius: 15px;
   color: black;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  animation: ${motion} 3s 1s linear infinite alternate; // Apply the animation here
+  opacity: 0.94;
+  font-weight: 800;
+  margin-bottom: 12px;
+
+  .tags {
+    background-color: white;
+    border-radius: 30px;
+    padding: 9px 9px;
+    margin: 3px 5px;
+    text-align: center;
+    flex-shrink: 0;
+    font-weight: 700;
+  }
 `;
 
-const EvenSeason = ({ season, name }: SeasonData) => {
+const EvenSeason = ({ season, name, month }: SeasonData) => {
   const result2 = largeCategory
     .filter(item => {
       return season.find(c => c.largeCategoryId === item.id) !== undefined;
     })
     .map((item, index) => {
+      const amount = season[index]?.amount;
+
       return {
         name: item.name, // 예시로 'name'을 가져옴
-        amount: season[index].amount, // 여기에서 실제로 'amount' 값을 가져와야 함
+        amount, // 여기에서 실제로 'amount' 값을 가져와야 함
       };
     });
 
@@ -52,16 +51,25 @@ const EvenSeason = ({ season, name }: SeasonData) => {
     <Card
       style={{
         position: 'relative',
-        background: name === '여름' ? 'rgba(101, 233, 19, 0.253)' : 'rgba(10, 96, 209, 0.2)',
+        background: name === '여름' ? '#F5C249' : '#6A96ED',
       }}>
-      <img src={name === '여름' ? summer : winter} className="w-[800px] object-fill " />
-      <div className="text-WebTitle">{name}</div>
-      <div>
-        {result2.map((item, index) => (
-          <div key={index}>
-            {item.name} - {item.amount} 벌
-          </div>
-        ))}
+      {' '}
+      <div className="flex justify-between p-1 text-AppTitle text-left bg-red w-full px-3">
+        <div className="bg-black w-[60px] rounded-lg text-white text-center py-1">{name}</div>
+        <div className="text-gray-800 text-AppBody2 my-auto">{month}월</div>
+      </div>
+      <div className="flex flex-wrap w-full justify-evenly">
+        {result2.map((item, index) => {
+          if (Number(item.amount) > 0) {
+            return (
+              <div key={index} className="tags text-AppBody2">
+                {item.name} {item.amount}벌
+              </div>
+            );
+          } else {
+            return null;
+          }
+        })}
       </div>
     </Card>
   );
