@@ -6,8 +6,8 @@ const RadioWrapper = styled.div`
   gap: 13px;
   font-size: 16px;
   margin-top: 14px;
-  color: #e2e2e2;
-  font-family: GmarketSansLight;
+  color: black;
+  margin-left: 10px;
 `;
 
 const HiddenRadioInput = styled.input`
@@ -16,9 +16,10 @@ const HiddenRadioInput = styled.input`
 
 const BoldLabel = styled.label<{ selected: boolean }>`
   cursor: pointer;
-  color: ${({ selected }) => (selected ? '#131313;' : '#E2E2E2')};
+  color: ${({ selected }) => (selected ? 'pink' : '#131313')};
+  font-weight: ${({ selected }) => (selected ? 'bold' : 'normal')};
   &:hover {
-    color: #131313;
+    color: pink;
   }
 `;
 
@@ -28,13 +29,32 @@ interface SortedCategoryProps {
 }
 
 const SortedCategory: React.FC<SortedCategoryProps> = ({ selectedOption, setSelectedOption }) => {
-  const categories: string[] = ['정렬', '등록순', '많이 입은 순', '적게 입은 순', '색깔 순'];
+  const categories: string[] = ['정렬', '등록', '많이 입은', '적게 입은', '색깔'];
 
-  const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  console.log(selectedOption)
+
+  const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setSelectedOption(e.target.id);
   };
 
   return (
+    <>
+    {/* <div className="mb-8 mx-5">
+      
+        <select
+          className=""
+          value={selectedOption}
+          defaultValue="initial"
+          onChange={handleOptionChange}
+          >
+          <option value="initial">정렬</option>
+          <option value="regDate">등록순</option>
+          <option value="frequency1">많이 입은 순</option>
+          <option value="frequency0">적게 입은 순</option>
+          <option value="color">색상 순</option>
+        </select>
+      </div> */}
+        
     <RadioWrapper>
       {categories.map((category, index) => (
         <div key={index}>
@@ -51,6 +71,7 @@ const SortedCategory: React.FC<SortedCategoryProps> = ({ selectedOption, setSele
         </div>
       ))}
     </RadioWrapper>
+    </>
   );
 };
 
