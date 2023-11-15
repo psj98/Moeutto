@@ -21,6 +21,7 @@ interface CalendarProps {
     setClothesId?: Dispatch<SetStateAction<number>>;
     setIsLikedOutFit?: Dispatch<SetStateAction<number>>;
     handleModalOpen? : () => void;
+    updateCalendar?: boolean;
 }
 
 interface ClendarDataType {
@@ -37,7 +38,8 @@ const Calendar = ({
     setShowSelectedImg,
     setClothesId,
     setIsLikedOutFit,
-    handleModalOpen
+    handleModalOpen,
+    updateCalendar
  }: CalendarProps) => {
     // 요일 구성
     const days = [];
@@ -69,7 +71,6 @@ const Calendar = ({
         }
     };
     
-    
     // 날짜에 어떤 옷과 좋아요가 등록되어 있는지 리스트 불러오기 list값에 저장한 뒤 날짜 컴포넌트에 뿌려주자
     // 1. request에 curDate를 담아서 보내자
 
@@ -85,15 +86,19 @@ const Calendar = ({
 
             console.log('캘린더 목록 조회 성공', response.data.data)
             setCalendarDataList(response.data.data)
+         
         } catch (error) {
             console.log('캘린더 목록 조회 실패', error)
         }
     };
 
     useEffect(() => {
-        getCalendarData();
+        setTimeout(()=>{
+            getCalendarData();
+        },500)
+        
         // selectedData의 월이 바뀔 때만 호출해야된다
-    }, [selectedDate])
+    }, [selectedDate, updateCalendar])
 
     return (
         <>

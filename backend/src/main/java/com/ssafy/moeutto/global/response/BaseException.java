@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BaseException extends Exception {
+
     public BaseResponseStatus status;
 }

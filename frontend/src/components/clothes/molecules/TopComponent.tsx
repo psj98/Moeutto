@@ -7,9 +7,9 @@ import SubmitBtn from '../atoms/SubmitBtn';
 
 const ButtonSection = styled.div`
   position: fixed;
-  right: calc(50% - 200px); /* 중앙에서 오른쪽으로 175px 떨어진 위치 */
+  right: calc(50% - 40px); /* 중앙에서 오른쪽으로 40px 떨어진 위치 */
   transform: translate(0, -50%); /* 요소를 수직으로 중앙 정렬 */
-  bottom: 100px;
+  bottom: 50px;
 `;
 
 interface PropsType {

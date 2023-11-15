@@ -4,10 +4,7 @@ import com.ssafy.moeutto.domain.clothes.dto.request.*;
 import com.ssafy.moeutto.domain.clothes.dto.response.*;
 import com.ssafy.moeutto.domain.clothes.service.ClothesService;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
-import com.ssafy.moeutto.global.response.BaseException;
-import com.ssafy.moeutto.global.response.BaseResponse;
-import com.ssafy.moeutto.global.response.BaseResponseService;
-import com.ssafy.moeutto.global.response.BaseResponseStatus;
+import com.ssafy.moeutto.global.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,10 +24,10 @@ public class ClothesController {
     /**
      * 옷 정보를 등록합니다.
      *
-     * @param token
-     * @param clothesRegistRequestDto
-     * @param file
-     * @return
+     * @param token                   - accessToken
+     * @param clothesRegistRequestDto - 옷 등록 데이터 Dto
+     * @param file                    - 옷 이미지
+     * @return ClothesRegistResponseDto - 옷 등록 정보
      */
     @PostMapping("/regist")
     public BaseResponse<Object> registClothes(@RequestHeader(value = "accessToken", required = false) String token,
@@ -50,8 +47,8 @@ public class ClothesController {
     /**
      * 옷 정보를 조회합니다.
      *
-     * @param id
-     * @return ClothesDetailResponseDto
+     * @param id - 옷 정보 id
+     * @return ClothesDetailResponseDto - 옷 조회 정보
      */
     @GetMapping("/{id}")
     public BaseResponse<Object> getClothes(@RequestHeader(value = "accessToken", required = false) String token,
@@ -70,9 +67,9 @@ public class ClothesController {
     /**
      * 옷 목록을 조회합니다.
      *
-     * @param token
-     * @param clothesListRequestDto
-     * @return List<ClothesListResponseDto>
+     * @param token                 - accessToken
+     * @param clothesListRequestDto - 옷 목록을 조회할 기준 Dto
+     * @return List<ClothesListResponseDto> - 옷 목록 정보
      */
     @PostMapping("/list")
     public BaseResponse<Object> getListClothes(@RequestHeader(value = "accessToken", required = false) String token,
@@ -91,8 +88,8 @@ public class ClothesController {
     /**
      * 옷 목록 + 방명록 가져오기
      *
-     * @param token
-     * @return
+     * @param token - accessToken
+     * @return ClothesListAndGuestBookResponseDto - 옷 목록 + 방명록 정보
      */
     @GetMapping("/list-all")
     public BaseResponse<Object> getListClothesAndGuestBooks(@RequestHeader(value = "accessToken", required = false) String token) {
@@ -110,8 +107,10 @@ public class ClothesController {
     /**
      * 옷 정보를 수정합니다.
      *
-     * @param clothesUpdateRequestDto
-     * @return ClothesUpdateResponseDto
+     * @param token                   - accessToken
+     * @param clothesUpdateRequestDto - 옷 수정 정보
+     * @param file                    - 옷 이미지
+     * @return ClothesUpdateResponseDto - 수정된 옷 정보
      */
     @PutMapping("")
     public BaseResponse<Object> updateClothes(@RequestHeader(value = "accessToken", required = false) String token,
@@ -131,8 +130,9 @@ public class ClothesController {
     /**
      * 옷 정보를 삭제합니다.
      *
-     * @param id
-     * @return
+     * @param token - accessToken
+     * @param id    - 옷 정보 id
+     * @return BaseResponse
      */
     @DeleteMapping("/{id}")
     public BaseResponse<Object> deleteClothes(@RequestHeader(value = "accessToken", required = false) String token,
@@ -151,8 +151,9 @@ public class ClothesController {
     /**
      * 옷 즐겨찾기를 등록 / 해제합니다.
      *
-     * @param id
-     * @return ClothesStarResponseDto
+     * @param token - accessToken
+     * @param id    - 옷 정보 id
+     * @return ClothesStarResponseDto - 옷 즐겨찾기 정보
      */
     @GetMapping("/star/{id}")
     public BaseResponse<Object> starClothes(@RequestHeader(value = "accessToken", required = false) String token,
@@ -171,8 +172,8 @@ public class ClothesController {
     /**
      * 옷장을 색상 기준으로 분석합니다.
      *
-     * @param token
-     * @return ClothesAnalysisColorResponseDto
+     * @param token - accessToken
+     * @return ClothesAnalysisColorResponseDto - 색상 기준 분석 정보
      */
     @GetMapping("/analysis-color")
     public BaseResponse<Object> analysisColorClothes(@RequestHeader(value = "accessToken", required = false) String token) {
@@ -190,8 +191,8 @@ public class ClothesController {
     /**
      * 옷장을 계절 기준으로 분석합니다.
      *
-     * @param token
-     * @return
+     * @param token - accessToken
+     * @return ClothesAnalysisSeasonResponseDto - 계절 기준 분석 정보
      */
     @GetMapping("/analysis-season")
     public BaseResponse<Object> analysisSeasonClothes(@RequestHeader(value = "accessToken", required = false) String token) {
@@ -206,6 +207,12 @@ public class ClothesController {
         }
     }
 
+    /**
+     * 옷장을 빈도 기준으로 분석합니다.
+     *
+     * @param token - accessToken
+     * @return ClothesAnalysisFrequencyResponseDto - 빈도 기준 분석 정보
+     */
     @GetMapping("/analysis-frequency")
     public BaseResponse<Object> analysisFrequencyClothes(@RequestHeader(value = "accessToken", required = false) String token) {
 
@@ -223,11 +230,11 @@ public class ClothesController {
     /**
      * 옷장을 가격 기준으로 분석합니다.
      *
-     * @param token
-     * @return
+     * @param token - accessToken
+     * @return ClothesAnalysisCostResponseDto - 가격 기준 분석 정보
      */
     @GetMapping("/analysis-cost")
-    public BaseResponse<Object> analysisCostClothes(@RequestHeader(value = "accessToken") String token) {
+    public BaseResponse<Object> analysisCostClothes(@RequestHeader(value = "accessToken", required = false) String token) {
         try {
             UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
@@ -242,8 +249,8 @@ public class ClothesController {
     /**
      * 옷장을 미니멀 / 맥시멀 기준으로 분석합니다.
      *
-     * @param token
-     * @return ClothesAnalysisMinMaxResponseDto
+     * @param token - accessToken
+     * @return ClothesAnalysisMinMaxResponseDto - 미니멀 / 맥시멀 기준 분석 정보
      */
     @GetMapping("/analysis-amount")
     public BaseResponse<Object> analysisAmountClothes(@RequestHeader(value = "accessToken", required = false) String token) {
@@ -260,12 +267,12 @@ public class ClothesController {
 
     /**
      * 옷장을 활용도 기준으로 분석합니다.
-     * TODO: 개월 수 수정 해야함. 기준으로
      *
-     * @return
+     * @param token - accessToken
+     * @return ClothesAnalysisAvailabilityResponseDto - 활용도 기준 분석 정보
      */
     @GetMapping("/analysis-use")
-    public BaseResponse<Object> analysisUseClothes(@RequestHeader(value = "accessToken") String token) {
+    public BaseResponse<Object> analysisUseClothes(@RequestHeader(value = "accessToken", required = false) String token) {
         try {
             UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
@@ -280,10 +287,12 @@ public class ClothesController {
     /**
      * 친구가 소유한 옷 목록을 조회합니다.
      *
-     * @return
+     * @param token                          - accessToken
+     * @param clothesListByFriendsRequestDto - 친구 이메일 + 옷 정렬 기준 정보
+     * @return List<ClothesListResponseDto> - 친구 옷 목록 정보
      */
     @PostMapping("/list/friend")
-    public BaseResponse<Object> getListByFriends(@RequestHeader(value = "accessToken") String token,
+    public BaseResponse<Object> getListByFriends(@RequestHeader(value = "accessToken", required = false) String token,
                                                  @RequestBody ClothesListByFriendsRequestDto clothesListByFriendsRequestDto) {
         try {
             UUID memberId = getMemberIdFromToken(token); // 사용자 체크
@@ -297,14 +306,14 @@ public class ClothesController {
     }
 
     /**
-     * 친구가 소유한 옷과 방명록을 조회합니다.
+     * 친구가 소유한 옷 목록과 방명록을 조회합니다.
      *
-     * @param token
-     * @param clothesListAndGuestBookByFriendsRequestDto
-     * @return ClothesListAndGuestBookResponseDto
+     * @param token                                      - accessToken
+     * @param clothesListAndGuestBookByFriendsRequestDto - 친구 이메일 정보
+     * @return ClothesListAndGuestBookResponseDto - 친구가 소유한 옷 목록 + 방명록 정보
      */
     @PostMapping("/list/friend-all")
-    public BaseResponse<Object> getListClothesAndGuestBookByFriends(@RequestHeader(value = "accessToken") String token,
+    public BaseResponse<Object> getListClothesAndGuestBookByFriends(@RequestHeader(value = "accessToken", required = false) String token,
                                                                     @RequestBody ClothesListAndGuestBookByFriendsRequestDto clothesListAndGuestBookByFriendsRequestDto) {
         try {
             UUID memberId = getMemberIdFromToken(token); // 사용자 체크
@@ -320,9 +329,9 @@ public class ClothesController {
     /**
      * accessToken으로 사용자 정보를 체크합니다.
      *
-     * @param token
-     * @return UUID
-     * @throws BaseException
+     * @param token - accessToken
+     * @return UUID - 사용자 UUID
+     * @throws BaseException - BaseResponse Error 처리
      */
     public UUID getMemberIdFromToken(String token) throws BaseException {
         // 토큰 정보 체크
@@ -330,8 +339,6 @@ public class ClothesController {
             throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
         }
 
-        UUID memberIdFromToken = authTokensGenerator.extractMemberId(token); // 사용자 체크
-
-        return memberIdFromToken;
+        return authTokensGenerator.extractMemberId(token);
     }
 }

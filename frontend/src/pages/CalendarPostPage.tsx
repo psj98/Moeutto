@@ -110,13 +110,13 @@ const calendarPostPage = () => {
       if (response.data.data) {
         setClothesData(response.data.data);
       } else {
-        Swal.fire({
-          icon: 'question',
-          title: "<h5 style='color:red'>'조회 실패'",
-          html: '옷 목록이 존재하지 않아요',
-          showCancelButton: false,
-          confirmButtonText: '확인',
-        });
+        // Swal.fire({
+        //   icon: 'question',
+        //   title: "<h5 style='color:red'>'조회 실패'",
+        //   html: '옷 목록이 존재하지 않아요',
+        //   showCancelButton: false,
+        //   confirmButtonText: '확인',
+        // });
         setClothesData([]);
       }
 
@@ -181,10 +181,16 @@ const calendarPostPage = () => {
       if (response) {
         Swal.fire({
           icon: 'success',
+          title: "<h5 style='color:blue'>성공",
           html: '캘린더 제출이 완료되었습니다',
           showCancelButton: false,
           confirmButtonText: '확인',
-        });
+        }).then((result) => {
+          // 확인 버튼이 눌렸을 때 캘린더 페이지로 이동
+          if (result.isConfirmed) {
+            window.location.href = '/calendar';
+          }
+        })
       } else {
         // Handle the case when the request is not successful
       }

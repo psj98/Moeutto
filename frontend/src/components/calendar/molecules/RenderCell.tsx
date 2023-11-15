@@ -132,9 +132,9 @@ const RenderCells = ({
 
             // 상태에 따른 착장 평가 이모지
             if (likeOutfit === 1) {
-                imgUrl = "/images/report-happy.png";
+                imgUrl = "/images/good.png";
             } else if (likeOutfit === 2) {
-                imgUrl = "/images/report-happy.png";
+                imgUrl = "/images/hot-face.png";
             } else if (likeOutfit === 3) {
                 imgUrl = "/images/cold.png";
             }
@@ -198,8 +198,8 @@ const RenderCells = ({
 
                         {/* 날짜 조건에 맞는 이모지 출력 */}
                         {imgUrl && (
-                            <div className='absolute top-0'>
-                                <img src={`${imgUrl}`} alt="sad" className='' />
+                            <div className='absolute top-3 left-3'>
+                                <img src={`${imgUrl}`} alt="sad" className='w-[80%]' />
                             </div>
                         )}
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaBell } from 'react-icons/fa';
 import styled from 'styled-components';
-import Img from '../../assets/images/profile.jpg';
+import Img from '../../assets/images/profile.png';
 
 interface Props {
   imgUrl: string;
