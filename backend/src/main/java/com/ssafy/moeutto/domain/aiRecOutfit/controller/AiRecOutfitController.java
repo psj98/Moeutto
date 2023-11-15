@@ -6,10 +6,7 @@ import com.ssafy.moeutto.domain.aiRecOutfit.dto.request.AiRecOutfitCombineReques
 import com.ssafy.moeutto.domain.aiRecOutfit.dto.response.AiRecOutfitCombineResponseDto;
 import com.ssafy.moeutto.domain.aiRecOutfit.service.AiRecOutfitService;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
-import com.ssafy.moeutto.global.response.BaseException;
-import com.ssafy.moeutto.global.response.BaseResponse;
-import com.ssafy.moeutto.global.response.BaseResponseService;
-import com.ssafy.moeutto.global.response.BaseResponseStatus;
+import com.ssafy.moeutto.global.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

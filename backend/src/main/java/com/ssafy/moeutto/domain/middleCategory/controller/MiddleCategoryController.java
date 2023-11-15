@@ -25,7 +25,7 @@ public class MiddleCategoryController {
     /**
      * 중분류 카테고리 목록을 조회합니다.
      *
-     * @return
+     * @return List<MiddleCategoryDetailResponseDto> - 중분류 카테고리 목록
      */
     @GetMapping("/list")
     public BaseResponse<Object> getMiddleCategoryList() {
@@ -40,8 +40,8 @@ public class MiddleCategoryController {
     /**
      * 중분류 카테고리를 조회합니다.
      *
-     * @param id
-     * @return
+     * @param id - 중분류 카테고리 id
+     * @return MiddleCategoryDetailResponseDto - 중분류 카테고리 정보
      */
     @GetMapping("/{id}")
     public BaseResponse<Object> getMiddleCategoryDetail(@PathVariable("id") String id) {
@@ -56,8 +56,8 @@ public class MiddleCategoryController {
     /**
      * 대분류 카테고리에 해당하는 중분류 카테고리 목록을 조회합니다.
      *
-     * @param id
-     * @return
+     * @param id - 대분류 카테고리 id
+     * @return List<MiddleCategoryByLargeCategoryResponseDto> - 대분류 카테고리에 해당하는 중분류 카테고리 목록
      */
     @GetMapping("/large/{id}")
     public BaseResponse<Object> getMiddleCategoryByLargeCategory(@PathVariable("id") String id) {

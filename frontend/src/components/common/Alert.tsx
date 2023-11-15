@@ -8,8 +8,16 @@ const Alert = () => {
         setIsAlertModalOpen(!isAlertModalOpen)
     }
 
+    if (isAlertModalOpen) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = 'auto';
+    }
+
     return (
         <>
+        <div className="overflow-auto">
+
             <img 
                 src="/images/alert.png" 
                 alt="alert" 
@@ -20,6 +28,7 @@ const Alert = () => {
             {isAlertModalOpen && (
                 <MyGuestBook setIsAlertModalOpen={setIsAlertModalOpen} />
             )}
+        </div>
         </>
     )
 

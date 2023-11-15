@@ -11,7 +11,6 @@ const ContentContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  padding: 5px;
   // margin-left: 250px; // nav bar fixed 되었는데 웹일때 사이드 바에 컨텐츠 가리지 않도록 설정하였는데 이제 모바일뷰 집중 하기때문에 주석처리
 `;
 
