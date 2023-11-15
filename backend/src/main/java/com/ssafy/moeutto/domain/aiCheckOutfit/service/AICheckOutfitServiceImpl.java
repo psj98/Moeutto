@@ -110,7 +110,7 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
                 .weatherInfo(pythonRequestWeatherInfo)
                 .build();
 
-        System.out.println(pythonRequestClothesLists);
+        System.out.println("파이썬에 보내는 정보 : "+pythonRequestClothesLists);
 
         /**
          * 여기 아래부턴 테스트 필요
