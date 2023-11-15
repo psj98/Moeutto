@@ -128,7 +128,7 @@ const RenderCells = ({
 
             // 상태에 따른 착장 평가 이모지
             if (likeOutfit === 1) {
-                imgUrl = "/images/good.png";
+                imgUrl = "/images/Good.png";
             } else if (likeOutfit === 2) {
                 imgUrl = "/images/hot-face.png";
             } else if (likeOutfit === 3) {
