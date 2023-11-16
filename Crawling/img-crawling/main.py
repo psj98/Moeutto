@@ -4,9 +4,7 @@ from io import BytesIO
 from fashion_clip.fashion_clip import FashionCLIP
 from PIL import Image
 import chromadb
-
-
-
+import re
 #function
 def img_vector(image):
     images = []
@@ -29,14 +27,12 @@ def origin_run(goods_soup, img):
     category_bottom = str(category.select('a')[1]).split('"')[1].split('/')[-1]  # 중분류 번호
     category_info = category_detail[0]+category_detail[1]+category_top+category_bottom # ids로 사용
 
-
-
-
     # 타이틀
-    print(img['title'])
+    print("title: " + str(img['title']))
     # class
     price = goods_soup.find_all('span', attrs={'class': 'product_article_price'})[0]  # 가격 정보
-    print(price)
+    price = re.sub(r'[^0-9]', '', price.get_text().split()[-1])
+    print("price : " + str(price))
     # 이미지 태그 추출
     image_tag = goods_soup.find('img', {'id': 'bigimg'})
 
@@ -44,16 +40,14 @@ def origin_run(goods_soup, img):
     image_url = image_tag['src']
     if not image_url.startswith('http:'):
         image_url = 'http:' + image_url
-
+    print("image_url : " + str(image_url))
     # 이미지 다운로드
     image_response = requests.get(image_url)
-
-    # 이미지 표시
     image = Image.open(BytesIO(image_response.content))
-    # display(image)
-    # 임베딩
+
+    # 임베딩(이미지 데이터를 백터로 변환)
     embeded_list = img_vector(image)  # numpy.ndarray
-    # chromadb - all_clothes 에 임베딩
+    # chromadb - all_clothes에 임베딩
     collection.add(
         # documents=["doc1"], # 비구조화된 추가정보
         embeddings=[embeded_list],
@@ -62,11 +56,7 @@ def origin_run(goods_soup, img):
     )
     print(start, "finish")
 
-    # fclip = FashionCLIP('fashion-clip')
 
-
-# def crawl(start, title_list, url_list, category_list, price_list, gender_list):
-# 전역
 def crawl(start):
     print(start, " start")
 
