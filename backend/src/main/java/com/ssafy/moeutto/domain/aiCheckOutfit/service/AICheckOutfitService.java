@@ -4,6 +4,8 @@ import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.AICheckOutfitClientReq
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitClientResponseDto;
 import com.ssafy.moeutto.global.response.BaseException;
 
+import java.util.UUID;
+
 public interface AICheckOutfitService {
     /**
      *  AI에게 착장 검사
@@ -12,5 +14,5 @@ public interface AICheckOutfitService {
      * @return AICheckOutfitClientResponseDto
      * @throws BaseException
      */
-    AICheckOutfitClientResponseDto checkOutfit(String token, AICheckOutfitClientRequestDto aiCheckOutfitClientRequestDto) throws BaseException;
+    AICheckOutfitClientResponseDto checkOutfit(UUID memberId, AICheckOutfitClientRequestDto aiCheckOutfitClientRequestDto) throws BaseException;
 }
