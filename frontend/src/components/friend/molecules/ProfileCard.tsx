@@ -17,7 +17,6 @@ const ProfileCard = ({ nickname, email, profileImage, isFollowing }: FriendType)
 
         return response;
       } catch (error) {
-        console.log(error);
         throw new Error('팔로우 팔로잉 실패');
       }
     };
@@ -33,22 +32,22 @@ const ProfileCard = ({ nickname, email, profileImage, isFollowing }: FriendType)
 
   return (
     <ul>
-      <li className="py-3 px-3 border rounded-md m-3">
-        <div className="flex items-center space-x-4">
+      <li className="py-3 px-3 shadow-lg rounded-md m-3 bg-white">
+        <div className="flex items-center justify-center p-auto space-x-4">
           <div className="flex-shrink-0">
             <img className="w-8 h-8 rounded-full object-cover" src={profileImage} alt="image" />
           </div>
           <div className="flex-1 min-w-0">
             <Link to={email} state={nickname}>
-              <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{nickname}</p>
-              <p className="text-sm text-gray-500 truncate dark:text-gray-400">{email}</p>
+              <p className="text-sm text-gray-900 truncate font-bold">{nickname}</p>
+              <p className="text-sm text-gray-500 truncate">{email}</p>
             </Link>
           </div>
           <button
             className={
               isFollow === 0
-                ? 'text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700'
-                : 'text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700'
+                ? 'text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700'
+                : 'text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700'
             }
             onClick={handleFollow}
             type="button">
