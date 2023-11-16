@@ -48,6 +48,8 @@ public class CalendarServiceImpl implements CalendarService {
 
         Date curDate = new Date(System.currentTimeMillis()); // 등록 날짜
 
+        log.debug("현재 날짜 : " + curDate);
+
         // 캘린더 존재 여부 파악
         Optional<Calendar> calendarOptional = calendarRepository.findByMemberIdAndRegDate(memberId, curDate);
 
