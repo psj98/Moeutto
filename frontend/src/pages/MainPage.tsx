@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled, { keyframes } from 'styled-components';
 
 import MainInfo from '../components/main/organisms/MainInfo';
 import PickButtonTap from '../components/main/organisms/PickButtonTap';
@@ -18,6 +19,37 @@ import { authInstance } from '../api/api';
 
 // 날씨 api 사용
 import Weather from "../api/Weather";
+
+// 다시 추천 CSS
+const rotate = keyframes`
+  from {
+    transform: rotate(0turn);
+  }
+
+  to {
+    transform: rotate(1turn);
+  }
+`;
+
+const LoaderContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 30px;
+  height: 30px;
+`;
+
+const LoaderCircle = styled.div`
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border: 6px solid #FF78A5;
+  border-top-color: white;
+  border-radius: 100%;
+  animation: ${rotate} 2s ease-out infinite;
+`;
+
 
 const MainPage = () => {
     const navigate = useNavigate();
@@ -56,10 +88,14 @@ const MainPage = () => {
     setNewLocation(newValue);
   };
 
-  // // 옷 추천 리스트
+  // // 옷 추천 리스트 POST  추천
   const [clothesListData, setClothesListData] = useState<any>([]);
-  // const navigate = useNavigate();
+  
+  // 옷 추천 로딩 중
+  const [recommendLoading, setRecommendLoading] = useState<boolean>(false);
+
   const clothesData = async () => {
+    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$추천 등록 시작')
     const requesBody = [
       {
         // 날씨 정보
@@ -95,7 +131,8 @@ const MainPage = () => {
       const axiosInstance = authInstance({ ContentType: 'application/json' });
       const response = await axiosInstance.post('/ai-rec-outfits/combine', requesBody);
 
-      console.log('추천 착장 조회 성공', response.data.data);
+      console.log('추천 착장 만들기 성공', response.data.data);
+      setRecommendLoading(true);
       
       if (response.data.data) {
         setClothesListData(response.data.data);
@@ -107,22 +144,53 @@ const MainPage = () => {
     } catch (error) {
       console.log('옷 목록 데이터 조회 실패', error);
 
-      // if (error.response.data.status === 500) {
-      //     navigate('/mycloset/add-cloth')
-      //     // alert('보유한 옷이 적어 추천이 불가능합니다. 옷을 등록해주세요.')
-      // }
+      return null;
+    }
+  };
 
-      // 보유한 옷이 적어 추천이 불가능합니다.
+  // 옷 추천 리스트 GET 조회
+  const OnlyGetRecommendClothesData = async () => {
+    console.log('2. 조회만 하는 api 실행 시작')
+    try {
+      // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
+      const axiosInstance = authInstance({ ContentType: 'application/json' });
+      const response = await axiosInstance.get('/ai-rec-outfits');
+
+      console.log('************추천 착장 조회만 하는 거 성공', response);
+
+      // 저장된 추천 데이터가 없는 경우
+      if (response.data.message === '현재 날짜에 추천된 착장이 없습니다.') {
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        // 추천 받을 수 있는 api를 실행시킨다
+        clothesData();
+      }
+      
+      if (response.data.data) {
+        setClothesListData(response.data.data);
+      } else {
+        setClothesListData([]);
+      }
+
+      return response.data;
+    } catch (error) {
+      console.log('옷 목록 조회만 하는거 실패', error);
 
       return null;
     }
   };
+  
 
   // 날씨 기반 리스트
   const [weatherListData, setWeatherListData] = useState<any>([]);
 
   useEffect(() => {
-    clothesData();
+    // 화면을 키면 조회만 되는 api에서 데이터를 받아온다
+    console.log('1. 조회만 하는 api 실행 전')
+    OnlyGetRecommendClothesData();
+
+    // 데이터가 없는 경우 or 다시 추천을 받고 싶은 경우 실행되는 api
+    // clothesData();
+    console.log(clothesData);
     console.log('날씨 데이터 잘 받는거 확인했잖아', weatherListData)
   }, []);
 
@@ -173,7 +241,24 @@ const MainPage = () => {
           <div className='mt-6 bg-white rounded-2xl shadow-md p-4 mb-[70px]'>
             
             {/* 사용자 이름 */}
-            <UserName />
+            <div className='flex'>
+              <UserName />
+              {recommendLoading ? (
+
+                <button 
+                  className='flex items-center gap-1 justify-center bg-pink rounded-2xl text-white text-AppBody2 p-2 absolute right-6'
+                  onClick={clothesData}
+                >
+                    다시 추천
+                </button>
+              ) : (
+                <div>
+                  <LoaderContainer>
+                    <LoaderCircle />
+                  </LoaderContainer>
+                </div>
+              )}
+            </div>
             
             {/* 날씨 기반 추천 리스트 */}
             {clothesListData && clothesListData.length > 0 ? (
