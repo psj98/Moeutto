@@ -35,6 +35,11 @@ export interface GuestBookListType {
 
 const FriendClosetPage = () => {
   const navigate = useNavigate();
+  
+  const goMainPage = () => {
+    navigate('/main');
+  };
+
   const [guestbookText, setGuestbookText] = useState<GuestbookTextType>(''); // 방명록 인풋 값
   const [guestbookAll, setGuestbookAll] = useState<GuestBookListType[]>([]); // 방명록 전체 조회
 
@@ -120,6 +125,16 @@ const FriendClosetPage = () => {
         email: friend, // 친구 email
       });
 
+      if(response.data.code === 3020) {
+        Swal.fire({
+          icon: 'error',
+          html: '친구 옷장이 공개되어 있지 않습니다.',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        });
+        goMainPage();
+      }
+
       if (response.data.data) {
         // setClothesData(response.data.data.clothesListResponseDto);
         setGuestbookAll(response.data.data.guestBookListResponseDto);
@@ -143,6 +158,16 @@ const FriendClosetPage = () => {
         sortBy,
         orderBy,
       });
+
+      if(response.data.code === 3020) {
+        Swal.fire({
+          icon: 'error',
+          html: '친구 옷장이 공개되어 있지 않습니다.',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        });
+        goMainPage();
+      }
 
       console.log('친구 옷 조회 성공', response);
 
