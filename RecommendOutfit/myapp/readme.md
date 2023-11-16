@@ -1,16 +1,35 @@
+# 개요 
+- 날씨와 계절에 맞는 옷을 추천해줍니다
+- 사용자의 옷 정보와 3일간의 날씨를 입력으로 받고 적합한 옷 조합을 추천해줍니다
+
+# 디렉토리 구조
+```shell                                 
+├─myapp
+   ├─cmd
+   │  └─myapp
+   └─internal
+      ├─app
+      │  ├─handlers
+      │  └─logic
+      └─pkg
+          ├─models
+          └─utils
+```
 
 # 실행
-cmd - myapp 디렉토리에서
+cmd - myapp 디렉토리에서 아래 명령어를 터미널에 입력하세요 
 ```bash
 go run main.go
 ```
-명령어 실행
 
-## 테스트 명령어
-- go test -v
-- 테스트 코드가 위치한 디렉토리에서 터미널에 입력해야 합니다
+# 테스트 명령어
+- 테스트 코드가 위치한 디렉토리에서 아래 명령어를 터미널에 입력해야 합니다
+```bash
+go test -v
+````
 
-## 특이사항
+# Go 언어 특징
+- Go 언어가 처음이실 경우 읽어주세요
 ### Response
 - Golang에서는 함수가 명시적으로 값을 "리턴"하지 않아도 됩니다. 대신, http.ResponseWriter에 직접 쓰기를 수행하여 응답을 클라이언트에 전송합니다.
 - Go 언어에서 HTTP 핸들러 함수는 일반적으로 http.ResponseWriter 인터페이스와 *http.Request 객체를 매개변수로 받습니다. 
