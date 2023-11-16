@@ -59,7 +59,7 @@ const HorizontalStackedBar = () => {
         backgroundColor: '#6FA8FF',
         // https://github.com/chartjs/Chart.js/issues/9217#issuecomment-1366100375 참고
         borderRadius: [
-          { topLeft: 12, topRight: 12, bottomLeft: 12, bottomRight: 12 },
+          { topLeft: 12, topRight: 0, bottomLeft: 12, bottomRight: 0 },
           // { topLeft: 0, topRight: 0, bottomLeft: 12, bottomRight: 12 },
         ],
         borderSkipped: false, // To make all side rounded
@@ -69,7 +69,7 @@ const HorizontalStackedBar = () => {
         data: [20],
         backgroundColor: '#FF7C7C',
         borderRadius: [
-          { topLeft: 12, topRight: 12, bottomLeft: 12, bottomRight: 12 },
+          { topLeft: 0, topRight: 0, bottomLeft: 0, bottomRight: 0 },
           // { topLeft: 0, topRight: 0, bottomLeft: 12, bottomRight: 12 },
         ],
         borderSkipped: false, // To make all side rounded
@@ -79,7 +79,7 @@ const HorizontalStackedBar = () => {
         data: [25],
         backgroundColor: '#FFE177',
         borderRadius: [
-          { topLeft: 12, topRight: 12, bottomLeft: 12, bottomRight: 12 },
+          { topLeft: 0, topRight: 0, bottomLeft: 0, bottomRight: 0 },
           // { topLeft: 0, topRight: 0, bottomLeft: 12, bottomRight: 12 },
         ],
         borderSkipped: false, // To make all side roundeds
@@ -89,7 +89,7 @@ const HorizontalStackedBar = () => {
         data: [5],
         backgroundColor: '#5FDA64',
         borderRadius: [
-          { topLeft: 12, topRight: 12, bottomLeft: 12, bottomRight: 12 },
+          { topLeft: 0, topRight: 12, bottomLeft: 0, bottomRight: 12 },
           // { topLeft: 0, topRight: 0, bottomLeft: 12, bottomRight: 12 },
         ],
         borderSkipped: false, // To make all side rounded
