@@ -1,3 +1,4 @@
+// done
 // CategorySelect.tsx < CategoryInput.tsx < AddClothForm.tsx
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { CgSelect } from 'react-icons/cg';
@@ -79,13 +80,13 @@ const CategorySelect = ({ id, value, onClick, aiLargeCategory }: CategoryProps) 
   // 유저가 largeCategory를 선택하면 그 밑에 middleCategory가 스르륵 생깁니다
   const returnMiddleSelect = () => {
     switch (selectedLargeCategory) {
-      case '001': // 큰 카테고리가 아우터라면
+      case '002': // 큰 카테고리가 아우터라면
         return outerArray.map(item => (
           <button key={item.id} value={item.id} onClick={onClick} className={item.id === value ? 'selected' : ''}>
             {item.name}
           </button>
         )); // 아우터에 해당하는 중분류 선택지를 줍니다
-      case '002': // 큰 카테고리가 상의라면
+      case '001': // 큰 카테고리가 상의라면
         return topArray.map(item => (
           <button key={item.id} value={item.id} onClick={onClick} className={item.id === value ? 'selected' : ''}>
             {item.name}
@@ -97,7 +98,7 @@ const CategorySelect = ({ id, value, onClick, aiLargeCategory }: CategoryProps) 
             {item.name}
           </button>
         ));
-      case '004':
+      case '011':
         return itemArray.map(item => (
           <button key={item.id} value={item.id} onClick={onClick} className={item.id === value ? 'selected' : ''}>
             {item.name}

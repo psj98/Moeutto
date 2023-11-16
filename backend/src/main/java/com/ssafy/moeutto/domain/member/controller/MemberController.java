@@ -4,12 +4,14 @@ import com.ssafy.moeutto.domain.member.auth.AuthTokens;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
 import com.ssafy.moeutto.domain.member.dto.request.MemberUpdateMyInfoRequestDto;
 import com.ssafy.moeutto.domain.member.dto.request.FindNicknameRequestDto;
+import com.ssafy.moeutto.domain.member.dto.response.MemberMyPageResponseDto;
 import com.ssafy.moeutto.domain.member.service.MemberLoginService;
 import com.ssafy.moeutto.domain.member.service.MemberService;
 import com.ssafy.moeutto.domain.member.service.OAuthLoginService;
 import com.ssafy.moeutto.global.response.BaseException;
 import com.ssafy.moeutto.global.response.BaseResponse;
 import com.ssafy.moeutto.global.response.BaseResponseService;
+import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -24,10 +27,11 @@ import java.util.HashMap;
 @RequestMapping("/members")
 public class MemberController {
 
+    private final AuthTokensGenerator authTokensGenerator;
+    private final BaseResponseService baseResponseService;
+    private final MemberService memberService;
     private final MemberLoginService memberLoginService;
     private final OAuthLoginService oAuthLoginService;
-    private final MemberService memberService;
-    private final BaseResponseService baseResponseService;
 
     /**
      * 카카오 로그인 : 선택사항 체크 후 인가 코드 발급
@@ -79,7 +83,6 @@ public class MemberController {
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(userInfo);
-
     }
 
     /**
@@ -99,7 +102,6 @@ public class MemberController {
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
         }
-
     }
 
     /**
@@ -109,27 +111,44 @@ public class MemberController {
      * @param token
      * @return MemberMyPageResponseDto
      */
-    @ResponseBody
-    @GetMapping("my-page")
+    @GetMapping("/my-page")
     public BaseResponse<Object> myPageInfo(@RequestHeader(value = "accessToken", required = false) String token) {
         try {
-            return baseResponseService.getSuccessResponse(memberService.giveMypageInfo(token));
+            UUID memberId = getMemberIdFromToken(token); // 사용자 체크
+
+            MemberMyPageResponseDto memberMyPageResponseDto = memberService.giveMyPageInfo(memberId);
+            return baseResponseService.getSuccessResponse(memberMyPageResponseDto);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
         }
     }
 
-    @ResponseBody
-    @PutMapping("modify")
+    @PutMapping("/modify")
     public BaseResponse<Object> updateMyInfo(@RequestHeader(value = "accessToken") String token,
                                              @RequestBody MemberUpdateMyInfoRequestDto memberUpdateMyInfoRequestDto) {
-
         try {
-            memberService.updateMypageInfo(token, memberUpdateMyInfoRequestDto);
+            UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
+            memberService.updateMyPageInfo(memberId, memberUpdateMyInfoRequestDto);
             return baseResponseService.getSuccessResponse();
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
         }
+    }
+
+    /**
+     * accessToken으로 사용자 정보를 체크합니다.
+     *
+     * @param token - accessToken
+     * @return UUID - 사용자 UUID
+     * @throws BaseException - BaseResponse Error 처리
+     */
+    public UUID getMemberIdFromToken(String token) throws BaseException {
+        // 토큰 정보 체크
+        if (token == null || token.equals("")) {
+            throw new BaseException(BaseResponseStatus.SESSION_EXPIRATION);
+        }
+
+        return authTokensGenerator.extractMemberId(token);
     }
 }
