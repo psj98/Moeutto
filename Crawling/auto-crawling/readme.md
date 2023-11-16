@@ -1,9 +1,6 @@
 # cron을 통한 주기적인 크롤링
 ```cronexp
-* * * * * /home/ubuntu/scripts/kwon.sh
 0 0 * * * /home/ubuntu/.pyenv/versions/venv9/bin/python /home/ubuntu/scripts/crawling.py >> /home/ubuntu/logs/crawling.log 2>&1
-
-
 ```
 ### 가상환경 경로
 /home/ubuntu/.pyenv/versions/venv9
