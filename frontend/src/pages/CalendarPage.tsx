@@ -92,7 +92,7 @@ const CalendarPage = () => {
       </div>
       {/* 상세 정보 모달 */}
       {modalVisible && clothesId !== 0 && (
-        <div className="bg-pink shadow-md rounded-2xl p-4 mt-6">
+        <div className="bg-pink shadow-md rounded-2xl p-4 mt-6 mb-[80px]">
           <div className="flex justify-between">
             <button onClick={handleModalClose} className="bg-gray-button rounded-xl px-4 p-2 shadow-md text-pink">
               닫기
