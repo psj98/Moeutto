@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import HorizontalStackedBar from '../atoms/HorizontalStackedBar';
+import { ClothesResultType } from '../../../pages/AnalysisPage';
 
 const TotalScore = styled.div`
   width: 80%;
@@ -8,9 +9,15 @@ const TotalScore = styled.div`
   margin: 38px auto;
 `;
 
-const TotalScoreSection = () => {
-  const totalScore: number = 60; // TODO: 백에서 받아온 점수 뿌려줘야함
-  const [expression, setExpression] = useState<string>(''); //
+const TotalScoreSection = ({ clothesResult }: { clothesResult: ClothesResultType[] }) => {
+  const [totalScore, setTotalScore] = useState<number>(0);
+  const [expression, setExpression] = useState<string>('');
+
+  useEffect(() => {
+    const sum = clothesResult?.reduce((accumulator, currentValue) => accumulator + currentValue.fitnessNum, 0);
+
+    setTotalScore(sum / 4);
+  }, [clothesResult]);
 
   // 점수에 따른 메시지 선정 로직
   useEffect(() => {
@@ -21,7 +28,7 @@ const TotalScoreSection = () => {
     } else {
       setExpression('그냥 무난합니다.. 😑');
     }
-  }, []);
+  }, [totalScore]);
 
   return (
     <TotalScore>
