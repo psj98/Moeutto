@@ -84,7 +84,7 @@ const TutorialPage = () => {
       <div className="flex justify-center">
         <button
           onClick={goMainPage}
-          className="bg-pink-hot rounded-xl shadow-xl text-white text-AppBody1 p-4 tracking-[10px] font-bold flex justify-center text-center">
+          className="bg-pink-hot rounded-xl shadow-xl text-white text-AppBody1 px-4 py-2 font-bold text-center">
           {currentSlideClass.includes('lastPage') ? '시작하기' : '건너뛰기'}
         </button>
       </div>
