@@ -64,6 +64,10 @@ public class OAuthLoginService {
     private UUID newMember(String email, String nickname) throws BaseException {
         UUID id = UUID.randomUUID();
 
+        if(nickname.length() > 8) {
+            nickname = nickname.substring(0,7);
+        }
+
         Member regist = Member.builder()
                 .id(id)
                 .email(email)

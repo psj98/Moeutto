@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SeasonDataType, SeasonClothesType } from '../../../pages/ReportSeasonPage';
 import SeasonReportSection from '../molecules/SeasonReportSection';
 import BuyRecommendSection from '../molecules/BuyRecommendSection';
@@ -8,15 +8,19 @@ import ReportComment from '../atoms/ReportComment';
 
 const ClosetReportSeasonOrganism = ({ fourSeason }: SeasonDataType) => {
   const [mostSeason, setMostSeason] = useState('');
+  const [leastSeason, setLeastSeason] = useState('');
 
-  function findMaxAmountSeason(seasonClothes: SeasonClothesType): string | null {
+  function findMaxMinAmountSeason(seasonClothes: SeasonClothesType): { max: string; min: string } {
     let maxAmount = 0;
     let maxAmountSeason: string | null = null;
+    let minAmount = 10000000000;
+    let minAmountSeason: string | null = null;
 
     // Iterate through each season
     for (const season in seasonClothes) {
+      // 'season' 변수에는 현재 시즌의 속성이 할당됩니다.
       if (Object.prototype.hasOwnProperty.call(seasonClothes, season)) {
-        // Calculate the total amount for the current season
+        // 이 블록 내에서 현재 시즌에 대한 작업을 수행합니다.
         const totalAmount = seasonClothes[season].reduce((acc, category) => acc + category.amount, 0);
 
         // Update maxAmountSeason if the current season has a higher total amount
@@ -24,25 +28,32 @@ const ClosetReportSeasonOrganism = ({ fourSeason }: SeasonDataType) => {
           maxAmount = totalAmount;
           maxAmountSeason = season;
         }
+        if (totalAmount < minAmount) {
+          minAmount = totalAmount;
+          minAmountSeason = season;
+        }
       }
     }
-
-    return maxAmountSeason;
+    return { max: maxAmountSeason, min: minAmountSeason };
   }
 
   useEffect(() => {
-    const max = findMaxAmountSeason(fourSeason);
+    const { max, min } = findMaxMinAmountSeason(fourSeason);
+    const findSeasonName = (a: string, fun: React.Dispatch<React.SetStateAction<string>>) => {
+      if (a === 'springClothes') {
+        fun('봄');
+      } else if (a === 'summerClothes') {
+        fun('여름');
+      } else if (a === 'autumnClothes') {
+        fun('가을');
+      } else if (a === 'winterClothes') {
+        fun('겨울');
+      }
+    };
 
-    if (max === 'springClothes') {
-      setMostSeason('봄');
-    } else if (max === 'summerClothes') {
-      setMostSeason('여름');
-    } else if (max === 'autumnClothes') {
-      setMostSeason('가을');
-    } else if (max === 'winterClothes') {
-      setMostSeason('겨울');
-    }
-  }, []);
+    findSeasonName(max, setMostSeason);
+    findSeasonName(min, setLeastSeason);
+  }, [fourSeason]);
 
   return (
     <div>
@@ -64,7 +75,7 @@ const ClosetReportSeasonOrganism = ({ fourSeason }: SeasonDataType) => {
           imageUrl="/images/report-happy.png"
           imageClass="w-20 inline-block"
           mainTitle={`${sessionStorage.getItem('nickname')}님의 옷장에는`}
-          subTitle={`${mostSeason}옷이 가장 많네요`}
+          subTitle={`${mostSeason} 옷이 가장 많네요`}
         />
       </div>
 
@@ -72,7 +83,7 @@ const ClosetReportSeasonOrganism = ({ fourSeason }: SeasonDataType) => {
       <div className="flex flex-col items-center">
         <SeasonReportSection fourSeason={fourSeason} />
       </div>
-      <div className="font-extrabold">봄 옷이 부족하네요. 사러가볼까요?</div>
+      <div className="font-extrabold">{`${leastSeason} 옷이 부족하네요. 사러가볼까요?`}</div>
       <BuyRecommendSection />
     </div>
   );

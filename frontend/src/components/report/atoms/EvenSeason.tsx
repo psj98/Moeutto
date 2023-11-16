@@ -16,7 +16,8 @@ const Card = styled.div`
   color: black;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: end;
+  padding-bottom: 10px;
   align-items: center;
   opacity: 0.94;
   font-weight: 800;
@@ -54,8 +55,10 @@ const EvenSeason = ({ season, name, month }: SeasonData) => {
         background: name === '여름' ? '#F5C249' : '#6A96ED',
       }}>
       {' '}
-      <div className="flex justify-between p-1 text-AppTitle text-left bg-red w-full px-3">
-        <div className="bg-black w-[60px] rounded-lg text-white text-center py-1">{name}</div>
+      <div className="flex justify-between p-1 absolute top-2  text-AppTitle text-left bg-red w-full px-3">
+        <div className="bg-black w-[55px] rounded-lg text-white text-center flex items-center justify-center py-1">
+          {name}
+        </div>
         <div className="text-gray-800 text-AppBody2 my-auto">{month}월</div>
       </div>
       <div className="flex flex-wrap w-full justify-evenly">
