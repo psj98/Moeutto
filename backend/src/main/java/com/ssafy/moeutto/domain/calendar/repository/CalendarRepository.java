@@ -12,7 +12,8 @@ import java.util.UUID;
 public interface CalendarRepository extends JpaRepository<Calendar, Integer> {
 
     @Query(value = "SELECT * FROM calendar " +
-            "WHERE member_id = ?1 AND DATE_FORMAT(reg_date, '%Y-%m') = DATE_FORMAT(?2, '%Y-%m') ", nativeQuery = true)
+            "WHERE member_id = ?1 " +
+            "AND DATE_FORMAT(reg_date, '%Y-%m') = DATE_FORMAT(?2, '%Y-%m') ", nativeQuery = true)
     Optional<List<Calendar>> findAllByMemberIdTodayMonth(UUID memberId, String regDate);
 
     /**
@@ -23,5 +24,12 @@ public interface CalendarRepository extends JpaRepository<Calendar, Integer> {
      */
     Optional<Calendar> findByIdAndMemberId(Integer id, UUID memberId);
 
-    Optional<Calendar> findByRegDate(Date regDate);
+    /**
+     * 사용자 ID + 날짜로 캘린더 존재 여부 체크
+     *
+     * @param memberId
+     * @param regDate
+     * @return Optional<Calendar>
+     */
+    Optional<Calendar> findByMemberIdAndRegDate(UUID memberId, Date regDate);
 }
