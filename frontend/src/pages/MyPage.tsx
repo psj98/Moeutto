@@ -146,7 +146,7 @@ const MyPage = () => {
           {/* 닉네임 */}
           <div className="mb-6">
             {/* 닉네임 글자 */}
-            <Label id="nickName" value="닉네임" />
+            <Label id="nickName" value="닉네임" notice="최대 8글자를 입력할 수 있습니다" isEssential={true} />
             {/* 닉네임 Input */}
             <Input
               className="w-full border border-1 rounded-xl indent-1 p-1 text-AppBody1"
