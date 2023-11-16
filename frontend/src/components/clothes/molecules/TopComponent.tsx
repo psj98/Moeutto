@@ -32,7 +32,7 @@ const TopComponent: React.FC<PropsType> = ({
   handleSubmit,
 }) => {
   return (
-    <div className="mt-[20px] text-center  relative w-[100%]">
+    <div className="mt-[20px] relative w-[100%]">
       <PickTitle />
       <div className="flex justify-between">
         <div>
