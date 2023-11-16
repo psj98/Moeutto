@@ -142,10 +142,11 @@ const AddClothFormOrganism = ({ setStateValue, handleRemoveBG }: Props) => {
         setAiLargeCategory('003');
       } else if (res.data.category === 'outer') {
         setAiLargeCategory('001');
-      } else if (res.data.category === 'item') {
+      } else {
+        // if (res.data.category === 'item')
         setAiLargeCategory('004'); // Default category
       }
-
+      console.log(res.data.category);
       setTimeout(() => {
         setClothColor(res.data.color);
       }, 1000);
