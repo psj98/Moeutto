@@ -51,8 +51,8 @@ public class CalendarServiceImpl implements CalendarService {
         // 캘린더 존재 여부 파악
         Optional<Calendar> calendarOptional = calendarRepository.findByMemberIdAndRegDate(memberId, curDate);
 
-        // 존재할 경우, => 중복 에러
-        if (!calendarOptional.isEmpty()) {
+        // 존재할 경우 => 중복 에러
+        if (calendarOptional.isPresent()) {
             throw new BaseException(BaseResponseStatus.DUPLICATED_CALENDAR_INFO);
         }
 
@@ -78,11 +78,9 @@ public class CalendarServiceImpl implements CalendarService {
         Calendar registCalender = calendarRepository.findByMemberIdAndRegDate(memberId, curDate)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.DUPLICATED_CALENDAR_INFO));
 
-        CalendarRegistResponseDto calendarRegistResponseDto = CalendarRegistResponseDto.builder()
+        return CalendarRegistResponseDto.builder()
                 .calendar(registCalender)
                 .build();
-
-        return calendarRegistResponseDto;
     }
 
     /**
@@ -103,27 +101,24 @@ public class CalendarServiceImpl implements CalendarService {
         /* 현재 연월로 캘린더 목록 가져오기 */
         List<Calendar> calendarList = calendarRepository.findAllByMemberIdTodayMonth(memberId, regDate).get();
 
-        List<CalendarResponseDto> dairayCalendarList = new ArrayList<>();
+        List<CalendarResponseDto> diaryCalendarList = new ArrayList<>();
 
         /* 캘린더 정보들 불러와서 리스트에 저장 */
         for (Calendar calendar : calendarList) {
-            CalendarResponseDto calendarListResponseDto =
-                    CalendarResponseDto.builder()
-                            .id(calendar.getId())
-                            .likeOutfit(calendar.getLikeOutfit())
-                            .imageUrl(calendar.getImageUrl())
-                            .regDate(calendar.getRegDate())
-                            .build();
+            CalendarResponseDto calendarListResponseDto = CalendarResponseDto.builder()
+                    .id(calendar.getId())
+                    .likeOutfit(calendar.getLikeOutfit())
+                    .imageUrl(calendar.getImageUrl())
+                    .regDate(calendar.getRegDate())
+                    .build();
 
-            dairayCalendarList.add((calendarListResponseDto));
+            diaryCalendarList.add((calendarListResponseDto));
         }
 
         /* 일기 목록 전달 */
-        CalendarListResponseDto calendarListResponseDto = CalendarListResponseDto.builder()
-                .calendarList(dairayCalendarList)
+        return CalendarListResponseDto.builder()
+                .calendarList(diaryCalendarList)
                 .build();
-
-        return calendarListResponseDto;
     }
 
     /**
@@ -135,7 +130,6 @@ public class CalendarServiceImpl implements CalendarService {
      */
     @Override
     public void deleteCalendar(UUID memberId, Integer id) throws BaseException {
-
         /* 사용자 재 검증 */
         memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
