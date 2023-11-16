@@ -7,7 +7,7 @@
 ### 설치
   - 모듈 설치
     - pip install -r requirements.txt
-  - 실행 
+### 실행 
     - python main.py
 ## 주의사항
 - python version : 3.10
