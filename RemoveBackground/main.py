@@ -51,7 +51,7 @@ async def create_report(file: UploadFile = File(...)):
 
         # 배경 제거
         ret = kjg.main(img, seg_model)
-
+        ret.show()
         # 색상 추출
         width, height = ret.size
         center_pixel = ret.getpixel((width // 2, height // 2))
@@ -96,7 +96,7 @@ async def create_report(file: UploadFile = File(...)):
 
         # 이미지 인코딩
         buffer = BytesIO()
-        ret.save(buffer, format='JPEG')
+        ret.save(buffer, format='PNG')# JPEG -> PNG
         buffer.seek(0)
         encoded_image = base64.b64encode(buffer.getvalue()).decode()
         # return StreamingResponse(buffer, media_type="image/jpeg")
