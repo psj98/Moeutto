@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SeasonDataType, SeasonClothesType } from '../../../pages/ReportSeasonPage';
 import SeasonReportSection from '../molecules/SeasonReportSection';
 import BuyRecommendSection from '../molecules/BuyRecommendSection';
@@ -39,7 +39,7 @@ const ClosetReportSeasonOrganism = ({ fourSeason }: SeasonDataType) => {
 
   useEffect(() => {
     const { max, min } = findMaxMinAmountSeason(fourSeason);
-    const findSeasonName = (a, fun) => {
+    const findSeasonName = (a: string, fun: React.Dispatch<React.SetStateAction<string>>) => {
       if (a === 'springClothes') {
         fun('봄');
       } else if (a === 'summerClothes') {
