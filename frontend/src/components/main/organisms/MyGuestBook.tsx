@@ -37,12 +37,12 @@ const MyGuestBook = ({ setIsAlertModalOpen }: MyGuestBookProps) => {
 
     return (
         <>
-        <div className="absolute z-99 h-[600px] shadow-md w-5/6 rounded-2xl left-1/2 top-[290px] transform -translate-x-1/2 -translate-y-1/2 bg-pink">
+        <div className="absolute z-99 min-h-[150px] max-h-[600px] shadow-md w-5/6 rounded-2xl left-1/2 top-[290px] transform -translate-x-1/2 -translate-y-1/2 bg-pink">
             <div className="flex">
                 <div className="flex justify-start font-bold text-AppTitle2 text-white p-4">나의 방명록</div>
                 <div className="flex items-center ms-[35%] font-bold text-white" onClick={closeAlert}>X</div>
             </div>
-            <div className="bg-white rounded-2xl w-[90%] h-[500px] p-2 justify-center items-center mx-auto mb-6">
+            <div className="bg-white flex rounded-2xl w-[90%] min-h-[100px] max-h-[500px] p-2 justify-center items-center mx-auto mb-6">
                 {myGuestBookData ? (
                     <>
                          <div className="h-full overflow-auto p-4">
@@ -65,7 +65,7 @@ const MyGuestBook = ({ setIsAlertModalOpen }: MyGuestBookProps) => {
                         </div>
                     </>
                 ) : (
-                    <div>아직 방명록을 남긴 친구가 없네요 ㅜㅅㅜ</div>
+                    <div className="flex justify-center items-center text-center my-auto">아직 방명록을 남긴 <br/> 친구가 없네요 ㅜㅅㅜ</div>
                 )}
 
             </div>
