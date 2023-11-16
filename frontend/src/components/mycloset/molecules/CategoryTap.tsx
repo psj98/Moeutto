@@ -101,7 +101,7 @@ const CategoryTap = ({ title, id, categories, uniqueId }) => {
       <div className="flex flex-row justify-between items-center">
         <MainCategory title={title} />
         <select
-          className="text-GmarketSansLight text-base"
+          className="text-base"
           value={categoryValue}
           defaultValue="initial"
           onChange={onChange}>

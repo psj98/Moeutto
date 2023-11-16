@@ -61,6 +61,10 @@ public class MemberServiceImpl implements MemberService {
     public void updateMypageInfo(String token, MemberUpdateMyInfoRequestDto memberUpdateMyInfoRequestDto) throws BaseException {
         UUID memberId = authTokensGenerator.extractMemberId(token);
 
+        if(memberUpdateMyInfoRequestDto.getNickname().length() > 8){
+            throw new BaseException(BaseResponseStatus.NICKNAME_OVER_LENGTH_EIGHT);
+        }
+
         Member baseMember = memberRepository.findById(memberId).orElseThrow(()-> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
         Member fixMember = baseMember.toBuilder()
