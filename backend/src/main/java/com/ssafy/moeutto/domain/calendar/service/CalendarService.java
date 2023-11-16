@@ -2,6 +2,7 @@ package com.ssafy.moeutto.domain.calendar.service;
 
 import com.ssafy.moeutto.domain.calendar.dto.request.CalendarScoreRequestDto;
 import com.ssafy.moeutto.domain.calendar.dto.response.CalendarListResponseDto;
+import com.ssafy.moeutto.domain.calendar.dto.response.CalendarRegistResponseDto;
 import com.ssafy.moeutto.global.response.BaseException;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,7 +10,7 @@ import java.util.UUID;
 
 public interface CalendarService {
 
-    void registMyOutfit(UUID memberId, String token, MultipartFile file) throws BaseException;
+    CalendarRegistResponseDto registMyOutfit(UUID memberId, String token, MultipartFile file) throws BaseException;
 
     CalendarListResponseDto getCalendarList(UUID memberId, String regDate) throws BaseException;
 
