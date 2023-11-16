@@ -1,3 +1,20 @@
+# 개요 
+- 날씨와 계절에 맞는 옷을 추천해줍니다
+- 사용자의 옷 정보와 3일간의 날씨를 입력으로 받고 적합한 옷 조합을 추천해줍니다
+
+# 디렉토리 구조
+```shell                                 
+├─myapp
+   ├─cmd
+   │  └─myapp
+   └─internal
+      ├─app
+      │  ├─handlers
+      │  └─logic
+      └─pkg
+          ├─models
+          └─utils
+```
 
 # 실행
 cmd - myapp 디렉토리에서 아래 명령어를 터미널에 입력하세요 
