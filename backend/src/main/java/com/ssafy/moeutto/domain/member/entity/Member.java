@@ -27,6 +27,7 @@ public class Member {
     private String email;
 
     @NotNull
+    @Column(columnDefinition = "varchar(8)")
     private String nickname;
 
     @Column(columnDefinition = "varchar(256) default 'https://moeutto-bucket.s3.ap-northeast-2.amazonaws.com/default_image.jpeg'")
