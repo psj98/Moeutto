@@ -8,7 +8,7 @@ import { authInstance } from '../api/api';
 import PickComponent from '../components/common/category/organisms/PickComponent';
 import Scroll from '../components/common/scroll/molecules/Scroll';
 import PostEditorTemplate from '../components/postCalendar/templates/PostEditorTemplate';
-// import { RootState } from '../redux/store';
+import Loading from '../components/postCalendar/atoms/LoadingAtom';
 
 export interface ClothesItem {
   id: number; // 옷 등록 id
@@ -130,36 +130,8 @@ const calendarPostPage = () => {
     fetchData();
   }, [categoryId, sortBy, orderBy]);
 
-  // 제출하기 버튼 동작 시 -> 리덕스에 선택한 옷 정보 저장 후 분석 페이지로 이동
-  // const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = event => {
-  //   console.log(file);
-
-  //   const postData = async () => {
-  //     try {
-  //       // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
-  //       const axiosInstance = authInstance({ ContentType: 'multipart/form-data' });
-  //       // const response = await axiosInstance.post('/calendars/regist', file);
-  //       const response = await axiosInstance.post('/calendars/regist', file, {
-  //         headers: {
-  //           'Content-Type': 'multipart/form-data',
-  //         },
-  //       });
-
-  //       if (response) {
-  //         alert('캘린더 제출이 완료되었습니다.');
-  //       } else {
-  //         // alert('옷 목록이 없어요')
-  //       }
-  //       return response.data;
-  //     } catch (error) {
-  //       console.log(error);
-  //       throw new Error('캘린더 제출 실패');
-  //     }
-  //   };
-
-  //   postData();
-  // };
   const [cnt, setCnt] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<Boolean>(false);
 
   const watchClickSubmit: React.MouseEventHandler<HTMLButtonElement> = () => {
     setCnt(cnt + 1);
@@ -167,6 +139,7 @@ const calendarPostPage = () => {
 
   const handleSubmit = async (file: File) => {
     try {
+      setIsLoading(true);
       // Create a FormData object and append the file to it
 
       // Configure the axios instance with the correct headers
@@ -179,18 +152,20 @@ const calendarPostPage = () => {
       const response = await axiosInstance.post('/calendars/regist', formData);
 
       if (response) {
+        setIsLoading(false);
+
         Swal.fire({
           icon: 'success',
           title: "<h5 style='color:blue'>성공",
           html: '캘린더 제출이 완료되었습니다',
           showCancelButton: false,
           confirmButtonText: '확인',
-        }).then((result) => {
+        }).then(result => {
           // 확인 버튼이 눌렸을 때 캘린더 페이지로 이동
           if (result.isConfirmed) {
             window.location.href = '/calendar';
           }
-        })
+        });
       } else {
         // Handle the case when the request is not successful
       }
@@ -203,8 +178,9 @@ const calendarPostPage = () => {
   };
 
   return (
-    <>
+    <div className={isLoading ? 'bg-gray-800 bg-opacity-30' : ''}>
       <PostEditorTemplate handleSubmit={handleSubmit} cnt={cnt}></PostEditorTemplate>
+      {isLoading ? <Loading /> : null}
       <PickComponent
         selectedOptionMain={selectedOptionMain}
         setSelectedOptionMain={setSelectedOptionMain}
@@ -218,7 +194,7 @@ const calendarPostPage = () => {
       <ScrollSection className="scroll fixed bottom-[150px]">
         <Scroll />
       </ScrollSection>
-    </>
+    </div>
   );
 };
 
