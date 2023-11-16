@@ -644,6 +644,10 @@ public class ClothesServiceImpl implements ClothesService {
         // 친구 정보 조회
         Member friendInfo = memberRepository.findByEmail(clothesListByFriendsRequestDto.getEmail()).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
+        if(!friendInfo.isClosetFind()) {
+            throw new BaseException(BaseResponseStatus.UNDISCLOSED_CLOSET);
+        }
+
         String categoryId = clothesListByFriendsRequestDto.getCategoryId(); // 카테고리 id
         String largeCategoryId = categoryId.substring(0, 3); // 대분류 카테고리 id
         String middleCategoryId = categoryId.substring(3); // 중분류 카테고리 id
@@ -687,6 +691,10 @@ public class ClothesServiceImpl implements ClothesService {
                 .build();
 
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+
+        if(!member.isClosetFind()) {
+            throw new BaseException(BaseResponseStatus.UNDISCLOSED_CLOSET);
+        }
 
         List<ClothesListResponseDto> clothesListResponseDtoList = getListByFriends(memberId, clothesListByFriendsRequestDto);
         List<GuestBookListResponseDto> guestBookListResponseDtoList = guestBookService.listGuestBook(member.getId());
