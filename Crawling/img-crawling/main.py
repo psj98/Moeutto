@@ -5,7 +5,6 @@ from fashion_clip.fashion_clip import FashionCLIP
 from PIL import Image
 import chromadb
 import re
-#function
 def img_vector(image):
     images = []
     images.append(image)
@@ -20,7 +19,6 @@ def origin_run(goods_soup, img):
     category_id = category.get_text()
     category_detail = category_id.replace(' ', '').replace('\n', '').replace('(무신사스탠다드)', '').split('>')  # 중분류 이름
     if (len(category.select('a')) <= 2):
-        # continue
         return
 
     category_top = str(category.select('a')[0]).split('"')[1].split('/')[-1]  # 대분류 번호
@@ -50,9 +48,9 @@ def origin_run(goods_soup, img):
     # chromadb - all_clothes에 임베딩
     collection.add(
         # documents=["doc1"], # 비구조화된 추가정보
-        embeddings=[embeded_list],
+        embeddings=[embeded_list], # 임베딩 된 이미지
         metadatas=[{"title": str(img['title']), "price": str(price), "image": image_url}],  # 구조화된 추가정보
-        ids=[category_info]  # 고유 식별자
+        ids=[category_info]  # 고유 식별자 (str)
     )
     print(start, "finish")
 
