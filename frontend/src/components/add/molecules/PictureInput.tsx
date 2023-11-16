@@ -239,7 +239,7 @@ const PictureInput = ({ setStateValue, handleIconClick }: Props) => {
               {/* <span className={`${isRemoving ? 'isRemoving' : ''}`}> */}
               <div className={`${isRemoving ? 'isRemoving' : 'isNotRemoving'}`}>
                 <Fade delay={1e1} cascade damping={1e-1}>
-                  ai가 배경을 제거하고
+                  AI가 배경을 제거하고
                 </Fade>
                 <Fade delay={1e3} cascade damping={1e-1}>
                   옷을 분석 중입니다
