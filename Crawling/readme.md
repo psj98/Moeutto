@@ -15,7 +15,7 @@
 
 # 실행 매뉴얼
 ## 파이썬 버전 
-3.9 사용
+3.10 사용
 ## 가상환경
 - python -m venv myvenv
 - source myvenv/Scripts/activate
