@@ -23,45 +23,52 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * 솔이가 요청한 닉네임 검색 API 입니다.
+     *
      * @param email
      * @return
      * @throws BaseException
      */
     @Override
     public String findNicknameForSol(String email) throws BaseException {
+        Member friends = memberRepository.findByEmail(email).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
-        Member friends = memberRepository.findByEmail(email).orElseThrow(()-> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
-        log.info("friends" + friends.toString());
-        String nickname = friends.getNickname();
-
-        return nickname;
+        return friends.getNickname();
     }
 
+    /**
+     * 회원 정보를 조회합니다.
+     *
+     * @param memberId
+     * @return MemberMyPageResponseDto
+     * @throws BaseException
+     */
     @Override
-    public MemberMyPageResponseDto giveMypageInfo(String token) throws BaseException {
+    public MemberMyPageResponseDto giveMyPageInfo(UUID memberId) throws BaseException {
+        // 사용자 정보 체크
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.CANT_GET_MEMBER_INFO));
 
-        UUID memberId = authTokensGenerator.extractMemberId(token);
-
-        Member member = memberRepository.findById(memberId).orElseThrow(()-> new BaseException(BaseResponseStatus.CANT_GET_MEMBER_INFO));
-
-        MemberMyPageResponseDto memberMyPageResponseDto = MemberMyPageResponseDto.builder()
+        return MemberMyPageResponseDto.builder()
                 .imageUrl(member.getProfileImage())
                 .nickname(member.getNickname())
                 .closetFind(member.isClosetFind())
                 .accountFind(member.isAccountFind())
                 .build();
-
-        System.out.println(memberMyPageResponseDto);
-
-        return memberMyPageResponseDto;
     }
 
-    // 이미지 처리 해야함
+    /**
+     * 회원 정보를 수정합니다.
+     *
+     * @param memberId
+     * @param memberUpdateMyInfoRequestDto
+     * @throws BaseException
+     */
     @Override
-    public void updateMypageInfo(String token, MemberUpdateMyInfoRequestDto memberUpdateMyInfoRequestDto) throws BaseException {
-        UUID memberId = authTokensGenerator.extractMemberId(token);
+    public void updateMyPageInfo(UUID memberId, MemberUpdateMyInfoRequestDto memberUpdateMyInfoRequestDto) throws BaseException {
+        if (memberUpdateMyInfoRequestDto.getNickname().length() > 8) {
+            throw new BaseException(BaseResponseStatus.NICKNAME_OVER_LENGTH_EIGHT);
+        }
 
-        Member baseMember = memberRepository.findById(memberId).orElseThrow(()-> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+        Member baseMember = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
         Member fixMember = baseMember.toBuilder()
                 .profileImage(memberUpdateMyInfoRequestDto.getImageUrl())
@@ -70,10 +77,6 @@ public class MemberServiceImpl implements MemberService {
                 .closetFind(memberUpdateMyInfoRequestDto.isClosetFind())
                 .build();
 
-        System.out.println(fixMember);
-
         memberRepository.save(fixMember);
     }
-
-
 }

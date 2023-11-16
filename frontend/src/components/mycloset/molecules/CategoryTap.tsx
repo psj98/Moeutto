@@ -1,3 +1,4 @@
+// done
 import { useEffect, useState, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -45,29 +46,29 @@ const CategoryTap = ({ title, id, categories, uniqueId }) => {
 
   useEffect(() => {
     if (selectedOptionMiddle === '패딩') {
-      setCategoryId('001001');
+      setCategoryId('002012');
     } else if (selectedOptionMiddle === '코트') {
-      setCategoryId('001002');
+      setCategoryId('002007');
     } else if (selectedOptionMiddle === '자켓') {
-      setCategoryId('001003');
+      setCategoryId('002004');
     } else if (selectedOptionMiddle === '맨투맨') {
-      setCategoryId('002001');
+      setCategoryId('001005');
     } else if (selectedOptionMiddle === '후드') {
-      setCategoryId('002002');
+      setCategoryId('001004');
     } else if (selectedOptionMiddle === '반팔') {
-      setCategoryId('002003');
+      setCategoryId('001001');
     } else if (selectedOptionMiddle === '청바지') {
-      setCategoryId('003001');
-    } else if (selectedOptionMiddle === '반바지') {
       setCategoryId('003002');
+    } else if (selectedOptionMiddle === '반바지') {
+      setCategoryId('003009');
     } else if (selectedOptionMiddle === '카고팬츠') {
-      setCategoryId('003003');
+      setCategoryId('003004');
     } else if (selectedOptionMiddle === '귀마개') {
-      setCategoryId('004001');
+      setCategoryId('011006');
     } else if (selectedOptionMiddle === '장갑') {
-      setCategoryId('004002');
+      setCategoryId('011011');
     } else if (selectedOptionMiddle === '목도리') {
-      setCategoryId('004003');
+      setCategoryId('011010');
     } else if (selectedOptionMiddle.slice(0, 2) === '전체') {
       console.log('지금 선택한 값', selectedOptionMiddle);
       setCategoryId(id);
@@ -100,11 +101,7 @@ const CategoryTap = ({ title, id, categories, uniqueId }) => {
     <div className="mb-8 mx-5">
       <div className="flex flex-row justify-between items-center">
         <MainCategory title={title} />
-        <select
-          className="text-GmarketSansLight text-base"
-          value={categoryValue}
-          defaultValue="initial"
-          onChange={onChange}>
+        <select className="text-base" value={categoryValue} defaultValue="initial" onChange={onChange}>
           <option value="initial">정렬</option>
           <option value="regDate">등록순</option>
           <option value="frequency1">많이 입은 순</option>
@@ -112,7 +109,7 @@ const CategoryTap = ({ title, id, categories, uniqueId }) => {
           <option value="color">색상 순</option>
         </select>
       </div>
-      <div className="text-AppBody2 text-GmarketSansMedium flex flex-row items-center">
+      <div className="text-AppBody2 flex flex-row items-center">
         <MiddleCategory
           selectedOptionMiddle={selectedOptionMiddle}
           setSelectedOptionMiddle={setSelectedOptionMiddle}

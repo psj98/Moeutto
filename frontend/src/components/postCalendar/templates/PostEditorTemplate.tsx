@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import * as htmlToImage from 'html-to-image';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
+import backgroundImage from '../../../assets/images/canvas/bg-pattern.jpg';
 
 interface Props {
   handleSubmit: any;
@@ -18,6 +19,17 @@ const CanvasSection = styled.div<{ w: string }>`
     width: ${props => `${props.w}px`};
     height: ${props => `${props.w}px`};
   }
+`;
+
+const CanvasSectionBackground = styled.div<{ w: string }>`
+  background-image: url(${backgroundImage});
+  background-size: 800px;
+  object-fit: cover;
+  width: ${props => `${props.w}px`};
+  height: ${props => `${props.w}px`};
+  position: absolute;
+  top: 0;
+  z-index: -10;
 `;
 
 const PostEditorTemplate = ({ handleSubmit, cnt }: Props) => {
@@ -78,13 +90,9 @@ const PostEditorTemplate = ({ handleSubmit, cnt }: Props) => {
   };
 
   function loadAndAddImageFromServer() {
-    // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
     const targetUrl = imgUrl;
 
     fetch(`${targetUrl}?v=${new Date().getTime()}`).then(response => {
-      // if (!response.ok) {
-      //   throw new Error(`HTTP error${response.status}`);
-      // }
       return response.arrayBuffer();
     });
 
@@ -129,31 +137,6 @@ const PostEditorTemplate = ({ handleSubmit, cnt }: Props) => {
       .catch(error => {
         console.error('Failed to load image from server:', error);
       });
-
-    // -------------------------------------------------------------------------------------------------------
-    // fabric.Image.fromURL(imgUrl, function (img) {
-    //   img.setControlsVisibility(HideControls);
-    //   img.crossOrigin = 'anonymous'; // Set crossOrigin directly on the fabric.js image
-
-    //   const canvasWidth = editor?.canvas.width || 0;
-    //   const canvasHeight = editor?.canvas.height || 0;
-    //   const imgWidth = img.width || 0;
-    //   const imgHeight = img.height || 0;
-
-    //   if (imgWidth > canvasWidth || imgHeight > canvasHeight) {
-    //     const scale = Math.min((canvasWidth / imgWidth) * 0.5, (canvasHeight / imgHeight) * 0.5);
-
-    //     img.scale(scale);
-    //   }
-
-    //   img.set({
-    //     left: (canvasWidth - img.width * img.scaleX) / 2,
-    //     top: (canvasHeight - img.height * img.scaleY) / 2,
-    //   });
-
-    //   editor?.canvas.add(img);
-    //   editor?.canvas.renderAll();
-    // });
   }
 
   const capture = () => {
@@ -217,15 +200,19 @@ const PostEditorTemplate = ({ handleSubmit, cnt }: Props) => {
     }
   }, [cnt]);
   return (
-    <>
-      <div className="my-6">오늘 입은 옷을 선택해서 기록해봐요</div>
+    <div>
+      <div className="py-6">오늘 입은 옷을 선택해서 기록해봐요</div>
       {/* <button type="button" onClick={capture}>
         capture
       </button> */}
-      <CanvasSection className="sample w-[100%] rounded-xl border-4 mb-10" w={width} id="canvasSection" ref={target}>
-        <div>{width ? <FabricJSCanvas className={`sample-canvas`} onReady={onReady} /> : null}</div>
-      </CanvasSection>
-    </>
+
+      <div className="relative rounded-xl border-4 overfolow-hidden mb-10">
+        <CanvasSection className="sample w-[100%]" w={width} id="canvasSection" ref={target}>
+          <div>{width ? <FabricJSCanvas className={`sample-canvas`} onReady={onReady} /> : null}</div>
+        </CanvasSection>
+        <CanvasSectionBackground w={width} className="" />
+      </div>
+    </div>
   );
 };
 
