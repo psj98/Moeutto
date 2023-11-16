@@ -20,7 +20,9 @@ const Label = ({ id, value, isEssential }: LabelProps) => {
       <label htmlFor={id} className="font-WebBody2">
         {value}
       </label>
-      {!isEssential ? <span className="ms-1 text-grey text-[12px]">(선택사항)</span> : null}
+      {!isEssential ? (
+        <span className="ms-1 text-grey text-[12px]">(선택사항) 닉네임은 8글자를 넘길 수 없습니다</span>
+      ) : null}
     </Labelsection>
   );
 };
