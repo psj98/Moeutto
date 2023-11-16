@@ -1,3 +1,4 @@
+// done
 // CategorySelect.tsx < CategoryInput.tsx < AddClothForm.tsx
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { CgSelect } from 'react-icons/cg';
@@ -69,21 +70,23 @@ const CategorySelect = ({ id, value, onClick, aiLargeCategory }: CategoryProps) 
   const itemArray = middleCategory.filter(item => item.largeCategory.name === '아이템');
 
   const [selectedLargeCategory, setSelectedLargeCategory] = useState<string>('0'); // 유저에게 선택된 옷 카테고리
+  const [base, setBase] = useState<string>('default');
 
   const handleLargeCategory = (e: ChangeEvent<HTMLSelectElement>) => {
     setSelectedLargeCategory(e.target.value);
+    setBase(e.target.value);
   };
 
   // 유저가 largeCategory를 선택하면 그 밑에 middleCategory가 스르륵 생깁니다
   const returnMiddleSelect = () => {
     switch (selectedLargeCategory) {
-      case '001': // 큰 카테고리가 아우터라면
+      case '002': // 큰 카테고리가 아우터라면
         return outerArray.map(item => (
           <button key={item.id} value={item.id} onClick={onClick} className={item.id === value ? 'selected' : ''}>
             {item.name}
           </button>
         )); // 아우터에 해당하는 중분류 선택지를 줍니다
-      case '002': // 큰 카테고리가 상의라면
+      case '001': // 큰 카테고리가 상의라면
         return topArray.map(item => (
           <button key={item.id} value={item.id} onClick={onClick} className={item.id === value ? 'selected' : ''}>
             {item.name}
@@ -95,7 +98,7 @@ const CategorySelect = ({ id, value, onClick, aiLargeCategory }: CategoryProps) 
             {item.name}
           </button>
         ));
-      case '004':
+      case '011':
         return itemArray.map(item => (
           <button key={item.id} value={item.id} onClick={onClick} className={item.id === value ? 'selected' : ''}>
             {item.name}
@@ -108,14 +111,20 @@ const CategorySelect = ({ id, value, onClick, aiLargeCategory }: CategoryProps) 
   };
 
   useEffect(() => {
-    console.log(aiLargeCategory);
     setSelectedLargeCategory(aiLargeCategory);
+    setBase(aiLargeCategory);
   }, [aiLargeCategory]);
+
+  useEffect(() => {
+    if (value === '') {
+      setBase('default');
+    }
+  }, [value]);
 
   return (
     <Select>
-      <select id={id} value={selectedLargeCategory} onChange={handleLargeCategory}>
-        <option value="000" disabled hidden>
+      <select id={id} value={base} onChange={handleLargeCategory}>
+        <option value="default" disabled hidden>
           카테고리를 선택하세요.
         </option>
         {largeCategory.map(item => (

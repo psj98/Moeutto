@@ -1,3 +1,4 @@
+// done
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -25,10 +26,10 @@ const ReportVolumePage = () => {
 
   // 대분류 카테고리
   const largeCategory = {
-    '001': '아우터',
-    '002': '상의',
+    '002': '아우터',
+    '001': '상의',
     '003': '하의',
-    '004': '아이템',
+    '011': '아이템',
   };
 
   const [halfDoughnutChartDataList, setHalfDoughnutChartDataList] = useState<object[]>([]); // 도넛 차트 데이터 리스트
@@ -99,9 +100,9 @@ const ReportVolumePage = () => {
 
       {/* 간단 분석 문구 */}
       <ShortReportComment
-        imageDivClass="absolute top-[-45px] left-[0px]"
+        imageDivClass="absolute top-[-30px] left-[0px]"
         imageUrl="/images/box.png"
-        imageClass="w-24 inline-block"
+        imageClass="w-16 inline-block"
         mainTitle={shortReportComment}
       />
 
@@ -111,7 +112,7 @@ const ReportVolumePage = () => {
           divPadding="p-4"
           imageUrl="/images/report-closet.png"
           imageClass="w-16 inline-block"
-          mainTitle="내 옷장에는 몇 벌의 옷이 있을까요?"
+          mainTitle="내 옷장에 몇 벌의 옷이 있을까요?"
           subTitle={reportComment}
         />
       </div>

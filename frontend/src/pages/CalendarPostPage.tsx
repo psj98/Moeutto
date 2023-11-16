@@ -1,3 +1,4 @@
+// done
 import React, { useState, useEffect } from 'react';
 // import { useSelector } from 'react-redux';
 // import { useNavigate } from 'react-router-dom';
@@ -8,7 +9,7 @@ import { authInstance } from '../api/api';
 import PickComponent from '../components/common/category/organisms/PickComponent';
 import Scroll from '../components/common/scroll/molecules/Scroll';
 import PostEditorTemplate from '../components/postCalendar/templates/PostEditorTemplate';
-// import { RootState } from '../redux/store';
+import Loading from '../components/postCalendar/atoms/LoadingAtom';
 
 export interface ClothesItem {
   id: number; // 옷 등록 id
@@ -45,29 +46,29 @@ const calendarPostPage = () => {
   useEffect(() => {
     // 중분류
     if (selectedOptionMiddle === '패딩') {
-      setCategoryId('001001');
+      setCategoryId('002012');
     } else if (selectedOptionMiddle === '코트') {
-      setCategoryId('001002');
+      setCategoryId('002007');
     } else if (selectedOptionMiddle === '자켓') {
-      setCategoryId('001003');
+      setCategoryId('002004');
     } else if (selectedOptionMiddle === '맨투맨') {
-      setCategoryId('002001');
+      setCategoryId('001005');
     } else if (selectedOptionMiddle === '후드') {
-      setCategoryId('002002');
+      setCategoryId('001004');
     } else if (selectedOptionMiddle === '반팔') {
-      setCategoryId('002003');
+      setCategoryId('001001');
     } else if (selectedOptionMiddle === '청바지') {
-      setCategoryId('003001');
-    } else if (selectedOptionMiddle === '반바지') {
       setCategoryId('003002');
+    } else if (selectedOptionMiddle === '반바지') {
+      setCategoryId('003009');
     } else if (selectedOptionMiddle === '카고팬츠') {
-      setCategoryId('003003');
+      setCategoryId('003004');
     } else if (selectedOptionMiddle === '귀마개') {
-      setCategoryId('004001');
+      setCategoryId('011006');
     } else if (selectedOptionMiddle === '장갑') {
-      setCategoryId('004002');
+      setCategoryId('011011');
     } else if (selectedOptionMiddle === '목도리') {
-      setCategoryId('004003');
+      setCategoryId('011010');
     }
 
     if (selectedOptionSort === '정렬') {
@@ -130,36 +131,8 @@ const calendarPostPage = () => {
     fetchData();
   }, [categoryId, sortBy, orderBy]);
 
-  // 제출하기 버튼 동작 시 -> 리덕스에 선택한 옷 정보 저장 후 분석 페이지로 이동
-  // const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = event => {
-  //   console.log(file);
-
-  //   const postData = async () => {
-  //     try {
-  //       // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
-  //       const axiosInstance = authInstance({ ContentType: 'multipart/form-data' });
-  //       // const response = await axiosInstance.post('/calendars/regist', file);
-  //       const response = await axiosInstance.post('/calendars/regist', file, {
-  //         headers: {
-  //           'Content-Type': 'multipart/form-data',
-  //         },
-  //       });
-
-  //       if (response) {
-  //         alert('캘린더 제출이 완료되었습니다.');
-  //       } else {
-  //         // alert('옷 목록이 없어요')
-  //       }
-  //       return response.data;
-  //     } catch (error) {
-  //       console.log(error);
-  //       throw new Error('캘린더 제출 실패');
-  //     }
-  //   };
-
-  //   postData();
-  // };
   const [cnt, setCnt] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<Boolean>(false);
 
   const watchClickSubmit: React.MouseEventHandler<HTMLButtonElement> = () => {
     setCnt(cnt + 1);
@@ -167,6 +140,7 @@ const calendarPostPage = () => {
 
   const handleSubmit = async (file: File) => {
     try {
+      setIsLoading(true);
       // Create a FormData object and append the file to it
 
       // Configure the axios instance with the correct headers
@@ -179,18 +153,20 @@ const calendarPostPage = () => {
       const response = await axiosInstance.post('/calendars/regist', formData);
 
       if (response) {
+        setIsLoading(false);
+
         Swal.fire({
           icon: 'success',
           title: "<h5 style='color:blue'>성공",
           html: '캘린더 제출이 완료되었습니다',
           showCancelButton: false,
           confirmButtonText: '확인',
-        }).then((result) => {
+        }).then(result => {
           // 확인 버튼이 눌렸을 때 캘린더 페이지로 이동
           if (result.isConfirmed) {
             window.location.href = '/calendar';
           }
-        })
+        });
       } else {
         // Handle the case when the request is not successful
       }
@@ -203,8 +179,9 @@ const calendarPostPage = () => {
   };
 
   return (
-    <>
+    <div className={isLoading ? 'bg-gray-800 bg-opacity-30' : ''}>
       <PostEditorTemplate handleSubmit={handleSubmit} cnt={cnt}></PostEditorTemplate>
+      {isLoading ? <Loading /> : null}
       <PickComponent
         selectedOptionMain={selectedOptionMain}
         setSelectedOptionMain={setSelectedOptionMain}
@@ -218,7 +195,7 @@ const calendarPostPage = () => {
       <ScrollSection className="scroll fixed bottom-[150px]">
         <Scroll />
       </ScrollSection>
-    </>
+    </div>
   );
 };
 

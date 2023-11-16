@@ -1,2 +1,0 @@
-chromadb
-pymongo==3.6

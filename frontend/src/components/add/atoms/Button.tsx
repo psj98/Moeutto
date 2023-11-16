@@ -19,7 +19,7 @@ const Button = styled.button`
 const StyledButton = ({ value, onClick }: Props) => {
   return (
     <>
-      <Button onClick={onClick}>{value}</Button>
+      <Button onClick={onClick} >{value}</Button>
     </>
   );
 };

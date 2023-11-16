@@ -22,16 +22,15 @@ public interface MemberRepository extends JpaRepository<Member, UUID> {
 
     /**
      * 사용자 수를 세는 메서드
-     * @return
+     *
+     * @return Long
      */
     Long countBy();
-
-    Member findMemberById(UUID memberId);
-
 
     /**
      * 닉네임과 내 아이디를 기반으로 친구 목록의 멤버 정보 검색.
      * 팔로우 여부 위해 my_id(memberId)필요
+     *
      * @param memberId
      * @param nickname
      * @return
@@ -44,12 +43,13 @@ public interface MemberRepository extends JpaRepository<Member, UUID> {
             "SELECT 1 FROM following f1 " +
             "WHERE f1.my_id = ?1 AND f1.following_id = m.id) as isFollowing " +
             "FROM member m " +
-            "WHERE m.nickname LIKE CONCAT('%', ?2, '%') AND m.id != ?1 ", nativeQuery = true)
+            "WHERE m.nickname LIKE CONCAT('%', ?2, '%') AND m.id != ?1 " +
+            "AND m.account_find = 1 ", nativeQuery = true)
     List<IFriendsListResponseDto> findFriendsListByNickname(UUID memberId, String nickname);
-
 
     /**
      * 내가 팔로우 하는 친구들의 멤버 정보 검색
+     *
      * @param memberId
      * @return
      */
@@ -60,6 +60,4 @@ public interface MemberRepository extends JpaRepository<Member, UUID> {
             "FROM following " +
             "where my_id = ?1)", nativeQuery = true)
     List<IMyFriendsListResponseDto> findMyFollowingListById(UUID memberId);
-
 }
-    
