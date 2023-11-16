@@ -3,23 +3,9 @@ import requests
 from io import BytesIO
 from fashion_clip.fashion_clip import FashionCLIP
 from PIL import Image
-
-import sys
-#sys.path.append("fashion-clip/")
-from transformers import CLIPProcessor, CLIPModel
-import re
-import time
-import pandas as pd
-import numpy as np
-from collections import Counter
-
-import numpy as np
-from sklearn.metrics import classification_report
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import *
-from sklearn.linear_model import LogisticRegression
-
 import chromadb
+
+
 
 #function
 def img_vector(image):
@@ -38,6 +24,13 @@ def origin_run(goods_soup, img):
     if (len(category.select('a')) <= 2):
         # continue
         return
+
+    category_top = str(category.select('a')[0]).split('"')[1].split('/')[-1]  # 대분류 번호
+    category_bottom = str(category.select('a')[1]).split('"')[1].split('/')[-1]  # 중분류 번호
+    category_info = category_detail[0]+category_detail[1]+category_top+category_bottom # ids로 사용
+
+
+
 
     # 타이틀
     print(img['title'])
@@ -65,7 +58,7 @@ def origin_run(goods_soup, img):
         # documents=["doc1"], # 비구조화된 추가정보
         embeddings=[embeded_list],
         metadatas=[{"title": str(img['title']), "price": str(price), "image": image_url}],  # 구조화된 추가정보
-        ids=[category_id]  # 고유 식별자
+        ids=[category_info]  # 고유 식별자
     )
     print(start, "finish")
 
@@ -96,11 +89,6 @@ def crawl(start):
         origin_run(goods_soup, img)
 
     return
-
-
-
-
-
 
 
 if __name__ == '__main__':
