@@ -45,7 +45,7 @@ const LoaderCircle = styled.div`
   width: 30px;
   height: 30px;
   border: 6px solid #FF78A5;
-  border-top-color: white;
+  border-top-color: #E2E2E2;
   border-radius: 100%;
   animation: ${rotate} 2s ease-out infinite;
 `;
@@ -94,6 +94,22 @@ const MainPage = () => {
   // 옷 추천 로딩 중
   const [recommendLoading, setRecommendLoading] = useState<boolean>(false);
 
+  // 오늘 날짜
+  const today = new Date().toISOString().slice(0, 10);
+
+  // 내일 날짜
+  const now = new Date();
+  const tomorrow = new Date(now);
+
+  tomorrow.setDate(now.getDate() + 1);
+  const formattedTomorrow = tomorrow.toISOString().slice(0, 10);
+
+  // 내일 모레
+  const dayAfterTomorrow = new Date(now);
+
+  dayAfterTomorrow.setDate(now.getDate() + 2);
+  const formattedDayAfterTomorrow = new Date(dayAfterTomorrow).toISOString().slice(0, 10);
+
   const clothesData = async () => {
     console.log('$$$$$$$$$$$$$$$$$$$$$$$$$추천 등록 시작')
     const requesBody = [
@@ -104,7 +120,7 @@ const MainPage = () => {
         tmn: 0, // 일 최저 기온
         tmx: 0, // 일 최고 기온
         wsd: 0, // 풍속
-        date: '2023-11-13', // 날짜 - "2023-11-02"
+        date: today, // 날짜 - "2023-11-02"
       },
       {
         // 날씨 정보
@@ -113,7 +129,7 @@ const MainPage = () => {
         tmn: 0, // 일 최저 기온
         tmx: 0, // 일 최고 기온
         wsd: 0, // 풍속
-        date: '2023-11-14', // 날짜 - "2023-11-02"
+        date: formattedTomorrow, // 날짜 - "2023-11-02"
       },
       {
         // 날씨 정보
@@ -122,7 +138,7 @@ const MainPage = () => {
         tmn: 0, // 일 최저 기온
         tmx: 0, // 일 최고 기온
         wsd: 0, // 풍속
-        date: '2023-11-15', // 날짜 - "2023-11-02"
+        date: formattedDayAfterTomorrow, // 날짜 - "2023-11-02"
       },
     ];
 
@@ -130,6 +146,9 @@ const MainPage = () => {
       // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
       const axiosInstance = authInstance({ ContentType: 'application/json' });
       const response = await axiosInstance.post('/ai-rec-outfits/combine', requesBody);
+
+      // 일정 시간 지연시켜서 로딩중 보이게
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       console.log('추천 착장 만들기 성공', response.data.data);
       setRecommendLoading(true);
@@ -142,7 +161,7 @@ const MainPage = () => {
 
       return response.data;
     } catch (error) {
-      console.log('옷 목록 데이터 조회 실패', error);
+      console.log('추천 착장 만들기 실패', error);
 
       return null;
     }
@@ -151,16 +170,17 @@ const MainPage = () => {
   // 옷 추천 리스트 GET 조회
   const OnlyGetRecommendClothesData = async () => {
     console.log('2. 조회만 하는 api 실행 시작')
+    
     try {
       // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
       const axiosInstance = authInstance({ ContentType: 'application/json' });
       const response = await axiosInstance.get('/ai-rec-outfits');
 
       console.log('************추천 착장 조회만 하는 거 성공', response);
+      setRecommendLoading(true);
 
       // 저장된 추천 데이터가 없는 경우
       if (response.data.message === '현재 날짜에 추천된 착장이 없습니다.') {
-        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         // 추천 받을 수 있는 api를 실행시킨다
         clothesData();
       }
@@ -178,6 +198,11 @@ const MainPage = () => {
       return null;
     }
   };
+
+  const reRecommend = () => {
+    setRecommendLoading(false);
+    clothesData();
+  }
   
 
   // 날씨 기반 리스트
@@ -190,7 +215,6 @@ const MainPage = () => {
 
     // 데이터가 없는 경우 or 다시 추천을 받고 싶은 경우 실행되는 api
     // clothesData();
-    console.log(clothesData);
     console.log('날씨 데이터 잘 받는거 확인했잖아', weatherListData)
   }, []);
 
@@ -244,15 +268,15 @@ const MainPage = () => {
             <div className='flex'>
               <UserName />
               {recommendLoading ? (
-
+// 재추천 안되는 이슈로 hidden으로 숨기기
                 <button 
-                  className='flex items-center gap-1 justify-center bg-pink rounded-2xl text-white text-AppBody2 p-2 absolute right-6'
-                  onClick={clothesData}
+                  className='hidden flex items-center justify-center bg-pink rounded-2xl text-white text-AppBody2 p-2 absolute right-6'
+                  onClick={reRecommend}
                 >
                     다시 추천
                 </button>
               ) : (
-                <div>
+                <div className='hidden absolute right-10'>
                   <LoaderContainer>
                     <LoaderCircle />
                   </LoaderContainer>
