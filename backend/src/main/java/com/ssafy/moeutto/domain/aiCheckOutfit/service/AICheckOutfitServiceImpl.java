@@ -22,9 +22,14 @@ import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -110,7 +115,7 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
                 .weatherInfo(pythonRequestWeatherInfo)
                 .build();
 
-        System.out.println("파이썬에 보내는 정보 : "+pythonRequestClothesLists);
+        System.out.println("파이썬에 보내는 정보 : " + pythonRequestClothesLists);
 
         /**
          * 여기 아래부턴 테스트 필요
@@ -119,8 +124,34 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
         // 파이썬 서버로 전달
         RestTemplate restTemplate = new RestTemplate();
 
+        // Set UTF-8 encoding for StringHttpMessageConverter
+        restTemplate.getMessageConverters()
+                .stream()
+                .filter(converter -> converter instanceof StringHttpMessageConverter)
+                .forEach(converter -> ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8));
+
+// Create HTTP headers with UTF-8 encoding
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Accept-Charset", StandardCharsets.UTF_8.name());
+
+        // Convert your object to JSON string using a JSON converter (e.g., Jackson ObjectMapper)
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        String requestBody;
+        try {
+            requestBody = objectMapper.writeValueAsString(pythonRequestClothesLists);
+        } catch (JsonProcessingException e) {
+            // Handle JSON processing exception
+            e.printStackTrace();
+            requestBody = ""; // Set an empty string or handle the error appropriately
+        }
+
+        // Create a request entity with headers and body
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+
         // 파이썬 서버로부터 반환된 데이터
-        String pythonResponse = restTemplate.postForObject(checkRequestUrl, pythonRequestClothesLists, String.class);
+        String pythonResponse = restTemplate.postForObject(checkRequestUrl, requestEntity, String.class);
 
         // AICheckOutfitPythonResponseDto 로 매핑
         // ObjectMapper의 리플렉션을 이용하여 Json문자열로 부터 객체를 만드는 역직렬화 하여줌 ( 반대도 가능 )
