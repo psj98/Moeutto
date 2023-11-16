@@ -14,7 +14,6 @@ import com.ssafy.moeutto.domain.aiCheckOutfit.repository.AiCheckOutfitRepository
 import com.ssafy.moeutto.domain.aiCheckOutfit.repository.ClothesInAiCheckOutfitRepsitory;
 import com.ssafy.moeutto.domain.clothes.entity.Clothes;
 import com.ssafy.moeutto.domain.clothes.repository.ClothesRepository;
-import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
 import com.ssafy.moeutto.domain.member.entity.Member;
 import com.ssafy.moeutto.domain.member.repository.MemberRepository;
 import com.ssafy.moeutto.global.response.BaseException;
@@ -32,7 +31,10 @@ import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
 import java.sql.Date;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -42,23 +44,16 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
     private final AiCheckOutfitRepository aiCheckOutfitRepository;
     private final ClothesInAiCheckOutfitRepsitory clothesInAiCheckOutfitRepsitory;
     private final ClothesRepository clothesRepository;
-    private final AuthTokensGenerator authTokensGenerator;
     private final MemberRepository memberRepository;
 
-    // ai check outfit url
+    // AI CHECK OUTFIT URL (Python URL)
     @Value("${python.check.request.url}")
     private String checkRequestUrl;
 
     @Override
-    public AICheckOutfitClientResponseDto checkOutfit(String token, AICheckOutfitClientRequestDto aiCheckOutfitClientRequestDto) throws BaseException {
-
-        UUID memberId = authTokensGenerator.extractMemberId(token);
-
-        // 사용자 정보 체크
-        Optional<Member> memberOptional = memberRepository.findById(memberId);
-        if (!memberOptional.isPresent()) {
-            throw new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER);
-        }
+    public AICheckOutfitClientResponseDto checkOutfit(UUID memberId, AICheckOutfitClientRequestDto aiCheckOutfitClientRequestDto) throws BaseException {
+        // 사용자 체크
+        memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
         // 파이썬 서버로 보내기 위한 작업
         PythonRequestClothesListItems outerTemp = null;
@@ -70,10 +65,6 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
 
         for (int i = 0; i < arr.size(); i++) {
             Clothes clothesInfo = clothesRepository.findByClothesId(arr.get(i).getId());
-
-//            System.out.println("AICheckOutfitService Impl , clothesInfo id : "+clothesInfo.getId());
-//            System.out.println("AICheckOutfitService Impl , arr.get(i).getId() : "+arr.get(i).getId());
-//            System.out.println("AICheckOutfitService Impl , arr.get(i).getLargeCateogryId() : "+arr.get(i).getLargeCategoryId());
 
             PythonRequestClothesListItems requestItems = PythonRequestClothesListItems.builder()
                     .largeCategoryId(arr.get(i).getLargeCategoryId())
@@ -113,7 +104,7 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
                 .weatherInfo(pythonRequestWeatherInfo)
                 .build();
 
-        System.out.println("파이썬에 보내는 정보 : "+pythonRequestClothesLists);
+        System.out.println("파이썬에 보내는 정보 : " + pythonRequestClothesLists);
 
         /**
          * 여기 아래부턴 테스트 필요
@@ -122,7 +113,7 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
         // 파이썬 서버로 전달
         RestTemplate restTemplate = new RestTemplate();
 
-// UTF-8 설정
+        // UTF-8 설정
         List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
         for (HttpMessageConverter<?> converter : messageConverters) {
             if (converter instanceof StringHttpMessageConverter) {
@@ -130,13 +121,13 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
             }
         }
 
-// JSON 변환
+        // JSON 변환
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.set("Accept-Charset", StandardCharsets.UTF_8.name());
 
-// Convert your object to JSON string using a JSON converter (e.g., Jackson ObjectMapper)
+        // Convert your object to JSON string using a JSON converter (e.g., Jackson ObjectMapper)
         ObjectMapper objectMapper = new ObjectMapper();
         String requestBody;
         try {
@@ -146,7 +137,7 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
             requestBody = ""; // Set an empty string or handle the error appropriately
         }
 
-// Create a request entity with headers and body
+        // Create a request entity with headers and body
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 
         String pythonResponse = "";
