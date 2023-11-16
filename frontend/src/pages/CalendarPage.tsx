@@ -77,9 +77,6 @@ const CalendarPage = () => {
 
   return (
     <>
-      <button>
-        <br />
-      </button>
       <div className="bg-white flex flex-col justify-center items-center border rounded-2xl shadow-md border-pink border-2 p-4 shadow-md relative mt-6">
         <CalendarTemplates
           setShowSelectedImg={setShowSelectedImg}
@@ -93,7 +90,6 @@ const CalendarPage = () => {
           <div className="font-gray-dark text-AppBody2">착장 기록은 있지만 평가는 없어요</div>
         </div>
       </div>
-
       {/* 상세 정보 모달 */}
       {modalVisible && clothesId !== 0 && (
         <div className="bg-pink shadow-md rounded-2xl p-4 mt-6">
@@ -110,7 +106,6 @@ const CalendarPage = () => {
           </div>
         </div>
       )}
-
       {/* 평가 모달 */}
       {isOpenedScoreModal && (
         <div className="fixed inset-0 z-50 flex justify-center items-center w-full h-full bg-gray-400 bg-opacity-30">
@@ -128,7 +123,6 @@ const CalendarPage = () => {
           </div>
         </div>
       )}
-
       {/* 두번째 평가 모달 */}
       {isColdModal && (
         <div className="fixed inset-0 z-50 flex justify-center items-center w-full h-full bg-gray-400 bg-opacity-30">
