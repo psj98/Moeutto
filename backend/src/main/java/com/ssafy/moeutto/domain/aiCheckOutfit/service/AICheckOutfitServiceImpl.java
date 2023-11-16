@@ -22,19 +22,17 @@ import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -115,7 +113,7 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
                 .weatherInfo(pythonRequestWeatherInfo)
                 .build();
 
-        System.out.println("파이썬에 보내는 정보 : " + pythonRequestClothesLists);
+        System.out.println("파이썬에 보내는 정보 : "+pythonRequestClothesLists);
 
         /**
          * 여기 아래부턴 테스트 필요
@@ -124,34 +122,59 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
         // 파이썬 서버로 전달
         RestTemplate restTemplate = new RestTemplate();
 
-        // Set UTF-8 encoding for StringHttpMessageConverter
-        restTemplate.getMessageConverters()
-                .stream()
-                .filter(converter -> converter instanceof StringHttpMessageConverter)
-                .forEach(converter -> ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8));
+// UTF-8 설정
+        List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
+        for (HttpMessageConverter<?> converter : messageConverters) {
+            if (converter instanceof StringHttpMessageConverter) {
+                ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8);
+            }
+        }
 
-// Create HTTP headers with UTF-8 encoding
+// JSON 변환
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.set("Accept-Charset", StandardCharsets.UTF_8.name());
 
-        // Convert your object to JSON string using a JSON converter (e.g., Jackson ObjectMapper)
+// Convert your object to JSON string using a JSON converter (e.g., Jackson ObjectMapper)
         ObjectMapper objectMapper = new ObjectMapper();
-
         String requestBody;
         try {
             requestBody = objectMapper.writeValueAsString(pythonRequestClothesLists);
         } catch (JsonProcessingException e) {
-            // Handle JSON processing exception
             e.printStackTrace();
             requestBody = ""; // Set an empty string or handle the error appropriately
         }
 
-        // Create a request entity with headers and body
+// Create a request entity with headers and body
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 
+        String pythonResponse = "";
+        try {
+            // Send the request and receive the response
+            ResponseEntity<String> responseEntity = restTemplate.exchange(checkRequestUrl, HttpMethod.POST, requestEntity, String.class);
+
+            // Check the response status code
+            HttpStatus statusCode = responseEntity.getStatusCode();
+            if (statusCode == HttpStatus.OK) {
+                // If successful, retrieve the response body
+                pythonResponse = responseEntity.getBody();
+                // Handle the response data as needed
+            } else {
+                // Handle other status codes if needed
+                System.out.println("Received status code: " + statusCode);
+            }
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            // Handle HTTP error responses
+            HttpStatus statusCode = e.getStatusCode();
+            String responseBody = e.getResponseBodyAsString();
+            System.out.println("Received status code: " + statusCode);
+            System.out.println("Response body: " + responseBody);
+            e.printStackTrace();
+        }
+
         // 파이썬 서버로부터 반환된 데이터
-        String pythonResponse = restTemplate.postForObject(checkRequestUrl, requestEntity, String.class);
+//        String pythonResponse = restTemplate.postForObject(checkRequestUrl, pythonRequestClothesLists, String.class);
 
         // AICheckOutfitPythonResponseDto 로 매핑
         // ObjectMapper의 리플렉션을 이용하여 Json문자열로 부터 객체를 만드는 역직렬화 하여줌 ( 반대도 가능 )
