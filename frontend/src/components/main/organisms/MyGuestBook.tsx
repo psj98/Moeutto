@@ -42,10 +42,10 @@ const MyGuestBook = ({ setIsAlertModalOpen }: MyGuestBookProps) => {
                 <div className="flex justify-start font-bold text-AppTitle2 text-white p-4">나의 방명록</div>
                 <div className="flex items-center ms-[35%] font-bold text-white" onClick={closeAlert}>X</div>
             </div>
-            <div className="bg-white flex rounded-2xl w-[90%] min-h-[100px] max-h-[500px] p-2 justify-center items-center mx-auto mb-6">
+            <div className="bg-white overflow-auto p-4 pt-6 flex rounded-2xl w-[90%] min-h-[100px] max-h-[500px] justify-center items-center mx-auto mb-6">
                 {myGuestBookData ? (
                     <>
-                         <div className="h-full overflow-auto p-4">
+                         <div className="h-full overflow-auto">
                             {myGuestBookData
                                 .slice(0)
                                 .reverse() // 댓글 최신순이 가장 먼저 오기 위해서 역정렬을 한다
