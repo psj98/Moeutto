@@ -644,7 +644,8 @@ public class ClothesServiceImpl implements ClothesService {
         // 친구 정보 조회
         Member friendInfo = memberRepository.findByEmail(clothesListByFriendsRequestDto.getEmail()).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
-        if(!friendInfo.isClosetFind()) {
+        // 친구 옷장 공개 여부 체크
+        if (!friendInfo.isClosetFind()) {
             throw new BaseException(BaseResponseStatus.UNDISCLOSED_CLOSET);
         }
 
@@ -665,6 +666,7 @@ public class ClothesServiceImpl implements ClothesService {
             clothesList = listClothesByMiddleCategoryId(friendInfo.getId(), categoryId, sortBy, orderBy);
         }
 
+        // 옷장 목록이 없는 경우
         if (clothesList == null || clothesList.size() == 0) {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES_LIST);
         }
@@ -683,6 +685,7 @@ public class ClothesServiceImpl implements ClothesService {
      */
     @Override
     public ClothesListAndGuestBookResponseDto getListClothesAndGuestBookByFriends(UUID memberId, String email) throws BaseException {
+        // 초기 정렬 기준
         ClothesListByFriendsRequestDto clothesListByFriendsRequestDto = ClothesListByFriendsRequestDto.builder()
                 .email(email)
                 .categoryId("000")
@@ -690,15 +693,18 @@ public class ClothesServiceImpl implements ClothesService {
                 .orderBy(0)
                 .build();
 
-        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+        // 친구 정보 조회
+        Member friendInfo = memberRepository.findByEmail(email).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
-        if(!member.isClosetFind()) {
+        // 친구 옷장 공개 여부 체크
+        if (!friendInfo.isClosetFind()) {
             throw new BaseException(BaseResponseStatus.UNDISCLOSED_CLOSET);
         }
 
-        List<ClothesListResponseDto> clothesListResponseDtoList = getListByFriends(memberId, clothesListByFriendsRequestDto);
-        List<GuestBookListResponseDto> guestBookListResponseDtoList = guestBookService.listGuestBook(member.getId());
+        List<ClothesListResponseDto> clothesListResponseDtoList = getListByFriends(memberId, clothesListByFriendsRequestDto); // 친구 옷장 목록
+        List<GuestBookListResponseDto> guestBookListResponseDtoList = guestBookService.listGuestBook(friendInfo.getId()); // 친구 방명록
 
+        // 친구 옷장 + 방명록 반환
         return ClothesListAndGuestBookResponseDto.builder()
                 .clothesListResponseDto(clothesListResponseDtoList)
                 .guestBookListResponseDto(guestBookListResponseDtoList)
