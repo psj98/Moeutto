@@ -50,7 +50,6 @@ public class FriendController {
     @PostMapping("/search")
     public BaseResponse<Object> searchFriends(@RequestHeader(value = "accessToken") String token,
                                               @RequestBody FriendsListRequestDto requestDto) {
-
         try {
             UUID memberId = getMemberIdFromToken(token);
 

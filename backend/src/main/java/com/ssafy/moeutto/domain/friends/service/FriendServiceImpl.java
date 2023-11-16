@@ -80,13 +80,10 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public List<IFriendsListResponseDto> searchFriends(UUID memberId, FriendsListRequestDto requestDto) throws BaseException {
-
         /* 멤버 체크 */
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
-        List<IFriendsListResponseDto> list = memberRepository.findFriendsListByNickname(memberId, requestDto.getNickname());
-
-        return list;
+        return memberRepository.findFriendsListByNickname(memberId, requestDto.getNickname());
     }
 
     /**

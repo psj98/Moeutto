@@ -1,3 +1,4 @@
+// done
 import React, { useState, useEffect, MouseEvent, ChangeEvent, SetStateAction, Dispatch } from 'react';
 import Swal from 'sweetalert2';
 import styled from 'styled-components';
@@ -137,14 +138,13 @@ const AddClothFormOrganism = ({ setStateValue, handleRemoveBG }: Props) => {
       const res = await handleRemoveBG(clothPic as File);
 
       if (res.data.category === 'top') {
-        setAiLargeCategory('002');
+        setAiLargeCategory('001');
       } else if (res.data.category === 'bottom') {
         setAiLargeCategory('003');
       } else if (res.data.category === 'outer') {
-        setAiLargeCategory('001');
-      } else {
-        // if (res.data.category === 'item')
-        setAiLargeCategory('004'); // Default category
+        setAiLargeCategory('002');
+      } else if (res.data.category === 'item') {
+        setAiLargeCategory('011'); // Default category
       }
       console.log(res.data.category);
       setTimeout(() => {
