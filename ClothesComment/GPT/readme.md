@@ -1,4 +1,7 @@
-
+# 개요 
+- ChatGPT를 이용하여 코멘트를 작성하는 로직을 구현한 코드입니다
+# 프롬프트
+```
     Act as a Doctor
 
     [Instructions]
@@ -21,12 +24,7 @@
 
 [return_format]
 ```
-{
-    "outer":feedback(str),
-    "top":feedback(str),
-    "bottom":feedback(str),
-    "item":feedback(str),
-}
+
 
 ```
 
