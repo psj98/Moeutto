@@ -9,4 +9,3 @@ python-multipart
 gdown
 onnx
 onnxruntime
-colormath
