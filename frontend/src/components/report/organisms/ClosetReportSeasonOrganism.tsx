@@ -75,7 +75,7 @@ const ClosetReportSeasonOrganism = ({ fourSeason }: SeasonDataType) => {
           imageUrl="/images/report-happy.png"
           imageClass="w-20 inline-block"
           mainTitle={`${sessionStorage.getItem('nickname')}님의 옷장에는`}
-          subTitle={`${mostSeason}옷이 가장 많네요`}
+          subTitle={`${mostSeason} 옷이 가장 많네요`}
         />
       </div>
 
