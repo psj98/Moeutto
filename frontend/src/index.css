@@ -12,7 +12,7 @@
 @font-face {
   font-family: 'LeferiBaseType-RegularA';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiBaseType-RegularA.woff') format('woff');
-  font-weight: 400;
+  font-weight: 300;
   font-style: normal;
 }
 
@@ -40,8 +40,9 @@
 
 body {
   margin: 0;
-  font-family: 'LeferiBaseType-RegularA', 'NanumSquareNeo', 'MinSans-Regular', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'NanumSquareNeo-Variable', 'LeferiBaseType-RegularA', 'NanumSquareNeo', 'MinSans-Regular', -apple-system,
+    BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
