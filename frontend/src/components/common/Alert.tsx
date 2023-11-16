@@ -16,8 +16,7 @@ const Alert = () => {
 
     return (
         <>
-        <div className="overflow-auto">
-
+        <div className="">
             <img 
                 src="/images/alert.png" 
                 alt="alert" 
