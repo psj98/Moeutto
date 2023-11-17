@@ -40,7 +40,41 @@ const PickPickPage = () => {
 
   // 카테고리 선택 확인
   useEffect(() => {
-    console.log('전체 떠야됨', selectedOptionMain);
+    console.log('*****************',selectedOptionMain, selectedOptionMiddle);
+
+    // 대분류
+    if (selectedOptionMain === '전체') {
+        setCategoryId('000000');
+        setSortBy('initial');
+        setOrderBy(0);
+        setSelectedOptionMiddle("");
+      } 
+      
+      else if (selectedOptionMain === '상의') {
+        setCategoryId('001000');
+      } 
+      
+      else if (selectedOptionMain === '하의') {
+        setCategoryId('003000');
+      } 
+      
+      else if (selectedOptionMain === '아우터') {
+        setCategoryId('002000');
+        if (selectedOptionMiddle === '패딩') {
+          console.log('패딩 클릭했어')
+          setCategoryId('002012');
+        } else if (selectedOptionMiddle === '코트') {
+          setCategoryId('002007');
+        } else if (selectedOptionMiddle === '자켓') {
+          setCategoryId('002004');
+        } else (
+          setSelectedOptionMiddle("")
+        )
+      } 
+      
+      else if (selectedOptionMain === '아이템') {
+        setCategoryId('011000');
+    }
 
     // 중분류
     if (selectedOptionMiddle === '패딩') {
@@ -82,12 +116,7 @@ const PickPickPage = () => {
       setSortBy('color');
     }
 
-    // 대분류
-    if (selectedOptionMain === '000000') {
-      setCategoryId('000000');
-      setSortBy('initial');
-      setOrderBy(0);
-    }
+    console.log('픽픽페이지에서 내가 선택한 카테고리: ', selectedOptionMain, selectedOptionMiddle, selectedOptionSort)
   }, [selectedOptionMain, selectedOptionMiddle, selectedOptionSort]);
 
   // 선택한 옷 리스트
@@ -97,11 +126,15 @@ const PickPickPage = () => {
     console.log('selectedClosetIds:', selectedClosetIds);
   }, [selectedClosetIds]);
 
+  // 이 페이지에 처음 들어오면 무조건 전체
+  useEffect(() => {
+    setCategoryId('000000')
+    setSortBy('initial')
+    setOrderBy(0)
+  }, [])
+
   // 옷 목록 조회
   const [clothesData, setClothesData] = useState<ClothesItem[]>([]);
-
-  // 옷 컴포넌트 스켈레톤 UI를 위한 로딩 상태값
-  const [isImgLoading, setIsImgLoading] = useState<boolean>(false);
 
   const fetchData = async () => {
     try {
@@ -118,24 +151,22 @@ const PickPickPage = () => {
       if (response.data.data) {
         setClothesData(response.data.data);
       } else {
-        // alert('옷 목록이 없어요')
         setClothesData([]);
       }
-
-      // 옷 데이터가 존재 여부에 상관없이 api 불러오는 동안의 UI
-      setIsImgLoading(true);
 
       return response.data;
     } catch (error) {
       console.log('옷 목록 데이터 조회 실패', error);
-
-      throw new Error('옷 목록 데이터 조회 실패 토큰을 확인하세요');
+      return null
     }
   };
 
   useEffect(() => {
     fetchData();
-  }, [categoryId, sortBy, orderBy]);
+    console.log('11111111111111111111111찐막', categoryId)
+  }, [selectedOptionMain, categoryId, sortBy, orderBy]);
+
+
 
   // 제출하기 버튼 동작 시 -> 리덕스에 선택한 옷 정보 저장 후 분석 페이지로 이동
   const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = event => {
@@ -200,7 +231,6 @@ const PickPickPage = () => {
         setSelectedOptionSort={setSelectedOptionSort}
         handleSubmit={handleSubmit}
         clothesData={clothesData}
-        isImgLoading={isImgLoading}
       />
 
       <div className="fixed bottom-1/3 right-0 me-[5vw]">
