@@ -35,21 +35,21 @@ func SelectClothes(clothesList models.ClothesList, weatherInfos []models.Weather
 }
 
 // selectBestCloth - 특정 카테고리의 옷 중에서 날씨와 최근 사용 정보를 바탕으로 최적의 옷을 선택합니다.
-func selectBestCloth(clothes []models.Clothes, weather models.WeatherInfo, yesterdayRecommended map[int]bool, dayBeforeYesterdayRecommended map[int]bool) int {
+func selectBestCloth(clothes []models.Clothes, weather models.WeatherInfo, yesterdayRecommended map[int]bool, coupledaysagoRecommended map[int]bool) int {
 	if len(clothes) == 0 {
 		return -1 // 해당 카테고리에 옷이 없는 경우
 	}
 
 	// 옷을 점수에 따라 정렬합니다.
 	sort.SliceStable(clothes, func(i, j int) bool {
-		return scoreClothingItem(clothes[i], weather, yesterdayRecommended, dayBeforeYesterdayRecommended) > scoreClothingItem(clothes[j], weather, yesterdayRecommended, dayBeforeYesterdayRecommended)
+		return scoreClothingItem(clothes[i], weather, yesterdayRecommended, coupledaysagoRecommended) > scoreClothingItem(clothes[j], weather, yesterdayRecommended, coupledaysagoRecommended)
 	})
 
 	return clothes[0].ClothesId
 }
 
 // scoreClothingItem - 날씨, 착용 빈도, 최근 사용 여부에 따라 각 옷에 점수를 매깁니다.
-func scoreClothingItem(cloth models.Clothes, weather models.WeatherInfo, yesterdayRecommended map[int]bool, dayBeforeYesterdayRecommended map[int]bool) int {
+func scoreClothingItem(cloth models.Clothes, weather models.WeatherInfo, yesterdayRecommended map[int]bool, coupledaysagoRecommended map[int]bool) int {
 	score := 0
 
 	// 계절에 부합하는지 확인
@@ -74,7 +74,7 @@ func scoreClothingItem(cloth models.Clothes, weather models.WeatherInfo, yesterd
 	// 어제와 그제 추천된 아이템에 따라 점수를 감점합니다.
 	if yesterdayRecommended[cloth.ClothesId] {
 		score -= 60 // 어제 추천된 경우 더 큰 점수 감점
-	} else if dayBeforeYesterdayRecommended[cloth.ClothesId] {
+	} else if coupledaysagoRecommended[cloth.ClothesId] {
 		score -= 30 // 그제 추천된 경우 작은 점수 감점
 	}
 
