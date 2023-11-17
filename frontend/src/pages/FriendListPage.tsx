@@ -52,6 +52,7 @@ const FriendListPage = () => {
       const axiosInstance = authInstance({ ContentType: 'application/json' });
       const response = await axiosInstance.post('/friends/search', { nickname: search });
 
+      setData(response.data.data);
       return response.data;
     } catch (error) {
       throw new Error('나의 친구 검색 데이터 조회 실패');
@@ -59,11 +60,16 @@ const FriendListPage = () => {
   };
 
   useEffect(() => {
-    if (search) {
-      SearchData().then(res => {
-        setData(res.data);
-      });
-    } else {
+    // if (search) {
+    //   SearchData().then(res => {
+    //     setData(res.data);
+    //   });
+    // } else {
+    //   getMyFriends().then(res => {
+    //     setData(res.data);
+    //   });
+    if (search === '') {
+      // 검색어 비어있으면 내 친구 목록 가져오기
       getMyFriends().then(res => {
         setData(res.data);
       });
