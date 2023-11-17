@@ -1,6 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import ClosetReportSeasonTemplate from '../components/report/templates/ClosetReportSeasonTemplate';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
 import { authInstance } from '../api/api';
+
+import ClosetReportSeasonTemplate from '../components/report/templates/ClosetReportSeasonTemplate';
 
 export interface CategoryAmountType {
   largeCategoryId: string;
@@ -19,16 +23,32 @@ export interface SeasonDataType {
 }
 
 const ReportSeasonPage = () => {
+  const naviagte = useNavigate();
+
+  const goMainPage = () => {
+    naviagte('/main');
+  };
+
   const [seasonData, setSeasonData] = useState<SeasonClothesType | null>(null);
+  
   // 데이터 가져오기
   const getSeasonData = async () => {
     try {
       const axiosInstance = authInstance({ ContentType: 'application/json' });
       const response = await axiosInstance.get('/clothes/analysis-season');
 
-      // setSeasonData(response.data);
-      console.log(response);
-      setSeasonData(response.data.data);
+      if (response.data.code === 3002) {
+        Swal.fire({
+          icon: 'error',
+          html: '옷을 먼저 등록해주세요',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        });
+        goMainPage();
+      } else {
+        console.log(response);
+        setSeasonData(response.data.data);
+      }
     } catch (error) {
       console.log('캘린더 목록 조회 실패', error);
     }
