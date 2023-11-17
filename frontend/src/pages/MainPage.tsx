@@ -227,18 +227,18 @@ const MainPage = () => {
  const weatherListDataFake = [
       // 추천 날씨 목록
       {
-        minTemperature: 3, // 최저 기온
-        maxTemperature: 9, // 최고 기온
-        weather: 4, // 날씨 정보 (맑음, 구름 조금 등)
-      },
-      {
-        minTemperature: -2, // 최저 기온
-        maxTemperature: 5, // 최고 기온
+        minTemperature: -3, // 최저 기온
+        maxTemperature: 6, // 최고 기온
         weather: 5, // 날씨 정보 (맑음, 구름 조금 등)
       },
       {
-        minTemperature: -3, // 최저 기온
-        maxTemperature: 8, // 최고 기온
+        minTemperature: -4, // 최저 기온
+        maxTemperature: 6, // 최고 기온
+        weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
+      },
+      {
+        minTemperature: 1, // 최저 기온
+        maxTemperature: 14, // 최고 기온
         weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
       },
     ]
@@ -268,7 +268,7 @@ const MainPage = () => {
             <div className='flex'>
               <UserName />
               {recommendLoading ? (
-// 재추천 안되는 이슈로 hidden으로 숨기기
+              // 재추천 안되는 이슈로 hidden으로 숨기기
                 <button 
                   className='hidden flex items-center justify-center bg-pink rounded-2xl text-white text-AppBody2 p-2 absolute right-6'
                   onClick={reRecommend}

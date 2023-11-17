@@ -2,7 +2,7 @@ import TodayWeatherCard from '../molecules/TodayWeatherCard'; // 날씨 정보 �
 import TotalScoreSection from '../molecules/TotalScoreSection'; // 총 점수 막대 그래프
 import Graph from '../molecules/Graph'; // 하단 그래프
 import ClothScoreSection from '../molecules/ClothScoreSection';
-
+import { AnalysisDataType } from '../../../pages/AnalysisPage';
 /*
 response
 {
@@ -32,17 +32,15 @@ response
 
 */
 
-
-
-const ClothAnalysisOrganism = () => {
+const ClothAnalysisOrganism = ({ analysisResult }: { analysisResult: AnalysisDataType }) => {
   // api 연결되면 idx는 동적으로 변함
   return (
     <div className="flex flex-col items-center">
       {/*  컴포넌트 가운데 정렬'} */}
 
-      <TodayWeatherCard idx={3} />
-      <TotalScoreSection />
-      <ClothScoreSection score="90" contents="옷이 좋아요" />
+      <TodayWeatherCard idx={5} />
+      <TotalScoreSection clothesResult={analysisResult?.clothesResult} />
+      <ClothScoreSection clothesResult={analysisResult?.clothesResult} />
       <Graph />
     </div>
   );

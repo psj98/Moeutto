@@ -43,14 +43,14 @@ def load_model(model_path):
 class_to_category = {
     0: "top",
     1: "bottom",
-    2: "dress",
+    2: "top",
     3: "outer",
-    4: "pants",
-    5: "shoes",
-    6: "accessories",
-    7: "bag",
-    8: "scarf",
-    9: "hat"
+    4: "bottom",
+    5: "item",
+    6: "item",
+    7: "item",
+    8: "item",
+    9: "item"
 }
 
 # Image transformation
