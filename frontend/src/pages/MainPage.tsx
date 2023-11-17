@@ -268,7 +268,7 @@ const MainPage = () => {
             <div className='flex'>
               <UserName />
               {recommendLoading ? (
-// 재추천 안되는 이슈로 hidden으로 숨기기
+              // 재추천 안되는 이슈로 hidden으로 숨기기
                 <button 
                   className='hidden flex items-center justify-center bg-pink rounded-2xl text-white text-AppBody2 p-2 absolute right-6'
                   onClick={reRecommend}
