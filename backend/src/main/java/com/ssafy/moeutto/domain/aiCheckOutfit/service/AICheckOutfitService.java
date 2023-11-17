@@ -1,6 +1,7 @@
 package com.ssafy.moeutto.domain.aiCheckOutfit.service;
 
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.AICheckOutfitClientRequestDto;
+import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.PythonRequestClothesList;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitClientResponseDto;
 import com.ssafy.moeutto.global.response.BaseException;
 
@@ -15,4 +16,5 @@ public interface AICheckOutfitService {
      * @throws BaseException
      */
     AICheckOutfitClientResponseDto checkOutfit(UUID memberId, AICheckOutfitClientRequestDto aiCheckOutfitClientRequestDto) throws BaseException;
+    PythonRequestClothesList checkOutfitTest(UUID memberId, AICheckOutfitClientRequestDto aiCheckOutfitClientRequestDto) throws BaseException;
 }
