@@ -55,9 +55,10 @@ const selectClosetSlice = createSlice({
         // 리스트에 없으면 추가
         state.selectedClosetIds = [...selectedClosetIds, clothesId];
       } else {
-        // 리스트에 있으면 제거
-        state.selectedClosetIds = selectedClosetIds.filter(id => id !== clothesId);
+        // 리스트에 있으면 삭제
+        state.selectedClosetIds = selectedClosetIds.filter(cloth => cloth.id !== clothesId.id);
       }
+      console.log(state.selectedClosetIds);
     },
   },
 });
