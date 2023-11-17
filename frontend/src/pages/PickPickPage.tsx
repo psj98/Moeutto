@@ -155,12 +155,12 @@ const PickPickPage = () => {
         const response = await axiosInstance.post('/ai-check-outfits/check', requestData);
 
         if (response.data) {
-          console.log(response.data);
+          console.log(response.data.data);
         } else {
           // alert('옷 목록이 없어요')
         }
 
-        return response.data;
+        return response.data.data;
       } catch (error) {
         console.log('착장 검사 실패:', error);
 
@@ -169,8 +169,8 @@ const PickPickPage = () => {
     };
 
     if (requestData) {
-      postData().then(res => {
-        localStorage.setItem('res', JSON.stringify(res));
+      postData().then(analysis => {
+        localStorage.setItem('analysis', JSON.stringify(analysis));
         navigate('/analysis');
       });
     } else {

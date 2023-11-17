@@ -34,12 +34,16 @@ const GuestbookTemplate = ({ value, setValue, onClick, posts }: GuestbookPropsTy
               const Date = item.regDate.split('-');
 
               return (
-                <div key={index} className="text-AppBody2 flex justify-between">
-                  <div className="w-[50px]">
+                <div key={index} className="text-AppBody3 flex justify-between mb-2">
+                  <div className="w-[50px] shrink-0 text-gray-700">
                     {Date[1]}-{Date[2]}
                   </div>
-                  {item.post}
-                  <div className="w-[80px] overflow-hidden text-right">{item.nickname}</div>
+                  <div className="flex-grow" style={{ height: 'auto' }}>
+                    {item.post}
+                  </div>
+                  <div className="w-[70px] overflow-hidden text-right shrink-0 font-light text-gray-700">
+                    {item.nickname}
+                  </div>
                 </div>
               );
             })}

@@ -460,6 +460,7 @@ public class ClothesServiceImpl implements ClothesService {
         List<IClothesAnalysisColor> clothesAnalysisColorMyList = clothesRepository.findByColorMember(memberId); // 내 옷장 분석
         List<IClothesAnalysisColor> clothesAnalysisColorUserList = clothesRepository.findByColor(); // 모든 사용자 옷장 분석
 
+        // 옷 존재 여부 체크
         if (clothesAnalysisColorMyList.size() == 0) {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES_LIST);
         }
@@ -482,6 +483,12 @@ public class ClothesServiceImpl implements ClothesService {
     public ClothesAnalysisSeasonResponseDto analysisSeason(UUID memberId) throws BaseException {
         // 사용자 체크
         memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+
+        // 옷 존재 여부 체크
+        List<Clothes> clothesList = clothesRepository.findAllByMemberId(memberId);
+        if (clothesList.size() == 0) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES_LIST);
+        }
 
         List<IClothesAnalysisSeason> springClothes = clothesRepository.findBySeasonMember("1", memberId); // 봄 옷 분석
         List<IClothesAnalysisSeason> summerClothes = clothesRepository.findBySeasonMember("2", memberId); // 여름 옷 분석
@@ -564,6 +571,12 @@ public class ClothesServiceImpl implements ClothesService {
         // 사용자 체크
         memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
+        // 옷 존재 여부 체크
+        List<Clothes> clothesList = clothesRepository.findAllByMemberId(memberId);
+        if (clothesList.size() == 0) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES_LIST);
+        }
+
         Long myTotalAmount = clothesRepository.countByMemberId(memberId); // 사용자가 소유한 옷 세기
 
         Long userTotalAmount = clothesRepository.countBy(); // 모든 옷 세기
@@ -591,6 +604,12 @@ public class ClothesServiceImpl implements ClothesService {
     public ClothesAnalysisAvailabilityResponseDto analysisAvailability(UUID memberId) throws BaseException {
         // 사용자 체크
         memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+
+        // 옷 존재 여부 체크
+        List<Clothes> clothesList = clothesRepository.findAllByMemberId(memberId);
+        if (clothesList.size() == 0) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES_LIST);
+        }
 
         // 사용자 옷 개수
         Long totalAmount = clothesRepository.countByMemberId(memberId);
@@ -644,6 +663,11 @@ public class ClothesServiceImpl implements ClothesService {
         // 친구 정보 조회
         Member friendInfo = memberRepository.findByEmail(clothesListByFriendsRequestDto.getEmail()).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
+        // 친구 옷장 공개 여부 체크
+        if (!friendInfo.isClosetFind()) {
+            throw new BaseException(BaseResponseStatus.UNDISCLOSED_CLOSET);
+        }
+
         String categoryId = clothesListByFriendsRequestDto.getCategoryId(); // 카테고리 id
         String largeCategoryId = categoryId.substring(0, 3); // 대분류 카테고리 id
         String middleCategoryId = categoryId.substring(3); // 중분류 카테고리 id
@@ -661,6 +685,7 @@ public class ClothesServiceImpl implements ClothesService {
             clothesList = listClothesByMiddleCategoryId(friendInfo.getId(), categoryId, sortBy, orderBy);
         }
 
+        // 옷장 목록이 없는 경우
         if (clothesList == null || clothesList.size() == 0) {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES_LIST);
         }
@@ -679,6 +704,7 @@ public class ClothesServiceImpl implements ClothesService {
      */
     @Override
     public ClothesListAndGuestBookResponseDto getListClothesAndGuestBookByFriends(UUID memberId, String email) throws BaseException {
+        // 초기 정렬 기준
         ClothesListByFriendsRequestDto clothesListByFriendsRequestDto = ClothesListByFriendsRequestDto.builder()
                 .email(email)
                 .categoryId("000")
@@ -686,11 +712,18 @@ public class ClothesServiceImpl implements ClothesService {
                 .orderBy(0)
                 .build();
 
-        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+        // 친구 정보 조회
+        Member friendInfo = memberRepository.findByEmail(email).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
-        List<ClothesListResponseDto> clothesListResponseDtoList = getListByFriends(memberId, clothesListByFriendsRequestDto);
-        List<GuestBookListResponseDto> guestBookListResponseDtoList = guestBookService.listGuestBook(member.getId());
+        // 친구 옷장 공개 여부 체크
+        if (!friendInfo.isClosetFind()) {
+            throw new BaseException(BaseResponseStatus.UNDISCLOSED_CLOSET);
+        }
 
+        List<ClothesListResponseDto> clothesListResponseDtoList = getListByFriends(memberId, clothesListByFriendsRequestDto); // 친구 옷장 목록
+        List<GuestBookListResponseDto> guestBookListResponseDtoList = guestBookService.listGuestBook(friendInfo.getId()); // 친구 방명록
+
+        // 친구 옷장 + 방명록 반환
         return ClothesListAndGuestBookResponseDto.builder()
                 .clothesListResponseDto(clothesListResponseDtoList)
                 .guestBookListResponseDto(guestBookListResponseDtoList)
