@@ -35,6 +35,17 @@ const MyGuestBook = ({ setIsAlertModalOpen }: MyGuestBookProps) => {
         setIsAlertModalOpen(prev => !prev)
     }
 
+    // 전체 내용 보여주기
+    const [expandedPost, setExpandedPost] = useState(null);
+
+    const handlePostClick = (index) => {
+        if (expandedPost === index) {
+            setExpandedPost(null);
+        } else {
+            setExpandedPost(index);
+        }
+    };
+
     return (
         <>
         <div className="absolute z-99 min-h-[150px] max-h-[600px] shadow-md w-5/6 rounded-2xl left-1/2 top-[290px] transform -translate-x-1/2 -translate-y-1/2 bg-pink">
@@ -51,13 +62,21 @@ const MyGuestBook = ({ setIsAlertModalOpen }: MyGuestBookProps) => {
                                 .reverse() // 댓글 최신순이 가장 먼저 오기 위해서 역정렬을 한다
                                 .map((item, index) => {
                                 const Date = item.regDate.split('-');
+                                const postContent = item.post;
+                                const isLongText = postContent.length > 8;
+                                const truncatedText = isLongText ? `${postContent.substring(0, 8)}...` : postContent;
 
                                 return (
                                     <div key={index} className="text-AppBody2 flex justify-between">
                                     <div className="w-[50px]">
                                         {Date[1]}-{Date[2]}
                                     </div>
-                                    {item.post}
+                                    <div
+                                        onClick={() => handlePostClick(index)}
+                                        className=""
+                                    >
+                                        {expandedPost === index ? item.post : truncatedText}
+                                    </div>
                                     <div className="w-[80px] overflow-hidden text-right">{item.nickname}</div>
                                     </div>
                                 );
