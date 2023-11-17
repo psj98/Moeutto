@@ -110,12 +110,11 @@ const ReportFrequencyPage = () => {
       </div>
 
       {/* 많이 입은 옷 분석 문구 */}
-      <div className='flex flex-row items-center justify-center'>
-        <div className='w-[95%]'>
+      <div className="flex flex-row items-center justify-center">
+        <div className="w-[95%]">
           <ReportFrequency frequencyList={myMostFrequency} frequencyComment={`${mostFrequencyComment}`} />
         </div>
       </div>
-
 
       {/* 적게 입은 옷 */}
       <div className="mb-4">
@@ -128,19 +127,19 @@ const ReportFrequencyPage = () => {
       </div>
 
       {/* 적게 입은 옷 분석 문구 */}
-      <div className='flex flex-row items-center justify-center'>
-        <div className='w-[95%]'>
+      <div className="flex flex-row items-center justify-center">
+        <div className="w-[95%]">
           <ReportFrequency frequencyList={myLeastFrequency} frequencyComment={`${leastFrequencyComment}`} />
         </div>
       </div>
 
-      <div className='flex flex-row justify-center items-center'> 
+      <div className="flex flex-row justify-center items-center">
         <div className="flex flex-col mx-2 mb-6 px-3 py-6 bg-[#DFDFDF] bg-opacity-40 rounded-2xl w-[90%]">
           <p className="mb-8 text-left text-lg font-bold whitespace-pre-wrap">{`옷장에서 잠자는 옷을\n기부해보는 건 어떠세요?`}</p>
           <div className="grid grid-cols-2 gap-4">
             <ReportFrequencyDonation
               marginRight="mr-1"
-              subTitle={`국내외 소외이웃을\n돕는`}
+              subTitle="국내외 소외이웃을 돕는"
               storeName="아름다운 가게"
               storeLink="https://www.beautifulstore.org/"
             />
