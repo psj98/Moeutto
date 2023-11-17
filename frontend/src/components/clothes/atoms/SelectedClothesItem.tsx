@@ -28,6 +28,13 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
     dispatch(selectItem(imgUrl)); // 이미지 url을 redux state array 로 저장합니다
   };
 
+  // 이미지 로딩 확인용
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
   return (
     <>
       <img
@@ -39,7 +46,13 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
         }`}
         style={{ objectFit: 'cover', minWidth: '110px', minHeight: '110px' }}
         onClick={pathname === '/calendar/post' ? handlePostCalendar : handleClick}
+        onLoad={handleImageLoad}
       />
+      {imageLoaded ? (
+        null
+      ) : (
+        <div className="animate-pulse w-[110px] h-[110px] bg-gray-button rounded-3xl">이미지가 로딩중</div>
+      )}
     </>
   );
 };

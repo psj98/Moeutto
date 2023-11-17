@@ -100,6 +100,9 @@ const PickPickPage = () => {
   // 옷 목록 조회
   const [clothesData, setClothesData] = useState<ClothesItem[]>([]);
 
+  // 옷 컴포넌트 스켈레톤 UI를 위한 로딩 상태값
+  const [isImgLoading, setIsImgLoading] = useState<boolean>(false);
+
   const fetchData = async () => {
     try {
       // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
@@ -118,6 +121,9 @@ const PickPickPage = () => {
         // alert('옷 목록이 없어요')
         setClothesData([]);
       }
+
+      // 옷 데이터가 존재 여부에 상관없이 api 불러오는 동안의 UI
+      setIsImgLoading(true);
 
       return response.data;
     } catch (error) {
@@ -194,6 +200,7 @@ const PickPickPage = () => {
         setSelectedOptionSort={setSelectedOptionSort}
         handleSubmit={handleSubmit}
         clothesData={clothesData}
+        isImgLoading={isImgLoading}
       />
 
       <div className="fixed bottom-1/3 right-0 me-[5vw]">
