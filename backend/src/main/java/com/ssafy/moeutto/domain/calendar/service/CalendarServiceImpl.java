@@ -4,6 +4,7 @@ import com.ssafy.moeutto.domain.S3.dto.response.S3ResponseDto;
 import com.ssafy.moeutto.domain.S3.service.S3Service;
 import com.ssafy.moeutto.domain.calendar.dto.request.CalendarScoreRequestDto;
 import com.ssafy.moeutto.domain.calendar.dto.response.CalendarListResponseDto;
+import com.ssafy.moeutto.domain.calendar.dto.response.CalendarRegistResponseDto;
 import com.ssafy.moeutto.domain.calendar.dto.response.CalendarResponseDto;
 import com.ssafy.moeutto.domain.calendar.entity.Calendar;
 import com.ssafy.moeutto.domain.calendar.repository.CalendarRepository;
@@ -18,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,47 +37,52 @@ public class CalendarServiceImpl implements CalendarService {
      * 캘린더에 착장을 등록하는 서비스입니다.
      *
      * @param memberId
-     * @ToDo: CalendarRegistRequestDto 필요 없으면 삭제.ㅎ
+     * @param token
+     * @param file
+     * @throws BaseException
      */
     @Override
-    public void registMyOutfit(UUID memberId, String token, MultipartFile file) throws BaseException {
+    public CalendarRegistResponseDto registMyOutfit(UUID memberId, String token, MultipartFile file) throws BaseException {
+        // 사용자 정보 체크
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
-        Optional<Member> member = memberRepository.findById(memberId);
+        Date curDate = new Date(System.currentTimeMillis()); // 등록 날짜
 
-        if (!member.isPresent()) {
-            throw new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER);
-        }
+        log.debug("현재 날짜 : " + curDate);
 
-        Date todayDate = Date.valueOf(LocalDate.now());
-        log.info("today" + todayDate);
+        // 캘린더 존재 여부 파악
+        Optional<Calendar> calendarOptional = calendarRepository.findByMemberIdAndRegDate(memberId, curDate);
 
-        Optional<Calendar> calendarOptional = calendarRepository.findByRegDate(todayDate);
-
-        //캘린더가 이미 존재하는지 여부 파악
+        // 존재할 경우 => 중복 에러
         if (calendarOptional.isPresent()) {
             throw new BaseException(BaseResponseStatus.DUPLICATED_CALENDAR_INFO);
         }
 
+        // 옷 사진 S3에 등록
         S3ResponseDto s3ResponseDto;
-
-        //옷 사진 S3에 등록
         try {
             s3ResponseDto = s3Service.uploadImage(token, file);
         } catch (IOException e) {
             throw new BaseException(BaseResponseStatus.S3_FILE_IO_ERROR);
         }
 
-        Date curDate = Date.valueOf(LocalDate.now());
+        // 등록할 캘린더 정보
+        Calendar newCalendar = Calendar.builder()
+                .memberId(member.getId())
+                .imageUrl(s3ResponseDto.getAccessUrl())
+                .regDate(curDate)
+                .likeOutfit(0)
+                .build();
 
-        Calendar calendar =
-                Calendar.builder()
-                        .memberId(memberId)
-                        .imageUrl(s3ResponseDto.getAccessUrl())
-                        .regDate(curDate)
-                        .likeOutfit(0)
-                        .build();
+        calendarRepository.save(newCalendar); // 캘린더 등록
 
-        calendarRepository.save(calendar);
+        // 등록된 캘린더 정보 체크
+        Calendar registCalender = calendarRepository.findByMemberIdAndRegDate(memberId, curDate)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.DUPLICATED_CALENDAR_INFO));
+
+        return CalendarRegistResponseDto.builder()
+                .calendar(registCalender)
+                .build();
     }
 
     /**
@@ -92,34 +97,30 @@ public class CalendarServiceImpl implements CalendarService {
      */
     @Override
     public CalendarListResponseDto getCalendarList(UUID memberId, String regDate) throws BaseException {
-
         // 사용자 재 검증
         memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
         /* 현재 연월로 캘린더 목록 가져오기 */
         List<Calendar> calendarList = calendarRepository.findAllByMemberIdTodayMonth(memberId, regDate).get();
 
-        List<CalendarResponseDto> dairayCalendarList = new ArrayList<>();
+        List<CalendarResponseDto> diaryCalendarList = new ArrayList<>();
 
         /* 캘린더 정보들 불러와서 리스트에 저장 */
         for (Calendar calendar : calendarList) {
-            CalendarResponseDto calendarListResponseDto =
-                    CalendarResponseDto.builder()
-                            .id(calendar.getId())
-                            .likeOutfit(calendar.getLikeOutfit())
-                            .imageUrl(calendar.getImageUrl())
-                            .regDate(calendar.getRegDate())
-                            .build();
+            CalendarResponseDto calendarListResponseDto = CalendarResponseDto.builder()
+                    .id(calendar.getId())
+                    .likeOutfit(calendar.getLikeOutfit())
+                    .imageUrl(calendar.getImageUrl())
+                    .regDate(calendar.getRegDate())
+                    .build();
 
-            dairayCalendarList.add((calendarListResponseDto));
+            diaryCalendarList.add((calendarListResponseDto));
         }
 
         /* 일기 목록 전달 */
-        CalendarListResponseDto calendarListResponseDto = CalendarListResponseDto.builder()
-                .calendarList(dairayCalendarList)
+        return CalendarListResponseDto.builder()
+                .calendarList(diaryCalendarList)
                 .build();
-
-        return calendarListResponseDto;
     }
 
     /**
@@ -131,7 +132,6 @@ public class CalendarServiceImpl implements CalendarService {
      */
     @Override
     public void deleteCalendar(UUID memberId, Integer id) throws BaseException {
-
         /* 사용자 재 검증 */
         memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
@@ -155,21 +155,20 @@ public class CalendarServiceImpl implements CalendarService {
         memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
         Integer id = requestDto.getId();
+
         //캘린더 존재 여부
         calendarRepository.findById(id).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_CALENDAR_INFO));
 
         /* 존재하면 착장 id와 memberId를 기반으로 캘린더 정보 불러오기 */
-        Optional<Calendar> calendarOptional = calendarRepository.findByIdAndMemberId(id, memberId);
-
-        /* 기존 존재하는 캘린더 */
-        Calendar calendar = calendarOptional.get();
+        Calendar calendar = calendarRepository.findByIdAndMemberId(id, memberId)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_CALENDAR_INFO));
 
         /* 새로운 객체에 정보 그대로 저장 */
-        Calendar calendar1 = calendar.toBuilder()
+        Calendar newCalendar = calendar.toBuilder()
                 .likeOutfit(requestDto.getLikeOutfit())
                 .build();
 
         /* 수정 */
-        calendarRepository.save(calendar1);
+        calendarRepository.save(newCalendar);
     }
 }

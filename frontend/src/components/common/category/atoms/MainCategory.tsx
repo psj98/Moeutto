@@ -6,8 +6,6 @@ const RadioWrapper = styled.div`
   gap: 40px;
   font-size: 16px;
   margin-top: 58px;
-  font-family: GmarketSansLight;
-  background-color: rgba(255, 255, 255, 0.5);
   padding: 10px;
   border-radius: 8px;
 `;

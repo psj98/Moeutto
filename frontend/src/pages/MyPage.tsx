@@ -56,15 +56,24 @@ const MyPage = () => {
     const response = await axiosInstance.put('/members/modify', memberUpdateMyInfoRequestDto);
 
     if (response.data) {
-      console.log('1234', response.data);
-      sessionStorage.setItem('nickname', nickname);
+      if (response.data.code !== 2005) {
+        console.log('1234', response.data);
+        sessionStorage.setItem('nickname', nickname);
 
-      Swal.fire({
-        icon: 'success',
-        html: '회원 정보가 변경되었습니다',
-        showCancelButton: false,
-        confirmButtonText: '확인',
-      });
+        Swal.fire({
+          icon: 'success',
+          html: '회원 정보가 변경되었습니다',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          html: '닉네임은 8글자를 넘길 수 없습니다',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        });
+      }
     } else {
       Swal.fire({
         icon: 'error',
@@ -137,7 +146,7 @@ const MyPage = () => {
           {/* 닉네임 */}
           <div className="mb-6">
             {/* 닉네임 글자 */}
-            <Label id="nickName" value="닉네임" />
+            <Label id="nickName" value="닉네임" notice="최대 8글자를 입력할 수 있습니다" isEssential={true} />
             {/* 닉네임 Input */}
             <Input
               className="w-full border border-1 rounded-xl indent-1 p-1 text-AppBody1"

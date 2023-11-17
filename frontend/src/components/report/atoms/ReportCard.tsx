@@ -13,15 +13,16 @@ const Card = styled.div<{ photo?: string }>`
   display: flex;
   align-items: center;
   justify-content: start;
-  margin: 10px 0;
+  margin: 10px auto;
   color: black;
   background: none;
   font-weight: 800;
   padding: 12px;
   word-wrap: break-word;
+  word-break: keep-all;
   box-sizing: border-box;
   border-radius: 10px;
-background: white;
+  background: white;
 
   // &:hover {
   //   /* font-weight: 900; */
@@ -82,12 +83,12 @@ const ReportCard = ({ title, copy, url, photo }: CardProps) => {
     navigate(url);
   }
   return (
-    <Fade>
+    <Fade className="">
       <Card photo={photo} onClick={() => handleClick()} className="shadow-xl cards">
         <img src={photo} className="h-[100px] w-[100px] rounded-lg object-cover" />
-        <div className="flex flex-col h-full mx-3 justify-evenly">
-          <div className="text-AppBody2 card font-extrabold text-[#1f1f1f]">{title}</div>
-          <div className="text-AppBody3 text-[#707070]">{copy}</div>
+        <div className="flex flex-col h-full ms-3 justify-evenly">
+          <div className="text-AppBody2 min-[320px]:text-[14px] card font-extrabold text-[#1f1f1f]">{title}</div>
+          <div className="text-AppBody3 min-[320px]:text-[12px] text-[#707070]">{copy}</div>
         </div>
       </Card>
     </Fade>

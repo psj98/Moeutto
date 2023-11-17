@@ -5,6 +5,7 @@ interface LabelProps {
   id: string;
   value: string;
   isEssential?: boolean;
+  notice?: string;
 }
 
 const Labelsection = styled.div`
@@ -14,13 +15,14 @@ const Labelsection = styled.div`
   font-weight: 800;
 `;
 
-const Label = ({ id, value, isEssential }: LabelProps) => {
+const Label = ({ id, value, isEssential, notice }: LabelProps) => {
   return (
     <Labelsection>
       <label htmlFor={id} className="font-WebBody2">
         {value}
       </label>
-      {!isEssential ? <span className="ms-1 text-grey text-[12px]">(선택사항)</span> : null}
+      {!isEssential ? <span className="ms-1 text-grey text-[12px]">(선택사항) {notice}</span> : null}
+      {notice ? <span className="ms-1 text-grey text-[12px]"> {notice}</span> : null}
     </Labelsection>
   );
 };

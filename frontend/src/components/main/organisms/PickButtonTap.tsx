@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import PickTap from "../molecules/PickTap";
 import MainComment from "../atoms/MainComment";
-import HorizontalStackedBar from "../../analysis/atoms/HorizontalStackedBar";
 import TempBarAnimation from "../atoms/TempBarAnimation";
 
 const PickButtonTap = () => {
@@ -16,9 +15,12 @@ const PickButtonTap = () => {
             <PickTap />
 
             {/* 점수 그래프 */}
-            <div className="px-8 py-4">
-                <HorizontalStackedBar />
+            <div className="flex justify-center pt-8 p-4 relative">
+                <img src="/images/bar-chart.png" alt="chart" />
+                <img src="/images/thumbup.png" alt="thumb" className="absolute w-10 right-0 top-10" />
             </div>
+         
+          
             <p className="text-AppBody2 flex justify-center mt-4">날씨에 적합한지 점수를 수치로 알려드려요</p>
 
             {/* 바 그래프 */}

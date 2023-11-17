@@ -8,20 +8,20 @@ import { selectItem } from '../../../redux/features/closet/postCalendar';
 interface ItemPropsType {
   imgUrl: string;
   clothesId: string;
+  largeCategoryId: string;
 }
 
-const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId }) => {
+const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, largeCategoryId }) => {
   const dispatch = useDispatch();
   const pathname = window.location.pathname;
 
-  console.log(pathname);
   ScrollReveal().reveal('.clothes');
 
   const [isSelected, setIsSelected] = useState(false);
   // pickpick 페이지에서 사용되는 함수입니다
   const handleClick = e => {
     setIsSelected(!isSelected);
-    dispatch(selectCloset(e.target.id));
+    dispatch(selectCloset({ id: e.target.id, largeCategoryId: e.target.alt }));
   };
   // calendar post 페이지에서 사용되는 함수입니다
   const handlePostCalendar = e => {
@@ -33,11 +33,11 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId }) => 
       <img
         src={imgUrl}
         id={clothesId}
-        alt="옷"
+        alt={largeCategoryId}
         className={`clothes w-[110px] h-[110px] border border-gray rounded-3xl ${
-          isSelected ? 'bg-gray-300 border-pink-hot border-2' : ''
+          isSelected ? 'bg-gray-300 border-pink-hot border-4' : ''
         }`}
-        style={{ objectFit: 'cover', minWidth: '110px', minHeight: '110px' }}     
+        style={{ objectFit: 'cover', minWidth: '110px', minHeight: '110px' }}
         onClick={pathname === '/calendar/post' ? handlePostCalendar : handleClick}
       />
     </>
