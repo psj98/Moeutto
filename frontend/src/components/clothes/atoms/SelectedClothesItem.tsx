@@ -29,11 +29,11 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
   };
 
   // 이미지 로딩 확인용
-  const [imageLoaded, setImageLoaded] = useState(false);
+  // const [imageLoaded, setImageLoaded] = useState(false);
 
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
+  // const handleImageLoad = () => {
+  //   setImageLoaded(true);
+  // };
 
   return (
     <>
@@ -46,13 +46,13 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
         }`}
         style={{ objectFit: 'cover', minWidth: '110px', minHeight: '110px' }}
         onClick={pathname === '/calendar/post' ? handlePostCalendar : handleClick}
-        onLoad={handleImageLoad}
+        // onLoad={handleImageLoad}
       />
-      {imageLoaded ? (
+      {/* {imageLoaded ? (
         null
       ) : (
         <div className="animate-pulse w-[110px] h-[110px] bg-gray-button rounded-3xl"></div>
-      )}
+      )} */}
     </>
   );
 };
