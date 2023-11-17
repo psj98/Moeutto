@@ -165,7 +165,7 @@ const PickPickPage = () => {
         } else {
           // alert('옷 목록이 없어요')
         }
-
+        
         return response.data.data;
       } catch (error) {
         console.log('착장 검사 실패:', error);
