@@ -57,6 +57,8 @@ public enum BaseResponseStatus {
      */
     JSON_PARSE_ERROR(false, 6001, "데이터 파싱에 실패하였습니다."),
     OVER_FOUR_ITEMS_ERROR(false, 6002, "옷이 네 벌 초과로 입력되었습니다"),
+    DUPLICATED_LARGE_CATEGORY(false, 6003, "같은 대분류가 여러개가 입력되었습니다"),
+    NO_TOP_OR_BOTTOM_CLOTHES(false, 6004, "상의나 하의가 없습니다"),
 
     /**
      * S3 Image Upload
