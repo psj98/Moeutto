@@ -1,3 +1,4 @@
+// done
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -43,29 +44,29 @@ const PickPickPage = () => {
 
     // 중분류
     if (selectedOptionMiddle === '패딩') {
-      setCategoryId('001001');
+      setCategoryId('002012');
     } else if (selectedOptionMiddle === '코트') {
-      setCategoryId('001002');
+      setCategoryId('002007');
     } else if (selectedOptionMiddle === '자켓') {
-      setCategoryId('001003');
+      setCategoryId('002004');
     } else if (selectedOptionMiddle === '맨투맨') {
-      setCategoryId('002001');
+      setCategoryId('001005');
     } else if (selectedOptionMiddle === '후드') {
-      setCategoryId('002002');
+      setCategoryId('001004');
     } else if (selectedOptionMiddle === '반팔') {
-      setCategoryId('002003');
+      setCategoryId('001001');
     } else if (selectedOptionMiddle === '청바지') {
-      setCategoryId('003001');
-    } else if (selectedOptionMiddle === '반바지') {
       setCategoryId('003002');
+    } else if (selectedOptionMiddle === '반바지') {
+      setCategoryId('003009');
     } else if (selectedOptionMiddle === '카고팬츠') {
-      setCategoryId('003003');
+      setCategoryId('003004');
     } else if (selectedOptionMiddle === '귀마개') {
-      setCategoryId('004001');
+      setCategoryId('011006');
     } else if (selectedOptionMiddle === '장갑') {
-      setCategoryId('004002');
+      setCategoryId('011011');
     } else if (selectedOptionMiddle === '목도리') {
-      setCategoryId('004003');
+      setCategoryId('011010');
     }
 
     if (selectedOptionSort === '정렬') {
@@ -136,12 +137,42 @@ const PickPickPage = () => {
     event.preventDefault();
     // redux에 저장할 데이터
     const requestData = {
-      selectedClosetIds,
+      clothesList: selectedClosetIds,
+      weatherInfo: {
+        sky: 0,
+        pty: 0,
+        tmn: 0,
+        tmx: 0,
+        wsd: 0,
+      },
+    };
+
+    console.log(requestData);
+    const postData = async () => {
+      try {
+        // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
+        const axiosInstance = authInstance({ ContentType: 'application/json' });
+        const response = await axiosInstance.post('/ai-check-outfits/check', requestData);
+
+        if (response.data) {
+          console.log(response.data.data);
+        } else {
+          // alert('옷 목록이 없어요')
+        }
+
+        return response.data.data;
+      } catch (error) {
+        console.log('착장 검사 실패:', error);
+
+        throw new Error('착장 검사 실패');
+      }
     };
 
     if (requestData) {
-      localStorage.setItem('selectedClosetIds', JSON.stringify(selectedClosetIds));
-      navigate('/analysis');
+      postData().then(analysis => {
+        localStorage.setItem('analysis', JSON.stringify(analysis));
+        navigate('/analysis');
+      });
     } else {
       Swal.fire({
         icon: 'question',

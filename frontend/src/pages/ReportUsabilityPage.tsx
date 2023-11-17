@@ -108,9 +108,9 @@ const ReportCostPage = () => {
 
       {/* 간단 분석 문구 */}
       <ShortReportComment
-        imageDivClass="absolute top-[-35px] left-[0px]"
+        imageDivClass="absolute top-[-30px] left-[0px]"
         imageUrl={`${barValue >= 50 ? '/images/uniform.png' : '/images/sponge.png'}`}
-        imageClass="w-24 inline-block"
+        imageClass="w-20 inline-block"
         mainTitle={shortReportComment}
       />
 
@@ -119,8 +119,8 @@ const ReportCostPage = () => {
           <InnerContainer style={{ width: `${barValue}%` }} />
         </OuterContainer>
         <div className="flex gap-[200px] mt-1 mb-8">
-          <div className="text-[12px] text-gray-dark">단벌신사</div>
-          <div className="text-[12px] text-gray-dark">패셔니스타</div>
+          <div className="text-[12px] text-gray-dark font-bold">단벌신사</div>
+          <div className="text-[12px] text-gray-dark font-bold">패셔니스타</div>
         </div>
         {/* <div className="grid grid-cols-2 gap-x-8 gap-y-4">
           <div className="w-[140px] h-[140px] p-2 bg-gray-button rounded-2xl flex flex-col justify-center items-center shadow-[1px_4px_4px_0px_rgba(0,0,0,0.15)]">
@@ -247,11 +247,11 @@ const ReportCostPage = () => {
           </div>
         </div>
         {/* 분석 문구 */}
-        <div className="w-[90%] p-5 flex flex-col rounded-2xl bg-gray-button shadow-[1px_4px_4px_0px_rgba(0,0,0,0.15)]">
+        <div className="w-[85%] p-5 flex flex-col rounded-2xl bg-gray-button shadow-[1px_4px_4px_0px_rgba(0,0,0,0.15)]">
           <p className="text-xl font-bold mb-2">{`${sessionStorage.getItem('nickname')}`}님!</p>
-          <p className="text-base">{maxLargeCategoryName}를(을) 잘 활용하고 계시네요</p>
-          <p className="text-base">하지만 {minLargeCategoryName}를(을) 활용하지 못하고 있어요</p>
-          <p className="text-base">옷장에서 {minLargeCategoryName}를(을) 정리해보는건 어때요?</p>
+          <p className="text-base"><span className='text-red-600 font-bold'>{maxLargeCategoryName}</span>를(을) 잘 활용하고 계시네요</p>
+          <p className="text-base"><span className='text-red-600 font-bold'>{minLargeCategoryName}</span>를(을) 활용하지 못하고 있어요</p>
+          <p className="text-base"><span className='text-red-600 font-bold'>{minLargeCategoryName}</span>를(을) 정리해보는건 어때요?</p>
         </div>
       </div>
     </>

@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 
 import javax.annotation.PostConstruct;
 import java.util.TimeZone;
+import java.util.Date;
 
 
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
@@ -13,7 +14,7 @@ public class MoeuttoApplication {
     @PostConstruct
     public void changeTimeKST() {
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
-        // System.out.println("현재시각 : " + new Date());
+        System.out.println("현재시각 : " + new Date());
     }
     public static void main(String[] args) {
         SpringApplication.run(MoeuttoApplication.class, args);

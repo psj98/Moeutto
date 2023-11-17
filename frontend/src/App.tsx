@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
@@ -24,7 +25,8 @@ function App() {
     const isRoot = location.pathname === '/';
     const isLogoutUrl = location.pathname.includes('logout');
 
-    if (!accessToken && !isLoginUrl && !isRoot && !isLogoutUrl) {
+    // if (!accessToken && !isLoginUrl && !isRoot && !isLogoutUrl) {
+    if (false) {
       Swal.fire({
         icon: 'warning',
         title: "<h5 style='color:red'>로그인 필요!",
@@ -43,7 +45,9 @@ function App() {
     // 448px가 너비 최대
     <div className="App flex max-w-md mx-auto">
       <Sidebar path="" />
-      {location.pathname === '/' || location.pathname === '/login' ? null : <MobileNav />}
+      {location.pathname === '/' || location.pathname === '/login' || location.pathname === '/tutorial' ? null : (
+        <MobileNav />
+      )}
       <ContentContainer>
         {/* // v6 outlet 은 // children과 같은 효과 */}
         <Outlet />

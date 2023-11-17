@@ -11,7 +11,6 @@ export interface GuestbookPropsTypes {
 const GuestbookTemplate = ({ value, setValue, onClick, posts }: GuestbookPropsTypes) => {
   return (
     <div>
-      <div className="font-bold">방명록</div>
       <div className="w-full h-[220px] rounded-lg mb-3 bg-pink p-5">
         <div className="flex justify-between h-[30%] mb-3">
           <input

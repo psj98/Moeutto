@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled, { keyframes } from 'styled-components';
 
 import MainInfo from '../components/main/organisms/MainInfo';
 import PickButtonTap from '../components/main/organisms/PickButtonTap';
@@ -12,11 +13,43 @@ import Alert from '../components/common/Alert';
 import MainComment from '../components/main/atoms/MainComment';
 import Calendar from '../components/calendar/organisms/Calendar';
 import Scroll from '../components/common/scroll/molecules/Scroll';
+import RecommendListOnlyWeather from '../components/main/organisms/RecommendListOnlyWeather';
 // import AddTap from '../components/main/atoms/AdTap';
 import { authInstance } from '../api/api';
 
 // 날씨 api 사용
-// import Weather from "../api/Weather";
+import Weather from "../api/Weather";
+
+// 다시 추천 CSS
+const rotate = keyframes`
+  from {
+    transform: rotate(0turn);
+  }
+
+  to {
+    transform: rotate(1turn);
+  }
+`;
+
+const LoaderContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 30px;
+  height: 30px;
+`;
+
+const LoaderCircle = styled.div`
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border: 6px solid #FF78A5;
+  border-top-color: #E2E2E2;
+  border-radius: 100%;
+  animation: ${rotate} 2s ease-out infinite;
+`;
+
 
 const MainPage = () => {
     const navigate = useNavigate();
@@ -55,10 +88,30 @@ const MainPage = () => {
     setNewLocation(newValue);
   };
 
-  // // 옷 추천 리스트
+  // // 옷 추천 리스트 POST  추천
   const [clothesListData, setClothesListData] = useState<any>([]);
-  // const navigate = useNavigate();
+  
+  // 옷 추천 로딩 중
+  const [recommendLoading, setRecommendLoading] = useState<boolean>(false);
+
+  // 오늘 날짜
+  const today = new Date().toISOString().slice(0, 10);
+
+  // 내일 날짜
+  const now = new Date();
+  const tomorrow = new Date(now);
+
+  tomorrow.setDate(now.getDate() + 1);
+  const formattedTomorrow = tomorrow.toISOString().slice(0, 10);
+
+  // 내일 모레
+  const dayAfterTomorrow = new Date(now);
+
+  dayAfterTomorrow.setDate(now.getDate() + 2);
+  const formattedDayAfterTomorrow = new Date(dayAfterTomorrow).toISOString().slice(0, 10);
+
   const clothesData = async () => {
+    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$추천 등록 시작')
     const requesBody = [
       {
         // 날씨 정보
@@ -67,7 +120,7 @@ const MainPage = () => {
         tmn: 0, // 일 최저 기온
         tmx: 0, // 일 최고 기온
         wsd: 0, // 풍속
-        date: '2023-11-13', // 날짜 - "2023-11-02"
+        date: today, // 날짜 - "2023-11-02"
       },
       {
         // 날씨 정보
@@ -76,7 +129,7 @@ const MainPage = () => {
         tmn: 0, // 일 최저 기온
         tmx: 0, // 일 최고 기온
         wsd: 0, // 풍속
-        date: '2023-11-14', // 날짜 - "2023-11-02"
+        date: formattedTomorrow, // 날짜 - "2023-11-02"
       },
       {
         // 날씨 정보
@@ -85,7 +138,7 @@ const MainPage = () => {
         tmn: 0, // 일 최저 기온
         tmx: 0, // 일 최고 기온
         wsd: 0, // 풍속
-        date: '2023-11-15', // 날짜 - "2023-11-02"
+        date: formattedDayAfterTomorrow, // 날짜 - "2023-11-02"
       },
     ];
 
@@ -94,7 +147,11 @@ const MainPage = () => {
       const axiosInstance = authInstance({ ContentType: 'application/json' });
       const response = await axiosInstance.post('/ai-rec-outfits/combine', requesBody);
 
-      console.log('추천 착장 조회 성공', response.data.data);
+      // 일정 시간 지연시켜서 로딩중 보이게
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      console.log('추천 착장 만들기 성공', response.data.data);
+      setRecommendLoading(true);
       
       if (response.data.data) {
         setClothesListData(response.data.data);
@@ -104,47 +161,84 @@ const MainPage = () => {
 
       return response.data;
     } catch (error) {
-      console.log('옷 목록 데이터 조회 실패', error);
+      console.log('추천 착장 만들기 실패', error);
 
-      // if (error.response.data.status === 500) {
-      //     navigate('/mycloset/add-cloth')
-      //     // alert('보유한 옷이 적어 추천이 불가능합니다. 옷을 등록해주세요.')
-      // }
-
-      // 보유한 옷이 적어 추천이 불가능합니다.
-
-      // throw new Error('옷 목록 데이터 조회 실패');
       return null;
     }
   };
 
+  // 옷 추천 리스트 GET 조회
+  const OnlyGetRecommendClothesData = async () => {
+    console.log('2. 조회만 하는 api 실행 시작')
+    
+    try {
+      // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
+      const axiosInstance = authInstance({ ContentType: 'application/json' });
+      const response = await axiosInstance.get('/ai-rec-outfits');
+
+      console.log('************추천 착장 조회만 하는 거 성공', response);
+      setRecommendLoading(true);
+
+      // 저장된 추천 데이터가 없는 경우
+      if (response.data.message === '현재 날짜에 추천된 착장이 없습니다.') {
+        // 추천 받을 수 있는 api를 실행시킨다
+        clothesData();
+      }
+      
+      if (response.data.data) {
+        setClothesListData(response.data.data);
+      } else {
+        setClothesListData([]);
+      }
+
+      return response.data;
+    } catch (error) {
+      console.log('옷 목록 조회만 하는거 실패', error);
+
+      return null;
+    }
+  };
+
+  const reRecommend = () => {
+    setRecommendLoading(false);
+    clothesData();
+  }
+  
+
   // 날씨 기반 리스트
-  // const [weatherListData, setWeatherListData] = useState<any>([]);
+  const [weatherListData, setWeatherListData] = useState<any>([]);
 
   useEffect(() => {
-    clothesData();
-    // setWeatherListData(RecommendClothesListData.recommenWeatherInfo);
+    // 화면을 키면 조회만 되는 api에서 데이터를 받아온다
+    console.log('1. 조회만 하는 api 실행 전')
+    OnlyGetRecommendClothesData();
+
+    // 데이터가 없는 경우 or 다시 추천을 받고 싶은 경우 실행되는 api
+    // clothesData();
+    console.log('날씨 데이터 잘 받는거 확인했잖아', weatherListData)
   }, []);
 
 
   // 중간 점검 이후 덤프 데이터로 다시 UI 구성하는 코드 입니다. 
   // 날씨 api 논의 후 다시 작성할 예정.
   // 날씨 정보 (프론트에서 open API로 직접 불러온 정보 3일치 날씨 데이터 가공)
-  const weatherListData = [
+  // 해: 1, 구름: 2, 해&구름: 3, 비: 4, 눈: 5, 번개: 6 
+
+ const weatherListDataFake = [
       // 추천 날씨 목록
       {
-        minTemperature: 10, // 최저 기온
-        maxTemperature: 20, // 최고 기온
+        minTemperature: -3, // 최저 기온
+        maxTemperature: 6, // 최고 기온
+        weather: 5, // 날씨 정보 (맑음, 구름 조금 등)
+      },
+      {
+        minTemperature: -4, // 최저 기온
+        maxTemperature: 6, // 최고 기온
         weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
       },
       {
-        minTemperature: 15, // 최저 기온
-        maxTemperature: 25, // 최고 기온
-        weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
-      },
-      {
-        minTemperature: 5, // 최저 기온
-        maxTemperature: 10, // 최고 기온
+        minTemperature: 1, // 최저 기온
+        maxTemperature: 14, // 최고 기온
         weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
       },
     ]
@@ -167,20 +261,38 @@ const MainPage = () => {
           <MainInfo currentLocation={currentLocation} address={address} showLocationClick={showLocationClick} />
           
           {/* 날씨 정보 */}
-          <MainWeatherTap />
+          <MainWeatherTap weatherListData={weatherListDataFake} />
           <div className='mt-6 bg-white rounded-2xl shadow-md p-4 mb-[70px]'>
             
             {/* 사용자 이름 */}
-            <UserName />
+            <div className='flex'>
+              <UserName />
+              {recommendLoading ? (
+              // 재추천 안되는 이슈로 hidden으로 숨기기
+                <button 
+                  className='hidden flex items-center justify-center bg-pink rounded-2xl text-white text-AppBody2 p-2 absolute right-6'
+                  onClick={reRecommend}
+                >
+                    다시 추천
+                </button>
+              ) : (
+                <div className='hidden absolute right-10'>
+                  <LoaderContainer>
+                    <LoaderCircle />
+                  </LoaderContainer>
+                </div>
+              )}
+            </div>
             
             {/* 날씨 기반 추천 리스트 */}
             {clothesListData && clothesListData.length > 0 ? (
               <>
-                <RecommendList clothesListData={clothesListData} weatherListData={weatherListData} />
+                <RecommendList clothesListData={clothesListData} weatherListData={weatherListDataFake} />
               </>
             ) : (
               <>
-                <div className="bg-pink-hot p-4 h-[50px] flex items-center justify-center rounded-2xl font-WebBody1 font-bold text-white" onClick={() => navigate('/mycloset/add-cloth')}>옷 등록하러 가기</div>
+              {/* 옷 추천이 안되는 경우 날씨 컴포넌트 띄우기 */}
+                <RecommendListOnlyWeather clothesListData={clothesListData} weatherListData={weatherListDataFake} />
               </>
             )}
           </div>
@@ -229,6 +341,7 @@ const MainPage = () => {
         <div className="fixed bottom-1/3 right-0 me-[5vw]">
           <Scroll />
       </div>
+      <Weather setWeatherListData={setWeatherListData} />
     </div>
   );
 };

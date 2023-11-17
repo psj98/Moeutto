@@ -1,38 +1,18 @@
 import SeasonBtn from './SeasonBtn';
 import { middleCategory } from '../../common/CategoryType';
+import ColorPalette from '../../common/ColorPalette';
 
 interface PropsType {
     content: any;
     id: number;
 }
 
-interface Color {
-    name: string;
-    background: string;
-}
-
-const colorList: Color[] = [
-    { name: 'red', background: '#FFA7A7' },
-    { name: 'orange', background: '#FFA7A7' },
-    { name: 'yellow', background: '#FDFF9E' },
-    { name: 'green', background: '#A0FF90' },
-    { name: 'blue', background: '#BEADFF' },
-    { name: 'purple', background: '#D09AD9' },
-    { name: 'pink', background: '#FF98D6' },
-    { name: 'khaki', background: '#C0AE6F' },
-    { name: 'black', background: '#131313' },
-    { name: 'white', background: '#FFF' },
-    { name: 'gray', background: '#E2E2E2' },
-    { name: 'mix', background: 'linear-gradient(180deg, #F19494 0%, #FFFCBC 51.56%, #22D7FF 86.98%, #DF18FF 100%)' },
-  ];
-
 const Content = ({ content, id }: PropsType) => {
 
     let renderContent = null;
-    let selectedColor: string = '#FFFFFF';
-    
-    
+    let selectedColor = '#FFFFFF';
 
+        // 카테고리 찾기
     const getNameById = (idToFind: string): string | undefined => {
         const foundCategory = middleCategory.find(category => category.id === idToFind);
 
@@ -71,9 +51,10 @@ const Content = ({ content, id }: PropsType) => {
             );
             break;
         case 3:
-            
-            selectedColor = colorList.find(color => color.name === content)?.background;
-            renderContent = <div className={`rounded-full border bg-[${selectedColor}] w-8 h-8`}></div>;
+            selectedColor = ColorPalette.find(color => color.name === content)?.background;
+            renderContent = <div className={`rounded-full border w-8 h-8`}
+                style={{ backgroundColor: `${selectedColor}`}}
+            ></div>;
             break;
         default:
             renderContent = <div>{content}</div>;

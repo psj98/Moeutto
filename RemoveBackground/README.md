@@ -34,17 +34,19 @@
 - main.py 파일을 run 해주세요
 
 
-# pyenv 
-
+## pyenv
 - 여러 버전의 파이썬을 관리
-## 사용법 
-### 가상환경 생성
-- pyenv virtualenv venv
-- ~/.pyenv/versions 디텍터리 내에 저장
-### 가상 환경 활성화
-pyenv local venv
-- 현재 디렉토리에서 venv 환경 사용
+### 사용법 
+- 가상환경 생성
+  - pyenv virtualenv venv
+  - ~/.pyenv/versions 디텍터리 내에 저장
+- 가상 환경 활성화
+  - pyenv local venv
+  - 현재 디렉토리에서 venv 환경 사용
 
+# 수정 사항
+- segmentation을 거친 이미지에 검정색 배경이 생기는 문제
+    - 
 
 # conda 
 ## 사용법

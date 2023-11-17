@@ -19,6 +19,7 @@ public enum BaseResponseStatus {
     SESSION_EXPIRATION(false, 2002, "세션이 만료되었습니다"),
     CANT_GET_MEMBER_INFO(false, 2003, "마이페이지에서 유저 정보를 가져오지 못했습니다."),
     MYPAGE_UPDATE_FAILED(false, 2004, "내 정보 업데이트가 실패했습니다."),
+    NICKNAME_OVER_LENGTH_EIGHT(false, 2005, "닉네임 길이가 8을 넘었습니다."),
 
     /**
      * Clothes
@@ -29,6 +30,7 @@ public enum BaseResponseStatus {
     NOT_FOUND_CATEGORY_ANALYSIS_INFO(false, 3003, "카테고리별 옷 정보가 존재하지 않습니다."),
     NOT_FOUND_COLOR_ANALYSIS_INFO(false, 3004, "색상 별 옷 정보가 존재하지 않습니다."),
     TOO_LITTLE_CLOTHES_FROM_LARGE_CATEGORY(false, 3010, "옷이 너무 적습니다."),
+    UNDISCLOSED_CLOSET(false, 3020, "공개되지 않은 옷장입니다."),
 
     /**
      * Calendar

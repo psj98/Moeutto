@@ -3,6 +3,7 @@ package com.ssafy.moeutto.domain.calendar.controller;
 import com.ssafy.moeutto.domain.calendar.dto.request.CalendarListRequestDto;
 import com.ssafy.moeutto.domain.calendar.dto.request.CalendarScoreRequestDto;
 import com.ssafy.moeutto.domain.calendar.dto.response.CalendarListResponseDto;
+import com.ssafy.moeutto.domain.calendar.dto.response.CalendarRegistResponseDto;
 import com.ssafy.moeutto.domain.calendar.service.CalendarService;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
 import com.ssafy.moeutto.global.response.*;
@@ -59,9 +60,9 @@ public class CalendarController {
                                                @RequestPart(value = "file") MultipartFile file) {
         try {
             UUID memberId = getMemberIdFromToken(token);
-            calendarService.registMyOutfit(memberId, token, file);
-            return baseResponseService.getSuccessResponse(BaseResponseStatus.CALENDAR_REGIST_SUCCESS);
 
+            CalendarRegistResponseDto calendarRegistResponseDto = calendarService.registMyOutfit(memberId, token, file);
+            return baseResponseService.getSuccessResponse(calendarRegistResponseDto);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);
         }

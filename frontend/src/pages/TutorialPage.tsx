@@ -45,8 +45,8 @@ const TutorialPage = () => {
           onSwiper={swiper => console.log(swiper)}
           onSlideChange={handleSlideChange}>
           <SwiperSlide>
-            <div className="flex justify-center">
-              <img src={myCloset} className="max-w-[95%] h-[450px] object-cover" alt="Tutorial First"></img>
+            <div className="flex justify-center mt-6">
+              <img src={myCloset} className="max-w-[95%] h-[350px] object-cover flex" alt="Tutorial First"></img>
             </div>
             <div className="text-center mt-[30px]">내 옷장을 모으또에 등록하세요!</div>
             <div className="mt-[50px]"></div>
@@ -60,31 +60,31 @@ const TutorialPage = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="flex justify-center">
-              <img src={scoreMyOutfit} className="max-w-[95%] h-[450px] object-cover" alt="Score My Outfit"></img>
+              <img src={scoreMyOutfit} className="max-w-[95%] h-[350px] object-cover" alt="Score My Outfit"></img>
             </div>
             <div className="text-center mt-[30px]">오늘 입을 옷이 적절한지 평가해보세요!</div>
             <div className="mt-[50px]"></div>
           </SwiperSlide>
           <SwiperSlide>
             <div className="flex justify-center">
-              <img src={friendsCloset} className="max-w-[95%] h-[450px] object-cover" alt="Friends Closet"></img>
+              <img src={friendsCloset} className="max-w-[95%] h-[350px] object-cover" alt="Friends Closet"></img>
             </div>
             <div className="text-center mt-[30px]">친구의 옷장을 구경하고 댓글을 달아보세요.</div>
             <div className="mt-[50px]"></div>
           </SwiperSlide>
           <SwiperSlide className="lastPage">
             <div className="flex justify-center">
-              <img src={analysis} className="max-w-[90%] h-[400px] object-cover" alt="Friends Closet Last"></img>
+              <img src={analysis} className="max-w-[90%] h-[350px] object-cover" alt="Friends Closet Last"></img>
             </div>
             <div className="text-center mt-[30px]">모으또가 여러분들의 옷장을 분석해줍니다.</div>
             <div className="mt-[50px]"></div>
           </SwiperSlide>
         </Swiper>
       </div>
-      <div className="flex justify-center mt-16">
+      <div className="flex justify-center">
         <button
           onClick={goMainPage}
-          className="bg-pink-hot rounded-xl shadow-xl text-white text-WebBody3 p-4 tracking-wider font-bold">
+          className="bg-pink-hot rounded-xl shadow-xl text-white text-AppBody1 px-4 py-2 font-bold text-center">
           {currentSlideClass.includes('lastPage') ? '시작하기' : '건너뛰기'}
         </button>
       </div>

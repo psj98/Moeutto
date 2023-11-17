@@ -8,7 +8,7 @@ const ClosetReportMainOrganism = ({ CardPropsArray }: { CardPropsArray: CardProp
   // const [nickname] = name;
 
   return (
-    <div className="py-1 relative bg-[#f6f6f6] pt-[70px] h-full my-24 w-full flex flex-col items-center">
+    <div className="py-1 relative bg-[#f6f6f6] pt-[70px] pb-[20px] h-full mt-24 w-full flex flex-col items-center">
       <img
         src={profileImage}
         className="absolute rounded-full w-[120px] object-cover border-[10px] top-[-60px] border-[#f6f6f6]"
