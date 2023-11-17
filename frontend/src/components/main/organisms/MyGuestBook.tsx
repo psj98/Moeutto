@@ -85,9 +85,10 @@ const MyGuestBook = ({ setIsAlertModalOpen }: MyGuestBookProps) => {
                     </>
                 ) : (
                     <div className="flex justify-center items-center text-center my-auto">아직 방명록을 남긴 <br/> 친구가 없네요 ㅜㅅㅜ</div>
-                )}
+                    )}
 
-            </div>
+                </div>
+            <div className="font-thin text-AppBody2 flex justify-center -mt-[18px]">클릭해서 전체 내용을 확인해보세요</div>
         </div>
         </>
     )
