@@ -56,6 +56,7 @@ public enum BaseResponseStatus {
      * Code : 6000번대
      */
     JSON_PARSE_ERROR(false, 6001, "데이터 파싱에 실패하였습니다."),
+    OVER_FOUR_ITEMS_ERROR(false, 6002, "옷이 네 벌 초과로 입력되었습니다"),
 
     /**
      * S3 Image Upload
