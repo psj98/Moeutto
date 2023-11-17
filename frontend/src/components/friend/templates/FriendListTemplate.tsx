@@ -12,20 +12,26 @@ type FriendListTemplateProps = {
 };
 
 const FriendListTemplate = ({ seachAction, friendList, value, setValue }: FriendListTemplateProps) => {
-  const handleClickSearchIcon = () => {
-    seachAction().then(setValue('')); // 검색하고 검색칸 비워주기
-  };
+  // const handleClickSearchIcon = () => {
+  //   seachAction().then(setValue('')); // 검색하고 검색칸 비워주기
+  // };
 
   const handleSeachEnter = e => {
     if (e.key === 'Enter') {
-      handleClickSearchIcon(); // Enter 입력이 되면 클릭 이벤트 실행
+      seachAction(); // Enter 입력이 되면 클릭 이벤트 실행
     }
   };
 
   return (
     <div>
       <div className="relative w-[80%] mx-auto mb-8 drop-shadow-md">
-        <BiSearchAlt className="absolute top-[5px] left-3 changeColor" size="30" onClick={handleClickSearchIcon} />
+        <BiSearchAlt
+          className="absolute top-[5px] left-3 changeColor"
+          size="30"
+          onClick={() => {
+            seachAction();
+          }}
+        />
         <input
           type="text"
           id="search"
@@ -33,7 +39,7 @@ const FriendListTemplate = ({ seachAction, friendList, value, setValue }: Friend
           className="border rounded-full w-full h-[40px]  py-1 ps-12 text-AppBody1 leading-[20px] align-middle"
           value={value}
           onChange={e => setValue(e.target.value)}
-          onKeyPress={handleSeachEnter}
+          onKeyDown={handleSeachEnter}
         />
       </div>
       {friendList === null || friendList.length === 0 ? (
