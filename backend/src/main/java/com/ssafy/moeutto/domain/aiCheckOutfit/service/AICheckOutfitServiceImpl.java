@@ -31,10 +31,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -62,6 +59,64 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
         PythonRequestClothesListItems itemTemp = null;
 
         List<ClientRequestClothesListDto> arr = aiCheckOutfitClientRequestDto.getClothesList();
+//        List<ClientRequestClothesListDto> checkedArr = new ArrayList<>();
+
+        System.out.println("클라이언트로부터 들어온 옷 리스트 : "+Arrays.toString(arr.toArray()));
+
+        // 리스트에 4개 초과로 들어올때
+        if(arr.size() > 4){
+            throw new BaseException(BaseResponseStatus.OVER_FOUR_ITEMS_ERROR); // 6002 code
+        }
+
+        // 아이템을 총 4개 모두 고르지 않을때 처리
+        List<Character> check = Arrays.asList('0','0','0','0'); // 0 outer 1 top 2 bottom 3 item
+
+        System.out.println("check 배열 초깃값 : "+Arrays.toString(check.toArray()));
+
+        if(arr.size() < 4){
+
+            for(ClientRequestClothesListDto item : arr){
+
+                System.out.println("옷 대분류 : "+item.getLargeCategoryId());
+
+                if(item.getLargeCategoryId().equals("002")) {
+                    // 중복 카테고리 체크
+                    if(check.get(0) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
+                    check.set(0,'1');
+                }
+                else if(item.getLargeCategoryId().equals("001")) {
+                    if(check.get(1) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
+                    check.set(1,'1');
+                }
+                else if(item.getLargeCategoryId().equals("003")) {
+                    if(check.get(2) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
+                    check.set(2,'1');
+                }
+                else if(item.getLargeCategoryId().equals("011")) {
+                    if(check.get(3) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
+                    check.set(3,'1');
+                }
+            }
+
+            System.out.println("클라이언트로부터 들어온 데이터 check 값 : "+Arrays.toString(check.toArray()));
+
+            // 상하의가 없을때
+            if(check.get(1) != '1' || check.get(2) != '1'){
+                throw new BaseException(BaseResponseStatus.NO_TOP_OR_BOTTOM_CLOTHES);
+            }
+        }
+
+        // 아우터나 아이템중 선택안된 값에 default 값 채워주기 위함
+        PythonRequestClothesListItems tempRequestItems = PythonRequestClothesListItems.builder()
+                .clothesId(-1)  // 이거 기준으로 빈 값인지 판단
+                .largeCategoryId("001")
+                .clothesName("")
+                .season("")
+                .color("multi") // 팔레트에 없는값 넣으면 파이썬에서 에러뜨게했다고함
+                .thickness(0)
+                .textile("")
+                .frequency(0)
+                .build();
 
         for (int i = 0; i < arr.size(); i++) {
             Clothes clothesInfo = clothesRepository.findByClothesId(arr.get(i).getId());
@@ -79,9 +134,9 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
 
             System.out.println("AICheckOutfitService Impl , requestItems : " + requestItems);
 
-            if (requestItems.getLargeCategoryId().equals("001")) {
+            if (requestItems.getLargeCategoryId().equals("002")) {
                 outerTemp = requestItems;
-            } else if (requestItems.getLargeCategoryId().equals("002")) {
+            } else if (requestItems.getLargeCategoryId().equals("001")) {
                 topTemp = requestItems;
             } else if (requestItems.getLargeCategoryId().equals("003")) {
                 bottomTemp = requestItems;
@@ -89,6 +144,10 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
                 itemTemp = requestItems;
             }
         }
+
+        // 빈 카테고리 채워주기 ( 아우터, 아이템 ) check : 0 outer 3 item
+        if(check.get(0) == '0') outerTemp = tempRequestItems;
+        if(check.get(3) == '0') itemTemp = tempRequestItems;
 
         ResponseWeatherInfo pythonRequestWeatherInfo = new ResponseWeatherInfo().toBuilder()
                 .maxTemperature((int) (aiCheckOutfitClientRequestDto.getWeatherInfo().getTmx()))
@@ -181,41 +240,6 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
             throw new BaseException(BaseResponseStatus.JSON_PARSE_ERROR);
         }
 
-        // AiCheckOutfitPythonResponseDto 임시 더미 데이터 Start ------
-//        List<PythonResponseClothesResult> tempPythonResponseClothesResult = new ArrayList<>();
-//        for (int i = 1; i <= 4; i++) {
-//            PythonResponseClothesResult item = new PythonResponseClothesResult(i, "무난해요", 50);
-//
-//            System.out.println(i + " 번째 : " + item);
-//
-//            tempPythonResponseClothesResult.add(item);
-//        }
-//
-//        ResponseClothesFeature tempClothesFeature = ResponseClothesFeature.builder()
-//                .temperature(5)
-//                .darkness(5)
-//                .seasonX(5)
-//                .seasonY(5)
-//                .build();
-//
-//        System.out.println("tempClothesFeature : " + tempClothesFeature);
-//
-//        ResponseWeatherInfo tempWeatherInfo = ResponseWeatherInfo.builder()
-//                .minTemperature(10)
-//                .maxTemperature(20)
-//                .weather(0)
-//                .build();
-//
-//        System.out.println("tempWeatherInfo : " + tempWeatherInfo);
-//
-//        AICheckOutfitPythonResponseDto aiCheckOutfitPythonResponseDto = AICheckOutfitPythonResponseDto.builder()
-//                .clothesResult(tempPythonResponseClothesResult)
-//                .clothesFeature(tempClothesFeature)
-//                .weatherInfo(tempWeatherInfo)
-//                .build();
-        // AiCheckOutfitPythonResponseDto 임시 더미 데이터 End ------
-
-
         // Client로 Response보낼 Dto 준비
         List<ClientResponseClothesResult> clientClothesResult = new ArrayList<>();
         List<PythonResponseClothesResult> pythonClothesResult = aiCheckOutfitPythonResponseDto.getClothesResult();
@@ -224,24 +248,40 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
 
         for (PythonResponseClothesResult pythonClothes : pythonClothesResult) {
 
-            IAiCheckOutfitPythonResponseClothesResult tempClothesResult =
-                    clothesRepository.findIdAndImageUrlAndLargeCategoryIdByClothesId(pythonClothes.getClothesId());
+            if(pythonClothes.getClothesId() != -1) {
+                IAiCheckOutfitPythonResponseClothesResult tempClothesResult =
+                        clothesRepository.findIdAndImageUrlAndLargeCategoryIdByClothesId(pythonClothes.getClothesId());
 
-            System.out.println("AICheckOutfitServiceImpl tempClothesResult : " + tempClothesResult);
+                System.out.println("AICheckOutfitServiceImpl tempClothesResult : " + tempClothesResult);
 
-            ClientResponseClothesResult tempClientClothes = ClientResponseClothesResult.builder()
-                    .clothesId(pythonClothes.getClothesId())
-                    .largeCategoryId(tempClothesResult.getLargeCategoryId())
-                    .imageUrl(tempClothesResult.getImageUrl())
-                    .result(pythonClothes.getResult())
-                    .fitnessNum(pythonClothes.getFitnessNum())
-                    .build();
+                ClientResponseClothesResult tempClientClothes = ClientResponseClothesResult.builder()
+                        .clothesId(pythonClothes.getClothesId())
+                        .largeCategoryId(tempClothesResult.getLargeCategoryId())
+                        .imageUrl(tempClothesResult.getImageUrl())
+                        .result(pythonClothes.getResult())
+                        .fitnessNum(pythonClothes.getFitnessNum())
+                        .build();
 
-            System.out.println("AICheckOutfitServiceImpl tempClientClothes : " + tempClientClothes);
+                System.out.println("AICheckOutfitServiceImpl tempClientClothes : " + tempClientClothes);
 
 //            clothesIds.add(pythonClothes.getClothesId());
-            clientClothesResult.add(tempClientClothes);
+                clientClothesResult.add(tempClientClothes);
+            } else {
+
+                // 클라이언트로 부터 입력 안된 카테고리 (아우터, 아이템) 처리
+                ClientResponseClothesResult tempClientClothes = ClientResponseClothesResult.builder()
+                        .clothesId(-1)
+                        .largeCategoryId("")
+                        .imageUrl("")
+                        .result("")
+                        .fitnessNum(-1)
+                      .build();
+                
+                clientClothesResult.add(tempClientClothes);
+            }
         }
+
+        System.out.println("클라이언트에게 보낼 옷 데이터 : "+Arrays.toString(clientClothesResult.toArray()));
 
         // DB에 저장할 데이터 ( ai_check_outfit , clothes_in_ai_check_outfit 테이블 ) 준비 및 save
         Date now = new Date(System.currentTimeMillis());
@@ -298,4 +338,133 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
 
         return aiCheckOutfitClientResponseDto;
     }
+
+    /**
+     * 테스트용
+     * @param memberId
+     * @param aiCheckOutfitClientRequestDto
+     * @return
+     * @throws BaseException
+     */
+    @Override
+    public PythonRequestClothesList checkOutfitTest(UUID memberId, AICheckOutfitClientRequestDto aiCheckOutfitClientRequestDto) throws BaseException {
+        // 사용자 체크
+        memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+
+        // 파이썬 서버로 보내기 위한 작업
+        PythonRequestClothesListItems outerTemp = null;
+        PythonRequestClothesListItems topTemp = null;
+        PythonRequestClothesListItems bottomTemp = null;
+        PythonRequestClothesListItems itemTemp = null;
+
+        List<ClientRequestClothesListDto> arr = aiCheckOutfitClientRequestDto.getClothesList();
+//        List<ClientRequestClothesListDto> checkedArr = new ArrayList<>();
+
+        System.out.println("클라이언트로부터 들어온 옷 리스트 : "+Arrays.toString(arr.toArray()));
+
+        // 리스트에 4개 초과로 들어올때
+        if(arr.size() > 4){
+            throw new BaseException(BaseResponseStatus.OVER_FOUR_ITEMS_ERROR); // 6002 code
+        }
+
+        // 아이템을 총 4개 모두 고르지 않을때 처리
+        List<Character> check = Arrays.asList('0','0','0','0'); // 0 outer 1 top 2 bottom 3 item
+
+        System.out.println("check 배열 초깃값 : "+Arrays.toString(check.toArray()));
+
+        if(arr.size() < 4){
+
+            for(ClientRequestClothesListDto item : arr){
+
+                System.out.println("옷 대분류 : "+item.getLargeCategoryId());
+
+                if(item.getLargeCategoryId().equals("002")) {
+                    // 중복 카테고리 체크
+                    if(check.get(0) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
+                    check.set(0,'1');
+                }
+                else if(item.getLargeCategoryId().equals("001")) {
+                    if(check.get(1) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
+                    check.set(1,'1');
+                }
+                else if(item.getLargeCategoryId().equals("003")) {
+                    if(check.get(2) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
+                    check.set(2,'1');
+                }
+                else if(item.getLargeCategoryId().equals("011")) {
+                    if(check.get(3) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
+                    check.set(3,'1');
+                }
+            }
+
+            System.out.println("클라이언트로부터 들어온 데이터 check 값 : "+Arrays.toString(check.toArray()));
+
+            // 상하의가 없을때
+            if(check.get(1) != '1' || check.get(2) != '1'){
+                throw new BaseException(BaseResponseStatus.NO_TOP_OR_BOTTOM_CLOTHES);
+            }
+        }
+
+        // 아우터나 아이템중 선택안된 값에 default 값 채워주기 위함
+        PythonRequestClothesListItems tempRequestItems = PythonRequestClothesListItems.builder()
+                .clothesId(-1)  // 이거 기준으로 빈 값인지 판단
+                .largeCategoryId("001")
+                .clothesName("")
+                .season("")
+                .color("")
+                .thickness(0)
+                .textile("")
+                .frequency(0)
+                .build();
+
+        for (int i = 0; i < arr.size(); i++) {
+            Clothes clothesInfo = clothesRepository.findByClothesId(arr.get(i).getId());
+
+            PythonRequestClothesListItems requestItems = PythonRequestClothesListItems.builder()
+                    .largeCategoryId(arr.get(i).getLargeCategoryId())
+                    .clothesId(arr.get(i).getId())
+                    .clothesName(clothesInfo.getName())
+                    .season(clothesInfo.getSeason())
+                    .color(clothesInfo.getColor())
+                    .thickness(clothesInfo.getThickness())
+                    .textile(clothesInfo.getTextile())
+                    .frequency(clothesInfo.getFrequency())
+                    .build();
+
+            System.out.println("AICheckOutfitService Impl , requestItems : " + requestItems);
+
+            if (requestItems.getLargeCategoryId().equals("002")) {
+                outerTemp = requestItems;
+            } else if (requestItems.getLargeCategoryId().equals("001")) {
+                topTemp = requestItems;
+            } else if (requestItems.getLargeCategoryId().equals("003")) {
+                bottomTemp = requestItems;
+            } else {
+                itemTemp = requestItems;
+            }
+        }
+
+        // 빈 카테고리 채워주기 ( 아우터, 아이템 ) check : 0 outer 3 item
+        if(check.get(0) == '0') outerTemp = tempRequestItems;
+        if(check.get(3) == '0') itemTemp = tempRequestItems;
+
+        ResponseWeatherInfo pythonRequestWeatherInfo = new ResponseWeatherInfo().toBuilder()
+                .maxTemperature((int) (aiCheckOutfitClientRequestDto.getWeatherInfo().getTmx()))
+                .minTemperature((int) (aiCheckOutfitClientRequestDto.getWeatherInfo().getTmn()))
+                .weather(aiCheckOutfitClientRequestDto.getWeatherInfo().getPty())
+                .build();
+
+        PythonRequestClothesList pythonRequestClothesLists = PythonRequestClothesList.builder()
+                .outer(outerTemp)
+                .top(topTemp)
+                .bottom(bottomTemp)
+                .item(itemTemp)
+                .weatherInfo(pythonRequestWeatherInfo)
+                .build();
+
+        System.out.println("파이썬에 보내는 정보 : " + pythonRequestClothesLists);
+
+        return pythonRequestClothesLists;
+    }
+
 }
