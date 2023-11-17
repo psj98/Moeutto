@@ -4,7 +4,6 @@ import CategoryTapOrganism from '../components/mycloset/organisms/CategoryTapOrg
 const MyClosetPage = () => {
   return (
     <>
-      {/* <PickTitle></PickTitle> */}
       <MyClosetBar state={1} />
       <div className="mt-8">
         <CategoryTapOrganism />

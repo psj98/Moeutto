@@ -15,12 +15,11 @@ const HiddenRadioInput = styled.input`
 `;
 
 const BoldLabel = styled.label<{ selected: boolean }>`
-  cursor: pointer;
-  font-weight: ${({ selected }) => (selected ? 'bold' : 'normal')};
-  &:hover {
-    font-weight: bold;
-  }
-`;
+    text-decoration: ${({ selected }) => (selected ? 'underline' : 'none')};
+    text-decoration-color: pink;
+    text-decoration-thickness: 3px;
+    text-underline-position : under;
+    `;
 
 interface PropsType {
   selectedOption: string;
@@ -31,11 +30,7 @@ const MainCategory: React.FC<PropsType> = ({ selectedOption, setSelectedOption }
   const categories = ['전체', '상의', '하의', '아우터', '아이템'];
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.id === '전체') {
-      setSelectedOption('000000');
-    } else {
-      setSelectedOption(e.target.id);
-    }
+    setSelectedOption(e.target.id);
   };
 
   return (

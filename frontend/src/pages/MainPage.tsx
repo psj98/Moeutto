@@ -111,7 +111,6 @@ const MainPage = () => {
   const formattedDayAfterTomorrow = new Date(dayAfterTomorrow).toISOString().slice(0, 10);
 
   const clothesData = async () => {
-    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$추천 등록 시작')
     const requesBody = [
       {
         // 날씨 정보
@@ -214,16 +213,11 @@ const MainPage = () => {
     OnlyGetRecommendClothesData();
 
     // 데이터가 없는 경우 or 다시 추천을 받고 싶은 경우 실행되는 api
-    // clothesData();
     console.log('날씨 데이터 잘 받는거 확인했잖아', weatherListData)
   }, []);
 
 
-  // 중간 점검 이후 덤프 데이터로 다시 UI 구성하는 코드 입니다. 
-  // 날씨 api 논의 후 다시 작성할 예정.
-  // 날씨 정보 (프론트에서 open API로 직접 불러온 정보 3일치 날씨 데이터 가공)
   // 해: 1, 구름: 2, 해&구름: 3, 비: 4, 눈: 5, 번개: 6 
-
  const weatherListDataFake = [
       // 추천 날씨 목록
       {
@@ -254,8 +248,6 @@ const MainPage = () => {
       <div className='absolute z-50 left-1/2 transform -translate-x-1/2 w-[90%] max-w-[400px] min-w-[300px]'>
         <Alert />
       </div>
-      
-
         <div className="flex flex-col p-4 mb-4">
           {/* 주소 */}
           <MainInfo currentLocation={currentLocation} address={address} showLocationClick={showLocationClick} />
