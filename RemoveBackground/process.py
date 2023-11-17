@@ -11,7 +11,6 @@ import torchvision.transforms as transforms
 
 
 from collections import OrderedDict
-from options import opt
 
 
 def load_checkpoint(model, checkpoint_path):
@@ -85,11 +84,19 @@ def apply_transform(img):
 def extract_segmented_image(input_image, mask_image):
     input_array = np.array(input_image)
     mask_array = np.array(mask_image)
-    segmented_image = np.zeros_like(input_array)
+    # segmented_image = np.zeros_like(input_array)
+    # for i in range(input_array.shape[0]):
+    #     for j in range(input_array.shape[1]):
+    #         if mask_array[i, j] > 0:
+    #             segmented_image[i, j, :] = input_array[i, j, :]
+    segmented_image = np.zeros((input_array.shape[0], input_array.shape[1], 4), dtype=np.uint8)
     for i in range(input_array.shape[0]):
         for j in range(input_array.shape[1]):
             if mask_array[i, j] > 0:
-                segmented_image[i, j, :] = input_array[i, j, :]
+                segmented_image[i, j, :3] = input_array[i, j, :]
+                segmented_image[i, j, 3] = 255  # 알파 채널을 불투명하게 설정
+            else:
+                segmented_image[i, j, 3] = 0  # 알파 채널을 투명하게 설정
     segmented_image = Image.fromarray(segmented_image)
     return segmented_image
 

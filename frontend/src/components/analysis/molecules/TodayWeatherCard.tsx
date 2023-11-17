@@ -63,7 +63,11 @@ const TodayWeatherCard = ({ idx }: Props) => {
     [ "", "오늘은 날씨가 화창하고", "오늘은 날씨가 흐리고", "오늘은 구름이 있지만", "오늘은 날씨가 흐리고", "오늘은 날씨가 흐리고", "오늘은 번쩍번쩍 번개가 있어요" ]
 
     const weatherList2 = 
-    [ "", "맑은 날이네요", "바람이 많이 부네요", "해가 있어 맑은 날이에요", "비가 올 예정이에요", "눈이 올 예정이에요**", "번개를 조심하세요" ]
+    [ "", "맑은 날이네요", "바람이 많이 부네요", "해가 있어 맑은 날이에요", "비가 올 예정이에요", "눈이 올 예정이에요", "번개를 조심하세요" ]
+
+    const firstTip: string = window.localStorage.getItem('first');
+    const secondTip: string = window.localStorage.getItem('second');
+
 
   // dynamically Loading image 힘들었다
   useEffect(() => {
@@ -85,8 +89,8 @@ const TodayWeatherCard = ({ idx }: Props) => {
         {imageSrc ? <img src={imageSrc} alt="Weather Icon" className="icon" /> : null}
         <div className="text-WebBody1">{weatherList1[idx]} <br />{weatherList2[idx]}</div>
         <div>
-          <div className="text-WebBody4">TIP. 보온에 신경쓰세요</div>
-          <div className="text-WebBody4">TIP. 저녁에 추워요. 아우터를 챙기세요.</div>
+          <div className="text-WebBody4">TIP. {firstTip}</div>
+          <div className="text-WebBody4">TIP. {secondTip}</div>
         </div>
       </Card>
     </Container>

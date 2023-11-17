@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 import styled, { keyframes } from 'styled-components';
-import Swal from 'sweetalert2';
 import { authInstance } from '../api/api';
 
 import IntroComment from '../components/report/atoms/IntroComment';
@@ -37,6 +38,12 @@ const InnerContainer = styled.div`
 `;
 
 const ReportCostPage = () => {
+  const naviagte = useNavigate();
+
+  const goMainPage = () => {
+    naviagte('/main');
+  };
+
   const [analysisAmountList, setAnalysisAmountList] = useState([]);
   const [minLargeCategoryName, setMinLargeCategoryName] = useState('');
   const [maxLargeCategoryName, setMaxLargeCategoryName] = useState('');
@@ -45,37 +52,42 @@ const ReportCostPage = () => {
   const [shortReportComment, setShortReportComment] = useState('');
 
   const fetchData = async () => {
-    try {
-      const axiosInstance = authInstance({ ContentType: 'application/json' });
-      const response = await axiosInstance.get('/clothes/analysis-use');
+    const axiosInstance = authInstance({ ContentType: 'application/json' });
+    const response = await axiosInstance.get('/clothes/analysis-use');
 
-      if (response.data.code === 2001) {
-        Swal.fire({
-          icon: 'question',
-          html: '회원 정보가 없어요',
-          showCancelButton: false,
-          confirmButtonText: '확인',
-        });
-      }
-
-      if (response.data.code === 2002) {
-        Swal.fire({
-          icon: 'warning',
-          html: '세션이 만료되었습니다',
-          showCancelButton: false,
-          confirmButtonText: '확인',
-        });
-      }
-
-      if (response.data.code === 5001) {
-        Swal.fire({
-          icon: 'error',
-          html: '대분류 카테고리가 존재하지 않습니다.',
-          showCancelButton: false,
-          confirmButtonText: '확인',
-        });
-      }
-
+    if (response.data.code === 2001) {
+      Swal.fire({
+        icon: 'question',
+        html: '회원 정보가 없어요',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
+      goMainPage();
+    } else if (response.data.code === 2002) {
+      Swal.fire({
+        icon: 'warning',
+        html: '세션이 만료되었습니다',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
+      goMainPage();
+    } else if (response.data.code === 3002) {
+      Swal.fire({
+        icon: 'error',
+        html: '옷을 먼저 등록해주세요',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
+      goMainPage();
+    } else if (response.data.code === 5001) {
+      Swal.fire({
+        icon: 'error',
+        html: '대분류 카테고리가 존재하지 않습니다.',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
+      goMainPage();
+    } else {
       setAnalysisAmountList(response.data.data.analysisAmountList);
 
       setShortReportComment(
@@ -90,10 +102,8 @@ const ReportCostPage = () => {
       setMinLargeCategoryName(response.data.data.minLargeCategoryName);
       setBarValue(
         (response.data.data?.usedAmount * 100) /
-          (response.data.data?.totalAmount === 0 ? 1 : response.data.data?.totalAmount)
+        (response.data.data?.totalAmount === 0 ? 1 : response.data.data?.totalAmount)
       );
-    } catch (error) {
-      throw new Error('옷이 부족합니다.');
     }
   };
 
