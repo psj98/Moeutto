@@ -58,33 +58,71 @@ const FriendClosetPage = () => {
 
   // 카테고리 선택 확인
   useEffect(() => {
-    // 중분류
-    if (selectedOptionMiddle === '패딩') {
-      setCategoryId('002012');
-    } else if (selectedOptionMiddle === '코트') {
-      setCategoryId('002007');
-    } else if (selectedOptionMiddle === '자켓') {
-      setCategoryId('002004');
-    } else if (selectedOptionMiddle === '맨투맨') {
-      setCategoryId('001005');
-    } else if (selectedOptionMiddle === '후드') {
-      setCategoryId('001004');
-    } else if (selectedOptionMiddle === '반팔') {
-      setCategoryId('001001');
-    } else if (selectedOptionMiddle === '청바지') {
-      setCategoryId('003002');
-    } else if (selectedOptionMiddle === '반바지') {
-      setCategoryId('003009');
-    } else if (selectedOptionMiddle === '카고팬츠') {
-      setCategoryId('003004');
-    } else if (selectedOptionMiddle === '귀마개') {
-      setCategoryId('011006');
-    } else if (selectedOptionMiddle === '장갑') {
-      setCategoryId('011011');
-    } else if (selectedOptionMiddle === '목도리') {
-      setCategoryId('011010');
-    }
 
+    // 대분류
+    if (selectedOptionMain === '전체') {
+      setCategoryId('000000');
+      setSortBy('initial');
+      setOrderBy(0);
+      setSelectedOptionMiddle("");
+    } 
+    
+    else if (selectedOptionMain === '상의') {
+      setCategoryId('001000');
+      // 중분류
+      if (selectedOptionMiddle === '맨투맨') {
+        setCategoryId('001005');
+      } else if (selectedOptionMiddle === '후드') {
+        setCategoryId('001004');
+      } else if (selectedOptionMiddle === '반팔') {
+        setCategoryId('001001');
+      } else {
+        setSelectedOptionMiddle("");
+      }
+    } 
+    
+    else if (selectedOptionMain === '하의') {
+      setCategoryId('003000');
+      // 중분류
+      if (selectedOptionMiddle === '청바지') {
+        setCategoryId('003002');
+      } else if (selectedOptionMiddle === '반바지') {
+        setCategoryId('003009');
+      } else if (selectedOptionMiddle === '카고팬츠') {
+        setCategoryId('003004');
+      } else {
+        setSelectedOptionMiddle("");
+      }
+    } 
+    
+    else if (selectedOptionMain === '아우터') {
+      setCategoryId('002000');
+      // 중분류
+      if (selectedOptionMiddle === '패딩') {
+        setCategoryId('002012');
+      } else if (selectedOptionMiddle === '코트') {
+        setCategoryId('002007');
+      } else if (selectedOptionMiddle === '자켓') {
+        setCategoryId('002004');
+      } else {
+        setSelectedOptionMiddle("");
+      }
+    } 
+    
+    else if (selectedOptionMain === '아이템') {
+      setCategoryId('011000');
+      // 중분류
+      if (selectedOptionMiddle === '귀마개') {
+        setCategoryId('011006');
+      } else if (selectedOptionMiddle === '장갑') {
+        setCategoryId('011011');
+      } else if (selectedOptionMiddle === '목도리') {
+        setCategoryId('011010');
+      } else {
+        setSelectedOptionMiddle("");
+      }
+  }
+    
     if (selectedOptionSort === '정렬') {
       setSortBy('initial');
     } else if (selectedOptionSort === '등록순') {
@@ -97,14 +135,7 @@ const FriendClosetPage = () => {
     } else {
       setSortBy('color');
     }
-
-    // 대분류
-    if (selectedOptionMain === '000000') {
-      setCategoryId('000000');
-      setSortBy('initial');
-      setOrderBy(0);
-    }
-  }, [selectedOptionMain, selectedOptionMiddle, selectedOptionSort]);
+  }, [selectedOptionMain, selectedOptionMiddle, selectedOptionSort])
 
   // 선택한 옷 리스트
   const selectedClosetIds = useSelector((state: RootState) => state.closet.selectedClosetIds);
