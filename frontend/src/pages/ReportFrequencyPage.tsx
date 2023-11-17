@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 import { authInstance, defaultInstance } from '../api/api';
 
@@ -38,7 +39,12 @@ const ReportFrequencyPage = () => {
     const response = await axiosInstance.get('/clothes/analysis-frequency');
 
     if (response.data.code === 3002) {
-      alert('옷을 먼저 등록해주세요.');
+      Swal.fire({
+        icon: 'error',
+        html: '옷을 먼저 등록해주세요',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
       goMainPage();
     } else {
       mostCount = response.data.data.myMostFrequency[0].frequency;
