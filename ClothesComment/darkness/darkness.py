@@ -37,7 +37,6 @@ def get_darkness(item_colors : Color):
     colors = [item_colors.outer, item_colors.top, item_colors.bottom, item_colors.item]
 
     for idx, i in enumerate(colors):
-
         color_hex = colors_data[i]
         color_int = calculate_darkness(color_hex)
         ret += weights[idx] * color_int
