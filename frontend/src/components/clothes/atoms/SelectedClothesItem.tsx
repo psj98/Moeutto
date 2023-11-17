@@ -51,7 +51,7 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
       {imageLoaded ? (
         null
       ) : (
-        <div className="animate-pulse w-[110px] h-[110px] bg-gray-button rounded-3xl">이미지가 로딩중</div>
+        <div className="animate-pulse w-[110px] h-[110px] bg-gray-button rounded-3xl"></div>
       )}
     </>
   );

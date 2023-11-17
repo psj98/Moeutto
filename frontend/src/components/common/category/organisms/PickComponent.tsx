@@ -42,7 +42,7 @@ const PickComponent: React.FC<PropsType> = ({
       />
       <div className="flex justify-center m-auto">
         <div className="w-[95%] flex flex-wrap gap-3.5 mt-4 justify-start mb-[200px]">
-        {isImgLoading ? (
+        {!isImgLoading ? (
           <>
             {clothesData && clothesData.length > 0 ? (
               clothesData.map((item, index) => (
@@ -58,7 +58,7 @@ const PickComponent: React.FC<PropsType> = ({
             )}
           </>
         ) : (
-          <div className='flex'>
+          <div className='flex gap-4 justify-center'>
             <div className="animate-pulse w-[110px] h-[110px] bg-gray-button rounded-3xl"></div>
             <div className="animate-pulse w-[110px] h-[110px] bg-gray-button rounded-3xl"></div>
             <div className="animate-pulse w-[110px] h-[110px] bg-gray-button rounded-3xl"></div>
