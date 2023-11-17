@@ -35,10 +35,10 @@ const GuestbookTemplate = ({ value, setValue, onClick, posts }: GuestbookPropsTy
 
               return (
                 <div key={index} className="text-AppBody2 flex justify-between">
-                  <div className="w-[50px]">
-                    {Date[1]}-{Date[2]}
+                  <div className="w-[50px]">{Date[1]}-{Date[2]}</div>
+                  <div className="flex-grow" style={{ height: 'auto' }}>
+                    {item.post}
                   </div>
-                  {item.post}
                   <div className="w-[80px] overflow-hidden text-right">{item.nickname}</div>
                 </div>
               );

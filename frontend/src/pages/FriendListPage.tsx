@@ -64,7 +64,6 @@ const FriendListPage = () => {
         setData(res.data);
       });
     } else {
-      console.log(search, 'getmyfriends 시작');
       getMyFriends().then(res => {
         setData(res.data);
       });
