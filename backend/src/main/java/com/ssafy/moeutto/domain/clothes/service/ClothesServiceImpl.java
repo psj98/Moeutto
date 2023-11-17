@@ -460,6 +460,7 @@ public class ClothesServiceImpl implements ClothesService {
         List<IClothesAnalysisColor> clothesAnalysisColorMyList = clothesRepository.findByColorMember(memberId); // 내 옷장 분석
         List<IClothesAnalysisColor> clothesAnalysisColorUserList = clothesRepository.findByColor(); // 모든 사용자 옷장 분석
 
+        // 옷 존재 여부 체크
         if (clothesAnalysisColorMyList.size() == 0) {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES_LIST);
         }
@@ -482,6 +483,12 @@ public class ClothesServiceImpl implements ClothesService {
     public ClothesAnalysisSeasonResponseDto analysisSeason(UUID memberId) throws BaseException {
         // 사용자 체크
         memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+
+        // 옷 존재 여부 체크
+        List<Clothes> clothesList = clothesRepository.findAllByMemberId(memberId);
+        if (clothesList.size() == 0) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES_LIST);
+        }
 
         List<IClothesAnalysisSeason> springClothes = clothesRepository.findBySeasonMember("1", memberId); // 봄 옷 분석
         List<IClothesAnalysisSeason> summerClothes = clothesRepository.findBySeasonMember("2", memberId); // 여름 옷 분석
@@ -564,6 +571,12 @@ public class ClothesServiceImpl implements ClothesService {
         // 사용자 체크
         memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
+        // 옷 존재 여부 체크
+        List<Clothes> clothesList = clothesRepository.findAllByMemberId(memberId);
+        if (clothesList.size() == 0) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES_LIST);
+        }
+
         Long myTotalAmount = clothesRepository.countByMemberId(memberId); // 사용자가 소유한 옷 세기
 
         Long userTotalAmount = clothesRepository.countBy(); // 모든 옷 세기
@@ -591,6 +604,12 @@ public class ClothesServiceImpl implements ClothesService {
     public ClothesAnalysisAvailabilityResponseDto analysisAvailability(UUID memberId) throws BaseException {
         // 사용자 체크
         memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+
+        // 옷 존재 여부 체크
+        List<Clothes> clothesList = clothesRepository.findAllByMemberId(memberId);
+        if (clothesList.size() == 0) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES_LIST);
+        }
 
         // 사용자 옷 개수
         Long totalAmount = clothesRepository.countByMemberId(memberId);

@@ -62,7 +62,7 @@ const ClosetReportSeasonOrganism = ({ fourSeason }: SeasonDataType) => {
 
       {/* 간단 분석 문구 */}
       <ShortReportComment
-        imageDivClass="absolute top-[-35px] left-[10px]"
+        imageDivClass="absolute top-[-55px] left-[10px]"
         imageUrl={'/images/tree.png'}
         imageClass="w-16 inline-block"
         mainTitle={`당신의 옷장은 \n어떤 계절일까요?`}
@@ -79,11 +79,11 @@ const ClosetReportSeasonOrganism = ({ fourSeason }: SeasonDataType) => {
         />
       </div>
 
-      <div className="mt-10 font-extrabold">당신의 옷장 계절은 어떨까요?</div>
-      <div className="flex flex-col items-center">
+      <div className="mt-10 mx-4 font-extrabold">당신의 옷장 계절은 어떨까요?</div>
+      <div className="flex flex-col mx-2">
         <SeasonReportSection fourSeason={fourSeason} />
       </div>
-      <div className="font-extrabold">{`${leastSeason} 옷이 부족하네요. 사러가볼까요?`}</div>
+      <div className="font-extrabold mx-4">{`${leastSeason} 옷이 부족하네요. 사러가볼까요?`}</div>
       <BuyRecommendSection />
     </div>
   );
