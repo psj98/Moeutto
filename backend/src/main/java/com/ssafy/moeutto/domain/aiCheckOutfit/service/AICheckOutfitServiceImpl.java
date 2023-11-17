@@ -108,8 +108,307 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
 
         // 아우터나 아이템중 선택안된 값에 default 값 채워주기 위함
         PythonRequestClothesListItems tempRequestItems = PythonRequestClothesListItems.builder()
-                .largeCategoryId("")
                 .clothesId(-1)  // 이거 기준으로 빈 값인지 판단
+                .largeCategoryId("001")
+                .clothesName("")
+                .season("")
+                .color("multi") // 팔레트에 없는값 넣으면 파이썬에서 에러뜨게했다고함
+                .thickness(0)
+                .textile("")
+                .frequency(0)
+                .build();
+
+        for (int i = 0; i < arr.size(); i++) {
+            Clothes clothesInfo = clothesRepository.findByClothesId(arr.get(i).getId());
+
+            PythonRequestClothesListItems requestItems = PythonRequestClothesListItems.builder()
+                    .largeCategoryId(arr.get(i).getLargeCategoryId())
+                    .clothesId(arr.get(i).getId())
+                    .clothesName(clothesInfo.getName())
+                    .season(clothesInfo.getSeason())
+                    .color(clothesInfo.getColor())
+                    .thickness(clothesInfo.getThickness())
+                    .textile(clothesInfo.getTextile())
+                    .frequency(clothesInfo.getFrequency())
+                    .build();
+
+            System.out.println("AICheckOutfitService Impl , requestItems : " + requestItems);
+
+            if (requestItems.getLargeCategoryId().equals("002")) {
+                outerTemp = requestItems;
+            } else if (requestItems.getLargeCategoryId().equals("001")) {
+                topTemp = requestItems;
+            } else if (requestItems.getLargeCategoryId().equals("003")) {
+                bottomTemp = requestItems;
+            } else {
+                itemTemp = requestItems;
+            }
+        }
+
+        // 빈 카테고리 채워주기 ( 아우터, 아이템 ) check : 0 outer 3 item
+        if(check.get(0) == '0') outerTemp = tempRequestItems;
+        if(check.get(3) == '0') itemTemp = tempRequestItems;
+
+        ResponseWeatherInfo pythonRequestWeatherInfo = new ResponseWeatherInfo().toBuilder()
+                .maxTemperature((int) (aiCheckOutfitClientRequestDto.getWeatherInfo().getTmx()))
+                .minTemperature((int) (aiCheckOutfitClientRequestDto.getWeatherInfo().getTmn()))
+                .weather(aiCheckOutfitClientRequestDto.getWeatherInfo().getPty())
+                .build();
+
+        PythonRequestClothesList pythonRequestClothesLists = PythonRequestClothesList.builder()
+                .outer(outerTemp)
+                .top(topTemp)
+                .bottom(bottomTemp)
+                .item(itemTemp)
+                .weatherInfo(pythonRequestWeatherInfo)
+                .build();
+
+        System.out.println("파이썬에 보내는 정보 : " + pythonRequestClothesLists);
+
+        /**
+         * 여기 아래부턴 테스트 필요
+         */
+
+        // 파이썬 서버로 전달
+        RestTemplate restTemplate = new RestTemplate();
+
+        // UTF-8 설정
+        List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
+        for (HttpMessageConverter<?> converter : messageConverters) {
+            if (converter instanceof StringHttpMessageConverter) {
+                ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8);
+            }
+        }
+
+        // JSON 변환
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set("Accept-Charset", StandardCharsets.UTF_8.name());
+
+        // Convert your object to JSON string using a JSON converter (e.g., Jackson ObjectMapper)
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody;
+        try {
+            requestBody = objectMapper.writeValueAsString(pythonRequestClothesLists);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            requestBody = ""; // Set an empty string or handle the error appropriately
+        }
+
+        // Create a request entity with headers and body
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        String pythonResponse = "";
+        try {
+            // Send the request and receive the response
+            ResponseEntity<String> responseEntity = restTemplate.exchange(checkRequestUrl, HttpMethod.POST, requestEntity, String.class);
+
+            // Check the response status code
+            HttpStatus statusCode = responseEntity.getStatusCode();
+            if (statusCode == HttpStatus.OK) {
+                // If successful, retrieve the response body
+                pythonResponse = responseEntity.getBody();
+                // Handle the response data as needed
+            } else {
+                // Handle other status codes if needed
+                System.out.println("Received status code: " + statusCode);
+            }
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            // Handle HTTP error responses
+            HttpStatus statusCode = e.getStatusCode();
+            String responseBody = e.getResponseBodyAsString();
+            System.out.println("Received status code: " + statusCode);
+            System.out.println("Response body: " + responseBody);
+            e.printStackTrace();
+        }
+
+        // 파이썬 서버로부터 반환된 데이터
+//        String pythonResponse = restTemplate.postForObject(checkRequestUrl, pythonRequestClothesLists, String.class);
+
+        // AICheckOutfitPythonResponseDto 로 매핑
+        // ObjectMapper의 리플렉션을 이용하여 Json문자열로 부터 객체를 만드는 역직렬화 하여줌 ( 반대도 가능 )
+        ObjectMapper mapper = new ObjectMapper();
+        AICheckOutfitPythonResponseDto aiCheckOutfitPythonResponseDto;
+
+        try {
+            aiCheckOutfitPythonResponseDto =
+                    mapper.readValue(pythonResponse, AICheckOutfitPythonResponseDto.class);
+
+            System.out.println("AICHECKOUTFITSERVICE Python Response Dto : " + aiCheckOutfitPythonResponseDto);
+        } catch (JsonProcessingException e) {
+            throw new BaseException(BaseResponseStatus.JSON_PARSE_ERROR);
+        }
+
+        // Client로 Response보낼 Dto 준비
+        List<ClientResponseClothesResult> clientClothesResult = new ArrayList<>();
+        List<PythonResponseClothesResult> pythonClothesResult = aiCheckOutfitPythonResponseDto.getClothesResult();
+        // clothes_ai_check_outfit 테이블을 위해서 선언
+//        List<Integer> clothesIds = null;
+
+        for (PythonResponseClothesResult pythonClothes : pythonClothesResult) {
+
+            if(pythonClothes.getClothesId() != -1) {
+                IAiCheckOutfitPythonResponseClothesResult tempClothesResult =
+                        clothesRepository.findIdAndImageUrlAndLargeCategoryIdByClothesId(pythonClothes.getClothesId());
+
+                System.out.println("AICheckOutfitServiceImpl tempClothesResult : " + tempClothesResult);
+
+                ClientResponseClothesResult tempClientClothes = ClientResponseClothesResult.builder()
+                        .clothesId(pythonClothes.getClothesId())
+                        .largeCategoryId(tempClothesResult.getLargeCategoryId())
+                        .imageUrl(tempClothesResult.getImageUrl())
+                        .result(pythonClothes.getResult())
+                        .fitnessNum(pythonClothes.getFitnessNum())
+                        .build();
+
+                System.out.println("AICheckOutfitServiceImpl tempClientClothes : " + tempClientClothes);
+
+//            clothesIds.add(pythonClothes.getClothesId());
+                clientClothesResult.add(tempClientClothes);
+            } else {
+
+                // 클라이언트로 부터 입력 안된 카테고리 (아우터, 아이템) 처리
+                ClientResponseClothesResult tempClientClothes = ClientResponseClothesResult.builder()
+                        .clothesId(-1)
+                        .largeCategoryId("")
+                        .imageUrl("")
+                        .result("")
+                        .fitnessNum(-1)
+                      .build();
+                
+                clientClothesResult.add(tempClientClothes);
+            }
+        }
+
+        System.out.println("클라이언트에게 보낼 옷 데이터 : "+Arrays.toString(clientClothesResult.toArray()));
+
+        // DB에 저장할 데이터 ( ai_check_outfit , clothes_in_ai_check_outfit 테이블 ) 준비 및 save
+        Date now = new Date(System.currentTimeMillis());
+
+        System.out.println("DateTime now() : " + now);
+
+        /**
+         * 이거 맞는건지 모르겠음.
+         * AiCheckOutfit이랑 ClothesAiCheckOutfit entity에 조인 컬럼 되어있다고 다른 타입을 엔티티로 넣어줘도 되나?
+         * 테스트 후에 안되거나 비효율 적이라 생각하면 바꿔야함
+         */
+        // ai_check_outfit 테이블에 저장
+
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+
+        AiCheckOutfit aiCheckOutfit = AiCheckOutfit.builder()
+                .member(member)
+                .regDate(now)
+                .build();
+
+        System.out.println("ai_check_outfit 테이블에 저장할 데이터 : " + aiCheckOutfit);
+
+        // 저장과 동시에 ai_check_outfit의 id 가져오기
+        int ai_check_outfit_id = aiCheckOutfitRepository.save(aiCheckOutfit).getId();
+
+        // clothes_in_ai_check_outfit entity에 넣어주기 위해 ai_check_outfit 다시 불러옴
+        AiCheckOutfit recallAiCheckOutfit = aiCheckOutfitRepository.findAiCheckOutfitById(ai_check_outfit_id);
+
+        // clothes_in_ai_check_outfit 테이블에 저장 ( 리스트라서 저장 방법 다르게 )
+        for (ClientResponseClothesResult item : clientClothesResult) {
+            // 엔티티 양식때문에 clothes 불러옴
+            Clothes recallClothes = clothesRepository.findByClothesId(item.getClothesId());
+
+            ClothesInAiCheckOutfit clothesInAiCheckOutfit = ClothesInAiCheckOutfit.builder()
+                    .clothes(recallClothes)
+                    .aiCheckOutfit(recallAiCheckOutfit)
+                    .result(item.getResult())
+                    .fitnessNum(item.getFitnessNum())
+                    .build();
+
+            clothesInAiCheckOutfitRepsitory.save(clothesInAiCheckOutfit);
+        }
+
+        // Client에게 보낼 Response
+        AICheckOutfitClientResponseDto aiCheckOutfitClientResponseDto = AICheckOutfitClientResponseDto.builder()
+                .id(ai_check_outfit_id)
+                .regDate(now)
+                .clothesResult(clientClothesResult)
+                .clothesFeature(aiCheckOutfitPythonResponseDto.getClothesFeature())
+                .weatherInfo(pythonRequestWeatherInfo)
+                .build();
+
+        System.out.println("AICheckOutfitServiceImpl aiCheckOutfitClientResponseDto : " + aiCheckOutfitClientResponseDto);
+
+        return aiCheckOutfitClientResponseDto;
+    }
+
+    /**
+     * 테스트용
+     * @param memberId
+     * @param aiCheckOutfitClientRequestDto
+     * @return
+     * @throws BaseException
+     */
+    @Override
+    public PythonRequestClothesList checkOutfitTest(UUID memberId, AICheckOutfitClientRequestDto aiCheckOutfitClientRequestDto) throws BaseException {
+        // 사용자 체크
+        memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+
+        // 파이썬 서버로 보내기 위한 작업
+        PythonRequestClothesListItems outerTemp = null;
+        PythonRequestClothesListItems topTemp = null;
+        PythonRequestClothesListItems bottomTemp = null;
+        PythonRequestClothesListItems itemTemp = null;
+
+        List<ClientRequestClothesListDto> arr = aiCheckOutfitClientRequestDto.getClothesList();
+//        List<ClientRequestClothesListDto> checkedArr = new ArrayList<>();
+
+        System.out.println("클라이언트로부터 들어온 옷 리스트 : "+Arrays.toString(arr.toArray()));
+
+        // 리스트에 4개 초과로 들어올때
+        if(arr.size() > 4){
+            throw new BaseException(BaseResponseStatus.OVER_FOUR_ITEMS_ERROR); // 6002 code
+        }
+
+        // 아이템을 총 4개 모두 고르지 않을때 처리
+        List<Character> check = Arrays.asList('0','0','0','0'); // 0 outer 1 top 2 bottom 3 item
+
+        System.out.println("check 배열 초깃값 : "+Arrays.toString(check.toArray()));
+
+        if(arr.size() < 4){
+
+            for(ClientRequestClothesListDto item : arr){
+
+                System.out.println("옷 대분류 : "+item.getLargeCategoryId());
+
+                if(item.getLargeCategoryId().equals("002")) {
+                    // 중복 카테고리 체크
+                    if(check.get(0) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
+                    check.set(0,'1');
+                }
+                else if(item.getLargeCategoryId().equals("001")) {
+                    if(check.get(1) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
+                    check.set(1,'1');
+                }
+                else if(item.getLargeCategoryId().equals("003")) {
+                    if(check.get(2) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
+                    check.set(2,'1');
+                }
+                else if(item.getLargeCategoryId().equals("011")) {
+                    if(check.get(3) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
+                    check.set(3,'1');
+                }
+            }
+
+            System.out.println("클라이언트로부터 들어온 데이터 check 값 : "+Arrays.toString(check.toArray()));
+
+            // 상하의가 없을때
+            if(check.get(1) != '1' || check.get(2) != '1'){
+                throw new BaseException(BaseResponseStatus.NO_TOP_OR_BOTTOM_CLOTHES);
+            }
+        }
+
+        // 아우터나 아이템중 선택안된 값에 default 값 채워주기 위함
+        PythonRequestClothesListItems tempRequestItems = PythonRequestClothesListItems.builder()
+                .clothesId(-1)  // 이거 기준으로 빈 값인지 판단
+                .largeCategoryId("001")
                 .clothesName("")
                 .season("")
                 .color("")
@@ -165,162 +464,7 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
 
         System.out.println("파이썬에 보내는 정보 : " + pythonRequestClothesLists);
 
-//        /**
-//         * 여기 아래부턴 테스트 필요
-//         */
-//
-//        // 파이썬 서버로 전달
-//        RestTemplate restTemplate = new RestTemplate();
-//
-//        // UTF-8 설정
-//        List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
-//        for (HttpMessageConverter<?> converter : messageConverters) {
-//            if (converter instanceof StringHttpMessageConverter) {
-//                ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8);
-//            }
-//        }
-//
-//        // JSON 변환
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-//        headers.set("Accept-Charset", StandardCharsets.UTF_8.name());
-//
-//        // Convert your object to JSON string using a JSON converter (e.g., Jackson ObjectMapper)
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        String requestBody;
-//        try {
-//            requestBody = objectMapper.writeValueAsString(pythonRequestClothesLists);
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//            requestBody = ""; // Set an empty string or handle the error appropriately
-//        }
-//
-//        // Create a request entity with headers and body
-//        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
-//
-//        String pythonResponse = "";
-//        try {
-//            // Send the request and receive the response
-//            ResponseEntity<String> responseEntity = restTemplate.exchange(checkRequestUrl, HttpMethod.POST, requestEntity, String.class);
-//
-//            // Check the response status code
-//            HttpStatus statusCode = responseEntity.getStatusCode();
-//            if (statusCode == HttpStatus.OK) {
-//                // If successful, retrieve the response body
-//                pythonResponse = responseEntity.getBody();
-//                // Handle the response data as needed
-//            } else {
-//                // Handle other status codes if needed
-//                System.out.println("Received status code: " + statusCode);
-//            }
-//        } catch (HttpClientErrorException | HttpServerErrorException e) {
-//            // Handle HTTP error responses
-//            HttpStatus statusCode = e.getStatusCode();
-//            String responseBody = e.getResponseBodyAsString();
-//            System.out.println("Received status code: " + statusCode);
-//            System.out.println("Response body: " + responseBody);
-//            e.printStackTrace();
-//        }
-//
-//        // 파이썬 서버로부터 반환된 데이터
-////        String pythonResponse = restTemplate.postForObject(checkRequestUrl, pythonRequestClothesLists, String.class);
-//
-//        // AICheckOutfitPythonResponseDto 로 매핑
-//        // ObjectMapper의 리플렉션을 이용하여 Json문자열로 부터 객체를 만드는 역직렬화 하여줌 ( 반대도 가능 )
-//        ObjectMapper mapper = new ObjectMapper();
-//        AICheckOutfitPythonResponseDto aiCheckOutfitPythonResponseDto;
-//
-//        try {
-//            aiCheckOutfitPythonResponseDto =
-//                    mapper.readValue(pythonResponse, AICheckOutfitPythonResponseDto.class);
-//
-//            System.out.println("AICHECKOUTFITSERVICE Python Response Dto : " + aiCheckOutfitPythonResponseDto);
-//        } catch (JsonProcessingException e) {
-//            throw new BaseException(BaseResponseStatus.JSON_PARSE_ERROR);
-//        }
-//
-//        // Client로 Response보낼 Dto 준비
-//        List<ClientResponseClothesResult> clientClothesResult = new ArrayList<>();
-//        List<PythonResponseClothesResult> pythonClothesResult = aiCheckOutfitPythonResponseDto.getClothesResult();
-//        // clothes_ai_check_outfit 테이블을 위해서 선언
-////        List<Integer> clothesIds = null;
-//
-//        for (PythonResponseClothesResult pythonClothes : pythonClothesResult) {
-//
-//            IAiCheckOutfitPythonResponseClothesResult tempClothesResult =
-//                    clothesRepository.findIdAndImageUrlAndLargeCategoryIdByClothesId(pythonClothes.getClothesId());
-//
-//            System.out.println("AICheckOutfitServiceImpl tempClothesResult : " + tempClothesResult);
-//
-//            ClientResponseClothesResult tempClientClothes = ClientResponseClothesResult.builder()
-//                    .clothesId(pythonClothes.getClothesId())
-//                    .largeCategoryId(tempClothesResult.getLargeCategoryId())
-//                    .imageUrl(tempClothesResult.getImageUrl())
-//                    .result(pythonClothes.getResult())
-//                    .fitnessNum(pythonClothes.getFitnessNum())
-//                    .build();
-//
-//            System.out.println("AICheckOutfitServiceImpl tempClientClothes : " + tempClientClothes);
-//
-////            clothesIds.add(pythonClothes.getClothesId());
-//            clientClothesResult.add(tempClientClothes);
-//        }
-//
-//        // DB에 저장할 데이터 ( ai_check_outfit , clothes_in_ai_check_outfit 테이블 ) 준비 및 save
-//        Date now = new Date(System.currentTimeMillis());
-//
-//        System.out.println("DateTime now() : " + now);
-//
-//        /**
-//         * 이거 맞는건지 모르겠음.
-//         * AiCheckOutfit이랑 ClothesAiCheckOutfit entity에 조인 컬럼 되어있다고 다른 타입을 엔티티로 넣어줘도 되나?
-//         * 테스트 후에 안되거나 비효율 적이라 생각하면 바꿔야함
-//         */
-//        // ai_check_outfit 테이블에 저장
-//
-//        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
-//
-//        AiCheckOutfit aiCheckOutfit = AiCheckOutfit.builder()
-//                .member(member)
-//                .regDate(now)
-//                .build();
-//
-//        System.out.println("ai_check_outfit 테이블에 저장할 데이터 : " + aiCheckOutfit);
-//
-//        // 저장과 동시에 ai_check_outfit의 id 가져오기
-//        int ai_check_outfit_id = aiCheckOutfitRepository.save(aiCheckOutfit).getId();
-//
-//        // clothes_in_ai_check_outfit entity에 넣어주기 위해 ai_check_outfit 다시 불러옴
-//        AiCheckOutfit recallAiCheckOutfit = aiCheckOutfitRepository.findAiCheckOutfitById(ai_check_outfit_id);
-//
-//        // clothes_in_ai_check_outfit 테이블에 저장 ( 리스트라서 저장 방법 다르게 )
-//        for (ClientResponseClothesResult item : clientClothesResult) {
-//            // 엔티티 양식때문에 clothes 불러옴
-//            Clothes recallClothes = clothesRepository.findByClothesId(item.getClothesId());
-//
-//            ClothesInAiCheckOutfit clothesInAiCheckOutfit = ClothesInAiCheckOutfit.builder()
-//                    .clothes(recallClothes)
-//                    .aiCheckOutfit(recallAiCheckOutfit)
-//                    .result(item.getResult())
-//                    .fitnessNum(item.getFitnessNum())
-//                    .build();
-//
-//            clothesInAiCheckOutfitRepsitory.save(clothesInAiCheckOutfit);
-//        }
-//
-//        // Client에게 보낼 Response
-//        AICheckOutfitClientResponseDto aiCheckOutfitClientResponseDto = AICheckOutfitClientResponseDto.builder()
-//                .id(ai_check_outfit_id)
-//                .regDate(now)
-//                .clothesResult(clientClothesResult)
-//                .clothesFeature(aiCheckOutfitPythonResponseDto.getClothesFeature())
-//                .weatherInfo(pythonRequestWeatherInfo)
-//                .build();
-//
-//        System.out.println("AICheckOutfitServiceImpl aiCheckOutfitClientResponseDto : " + aiCheckOutfitClientResponseDto);
-//
-//        return aiCheckOutfitClientResponseDto;
-        return null;
+        return pythonRequestClothesLists;
     }
+
 }
