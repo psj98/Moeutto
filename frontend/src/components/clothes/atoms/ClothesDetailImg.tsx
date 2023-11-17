@@ -9,7 +9,6 @@ interface PropsType {
 }
 
 // 그냥 여기서 즐겨찾기 api 불러오기
-
 const ClothesDetailImg = ({ imgUrl, id, isStar }: PropsType ) => {
     const [star, setStar] = useState<boolean>();
 
@@ -44,7 +43,7 @@ const ClothesDetailImg = ({ imgUrl, id, isStar }: PropsType ) => {
                     <img 
                         id="img"
                         src={imgUrl} alt="clothes" 
-                        className="w-2/3 h-2/3 min-w-[223px] m-auto border rounded-3xl border" 
+                        className="w-2/3 min-w-[200px] min-h-[180px] max-w-[300px] max-h-[280px] m-auto border rounded-3xl border" 
                         style={{ objectFit: "cover" }}
                     />
                     <div className={`babo absolute -top-2 w-[60px] right-[20px] sm:right-[30px] md:right-[50px] lg:right-[60px]`}>
@@ -62,5 +61,3 @@ const ClothesDetailImg = ({ imgUrl, id, isStar }: PropsType ) => {
 }
 
 export default ClothesDetailImg;
-
-// transform:translate(-50%,-50%)
