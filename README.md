@@ -90,7 +90,8 @@
 
 ## 개발 설정
 
-- 개발 설정 참조 : [포팅 메뉴얼]()
+1. 포팅 메뉴얼 : [포팅 메뉴얼](https://lab.ssafy.com/s09-final/S09P31A604/-/blob/develop/exec/%EB%B2%B5%EA%B0%88%ED%98%B8%EB%9E%91%EC%9D%B4_%ED%8F%AC%ED%8C%85%EB%A7%A4%EB%89%B4%EC%96%BC.pdf?ref_type=heads)
+2. 데이터베이스 덤프 파일 : [데이터베이스 덤프 파일](https://lab.ssafy.com/s09-final/S09P31A604/-/blob/develop/exec/%EB%B2%B5%EA%B0%88%ED%98%B8%EB%9E%91%EC%9D%B4_%EB%8D%A4%ED%94%84%ED%8C%8C%EC%9D%BC.sql?ref_type=heads)
 
 <br/>
 
