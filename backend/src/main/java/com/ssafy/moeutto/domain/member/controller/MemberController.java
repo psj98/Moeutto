@@ -136,6 +136,18 @@ public class MemberController {
         }
     }
 
+    @DeleteMapping("")
+    public BaseResponse<Object> deleteMember(@RequestHeader(value = "accessToken") String token) {
+        try {
+            UUID memberId = getMemberIdFromToken(token);
+
+            memberService.deleteMember(memberId);
+            return baseResponseService.getSuccessResponse();
+        } catch (BaseException e) {
+            return baseResponseService.getFailureResponse(e.status);
+        }
+    }
+
     /**
      * accessToken으로 사용자 정보를 체크합니다.
      *

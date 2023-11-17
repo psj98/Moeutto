@@ -11,7 +11,7 @@ import com.ssafy.moeutto.domain.aiCheckOutfit.entity.AiCheckOutfit;
 import com.ssafy.moeutto.domain.aiCheckOutfit.entity.ClothesInAiCheckOutfit;
 import com.ssafy.moeutto.domain.aiCheckOutfit.entity.IAiCheckOutfitPythonResponseClothesResult;
 import com.ssafy.moeutto.domain.aiCheckOutfit.repository.AiCheckOutfitRepository;
-import com.ssafy.moeutto.domain.aiCheckOutfit.repository.ClothesInAiCheckOutfitRepsitory;
+import com.ssafy.moeutto.domain.aiCheckOutfit.repository.ClothesInAiCheckOutfitRepository;
 import com.ssafy.moeutto.domain.clothes.entity.Clothes;
 import com.ssafy.moeutto.domain.clothes.repository.ClothesRepository;
 import com.ssafy.moeutto.domain.member.entity.Member;
@@ -42,7 +42,7 @@ import java.util.UUID;
 public class AICheckOutfitServiceImpl implements AICheckOutfitService {
 
     private final AiCheckOutfitRepository aiCheckOutfitRepository;
-    private final ClothesInAiCheckOutfitRepsitory clothesInAiCheckOutfitRepsitory;
+    private final ClothesInAiCheckOutfitRepository clothesInAiCheckOutfitRepsitory;
     private final ClothesRepository clothesRepository;
     private final MemberRepository memberRepository;
 

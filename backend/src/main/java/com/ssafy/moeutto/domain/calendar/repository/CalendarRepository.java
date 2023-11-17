@@ -1,6 +1,7 @@
 package com.ssafy.moeutto.domain.calendar.repository;
 
 import com.ssafy.moeutto.domain.calendar.entity.Calendar;
+import com.ssafy.moeutto.global.response.BaseException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -32,4 +33,12 @@ public interface CalendarRepository extends JpaRepository<Calendar, Integer> {
      * @return Optional<Calendar>
      */
     Optional<Calendar> findByMemberIdAndRegDate(UUID memberId, Date regDate);
+
+    /**
+     * 사용자 UUID로 캘린더를 삭제합니다.
+     *
+     * @param memberId - 사용자 UUID
+     * @throws BaseException - BaseResponse Error 처리
+     */
+    void deleteAllByMemberId(UUID memberId) throws BaseException;
 }

@@ -20,4 +20,12 @@ public interface MemberService {
      * @throws BaseException
      */
     void updateMyPageInfo(UUID memberId, MemberUpdateMyInfoRequestDto memberUpdateMyInfoRequestDto) throws BaseException;
+
+    /**
+     * 회원 정보를 삭제합니다.
+     *
+     * @param memberId
+     * @throws BaseException
+     */
+    void deleteMember(UUID memberId) throws BaseException;
 }

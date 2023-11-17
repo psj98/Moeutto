@@ -2,6 +2,7 @@ package com.ssafy.moeutto.domain.clothes.repository;
 
 import com.ssafy.moeutto.domain.aiCheckOutfit.entity.IAiCheckOutfitPythonResponseClothesResult;
 import com.ssafy.moeutto.domain.clothes.entity.*;
+import com.ssafy.moeutto.global.response.BaseException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -395,4 +396,12 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
             "WHERE c.member_id = ?1 " +
             "AND SUBSTRING(c.middle_category_id, 1, 3) = ?2 ", nativeQuery = true)
     List<IClothesAIRecOutfitCombine> findAllByMemberIdAndMiddleCategory(UUID memberId, String middleCategoryId);
+
+    /**
+     * 사용자 UUID로 옷 정보를 삭제합니다.
+     *
+     * @param memberId - 사용자 UUID
+     * @throws BaseException - BaseResponse Error 처리
+     */
+    void deleteAllByMemberId(UUID memberId) throws BaseException;
 }
