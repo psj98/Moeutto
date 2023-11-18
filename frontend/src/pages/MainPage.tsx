@@ -210,7 +210,12 @@ const MainPage = () => {
   useEffect(() => {
     // 화면을 키면 조회만 되는 api에서 데이터를 받아온다
     console.log('1. 조회만 하는 api 실행 전')
-    OnlyGetRecommendClothesData();
+
+    // 조회만 할거면 무조건 이걸로 해야됨 -> 대신 재추천 못 받음
+    // OnlyGetRecommendClothesData();
+    console.log(OnlyGetRecommendClothesData)
+    // 새로 고침 할 때마다 바뀜
+    clothesData();
 
     // 데이터가 없는 경우 or 다시 추천을 받고 싶은 경우 실행되는 api
     console.log('날씨 데이터 잘 받는거 확인했잖아', weatherListData)
@@ -222,17 +227,17 @@ const MainPage = () => {
       // 추천 날씨 목록
       {
         minTemperature: -3, // 최저 기온
-        maxTemperature: 6, // 최고 기온
-        weather: 5, // 날씨 정보 (맑음, 구름 조금 등)
+        maxTemperature: 7, // 최고 기온
+        weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
       },
       {
-        minTemperature: -4, // 최저 기온
-        maxTemperature: 6, // 최고 기온
+        minTemperature: 2, // 최저 기온
+        maxTemperature: 14, // 최고 기온
         weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
       },
       {
         minTemperature: 1, // 최저 기온
-        maxTemperature: 14, // 최고 기온
+        maxTemperature: 10, // 최고 기온
         weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
       },
     ]
