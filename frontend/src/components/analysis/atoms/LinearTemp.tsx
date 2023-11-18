@@ -1,6 +1,6 @@
-const LinearTemp = () => {
+const LinearTemp = ({ temperature }) => {
   // 전체가 90%
-  const position: number = 30;
+  const position: number = temperature-10;
 
   return (
     <>
