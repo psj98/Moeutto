@@ -39,11 +39,11 @@ transform = transforms.Compose([
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
 ])
 
-dataset = MSSFashionDataset(csv_file='musinsa_dataset.csv', root_dir='path_to_images', transform=transform)
+dataset = MSSFashionDataset(csv_file='musinsa_dataset.csv', root_dir='./', transform=transform)
 dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
 
 # MobileNet 모델 설정
-model = models.mobilenet_v2(pretrained=True)
+model = models.mobilenet_v2(weights=True)
 model.features[0][0] = nn.Conv2d(3, 32, 3, stride=1, padding=1)
 num_classes = 3  # 분류할 클래스 수에 따라 수정
 model.classifier[1] = nn.Linear(model.last_channel, num_classes)
