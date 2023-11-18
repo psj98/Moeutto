@@ -81,9 +81,9 @@ if __name__ == '__main__':
     image_list = []
     image_count = 0
 
-    image_count = crawl(1, title_list, category_list, image_list, image_count)
-    # for start in range(1, 20):
-    #     image_count = seg(start, title_list, category_list, image_list, image_count)
+    # image_count = crawl(1, title_list, category_list, image_list, image_count)
+    for start in range(1, 20):
+        image_count = crawl(start, title_list, category_list, image_list, image_count)
 
     # 데이터프레임 생성 및 CSV 파일로 저장
     df = pd.DataFrame({
