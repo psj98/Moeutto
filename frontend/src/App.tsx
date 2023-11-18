@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import Sidebar from './components/common/SideNav';
 import MobileNav from './components/common/MobileNav';
 
+
 const ContentContainer = styled.div`
   position: relative;
   width: 100%;
@@ -39,7 +40,6 @@ function App() {
       navigate('/login');
     }
   }, [navigate, location.pathname]);
-
   return (
     // w-16 md:w-32 lg:w-48 bg-red-200
     // 448px가 너비 최대
