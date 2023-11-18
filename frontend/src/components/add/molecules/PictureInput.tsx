@@ -142,14 +142,96 @@ const PictureInput = ({ setStateValue, handleIconClick }: Props) => {
   const [isRemoving, setIsRemoving] = useState<Boolean>(false); // 배경 제거 표시 애니메이션을 위해 사용
   const [preview, setPreview] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const imageSizeChange = (imageFile: File): Promise<File> => {
+    return new Promise((resolve, reject) => {
+      const image = new Image(); // 새로운 이미지 객체 생성
+      const canvas = document.createElement('canvas');
+      const maxSize = 800;
+
+      // 이미지 파일을 읽기 위해 FileReader를 사용
+      const reader = new FileReader();
+
+      reader.onload = e => {
+        if (typeof e.target?.result === 'string') {
+          image.src = e.target.result;
+
+          image.onload = () => {
+            let width = image.width;
+            let height = image.height;
+
+            if (width > maxSize || height > maxSize) {
+              if (width > height) {
+                // 가로가 길 경우
+                height *= maxSize / width;
+                width = maxSize;
+              } else {
+                width *= maxSize / height;
+                height = maxSize;
+              }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+
+            const context = canvas.getContext('2d');
+
+            if (!context) {
+              reject(new Error('Canvas context is not supported.'));
+              return;
+            }
+
+            context.drawImage(image, 0, 0, width, height);
+
+            canvas.toBlob(
+              blob => {
+                if (!blob) {
+                  reject(new Error('Failed to convert canvas to blob.'));
+                  return;
+                }
+
+                const resizingFile = new File([blob], 'resized-image.jpg', { type: 'image/jpeg' });
+
+                resolve(resizingFile);
+              },
+              'image/jpeg',
+              0.5
+            );
+          };
+        }
+      };
+
+      reader.onerror = error => {
+        reject(error);
+      };
+
+      reader.readAsDataURL(imageFile);
+    });
+  };
+
   // 파일 입력 다루는 함수 : 유저가 파일을 업로드하면 받아들이는 함수
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    // 파일 용량을 줄이기 위해
+
     if (event.target.files[0]) {
       const selectedFile = event.target.files[0];
 
+      console.log('원본파일:', selectedFile);
       if (selectedFile && selectedFile.type.substring(0, 5)) {
+        // 이미지 리사이징
+        imageSizeChange(selectedFile)
+          .then(resizedImageFile => {
+            // 성공적으로 처리된 경우
+
+            setFile(resizedImageFile); // 받아들입니다
+
+            console.log('리사이징 파일: ', resizedImageFile);
+          })
+          .catch(error => {
+            // 에러 처리
+            console.error(error.message);
+          });
         // 이미지 파일이면
-        setFile(selectedFile); // 받아들입니다
         event.target.value = ''; // 같은 파일 입력받기 위해서 필요합니다
       } else {
         // 이미지 파일 아니면
