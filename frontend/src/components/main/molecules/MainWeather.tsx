@@ -41,10 +41,10 @@ const MainWeather = ({ weatherListData }) => {
                     setSecondTip("오늘은 날씨가 화창하네요");
                 }
 
+                
+            }, [])
         window.localStorage.setItem('first', firstTip);
         window.localStorage.setItem('second', secondTip);
-
-    }, [])
 
 
     return (
