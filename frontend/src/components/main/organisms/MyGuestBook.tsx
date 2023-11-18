@@ -68,16 +68,16 @@ const MyGuestBook = ({ setIsAlertModalOpen }: MyGuestBookProps) => {
 
                                 return (
                                     <div key={index} className="text-AppBody2 flex justify-between">
-                                    <div className="w-[50px]">
+                                    <div className="w-[50px] text-gray-dark">
                                         {Date[1]}-{Date[2]}
                                     </div>
                                     <div
                                         onClick={() => handlePostClick(index)}
-                                        className=""
+                                        className="w-[100px] ms-4"
                                     >
                                         {expandedPost === index ? item.post : truncatedText}
                                     </div>
-                                    <div className="w-[80px] overflow-hidden text-right">{item.nickname}</div>
+                                    <div className="w-[80px] overflow-hidden text-right text-gray-dark">{item.nickname}</div>
                                     </div>
                                 );
                                 })}

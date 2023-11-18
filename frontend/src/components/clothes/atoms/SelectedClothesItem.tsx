@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import ScrollReveal from 'scrollreveal';
 
@@ -34,6 +34,17 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
   // const handleImageLoad = () => {
   //   setImageLoaded(true);
   // };
+
+  // 렌더링 이전에 동작하게 하기
+  const renderIngPreload = () => {
+    const img = new Image();
+
+    img.src = imgUrl
+  }
+
+  useLayoutEffect(() => {
+    renderIngPreload();
+  }, [])
 
   return (
     <>
