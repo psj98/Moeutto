@@ -60,35 +60,35 @@ async def create_report(file: UploadFile = File(...)):
         quarter_height = height // 4
 
         # 로깅용
-        lu_pixel = ret.getpixel((quarter_width, quarter_height))
-        ru_pixel = ret.getpixel((quarter_width, 3*quarter_height))
-        rd_pixel = ret.getpixel((3*quarter_width, quarter_height))
-        ld_pixel = ret.getpixel((3*quarter_width, 3*quarter_height))
-
-        lu_color = '#{:02x}{:02x}{:02x}'.format(lu_pixel[0], lu_pixel[1], lu_pixel[2])
-        ru_color = '#{:02x}{:02x}{:02x}'.format(ru_pixel[0], ru_pixel[1], ru_pixel[2])
-        rd_color = '#{:02x}{:02x}{:02x}'.format(rd_pixel[0], rd_pixel[1], rd_pixel[2])
-        ld_color = '#{:02x}{:02x}{:02x}'.format(ld_pixel[0], ld_pixel[1], ld_pixel[2])
-
-        print("lu"+str(closest_color(lu_color)))
-        print("ru"+str(closest_color(ru_color)))
-        print("rd"+str(closest_color(rd_color)))
-        print("ld"+str(closest_color(ld_color)))
-
-        print("lu"+str(lu_color))
-        print("ru"+str(ru_color))
-        print("rd"+str(rd_color))
-        print("ld"+str(ld_color))
-        # 로깅용 끝
+        # lu_pixel = ret.getpixel((quarter_width, quarter_height))
+        # ru_pixel = ret.getpixel((quarter_width, 3*quarter_height))
+        # rd_pixel = ret.getpixel((3*quarter_width, quarter_height))
+        # ld_pixel = ret.getpixel((3*quarter_width, 3*quarter_height))
+        #
+        # lu_color = '#{:02x}{:02x}{:02x}'.format(lu_pixel[0], lu_pixel[1], lu_pixel[2])
+        # ru_color = '#{:02x}{:02x}{:02x}'.format(ru_pixel[0], ru_pixel[1], ru_pixel[2])
+        # rd_color = '#{:02x}{:02x}{:02x}'.format(rd_pixel[0], rd_pixel[1], rd_pixel[2])
+        # ld_color = '#{:02x}{:02x}{:02x}'.format(ld_pixel[0], ld_pixel[1], ld_pixel[2])
+        #
+        # print("lu"+str(closest_color(lu_color)))
+        # print("ru"+str(closest_color(ru_color)))
+        # print("rd"+str(closest_color(rd_color)))
+        # print("ld"+str(closest_color(ld_color)))
+        #
+        # print("lu"+str(lu_color))
+        # print("ru"+str(ru_color))
+        # print("rd"+str(rd_color))
+        # print("ld"+str(ld_color))
+        # # 로깅용 끝
 
 
         # comprehensive_pixel = ret.getpixel((0, 0))# 튜플 -> 선언하면 변경 불가
         comprehensive_pixel = [0, 0, 0]
 
-        for i in range(3):
-            comprehensive_pixel[i] = (center_pixel[i] + lu_pixel[i] + ru_pixel[i] + rd_pixel[i] + ld_pixel[i]) // 5
-        # hex_color = '#{:02x}{:02x}{:02x}'.format(center_pixel[0], center_pixel[1], center_pixel[2])
-        hex_color = '#{:02x}{:02x}{:02x}'.format(comprehensive_pixel[0], comprehensive_pixel[1], comprehensive_pixel[2])
+        # for i in range(3):
+        #     comprehensive_pixel[i] = (center_pixel[i] + lu_pixel[i] + ru_pixel[i] + rd_pixel[i] + ld_pixel[i]) // 5
+        hex_color = '#{:02x}{:02x}{:02x}'.format(center_pixel[0], center_pixel[1], center_pixel[2])
+        # hex_color = '#{:02x}{:02x}{:02x}'.format(comprehensive_pixel[0], comprehensive_pixel[1], comprehensive_pixel[2])
         str_color = closest_color(hex_color)
 
         print(str(hex_color))
