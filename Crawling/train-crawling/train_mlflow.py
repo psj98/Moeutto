@@ -64,12 +64,15 @@ optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # MLflow로 실험 추적 시작
 with mlflow.start_run():
-    mlflow.log_param("epochs", 15)
+    num_epochs = 15
+
+    mlflow.log_param("epochs", num_epochs)
     mlflow.log_param("batch_size", 32)
     mlflow.log_param("learning_rate", 0.001)
 
-    num_epochs = 10
+
     for epoch in range(num_epochs):
+        print("epoch : " + str(epoch))
         model.train()
         for inputs, labels in train_loader:
             inputs, labels = inputs.to(device), labels.to(device)
