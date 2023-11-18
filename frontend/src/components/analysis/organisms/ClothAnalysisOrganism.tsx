@@ -32,6 +32,7 @@ response
 
 */
 
+
 const ClothAnalysisOrganism = ({ analysisResult }: { analysisResult: AnalysisDataType }) => {
   // api 연결되면 idx는 동적으로 변함
   return (
@@ -41,7 +42,7 @@ const ClothAnalysisOrganism = ({ analysisResult }: { analysisResult: AnalysisDat
       <TodayWeatherCard idx={1} />
       <TotalScoreSection clothesResult={analysisResult?.clothesResult} />
       <ClothScoreSection clothesResult={analysisResult?.clothesResult} />
-      <Graph />
+      <Graph graphResult={analysisResult?.clothesFeature} />
     </div>
   );
 };

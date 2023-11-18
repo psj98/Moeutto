@@ -41,10 +41,10 @@ const MainWeather = ({ weatherListData }) => {
                     setSecondTip("오늘은 날씨가 화창하네요");
                 }
 
+                
+            }, [])
         window.localStorage.setItem('first', firstTip);
         window.localStorage.setItem('second', secondTip);
-
-    }, [])
 
 
     return (
@@ -55,7 +55,7 @@ const MainWeather = ({ weatherListData }) => {
                 <TodayTemp weatherListData={weatherListData} />
             </div>
             <div className="text-[#131313] font-bold text-AppBody1 p-4 mt-4">{weatherList1[`${weatherState}`]}<br/>{weatherList2[`${weatherState}`]}</div>
-            <img src={`/images/weather/weather${weatherListData[0].weather}.png`} className="w-1/2 absolute -top-14"/>
+            <img src={`/images/weather/weather${weatherListData[0].weather}.png`} className="w-1/2 max-w-[170px] absolute left-2 -top-14"/>
         </div>
             <div className="bg-white rounded-xl shadow-md p-3 relative">
                 <img src="/images/light.png" className="w-[10%] absolute -top-6 right-4" />
