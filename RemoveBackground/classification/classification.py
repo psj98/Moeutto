@@ -1,4 +1,4 @@
-# classification/classification.py
+# RemoveBackground/classification/classification.py
 
 import torch
 import torch.nn as nn
