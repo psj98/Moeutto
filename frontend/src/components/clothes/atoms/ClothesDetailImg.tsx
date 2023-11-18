@@ -46,8 +46,8 @@ const ClothesDetailImg = ({ imgUrl, id, isStar }: PropsType ) => {
                         className="w-2/3 min-w-[200px] min-h-[180px] max-w-[300px] max-h-[280px] m-auto border rounded-3xl border" 
                         style={{ objectFit: "cover" }}
                     />
-                    <div className={`babo absolute -top-2 w-[60px] right-[20px] sm:right-[30px] md:right-[50px] lg:right-[60px]`}>
-                        {star ? (
+                    <div className="absolute -top-2 right-4">
+                        {!star ? (
                                 <RxBookmark size={60} color="FAA0BF" onClick={onClickBookMark} />
                             ) : (
                                 <RxBookmarkFilled size={60} color="FAA0BF" onClick={onClickBookMark} />
