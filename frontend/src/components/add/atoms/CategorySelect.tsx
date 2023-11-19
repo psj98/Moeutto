@@ -118,6 +118,8 @@ const CategorySelect = ({ id, value, onClick, aiLargeCategory }: CategoryProps) 
   useEffect(() => {
     if (value === '') {
       setBase('default');
+    } else {
+      setBase(value);
     }
   }, [value]);
 

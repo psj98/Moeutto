@@ -58,7 +58,7 @@ const TextilInput = ({ value, onChange }: TextileInputProps) => {
     <>
       <Label id="textile" value="옷의 소재" isEssential={true} />
       <div className="flex flex-wrap">
-        <Fade delay={0.5} cascade direction="down" damping={0.1}>
+        <Fade delay={0.5} cascade direction="down" damping={0.1} triggerOnce>
           {optionList.map((option, index) => {
             return (
               <CheckInput

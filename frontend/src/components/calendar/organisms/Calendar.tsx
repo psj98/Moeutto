@@ -13,6 +13,7 @@ import {
 import { BiSolidLeftArrow, BiSolidRightArrow } from 'react-icons/bi';
 
 import RenderCells from '../molecules/RenderCell';
+import SkelletonMoleOrganisms from './SkelletonOrganisms';
 import { authInstance } from '../../../api/api';
 
 interface CalendarProps {
@@ -75,7 +76,7 @@ const Calendar = ({
     // 1. request에 curDate를 담아서 보내자
 
     const [calendarDataList, setCalendarDataList] = useState<ClendarDataType>();
-
+    
     // 달력 데이터 가져오기
     const getCalendarData = async () => {
         try {
@@ -84,7 +85,6 @@ const Calendar = ({
                 "regDate": format(selectedDate, 'yyyy-MM-dd').toString()
             });
 
-            console.log('캘린더 목록 조회 성공', response.data.data)
             setCalendarDataList(response.data.data)
          
         } catch (error) {
@@ -99,6 +99,7 @@ const Calendar = ({
         
         // selectedData의 월이 바뀔 때만 호출해야된다
     }, [selectedDate, updateCalendar])
+
 
     return (
         <>
@@ -122,7 +123,7 @@ const Calendar = ({
                 </div>
 
                 {/* 날짜 */}
-                {calendarDataList !== undefined && (
+                {calendarDataList !== undefined ? (
                     <RenderCells
                         currentMonth={currentMonth}
                         selectedDate={selectedDate}
@@ -133,6 +134,10 @@ const Calendar = ({
                         setClothesId={setClothesId}
                         setIsLikedOutFit={setIsLikedOutFit}
                     />
+                ) : (
+                    <>
+                        <SkelletonMoleOrganisms />
+                    </>
                 )}
             </div>
         </>

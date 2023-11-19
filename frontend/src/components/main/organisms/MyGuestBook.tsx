@@ -20,7 +20,6 @@ const MyGuestBook = ({ setIsAlertModalOpen }: MyGuestBookProps) => {
             const axiosInstance = authInstance({ ContentType: 'application/json' });
             const response = await axiosInstance.get('/guestbooks');
 
-            console.log('방명록 목록 조회 성공', response.data.data)
             setMyGuestBookData(response.data.data)
         } catch (error) {
             console.log('방명록 목록 조회 실패', error)
@@ -68,16 +67,16 @@ const MyGuestBook = ({ setIsAlertModalOpen }: MyGuestBookProps) => {
 
                                 return (
                                     <div key={index} className="text-AppBody2 flex justify-between">
-                                    <div className="w-[50px]">
+                                    <div className="w-[50px] text-gray-dark">
                                         {Date[1]}-{Date[2]}
                                     </div>
                                     <div
                                         onClick={() => handlePostClick(index)}
-                                        className=""
+                                        className="w-[100px] ms-4"
                                     >
                                         {expandedPost === index ? item.post : truncatedText}
                                     </div>
-                                    <div className="w-[80px] overflow-hidden text-right">{item.nickname}</div>
+                                    <div className="w-[80px] overflow-hidden text-right text-gray-dark">{item.nickname}</div>
                                     </div>
                                 );
                                 })}
@@ -85,9 +84,10 @@ const MyGuestBook = ({ setIsAlertModalOpen }: MyGuestBookProps) => {
                     </>
                 ) : (
                     <div className="flex justify-center items-center text-center my-auto">아직 방명록을 남긴 <br/> 친구가 없네요 ㅜㅅㅜ</div>
-                )}
+                    )}
 
-            </div>
+                </div>
+            <div className="font-thin text-AppBody2 flex justify-center -mt-[18px]">클릭해서 전체 내용을 확인해보세요</div>
         </div>
         </>
     )

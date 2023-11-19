@@ -40,35 +40,63 @@ const PickPickPage = () => {
 
   // 카테고리 선택 확인
   useEffect(() => {
-    console.log('전체 떠야됨', selectedOptionMain);
-
-    // 중분류
-    if (selectedOptionMiddle === '패딩') {
-      setCategoryId('002012');
-    } else if (selectedOptionMiddle === '코트') {
-      setCategoryId('002007');
-    } else if (selectedOptionMiddle === '자켓') {
-      setCategoryId('002004');
-    } else if (selectedOptionMiddle === '맨투맨') {
-      setCategoryId('001005');
-    } else if (selectedOptionMiddle === '후드') {
-      setCategoryId('001004');
-    } else if (selectedOptionMiddle === '반팔') {
-      setCategoryId('001001');
-    } else if (selectedOptionMiddle === '청바지') {
-      setCategoryId('003002');
-    } else if (selectedOptionMiddle === '반바지') {
-      setCategoryId('003009');
-    } else if (selectedOptionMiddle === '카고팬츠') {
-      setCategoryId('003004');
-    } else if (selectedOptionMiddle === '귀마개') {
-      setCategoryId('011006');
-    } else if (selectedOptionMiddle === '장갑') {
-      setCategoryId('011011');
-    } else if (selectedOptionMiddle === '목도리') {
-      setCategoryId('011010');
+    // 대분류
+    if (selectedOptionMain === '전체') {
+      setCategoryId('000000');
+      setSortBy('initial');
+      setOrderBy(0);
+      setSelectedOptionMiddle('');
+    } else if (selectedOptionMain === '상의') {
+      setCategoryId('001000');
+      // 중분류
+      if (selectedOptionMiddle === '맨투맨') {
+        setCategoryId('001005');
+      } else if (selectedOptionMiddle === '후드') {
+        setCategoryId('001004');
+      } else if (selectedOptionMiddle === '반팔') {
+        setCategoryId('001001');
+      } else {
+        setSelectedOptionMiddle('');
+      }
+    } else if (selectedOptionMain === '하의') {
+      setCategoryId('003000');
+      // 중분류
+      if (selectedOptionMiddle === '청바지') {
+        setCategoryId('003002');
+      } else if (selectedOptionMiddle === '반바지') {
+        setCategoryId('003009');
+      } else if (selectedOptionMiddle === '카고팬츠') {
+        setCategoryId('003004');
+      } else {
+        setSelectedOptionMiddle('');
+      }
+    } else if (selectedOptionMain === '아우터') {
+      setCategoryId('002000');
+      // 중분류
+      if (selectedOptionMiddle === '패딩') {
+        setCategoryId('002012');
+      } else if (selectedOptionMiddle === '코트') {
+        setCategoryId('002007');
+      } else if (selectedOptionMiddle === '자켓') {
+        setCategoryId('002004');
+      } else {
+        setSelectedOptionMiddle('');
+      }
+    } else if (selectedOptionMain === '아이템') {
+      setCategoryId('011000');
+      // 중분류
+      if (selectedOptionMiddle === '귀마개') {
+        setCategoryId('011006');
+      } else if (selectedOptionMiddle === '장갑') {
+        setCategoryId('011011');
+      } else if (selectedOptionMiddle === '목도리') {
+        setCategoryId('011010');
+      } else {
+        setSelectedOptionMiddle('');
+      }
     }
 
+    // 정렬
     if (selectedOptionSort === '정렬') {
       setSortBy('initial');
     } else if (selectedOptionSort === '등록순') {
@@ -81,21 +109,17 @@ const PickPickPage = () => {
     } else {
       setSortBy('color');
     }
-
-    // 대분류
-    if (selectedOptionMain === '000000') {
-      setCategoryId('000000');
-      setSortBy('initial');
-      setOrderBy(0);
-    }
   }, [selectedOptionMain, selectedOptionMiddle, selectedOptionSort]);
 
   // 선택한 옷 리스트
   const selectedClosetIds = useSelector((state: RootState) => state.closet.selectedClosetIds);
 
+  // 이 페이지에 처음 들어오면 무조건 전체
   useEffect(() => {
-    console.log('selectedClosetIds:', selectedClosetIds);
-  }, [selectedClosetIds]);
+    setCategoryId('000000')
+    setSortBy('initial')
+    setOrderBy(0)
+  }, [])
 
   // 옷 목록 조회
   const [clothesData, setClothesData] = useState<ClothesItem[]>([]);
@@ -110,20 +134,16 @@ const PickPickPage = () => {
         orderBy,
       });
 
-      console.log('옷 목록 데이터 조회 성공', response.data);
-
       if (response.data.data) {
         setClothesData(response.data.data);
       } else {
-        // alert('옷 목록이 없어요')
         setClothesData([]);
       }
 
       return response.data;
     } catch (error) {
       console.log('옷 목록 데이터 조회 실패', error);
-
-      throw new Error('옷 목록 데이터 조회 실패 토큰을 확인하세요');
+      return null
     }
   };
 
@@ -147,18 +167,11 @@ const PickPickPage = () => {
       },
     };
 
-    console.log(requestData);
     const postData = async () => {
       try {
         // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
         const axiosInstance = authInstance({ ContentType: 'application/json' });
         const response = await axiosInstance.post('/ai-check-outfits/check', requestData);
-
-        if (response.data) {
-          console.log(response.data.data);
-        } else {
-          // alert('옷 목록이 없어요')
-        }
 
         return response.data.data;
       } catch (error) {
