@@ -9,9 +9,11 @@ interface ItemPropsType {
   imgUrl: string;
   clothesId: string;
   largeCategoryId: string;
+  last: Boolean;
+  index: number;
 }
 
-const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, largeCategoryId }) => {
+const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, largeCategoryId, last, index }) => {
   const dispatch = useDispatch();
   const pathname = window.location.pathname;
 
@@ -62,7 +64,7 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
         src={imgUrl}
         id={clothesId}
         alt={largeCategoryId}
-        className={`clothes w-[110px] h-[110px] border border-gray rounded-3xl ${
+        className={`clothes w-[110px] h-[110px] border border-gray rounded-3xl flex-none p-2 mb-4 ${
           isSelected ? 'bg-gray-300 border-pink-hot border-4' : ''
         }`}
         style={{ objectFit: 'cover', minWidth: '110px', minHeight: '110px' }}
@@ -76,6 +78,16 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
       ) : (
         <div className="animate-pulse w-[110px] h-[110px] bg-gray-button rounded-3xl"></div>
       )} */}
+      {last && (
+        <>
+          {Array.from({ length: index % 3 === 1 ? 1 : 2 }).map((_, i) => (
+            <div
+              key={`fake-img-${i}`}
+              className="fake-img w-[110px] h-[110px] border border-gray rounded-3xl invisible flex-none p-2"
+            />
+          ))}
+        </>
+      )}
     </>
   );
 };
