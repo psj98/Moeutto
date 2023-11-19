@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import ScrollReveal from 'scrollreveal';
 
@@ -37,6 +37,11 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
   } else {
     onClickHandler = null;
   }
+
+  useEffect(() => {
+    // 리덕스 처음 시작할 때 꼭 비워져야합니다.
+    dispatch(selectCloset({ id: 0, largeCategoryId: 'init' }));
+  }, []);
   // 이미지 로딩 확인용
   // const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -48,12 +53,12 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
   const renderIngPreload = () => {
     const img = new Image();
 
-    img.src = imgUrl
-  }
+    img.src = imgUrl;
+  };
 
   useLayoutEffect(() => {
     renderIngPreload();
-  }, [])
+  }, []);
 
   return (
     <>
