@@ -36,8 +36,8 @@ func jinguHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 
-	http.HandleFunc("/recommend2", handlers.RecommendationHandler)
-	http.HandleFunc("/recommend", jinguHandler) // "/kwon" 경로에 대한 핸들러 추가
+	http.HandleFunc("/recommend", handlers.RecommendationHandler)
+	http.HandleFunc("/recommend2", jinguHandler) // "/kwon" 경로에 대한 핸들러 추가
 
 	log.Println("Starting server on port 9000...")
 	if err := http.ListenAndServe(":9000", nil); err != nil {
