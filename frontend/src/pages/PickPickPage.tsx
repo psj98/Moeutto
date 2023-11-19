@@ -168,7 +168,7 @@ const PickPickPage = () => {
   useEffect(() => {
     fetchData();
     console.log('11111111111111111111111찐막', categoryId)
-  }, [selectedOptionMain, categoryId, sortBy, orderBy]);
+  }, [categoryId, sortBy, orderBy]);
 
 
 
