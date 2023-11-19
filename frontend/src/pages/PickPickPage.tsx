@@ -1,6 +1,6 @@
 // done
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { authInstance } from '../api/api';
 
 import { RootState } from '../redux/store';
+import { selectCloset } from '../redux/features/closet/selectClosetSlice';
 import PickComponent from '../components/common/category/organisms/PickComponent';
 import Scroll from '../components/common/scroll/molecules/Scroll';
 
@@ -114,15 +115,25 @@ const PickPickPage = () => {
   // 선택한 옷 리스트
   const selectedClosetIds = useSelector((state: RootState) => state.closet.selectedClosetIds);
 
+  // useEffect(() => {
+  //   console.log(selectedClosetIds);
+  // }, [selectedClosetIds]);
+
   // 이 페이지에 처음 들어오면 무조건 전체
   useEffect(() => {
-    setCategoryId('000000')
-    setSortBy('initial')
-    setOrderBy(0)
-  }, [])
+    setCategoryId('000000');
+    setSortBy('initial');
+    setOrderBy(0);
+  }, []);
 
   // 옷 목록 조회
   const [clothesData, setClothesData] = useState<ClothesItem[]>([]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // 리덕스 처음 시작할 때 꼭 비워져야합니다.
+    dispatch(selectCloset({ id: '0', largeCategoryId: 'init' }));
+  }, []);
 
   const fetchData = async () => {
     try {
@@ -143,7 +154,7 @@ const PickPickPage = () => {
       return response.data;
     } catch (error) {
       console.log('옷 목록 데이터 조회 실패', error);
-      return null
+      return null;
     }
   };
 
@@ -173,7 +184,7 @@ const PickPickPage = () => {
         const axiosInstance = authInstance({ ContentType: 'application/json' });
         const response = await axiosInstance.post('/ai-check-outfits/check', requestData);
 
-        return response.data.data;
+        return response.data;
       } catch (error) {
         console.log('착장 검사 실패:', error);
 

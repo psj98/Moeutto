@@ -3,11 +3,12 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { useDispatch } from 'react-redux';
 
 import styled from 'styled-components';
 import Sidebar from './components/common/SideNav';
 import MobileNav from './components/common/MobileNav';
-
+import { resetOnAll } from './redux/features/closet/selectClosetSlice';
 
 const ContentContainer = styled.div`
   position: relative;
@@ -19,8 +20,12 @@ const ContentContainer = styled.div`
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    // 리덕스 초기화 로직
+    dispatch(resetOnAll());
+    // 로그인 확인 유도 로직
     const accessToken = sessionStorage.getItem('accessToken');
     const isLoginUrl = location.pathname.includes('login'); // 처음 인덱스 페이지에서는 이하 기능을 수행하지 않도록 수정하였습니다
     const isRoot = location.pathname === '/';
@@ -40,6 +45,7 @@ function App() {
       navigate('/login');
     }
   }, [navigate, location.pathname]);
+
   return (
     // w-16 md:w-32 lg:w-48 bg-red-200
     // 448px가 너비 최대
