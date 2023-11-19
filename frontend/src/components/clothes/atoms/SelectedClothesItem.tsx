@@ -43,16 +43,16 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
     dispatch(selectCloset({ id: 0, largeCategoryId: 'init' }));
   }, []);
   // 이미지 로딩 확인용
-  // const [imageLoaded, setImageLoaded] = useState(false);
-
-  // const handleImageLoad = () => {
-  //   setImageLoaded(true);
-  // };
+  const [imageLoaded, setImageLoaded] = useState<boolean>(false);
 
   // 렌더링 이전에 동작하게 하기
   const renderIngPreload = () => {
     const img = new Image();
 
+    // 이미지가 로드 되면 화면에 띄운다
+    img.onload = () => {
+      setImageLoaded(true);
+    }
     img.src = imgUrl;
   };
 
@@ -62,6 +62,7 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
 
   return (
     <>
+    {imageLoaded ? (
       <img
         src={imgUrl}
         id={clothesId}
@@ -75,6 +76,9 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
         // 친구 옷장이 구경기능만 있을때 코드입니다
         onClick={onClickHandler}
       />
+    ) : (
+      <div className="animate-pulse w-[110px] h-[110px] bg-gray-button rounded-3xl">이미지 로드가 안됏음</div>
+    )}
       {/* {imageLoaded ? (
         null
       ) : (
