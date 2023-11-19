@@ -69,7 +69,7 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
         }
 
         // 아이템을 총 4개 모두 고르지 않을때 처리
-        List<Character> check = Arrays.asList('0','0','0','0'); // 0 outer 1 top 2 bottom 3 item
+        List<Character> check = new ArrayList<>(List.of('0','0','0','0')); // 0 outer 1 top 2 bottom 3 item
 
         System.out.println("check 배열 초깃값 : "+Arrays.toString(check.toArray()));
 
@@ -145,9 +145,13 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
             }
         }
 
+        System.out.println("Check 연산 후 : "+Arrays.toString(check.toArray()));
+
         // 빈 카테고리 채워주기 ( 아우터, 아이템 ) check : 0 outer 3 item
-        if(check.get(0) == '0') outerTemp = tempRequestItems;
-        if(check.get(3) == '0') itemTemp = tempRequestItems;
+        if(arr.size() < 4) {
+            if (check.get(0) == '0') outerTemp = tempRequestItems;
+            if (check.get(3) == '0') itemTemp = tempRequestItems;
+        }
 
         ResponseWeatherInfo pythonRequestWeatherInfo = new ResponseWeatherInfo().toBuilder()
                 .maxTemperature((int) (aiCheckOutfitClientRequestDto.getWeatherInfo().getTmx()))
@@ -246,6 +250,7 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
         // clothes_ai_check_outfit 테이블을 위해서 선언
 //        List<Integer> clothesIds = null;
 
+
         for (PythonResponseClothesResult pythonClothes : pythonClothesResult) {
 
             if(pythonClothes.getClothesId() != -1) {
@@ -273,8 +278,8 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
                         .clothesId(-1)
                         .largeCategoryId("")
                         .imageUrl("https://moeutto-bucket.s3.ap-northeast-2.amazonaws.com/no_clothes.png")
-                        .result("")
-                        .fitnessNum(-1)
+                        .result("더 정확한 검사를 위해 선택해주세요.")
+                        .fitnessNum(0)
                       .build();
                 
                 clientClothesResult.add(tempClientClothes);
