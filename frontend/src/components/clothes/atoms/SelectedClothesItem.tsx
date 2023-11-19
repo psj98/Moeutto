@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import ScrollReveal from 'scrollreveal';
 
@@ -37,6 +37,24 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
   } else {
     onClickHandler = null;
   }
+  // 이미지 로딩 확인용
+  // const [imageLoaded, setImageLoaded] = useState(false);
+
+  // const handleImageLoad = () => {
+  //   setImageLoaded(true);
+  // };
+
+  // 렌더링 이전에 동작하게 하기
+  const renderIngPreload = () => {
+    const img = new Image();
+
+    img.src = imgUrl
+  }
+
+  useLayoutEffect(() => {
+    renderIngPreload();
+  }, [])
+
   return (
     <>
       <img
@@ -52,6 +70,11 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
         // 친구 옷장이 구경기능만 있을때 코드입니다
         onClick={onClickHandler}
       />
+      {/* {imageLoaded ? (
+        null
+      ) : (
+        <div className="animate-pulse w-[110px] h-[110px] bg-gray-button rounded-3xl"></div>
+      )} */}
     </>
   );
 };

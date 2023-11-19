@@ -139,35 +139,38 @@ const ReportFrequencyPage = () => {
         </div>
       </div>
 
-      <div className="flex flex-row justify-center items-center">
-        <div className="flex flex-col mx-2 mb-6 px-3 py-6 bg-[#DFDFDF] bg-opacity-40 rounded-2xl w-[90%]">
-          <p className="mb-8 text-left text-lg font-bold whitespace-pre-wrap">{`옷장에서 잠자는 옷을\n기부해보는 건 어떠세요?`}</p>
-          <div className="grid grid-cols-2 gap-4">
-            <ReportFrequencyDonation
-              marginRight="mr-1"
-              subTitle="국내외 소외이웃을 돕는"
-              storeName="아름다운 가게"
-              storeLink="https://www.beautifulstore.org/"
-            />
-            <ReportFrequencyDonation
-              subTitle="취준생에게 대여해주는"
-              storeName="열린 옷장"
-              storeLink="https://theopencloset.net/"
-            />
-            <ReportFrequencyDonation
-              marginRight="mr-1"
-              subTitle="옷 많아서 부담된다면"
-              storeName="옷캔"
-              storeLink="https://otcan.org/"
-            />
-            <ReportFrequencyDonation
-              subTitle="장애인의 선한일터"
-              storeName="굿윌 스토어"
-              storeLink="https://www.goodwillstore.org/"
-            />
+      <div className='relative flex justify-center mb-[100px]'>
+        <img src="/images/cute-earth.jpg" alt="지구사진"
+          className='opacity-60 z-0 rounded-2xl w-[90%] h-[300px] object-cover'
+        />
+          <div className="absolute flex flex-col mx-2 mb-6 px-3 py-6 rounded-2xl w-[90%]">
+            <p className="mb-8 text-left text-lg font-bold whitespace-pre-wrap">{`옷장에서 잠자는 옷을\n기부해보는 건 어떠세요?`}</p>
+            <div className="grid grid-cols-2 gap-4">
+              <ReportFrequencyDonation
+                marginRight="mr-1"
+                subTitle="국내외 소외이웃을 돕는"
+                storeName="아름다운 가게"
+                storeLink="https://www.beautifulstore.org/"
+              />
+              <ReportFrequencyDonation
+                subTitle="취준생에게 대여해주는"
+                storeName="열린 옷장"
+                storeLink="https://theopencloset.net/"
+              />
+              <ReportFrequencyDonation
+                marginRight="mr-1"
+                subTitle="옷 많아서 부담된다면"
+                storeName="옷캔"
+                storeLink="https://otcan.org/"
+              />
+              <ReportFrequencyDonation
+                subTitle="장애인의 선한일터"
+                storeName="굿윌 스토어"
+                storeLink="https://www.goodwillstore.org/"
+              />
+            </div>
           </div>
         </div>
-      </div>
     </>
   );
 };
