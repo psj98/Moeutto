@@ -212,10 +212,10 @@ const MainPage = () => {
     console.log('1. 조회만 하는 api 실행 전')
 
     // 조회만 할거면 무조건 이걸로 해야됨 -> 대신 재추천 못 받음
-    OnlyGetRecommendClothesData();
-    // console.log(OnlyGetRecommendClothesData)
+    // OnlyGetRecommendClothesData();
+    console.log(OnlyGetRecommendClothesData)
     // 새로 고침 할 때마다 바뀜
-    // clothesData();
+    clothesData();
 
     // 데이터가 없는 경우 or 다시 추천을 받고 싶은 경우 실행되는 api
     // clothesData();
