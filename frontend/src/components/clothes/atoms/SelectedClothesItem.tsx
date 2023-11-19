@@ -41,16 +41,16 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
   }
 
   // 이미지 로딩 확인용
-  // const [imageLoaded, setImageLoaded] = useState(false);
-
-  // const handleImageLoad = () => {
-  //   setImageLoaded(true);
-  // };
+  const [imageLoaded, setImageLoaded] = useState<boolean>(false);
 
   // 렌더링 이전에 동작하게 하기
   const renderIngPreload = () => {
     const img = new Image();
 
+    // 이미지가 로드 되면 화면에 띄운다
+    img.onload = () => {
+      setImageLoaded(true);
+    }
     img.src = imgUrl;
   };
 
@@ -60,19 +60,23 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
 
   return (
     <>
+    {imageLoaded ? (
       <img
         src={imgUrl}
         id={clothesId}
         alt={largeCategoryId}
-        className={`clothes w-[110px] h-[110px] border border-gray rounded-3xl flex-none p-2 mb-4 ${
+        className={`clothes opacity-100 w-[110px] h-[110px] border border-gray rounded-3xl flex-none p-2 mb-4 ${
           isSelected ? 'bg-gray-300 border-pink-hot border-4' : ''
         }`}
-        style={{ objectFit: 'cover', minWidth: '110px', minHeight: '110px' }}
+        style={{ objectFit: 'cover', minWidth: '110px', minHeight: '110px', opacity: '1' }}
         // 친구추천 기능 추가하면 아래 코드를 살립니다.
         // onClick={pathname === '/calendar/post' ? handlePostCalendar : handleClick}
         // 친구 옷장이 구경기능만 있을때 코드입니다
         onClick={onClickHandler}
       />
+    ) : (
+      <div className="animate-pulse w-[110px] h-[110px] bg-gray-button rounded-3xl"></div>
+    )}
       {/* {imageLoaded ? (
         null
       ) : (
