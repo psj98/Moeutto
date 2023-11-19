@@ -35,7 +35,7 @@ def check_null(clothes: Clothes):
         clothes.color = "multi"
         clothes.thickness = 1
         clothes.textile = "etc"
-        clothes.frequency = 0
+        clothes.frequency = 1
         clothes.largeCategoryId = "000"
 
 # create_clothes return 해야 하는 format
@@ -107,9 +107,17 @@ class KJGResponse(BaseModel):
     comment_output_txt = mk_comment(comment_input_txt)
 
     # print(comment_input_txt)
-
-    comment_output_json = json.loads(comment_output_txt)
-
+    # comment_output_txt="""
+    #     "outer": "따뜻하고 스타일리시한 아이템입니다.",
+    #     "top": "따뜻한 옷이지만, 겉옷을 추가로 입는 것이 좋아요.",
+    #     "bottom": "따뜻한 바지지만, 겉옷을 추가로 입는 것이 좋아요.",
+    #     "item": "따뜻한 옷은 아니지만, 스타일에 도움이 되는 아이템이에요."
+    # """
+    comment_output_json = {"outer":"멋진 아우터네요, 따뜻하고 좋아요!","top":"오늘 날씨에 딱 좋아요!","bottom":"상의와 잘 어울리는 바지군요!","item":"아이템까지 완벽한 패셔니스타에요",}
+    try:
+        comment_output_json = json.loads(comment_output_txt)
+    except:
+        print("JSON Parsing ERROR:"+str(comment_output_txt))
     # {
     #     "outer": feedback(str),
     #     "top": feedback(str),
