@@ -61,11 +61,6 @@ const RenderCells = ({
     let day = startDate;
     let formattedDate = '';
 
-    useEffect(() => {
-        console.log('지금 선택한 날짜', format(selectedDate, 'yyyy-MM-dd'));
-    }, [selectedDate])
-
-
     // 내가 클릭한 날의 착장을 알고 싶음
     useEffect(() => {
 
