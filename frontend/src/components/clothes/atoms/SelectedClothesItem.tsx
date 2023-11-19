@@ -28,6 +28,15 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
     dispatch(selectItem(imgUrl)); // 이미지 url을 redux state array 로 저장합니다
   };
 
+  let onClickHandler;
+
+  if (pathname === '/calendar/post') {
+    onClickHandler = handlePostCalendar;
+  } else if (pathname === '/pickpick') {
+    onClickHandler = handleClick;
+  } else {
+    onClickHandler = null;
+  }
   return (
     <>
       <img
@@ -38,7 +47,10 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
           isSelected ? 'bg-gray-300 border-pink-hot border-4' : ''
         }`}
         style={{ objectFit: 'cover', minWidth: '110px', minHeight: '110px' }}
-        onClick={pathname === '/calendar/post' ? handlePostCalendar : handleClick}
+        // 친구추천 기능 추가하면 아래 코드를 살립니다.
+        // onClick={pathname === '/calendar/post' ? handlePostCalendar : handleClick}
+        // 친구 옷장이 구경기능만 있을때 코드입니다
+        onClick={onClickHandler}
       />
     </>
   );

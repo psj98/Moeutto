@@ -12,7 +12,11 @@ const SubmitBtn: React.FC<PropsType> = ({ handleSubmit }) => {
     <>
       <div className="flex w-full h-full items-center justify-center">
         <button
-          className="bg-pink-hot p-4 w-[150px] text-center rounded-xl shadow-xl text-white text-AppBody1 p-4 tracking-[10px] font-bold mr-[150px]"
+          className={
+            path === 'notmycloset'
+              ? 'hidden'
+              : 'bg-pink-hot w-[150px] text-center rounded-xl shadow-xl text-white text-AppBody1 p-4 tracking-[10px] font-bold mr-[150px]'
+          }
           onClick={handleSubmit}>
           {path === 'notmycloset' ? '제안하기' : '제출하기'}
         </button>
