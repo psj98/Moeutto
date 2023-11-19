@@ -40,7 +40,7 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
 
   useEffect(() => {
     // 리덕스 처음 시작할 때 꼭 비워져야합니다.
-    dispatch(selectCloset({ id: 0, largeCategoryId: 'init' }));
+    dispatch(selectCloset({ id: '0', largeCategoryId: 'init' }));
   }, []);
   // 이미지 로딩 확인용
   // const [imageLoaded, setImageLoaded] = useState(false);
