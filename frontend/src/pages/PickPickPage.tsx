@@ -116,10 +116,10 @@ const PickPickPage = () => {
 
   // 이 페이지에 처음 들어오면 무조건 전체
   useEffect(() => {
-    setCategoryId('000000')
-    setSortBy('initial')
-    setOrderBy(0)
-  }, [])
+    setCategoryId('000000');
+    setSortBy('initial');
+    setOrderBy(0);
+  }, []);
 
   // 옷 목록 조회
   const [clothesData, setClothesData] = useState<ClothesItem[]>([]);
@@ -143,7 +143,7 @@ const PickPickPage = () => {
       return response.data;
     } catch (error) {
       console.log('옷 목록 데이터 조회 실패', error);
-      return null
+      return null;
     }
   };
 
@@ -173,7 +173,7 @@ const PickPickPage = () => {
         const axiosInstance = authInstance({ ContentType: 'application/json' });
         const response = await axiosInstance.post('/ai-check-outfits/check', requestData);
 
-        return response.data.data;
+        return response.data;
       } catch (error) {
         console.log('착장 검사 실패:', error);
 
