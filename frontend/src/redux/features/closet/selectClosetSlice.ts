@@ -21,7 +21,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 } */
 
 interface selectedCloth {
-  id: number;
+  id: string;
   largeCategoryId: string;
 } // 대분류}
 // 타입
@@ -52,7 +52,7 @@ const selectClosetSlice = createSlice({
       const index = selectedClosetIds.findIndex(cloth => cloth.id === clothesId.id);
 
       // 리셋하는 로직
-      if (action.payload.id === 0) {
+      if (action.payload.id === '0') {
         state.selectedClosetIds = [];
       }
       if (index === -1) {
@@ -62,6 +62,7 @@ const selectClosetSlice = createSlice({
         // 리스트에 있으면 삭제
         state.selectedClosetIds = selectedClosetIds.filter(cloth => cloth.id !== clothesId.id);
       }
+      console.log(selectedClosetIds);
     },
   },
 });
