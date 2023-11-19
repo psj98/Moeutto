@@ -3,14 +3,13 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchvision import models, transforms
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset, DataLoader, Subset
 from PIL import Image
 import pandas as pd
 import mlflow
 import mlflow.pytorch
-
-# MLflow 실험 설정
-mlflow.set_experiment("Fashion Classification Experiment")
+import optuna
+from sklearn.model_selection import KFold
 
 # GPU 설정
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
@@ -44,67 +43,88 @@ transform = transforms.Compose([
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
 ])
 
-# 학습 및 검증 데이터셋 로드
+# 학습 데이터셋 로드
 train_dataset = MSSFashionDataset(csv_file='./musinsa_train_dataset.csv', root_dir='./', transform=transform)
-val_dataset = MSSFashionDataset(csv_file='./musinsa_val_dataset.csv', root_dir='./', transform=transform)
 
-train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
-val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
+# MLflow 설정
+mlflow.set_tracking_uri("http://localhost:5000")
+mlflow.set_experiment("Fashion Classification with HPO and K-Fold")
 
-# 모델 설정
-model = models.mobilenet_v2(weights=True)
-model.features[0][0] = nn.Conv2d(3, 32, 3, stride=1, padding=1)
-num_classes = 3
-model.classifier[1] = nn.Linear(model.last_channel, num_classes)
-model.to(device)
+# Optuna 목적 함수 정의
+def objective(trial):
+    # 하이퍼파라미터 설정
+    lr = trial.suggest_float('lr', 1e-5, 1e-1, log=True)
+    batch_size = trial.suggest_categorical('batch_size', [16, 32, 64])
 
-# 학습 설정
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr=0.001)
+    # K-fold 교차 검증
+    kfold = KFold(n_splits=5, shuffle=True)
+    avg_val_accuracy = 0
 
-# MLflow로 실험 추적 시작
-with mlflow.start_run():
-    num_epochs = 15
+    for fold, (train_ids, val_ids) in enumerate(kfold.split(train_dataset)):
+        # 데이터셋 분할
+        train_subs = Subset(train_dataset, train_ids)
+        val_subs = Subset(train_dataset, val_ids)
+        train_loader = DataLoader(train_subs, batch_size=batch_size, shuffle=True)
+        val_loader = DataLoader(val_subs, batch_size=batch_size, shuffle=False)
 
-    mlflow.log_param("epochs", num_epochs)
-    mlflow.log_param("batch_size", 32)
-    mlflow.log_param("learning_rate", 0.001)
+        # 모델, 손실 함수, 최적화 설정
+        model = models.mobilenet_v2(weights=True)
+        model.features[0][0] = nn.Conv2d(3, 32, 3, stride=1, padding=1)
+        num_classes = 3
+        model.classifier[1] = nn.Linear(model.last_channel, num_classes)
+        model.to(device)
+        criterion = nn.CrossEntropyLoss()
+        optimizer = optim.Adam(model.parameters(), lr=lr)
 
-
-    for epoch in range(num_epochs):
-        print("epoch : " + str(epoch))
-        model.train()
-        for inputs, labels in train_loader:
-            inputs, labels = inputs.to(device), labels.to(device)
-            optimizer.zero_grad()
-            outputs = model(inputs)
-            loss = criterion(outputs, labels)
-            loss.backward()
-            optimizer.step()
-
-        # 검증 루프
-        model.eval()
-        val_loss = 0
-        correct = 0
-        total = 0
-        with torch.no_grad():
-            for inputs, labels in val_loader:
+        # 학습 및 검증 루프
+        for epoch in range(10):
+            model.train()
+            for inputs, labels in train_loader:
                 inputs, labels = inputs.to(device), labels.to(device)
+                optimizer.zero_grad()
                 outputs = model(inputs)
                 loss = criterion(outputs, labels)
-                val_loss += loss.item()
-                _, predicted = torch.max(outputs.data, 1)
-                total += labels.size(0)
-                correct += (predicted == labels).sum().item()
+                loss.backward()
+                optimizer.step()
 
-        # 평균 검증 손실 및 정확도 계산
-        val_loss /= len(val_loader)
-        val_accuracy = 100 * correct / total
+            model.eval()
+            val_loss = 0
+            correct = 0
+            total = 0
+            with torch.no_grad():
+                for inputs, labels in val_loader:
+                    inputs, labels = inputs.to(device), labels.to(device)
+                    outputs = model(inputs)
+                    loss = criterion(outputs, labels)
+                    val_loss += loss.item()
+                    _, predicted = torch.max(outputs.data, 1)
+                    total += labels.size(0)
+                    correct += (predicted == labels).sum().item()
 
-        mlflow.log_metric("train_loss", loss.item(), step=epoch)
-        mlflow.log_metric("val_loss", val_loss, step=epoch)
-        mlflow.log_metric("val_accuracy", val_accuracy, step=epoch)
+            val_accuracy = 100 * correct / total
+            avg_val_accuracy += val_accuracy
 
-    mlflow.pytorch.log_model(model, "model")
+        # MLflow 로깅
+        with mlflow.start_run(nested=True):
+            mlflow.log_param("lr", lr)
+            mlflow.log_param("batch_size", batch_size)
+            mlflow.log_metric("fold_{}_val_accuracy".format(fold), val_accuracy)
 
-torch.save(model.state_dict(), 'kwonjingu.pth')
+    return avg_val_accuracy / 5
+
+# Optuna 최적화 실행
+study = optuna.create_study(direction='maximize')
+study.optimize(objective, n_trials=10)
+
+# 최적의 하이퍼파라미터 출력
+print("Best trial:")
+trial = study.best_trial
+print("  Value: ", trial.value)
+print("  Params: ")
+for key, value in trial.params.items():
+    print("    {}: {}".format(key, value))
+
+# MLflow에서 최적의 모델 로깅
+with mlflow.start_run():
+    mlflow.log_params(trial.params)
+    mlflow.log_metric("best_val_accuracy", trial.value)
