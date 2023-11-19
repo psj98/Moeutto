@@ -37,15 +37,17 @@ const PickComponent: React.FC<PropsType> = ({
         setSelectedOptionSort={setSelectedOptionSort}
         handleSubmit={handleSubmit}
       />
-      <div className="flex justify-center items-center">
-        <div className="min-[375px]:w-[98%] min-[400px]:w-[90%] min-[500px]:w-[85%] flex flex-wrap gap-3.5 mt-4 justify-between mb-[200px]">
+      <div className="flex justify-center items-center ">
+        <div className="min-[375px]:w-[98%] min-[400px]:w-[90%] min-[500px]:w-[85%] flex  flex-wrap mt-4 justify-around mb-[200px]">
           <>
             {clothesData && clothesData.length > 0 ? (
               clothesData.map((item, index) => (
                 <SelectedClothesItem
+                  last={index === clothesData.length - 1}
                   imgUrl={item.imageUrl}
                   clothesId={item.id.toString()}
                   key={index}
+                  index={index}
                   largeCategoryId={item.largeCategoryId}
                 />
               ))
