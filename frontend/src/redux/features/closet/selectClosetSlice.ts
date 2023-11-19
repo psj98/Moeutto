@@ -51,6 +51,10 @@ const selectClosetSlice = createSlice({
 
       const index = selectedClosetIds.findIndex(cloth => cloth.id === clothesId.id);
 
+      // 리셋하는 로직
+      if (action.payload.id === 0) {
+        state.selectedClosetIds = [];
+      }
       if (index === -1) {
         // 리스트에 없으면 추가
         state.selectedClosetIds = [...selectedClosetIds, clothesId];
@@ -58,7 +62,6 @@ const selectClosetSlice = createSlice({
         // 리스트에 있으면 삭제
         state.selectedClosetIds = selectedClosetIds.filter(cloth => cloth.id !== clothesId.id);
       }
-      console.log(state.selectedClosetIds);
     },
   },
 });

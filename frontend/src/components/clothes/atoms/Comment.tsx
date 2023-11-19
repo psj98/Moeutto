@@ -22,30 +22,28 @@ const Comment = ({ frequency, recentDate, name, color, category }: propsType) =>
     };
 
     useEffect(() => {
-        // 주어진 날짜와 현재 날짜 계산
-        const calculateDaysPassed = () => {
-            // 백에서 어떤 형식으로 줄 지는 모르겠음
-            const givenDate = new Date(recentDate);
-            const currentDate = new Date();
-            
-            // 주어진 날짜와 현재 날짜의 차이를 계산 (밀리초 단위)
-            const difference = currentDate.getTime() - givenDate.getTime();
-            
-            // 밀리초를 일로 변환 (1일 = 24시간 * 60분 * 60초 * 1000밀리초)
-            const days = Math.floor(difference / (24 * 60 * 60 * 1000));
+      // 주어진 날짜와 현재 날짜 계산
+      const calculateDaysPassed = () => {
+        // 백에서 어떤 형식으로 줄 지는 모르겠음
+        const givenDate = new Date(recentDate);
+        const currentDate = new Date();
 
-            setDaysPassed(days);
-        };
+        // 주어진 날짜와 현재 날짜의 차이를 계산 (밀리초 단위)
+        const difference = currentDate.getTime() - givenDate.getTime();
 
-        calculateDaysPassed();
+        // 밀리초를 일로 변환 (1일 = 24시간 * 60분 * 60초 * 1000밀리초)
+        const days = Math.floor(difference / (24 * 60 * 60 * 1000));
 
+        setDaysPassed(days);
+      };
 
-        // 이름을 입력하지 않은 경우 자동으로 이름 만들어주기
-        if (!name) {
-            setNewName(`${color} ${getNameById(category)}`);
-        }
+      calculateDaysPassed();
+
+      // 이름을 입력하지 않은 경우 자동으로 이름 만들어주기
+      if (!name) {
+        setNewName(`${color} ${getNameById(category)}`);
+      }
     }, []);
-    console.log('새로운 이름', newName)
 
     return (
         <>

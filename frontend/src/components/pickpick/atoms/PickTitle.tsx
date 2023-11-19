@@ -25,7 +25,7 @@ const PickTitle = () => {
           if (response.data.data) {
             setNickname(response.data.data);
           } else {
-            console.log(response);
+            console.log('친구 닉네임 조회 실패', response);
           }
           return response.data;
         } catch (error) {
