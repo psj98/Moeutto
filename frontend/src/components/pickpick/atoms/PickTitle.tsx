@@ -4,8 +4,6 @@ import { authInstance } from '../../../api/api';
 const PickTitle = () => {
   const pathname = window.location.pathname;
 
-  console.log('pathname', pathname);
-
   const name: string = window.sessionStorage.getItem('nickname');
   const [nickname, setNickname] = useState<string>(name);
 
@@ -14,7 +12,7 @@ const PickTitle = () => {
       if (pathname === '/calendar/post') {
         setNickname('나');
       }
-      const email = pathname.split('/')[3]; // ['', 'notmycloset', 'friend', 'email']\
+      const email = pathname.split('/')[3]; // ['', 'notmycloset', 'friend', 'email']
 
       const fetchData = async () => {
         try {
@@ -27,7 +25,7 @@ const PickTitle = () => {
           if (response.data.data) {
             setNickname(response.data.data);
           } else {
-            console.log(response);
+            console.log('친구 닉네임 조회 실패', response);
           }
           return response.data;
         } catch (error) {
@@ -40,7 +38,6 @@ const PickTitle = () => {
       setNickname('나');
     }
   }, []);
-  console.log('nickname: ', nickname);
 
   return (
     <div className="">

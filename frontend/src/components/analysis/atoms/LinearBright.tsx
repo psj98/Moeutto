@@ -1,6 +1,6 @@
-const LinearBright = () => {
+const LinearBright = ({ darkness }) => {
   // 전체가 90%
-  const position: number = 70;
+  const position: number = darkness-10;
 
   return (
     <>

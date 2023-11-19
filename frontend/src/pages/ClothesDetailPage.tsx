@@ -82,7 +82,7 @@ const ClothesDetailPage = () => {
                             />    
                         </div>
                     </div>
-                    <div className="mt-10 flex flex-col items-center">
+                    <div className="mt-4 flex flex-col items-center">
                         <Comment 
                             frequency={clothesData.frequency} 
                             recentDate={clothesData.recentDate} 

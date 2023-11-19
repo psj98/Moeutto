@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 # usr lib
 from score.mk_score import calculate_total_score,get_temp_weather
-from clothes_vo import ClothesRequest
+from clothes_vo import ClothesRequest,Clothes
 
 # 시각화
 from darkness.darkness import get_darkness
@@ -27,6 +27,17 @@ os.environ["OPENAI_API_KEY"] = os.getenv("apikey")
 
 app = FastAPI()
 
+
+def check_null(clothes: Clothes):
+    if clothes.clothesId == -1:
+        clothes.clothesName = "nothing"
+        clothes.season = "0000"
+        clothes.color = "multi"
+        clothes.thickness = 1
+        clothes.textile = "etc"
+        clothes.frequency = 1
+        clothes.largeCategoryId = "000"
+
 # create_clothes return 해야 하는 format
 class KJGResponse(BaseModel):
 
@@ -38,6 +49,10 @@ class KJGResponse(BaseModel):
     # 옷마다 예상 보온성(temperature)int 1~100,명암(darkness)int 1~100 뽑아서 리턴
     # 점 하나니까 전체 옷 합산해서 점 하나 찍는 것으로 보임 -> sum_darkness, sum_temperature
 
+    check_null(clothes_request.outer)
+    check_null(clothes_request.top)
+    check_null(clothes_request.bottom)
+    check_null(clothes_request.item)
 
     # temper는 두께로 계산
     # jg_temperature = Thickness(clothes_request.outer.thickness, clothes_request.top.thickness, clothes_request.bottom.thickness, clothes_request.item.thickness)
@@ -92,9 +107,17 @@ class KJGResponse(BaseModel):
     comment_output_txt = mk_comment(comment_input_txt)
 
     # print(comment_input_txt)
-
-    comment_output_json = json.loads(comment_output_txt)
-
+    # comment_output_txt="""
+    #     "outer": "따뜻하고 스타일리시한 아이템입니다.",
+    #     "top": "따뜻한 옷이지만, 겉옷을 추가로 입는 것이 좋아요.",
+    #     "bottom": "따뜻한 바지지만, 겉옷을 추가로 입는 것이 좋아요.",
+    #     "item": "따뜻한 옷은 아니지만, 스타일에 도움이 되는 아이템이에요."
+    # """
+    comment_output_json = {"outer":"멋진 아우터네요, 따뜻하고 좋아요!","top":"오늘 날씨에 딱 좋아요!","bottom":"상의와 잘 어울리는 바지군요!","item":"아이템까지 완벽한 패셔니스타에요",}
+    try:
+        comment_output_json = json.loads(comment_output_txt)
+    except:
+        print("JSON Parsing ERROR:"+str(comment_output_txt))
     # {
     #     "outer": feedback(str),
     #     "top": feedback(str),
@@ -102,6 +125,14 @@ class KJGResponse(BaseModel):
     #     "item": feedback(str),
     # }
 
+    if clothes_request.outer.clothesId == -1:
+        score_list[0] = 0
+    if clothes_request.top.clothesId == -1:
+        score_list[1] = 0
+    if clothes_request.bottom.clothesId == -1:
+        score_list[2] = 0
+    if clothes_request.item.clothesId == -1:
+        score_list[3] = 0
 
     # ret > json format으로 하나씩 담아서 전송
     ret = {
@@ -148,6 +179,7 @@ class KJGResponse(BaseModel):
     #
     # }
     return ret
+# 옷 속성 업데이트를 위한 도우미 함수
 
 
 # 각 옷착장 평가
