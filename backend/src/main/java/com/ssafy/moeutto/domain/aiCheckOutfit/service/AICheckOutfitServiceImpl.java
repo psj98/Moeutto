@@ -272,7 +272,7 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
                 ClientResponseClothesResult tempClientClothes = ClientResponseClothesResult.builder()
                         .clothesId(-1)
                         .largeCategoryId("")
-                        .imageUrl("")
+                        .imageUrl("https://moeutto-bucket.s3.ap-northeast-2.amazonaws.com/no_clothes.png")
                         .result("")
                         .fitnessNum(-1)
                       .build();
