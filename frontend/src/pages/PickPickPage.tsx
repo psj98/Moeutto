@@ -115,9 +115,9 @@ const PickPickPage = () => {
   // 선택한 옷 리스트
   const selectedClosetIds = useSelector((state: RootState) => state.closet.selectedClosetIds);
 
-  useEffect(() => {
-    console.log(selectedClosetIds);
-  }, [selectedClosetIds]);
+  // useEffect(() => {
+  //   console.log(selectedClosetIds);
+  // }, [selectedClosetIds]);
 
   // 이 페이지에 처음 들어오면 무조건 전체
   useEffect(() => {
