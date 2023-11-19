@@ -46,7 +46,6 @@ const ReportSeasonPage = () => {
         });
         goMainPage();
       } else {
-        console.log(response);
         setSeasonData(response.data.data);
       }
     } catch (error) {
