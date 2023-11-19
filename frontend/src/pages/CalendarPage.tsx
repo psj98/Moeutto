@@ -49,14 +49,16 @@ const CalendarPage = () => {
   const postScoreData = async (likeOutfit: number) => {
     try {
       const axiosInstance = authInstance({ ContentType: 'application/json' });
-      const response = axiosInstance.put('/calendars/score', {
+      
+      await axiosInstance.put('/calendars/score', {
         id: clothesId,
         likeOutfit,
       });
 
       setUpdateCalendar(!updateCalendar);
+    
     } catch (error) {
-      console.log('착장 평가 실패', error);
+      console.log('착장 평가 실패', error, isLikedOutFit);
     }
   };
 
