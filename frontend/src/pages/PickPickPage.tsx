@@ -184,7 +184,7 @@ const PickPickPage = () => {
         const axiosInstance = authInstance({ ContentType: 'application/json' });
         const response = await axiosInstance.post('/ai-check-outfits/check', requestData);
 
-        return response.data.data;
+        return response.data;
       } catch (error) {
         console.log('착장 검사 실패:', error);
 
