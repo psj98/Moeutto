@@ -6,7 +6,7 @@ interface PropsType {
 
 const SubmitBtn: React.FC<PropsType> = ({ handleSubmit }) => {
   const pathname = window.location.href;
-  const path = pathname.split('/')[1];
+  const path = pathname.split('/')[3];
 
   return (
     <>
