@@ -31,8 +31,8 @@ function App() {
     const isRoot = location.pathname === '/';
     const isLogoutUrl = location.pathname.includes('logout');
 
-    // if (!accessToken && !isLoginUrl && !isRoot && !isLogoutUrl) {
-    if (false) {
+    if (!accessToken && !isLoginUrl && !isRoot && !isLogoutUrl) {
+      // if (false) {
       Swal.fire({
         icon: 'warning',
         title: "<h5 style='color:red'>로그인 필요!",
