@@ -146,8 +146,6 @@ const FriendClosetPage = () => {
   const pathname = window.location.pathname; // url에서 path 가져와서
   const friend = pathname.split('/')[3]; // path에서 email 가져오기
 
-  console.log(categoryId, sortBy, orderBy);
-
   const fetchData = async () => {
     try {
       // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
@@ -156,7 +154,7 @@ const FriendClosetPage = () => {
         email: friend, // 친구 email
       });
 
-      if(response.data.code === 3020) {
+      if (response.data.code === 3020) {
         Swal.fire({
           icon: 'error',
           html: '친구 옷장이 공개되어 있지 않습니다.',
@@ -169,7 +167,6 @@ const FriendClosetPage = () => {
       if (response.data.data) {
         // setClothesData(response.data.data.clothesListResponseDto);
         setGuestbookAll(response.data.data.guestBookListResponseDto);
-        console.log('친구 옷의 옷 데이터 가져오기', response.data.data.clothesListResponseDto);
       } else {
         // setClothesData([]);
         setGuestbookAll([]);
@@ -190,7 +187,7 @@ const FriendClosetPage = () => {
         orderBy,
       });
 
-      if(response.data.code === 3020) {
+      if (response.data.code === 3020) {
         Swal.fire({
           icon: 'error',
           html: '친구 옷장이 공개되어 있지 않습니다.',
@@ -199,8 +196,6 @@ const FriendClosetPage = () => {
         });
         goMainPage();
       }
-
-      console.log('친구 옷 조회 성공', response);
 
       if (response.data.data) {
         setClothesData(response.data.data);
