@@ -12,6 +12,7 @@ import { RootState } from '../redux/store';
 import { selectCloset } from '../redux/features/closet/selectClosetSlice';
 import PickComponent from '../components/common/category/organisms/PickComponent';
 import Scroll from '../components/common/scroll/molecules/Scroll';
+import Loading from '../components/postCalendar/atoms/LoadingAtom';
 
 export interface ClothesItem {
   id: number; // 옷 등록 id
@@ -25,6 +26,7 @@ export interface ClothesItem {
 }
 
 const PickPickPage = () => {
+  const [isLoading, setIsLoading] = useState<Boolean>(false);
   const navigate = useNavigate();
   // 카테고리
   // 대분류
@@ -180,12 +182,14 @@ const PickPickPage = () => {
 
     const postData = async () => {
       try {
+        setIsLoading(true);
         // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
         const axiosInstance = authInstance({ ContentType: 'application/json' });
         const response = await axiosInstance.post('/ai-check-outfits/check', requestData);
 
         return response.data;
       } catch (error) {
+        setIsLoading(false);
         console.log('착장 검사 실패:', error);
 
         throw new Error('착장 검사 실패');
@@ -194,6 +198,7 @@ const PickPickPage = () => {
 
     if (requestData) {
       postData().then(analysis => {
+        setIsLoading(false);
         localStorage.setItem('analysis', JSON.stringify(analysis));
         navigate('/analysis');
       });
@@ -208,7 +213,8 @@ const PickPickPage = () => {
   };
 
   return (
-    <>
+    <div className={isLoading ? 'bg-gray-800 bg-opacity-30' : ''}>
+      {isLoading ? <Loading /> : null}
       <PickComponent
         selectedOptionMain={selectedOptionMain}
         setSelectedOptionMain={setSelectedOptionMain}
@@ -223,7 +229,7 @@ const PickPickPage = () => {
       <div className="fixed bottom-1/3 right-0 me-[5vw]">
         <Scroll />
       </div>
-    </>
+    </div>
   );
 };
 
