@@ -43,9 +43,7 @@ const FriendListTemplate = ({ seachAction, friendList, value, setValue }: Friend
         />
       </div>
       {friendList === null || friendList.length === 0 ? (
-        <div className="text-center">
-          {friendList?.length === 0 && value ? `"${value}"라는 ` : null}친구가 없어요 (ㅜ0ㅜ)
-        </div>
+        <div className="text-center">친구가 없어요 (ㅜ0ㅜ)</div>
       ) : (
         friendList.map((item, index) => {
           return (
