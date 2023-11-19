@@ -51,6 +51,7 @@ mlflow.set_tracking_uri("http://localhost:5000")
 mlflow.set_experiment("Fashion Classification with HPO and K-Fold")
 
 # Optuna 목적 함수 정의
+num_classes = 3
 def objective(trial):
     # 하이퍼파라미터 설정
     lr = trial.suggest_float('lr', 1e-5, 1e-1, log=True)
