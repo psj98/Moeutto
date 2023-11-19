@@ -42,35 +42,47 @@ const AnalysisPage = () => {
   if (code === 6001) {
     Swal.fire({
       icon: 'error',
-      html: '데이터 파싱 에러',
+      html: '같은 카테고리가 중복선택 되었습니다',
       showCancelButton: false,
       confirmButtonText: '확인',
-    });
-    goBackPage();
+    }).then((result) => {
+      if (result.isConfirmed) {
+        goBackPage();
+      }
+    })
   } else if (code === 6002) {
     Swal.fire({
       icon: 'error',
       html: '옷이 네벌 초과로 입력되었습니다.',
       showCancelButton: false,
       confirmButtonText: '확인',
-    });
-    goBackPage();
+    }).then((result) => {
+      if (result.isConfirmed) {
+        goBackPage();
+      }
+    })
   } else if (code === 6003) {
     Swal.fire({
       icon: 'error',
       html: '같은 대분류가 여러개 입력되었습니다.',
       showCancelButton: false,
       confirmButtonText: '확인',
-    });
-    goBackPage();
+    }).then((result) => {
+      if (result.isConfirmed) {
+        goBackPage();
+      }
+    })
   } else if (code === 6004) {
     Swal.fire({
       icon: 'error',
       html: '상의나 하의가 없습니다.',
       showCancelButton: false,
       confirmButtonText: '확인',
-    });
-    goBackPage();
+    }).then((result) => {
+      if (result.isConfirmed) {
+        goBackPage();
+      }
+    })
   }
 
   return (
