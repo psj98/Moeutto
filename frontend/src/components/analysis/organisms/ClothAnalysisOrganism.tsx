@@ -32,16 +32,17 @@ response
 
 */
 
+
 const ClothAnalysisOrganism = ({ analysisResult }: { analysisResult: AnalysisDataType }) => {
   // api 연결되면 idx는 동적으로 변함
   return (
     <div className="flex flex-col items-center">
       {/*  컴포넌트 가운데 정렬'} */}
 
-      <TodayWeatherCard idx={5} />
+      <TodayWeatherCard idx={1} />
       <TotalScoreSection clothesResult={analysisResult?.clothesResult} />
       <ClothScoreSection clothesResult={analysisResult?.clothesResult} />
-      <Graph />
+      <Graph graphResult={analysisResult?.clothesFeature} />
     </div>
   );
 };

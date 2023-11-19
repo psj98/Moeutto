@@ -63,9 +63,9 @@ func scoreClothingItem(cloth models.Clothes, weather models.WeatherInfo, yesterd
 	score += max(0, 10-cloth.Frequency)
 
 	if yesterdayRecommended[cloth.ClothesId] {
-		score -= 60
+		score -= 90
 	} else if dayBeforeYesterdayRecommended[cloth.ClothesId] {
-		score -= 35
+		score -= 65
 	}
 
 	return score

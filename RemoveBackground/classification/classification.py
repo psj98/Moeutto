@@ -1,114 +1,46 @@
+# RemoveBackground/classification/classification.py
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torchvision import transforms
-from PIL import Image, ImageOps
+from torchvision import models, transforms
+from PIL import Image
 import io
 
-# CNN Model Definition
-
-class FashionCNN(nn.Module):
-    def __init__(self):
-        super(FashionCNN, self).__init__()
-        self.conv1 = nn.Conv2d(1, 32, 3, 1)
-        self.conv2 = nn.Conv2d(32, 64, 3, 1)
-        self.dropout1 = nn.Dropout2d(0.25)
-        self.dropout2 = nn.Dropout2d(0.5)
-        self.fc1 = nn.Linear(9216, 128)
-        self.fc2 = nn.Linear(128, 10)
-
-    def forward(self, x):
-        x = self.conv1(x)
-        x = F.relu(x)
-        x = self.conv2(x)
-        x = F.relu(x)
-        x = F.max_pool2d(x, 2)
-        x = self.dropout1(x)
-        x = torch.flatten(x, 1)
-        x = self.fc1(x)
-        x = F.relu(x)
-        x = self.dropout2(x)
-        x = self.fc2(x)
-        output = F.log_softmax(x, dim=1)
-        return output
-
-# Load the trained model
-def load_model(model_path):
-    model = FashionCNN()
-    model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
+# 모델 설정 및 가중치 로드 함수
+def load_model(model_path, device):
+    model = models.mobilenet_v2(weights=True)
+    model.features[0][0] = nn.Conv2d(3, 32, 3, stride=1, padding=1)
+    num_classes = 3
+    model.classifier[1] = nn.Linear(model.last_channel, num_classes)
+    model.load_state_dict(torch.load(model_path, map_location=device))
     model.eval()
     return model
 
-# Class to category mapping
-class_to_category = {
-    0: "top",
-    1: "bottom",
-    2: "top",
-    3: "outer",
-    4: "bottom",
-    5: "item",
-    6: "item",
-    7: "item",
-    8: "item",
-    9: "item"
-}
+# 이미지 분류 함수 정의
+def classify_image(image_data, model, device, threshold=0.5):
+    # 이미지 변환 설정
+    transform = transforms.Compose([
+        transforms.Resize((224, 224)),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    ])
 
-# Image transformation
-transform = transforms.Compose([
-    transforms.Grayscale(num_output_channels=1),
-    transforms.ToTensor(),
-    transforms.Normalize((0.5,), (0.5,))
-])
+    image = Image.open(io.BytesIO(image_data)).convert('RGB')
+    image = transform(image).unsqueeze(0)
+    image = image.to(device)
 
-# Resize and pad image function
-def resize_and_pad_image(image, target_size=(28, 28), fill_color=(0, 0, 0)):
-    ratio = min(target_size[0] / image.width, target_size[1] / image.height)
-    new_size = (int(image.width * ratio), int(image.height * ratio))
-    image = image.resize(new_size, Image.Resampling.LANCZOS)
-    new_image = Image.new("L", target_size, fill_color[0])  # 'L' mode for grayscale
-    new_image.paste(image, ((target_size[0] - new_size[0]) // 2, (target_size[1] - new_size[1]) // 2))
-    return new_image
+    with torch.no_grad():
+        outputs = model(image)
+        probabilities = F.softmax(outputs, dim=1)
+        max_prob, predicted = torch.max(probabilities, 1)
+        if max_prob < threshold:
+            return 3  # 'item'으로 분류
+        else:
+            return predicted.item()
 
-
-# Predicting a new image
-def predict_image(image_bytes, model):
-    image = Image.open(io.BytesIO(image_bytes))
-    processed_image = resize_and_pad_image(image)
-    if processed_image.mode != 'L':
-        processed_image = processed_image.convert('L')
-    image_tensor = transform(processed_image).unsqueeze(0)
-    outputs = model(image_tensor)
-    _, predicted = torch.max(outputs, 1)
-    predicted_category = class_to_category[predicted.item()]
-    return predicted_category
-
-
-# 이미지 처리 및 모델 예측을 수행하는 테스트 함수
-def test_image_processing_and_prediction(image_path, model):
-    with open(image_path, 'rb') as f:
-        image_bytes = f.read()
-
-    # 이미지 처리
-    image = Image.open(io.BytesIO(image_bytes))
-    processed_image = resize_and_pad_image(image)
-
-    # 처리된 이미지 정보 출력
-    print("Processed Image Size:", processed_image.size)
-    print("Processed Image Mode:", processed_image.mode)
-
-    # 모델 예측 수행
-    predicted_category = predict_image(image_bytes, model)
-    print("Predicted Category:", predicted_category)
-
-# 모델 로드
-
-
-if __name__ == "__main__":
-    model_path = './fashion_cnn.pth'
-    model = load_model(model_path)
-
-    # 이미지 경로
-    image_path = './test.jpg'
-
-    # 테스트 실행
-    test_image_processing_and_prediction(image_path, model)
+# 예측 함수
+def predict_image(image_data, model, device):
+    labels_map = {0: 'outer', 1: 'top', 2: 'bottom', 3: 'item'}
+    predicted_class = classify_image(image_data, model, device)
+    return labels_map[predicted_class]

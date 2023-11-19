@@ -111,7 +111,6 @@ const MainPage = () => {
   const formattedDayAfterTomorrow = new Date(dayAfterTomorrow).toISOString().slice(0, 10);
 
   const clothesData = async () => {
-    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$추천 등록 시작')
     const requesBody = [
       {
         // 날씨 정보
@@ -211,33 +210,34 @@ const MainPage = () => {
   useEffect(() => {
     // 화면을 키면 조회만 되는 api에서 데이터를 받아온다
     console.log('1. 조회만 하는 api 실행 전')
+
+    // 조회만 할거면 무조건 이걸로 해야됨 -> 대신 재추천 못 받음
     OnlyGetRecommendClothesData();
+    // console.log(OnlyGetRecommendClothesData)
+    // 새로 고침 할 때마다 바뀜
+    // clothesData();
 
     // 데이터가 없는 경우 or 다시 추천을 받고 싶은 경우 실행되는 api
     // clothesData();
   }, []);
 
 
-  // 중간 점검 이후 덤프 데이터로 다시 UI 구성하는 코드 입니다. 
-  // 날씨 api 논의 후 다시 작성할 예정.
-  // 날씨 정보 (프론트에서 open API로 직접 불러온 정보 3일치 날씨 데이터 가공)
   // 해: 1, 구름: 2, 해&구름: 3, 비: 4, 눈: 5, 번개: 6 
-
  const weatherListDataFake = [
       // 추천 날씨 목록
       {
-        minTemperature: -3, // 최저 기온
-        maxTemperature: 6, // 최고 기온
-        weather: 5, // 날씨 정보 (맑음, 구름 조금 등)
-      },
-      {
-        minTemperature: -4, // 최저 기온
-        maxTemperature: 6, // 최고 기온
+        minTemperature: 1, // 최저 기온
+        maxTemperature: 14, // 최고 기온
         weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
       },
       {
         minTemperature: 1, // 최저 기온
-        maxTemperature: 14, // 최고 기온
+        maxTemperature: 10, // 최고 기온
+        weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
+      },
+      {
+        minTemperature: 1, // 최저 기온
+        maxTemperature: 13, // 최고 기온
         weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
       },
     ]
@@ -253,8 +253,6 @@ const MainPage = () => {
       <div className='absolute z-50 left-1/2 transform -translate-x-1/2 w-[90%] max-w-[400px] min-w-[300px]'>
         <Alert />
       </div>
-      
-
         <div className="flex flex-col p-4 mb-4">
           {/* 주소 */}
           <MainInfo currentLocation={currentLocation} address={address} showLocationClick={showLocationClick} />
