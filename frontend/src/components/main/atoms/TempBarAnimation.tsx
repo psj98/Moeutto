@@ -5,23 +5,20 @@ const TempBarAnimation = () => {
     const [count, setCount] = useState<number>(0);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-          setCount(prevCount => {
-            if (prevCount < 3) {
-              setPosition(prevPosition => (prevPosition === 80 ? 0 : 80));
-              return prevCount + 1;
-            } else {
-              clearInterval(interval);
-              return prevCount;
-            }
-          });
-        }, 2000); // 1초 간격으로 변경
-    
-        console.log(count);
+      const interval = setInterval(() => {
+        setCount(prevCount => {
+          if (prevCount < 3) {
+            setPosition(prevPosition => (prevPosition === 80 ? 0 : 80));
+            return prevCount + 1;
+          } else {
+            clearInterval(interval);
+            return prevCount;
+          }
+        });
+      }, 2000); // 1초 간격으로 변경
 
-        return () => clearInterval(interval);
-
-      }, []);
+      return () => clearInterval(interval);
+    }, []);
     
     return (
         <div className="flex items-center justify-center mt-10 mb-6">

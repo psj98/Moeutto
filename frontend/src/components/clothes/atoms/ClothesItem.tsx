@@ -10,9 +10,8 @@ interface ItemPropsType {
 const ClothesItemComponent: React.FC<ItemPropsType> = ({ imgUrl, clothesId }) => {
     const navigate = useNavigate();
     const handleClick = () => {
-        console.log('아이템 상세 클릭함', clothesId)
-        navigate(`/mycloset/detail/${clothesId}`)
-    }
+      navigate(`/mycloset/detail/${clothesId}`);
+    };
 
     return (
         <>

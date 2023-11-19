@@ -14,8 +14,6 @@ interface ReportFrequencyProps {
 }
 
 const ReportFrequency = ({ frequencyList, frequencyComment }: ReportFrequencyProps) => {
-  console.log(frequencyList);
-
   return (
     <>
       <div className="flex flex-col p-2 mb-8">

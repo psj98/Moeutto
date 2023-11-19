@@ -44,77 +44,63 @@ const Weather = ({ setWeatherListData }) => {
       ]
 
     const getWeatherData = async () => {
-      console.log('2. 날씨 데이터 함수 시작')
-        try {
-            const response = await axios.get('http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst', {
-                params: {
-                    ServiceKey: "G6yQmPBxnK7td0JNQETr4KPoTsX9LFVDyi5AlQljW8gXXhUKuZY2VODvDAtVU2bVpsv5uIIQbMurxwuEDmxSOA==" ,
-                    pageNo: "1",
-                    numOfRows: "1000",
-                    dataType: "JSON",
-                    base_date: todayDate,
-                    base_time: "0500",
-                    // 강남구 역삼1동
-                    nx: "61",
-                    ny: "125"
-                }
-            });
-            
-            console.log('날씨 데이터 부르기', response.data.response.body.items?.item);
+      try {
+        const response = await axios.get('http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst', {
+          params: {
+            ServiceKey: 'G6yQmPBxnK7td0JNQETr4KPoTsX9LFVDyi5AlQljW8gXXhUKuZY2VODvDAtVU2bVpsv5uIIQbMurxwuEDmxSOA==',
+            pageNo: '1',
+            numOfRows: '1000',
+            dataType: 'JSON',
+            base_date: todayDate,
+            base_time: '0500',
+            // 강남구 역삼1동
+            nx: '61',
+            ny: '125',
+          },
+        });
 
-            const weatherItems = response.data.response.body.items?.item;
+        const weatherItems = response.data.response.body.items?.item;
 
-
-            if (weatherItems && Array.isArray(weatherItems)) {
-              setWeatherData(weatherItems);
-            } else {
-              console.log('날씨 데이터를 찾을 수 없습니다')
-            }
-    
-
-        } catch (error) {
-            console.log('날씨 부르다가 에러남', error)
+        if (weatherItems && Array.isArray(weatherItems)) {
+          setWeatherData(weatherItems);
+        } else {
+          console.log('날씨 데이터를 찾을 수 없습니다');
         }
-    }
+      } catch (error) {
+        console.log('날씨 부르다가 에러남', error);
+      }
+    };
 
     useEffect(() => {
-        console.log('1. 날씨 api 호출하기')
-        console.log(getWeatherData);
-        // getWeatherData();
-        console.log('3. 날씨 api호출 함수가 끝났음')
-        setTimeout(() => {
-          console.log('4. 데이터 가공 시작')
-          if (weatherData && Array.isArray(weatherData)) {
-              console.log('날씨 데이터가 존재하고, 배열인가?', weatherListData)
-              // 3일간의 날씨 정보
-              // 오늘
-              const todayMax = weatherData.find(data => data.fcstDate === todayDate && data.category === 'TMX');
-              const todayMin = weatherData.find(data => data.fcstDate === todayDate && data.category === 'TMN');
-              // 내일
-              const tomorrowMax = weatherData.find(data => data.fcstDate === tomorrow && data.category === 'TMX');
-              const tomorrowMin = weatherData.find(data => data.fcstDate === tomorrow && data.category === 'TMN');
-              // 내일 모레
-              const aftertomorrowMax = weatherData.find(data => data.fcstDate === aftertomorrow && data.category === 'TMX');
-              const aftertomorrowMin = weatherData.find(data => data.fcstDate === aftertomorrow && data.category === 'TMN');
-              
-              // 데이터 가공하기
-              weatherListData[0].maxTemperature = todayMax ? todayMax.fcstValue : null;
-              weatherListData[0].minTemperature = todayMin ? todayMin.fcstValue : null;
-              weatherListData[1].maxTemperature = tomorrowMax ? tomorrowMax.fcstValue : null;
-              weatherListData[1].minTemperature = tomorrowMin ? tomorrowMin.fcstValue : null;
-              weatherListData[2].maxTemperature = aftertomorrowMax ? aftertomorrowMax.fcstValue : null;
-              weatherListData[2].minTemperature = aftertomorrowMin ? aftertomorrowMin.fcstValue : null;
-      
-            } else {
-              console.log('5. 데이터 없어서 가공 실패')
-            }
-      
-            // 데이터 메인페이지에 저장하기
-            console.log('날씨 데이터 하위 컴포넌트에서 잘 저장하고 있는지 확인', weatherListData)
-            setWeatherListData(weatherListData);
-          }, 3000)
-          console.log('6. 데이터 저장하기 성공', weatherListData)
-    }, [])
+      // getWeatherData();
+      setTimeout(() => {
+        if (weatherData && Array.isArray(weatherData)) {
+          // 3일간의 날씨 정보
+          // 오늘
+          const todayMax = weatherData.find(data => data.fcstDate === todayDate && data.category === 'TMX');
+          const todayMin = weatherData.find(data => data.fcstDate === todayDate && data.category === 'TMN');
+          // 내일
+          const tomorrowMax = weatherData.find(data => data.fcstDate === tomorrow && data.category === 'TMX');
+          const tomorrowMin = weatherData.find(data => data.fcstDate === tomorrow && data.category === 'TMN');
+          // 내일 모레
+          const aftertomorrowMax = weatherData.find(data => data.fcstDate === aftertomorrow && data.category === 'TMX');
+          const aftertomorrowMin = weatherData.find(data => data.fcstDate === aftertomorrow && data.category === 'TMN');
+
+          // 데이터 가공하기
+          weatherListData[0].maxTemperature = todayMax ? todayMax.fcstValue : null;
+          weatherListData[0].minTemperature = todayMin ? todayMin.fcstValue : null;
+          weatherListData[1].maxTemperature = tomorrowMax ? tomorrowMax.fcstValue : null;
+          weatherListData[1].minTemperature = tomorrowMin ? tomorrowMin.fcstValue : null;
+          weatherListData[2].maxTemperature = aftertomorrowMax ? aftertomorrowMax.fcstValue : null;
+          weatherListData[2].minTemperature = aftertomorrowMin ? aftertomorrowMin.fcstValue : null;
+        } else {
+          console.log('5. 데이터 없어서 가공 실패');
+        }
+
+        // 데이터 메인페이지에 저장하기
+        setWeatherListData(weatherListData);
+      }, 3000);
+    }, []);
 
     return null
 }
