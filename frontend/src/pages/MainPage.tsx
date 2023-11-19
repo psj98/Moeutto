@@ -18,7 +18,7 @@ import RecommendListOnlyWeather from '../components/main/organisms/RecommendList
 import { authInstance } from '../api/api';
 
 // 날씨 api 사용
-import Weather from "../api/Weather";
+// import Weather from "../api/Weather";
 
 // 다시 추천 CSS
 const rotate = keyframes`
@@ -205,7 +205,7 @@ const MainPage = () => {
   
 
   // 날씨 기반 리스트
-  const [weatherListData, setWeatherListData] = useState<any>([]);
+  // const [weatherListData, setWeatherListData] = useState<any>([]);
 
   useEffect(() => {
     // 화면을 키면 조회만 되는 api에서 데이터를 받아온다
@@ -218,7 +218,7 @@ const MainPage = () => {
     // clothesData();
 
     // 데이터가 없는 경우 or 다시 추천을 받고 싶은 경우 실행되는 api
-    console.log('날씨 데이터 잘 받는거 확인했잖아', weatherListData)
+    // clothesData();
   }, []);
 
 
@@ -338,7 +338,7 @@ const MainPage = () => {
         <div className="fixed bottom-1/3 right-0 me-[5vw]">
           <Scroll />
       </div>
-      <Weather setWeatherListData={setWeatherListData} />
+      {/* <Weather setWeatherListData={setWeatherListData} /> */}
     </div>
   );
 };

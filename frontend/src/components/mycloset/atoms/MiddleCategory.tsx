@@ -34,7 +34,6 @@ const MiddleCategory: React.FC<MiddleCategoryTopProps> = ({
   setSelectedOptionMiddle,
 }: MiddleCategoryTopProps) => {
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('지금 내가 선택한 카테고리', e.target.id);
     const selectedId = e.target.id;
 
     setSelectedOptionMiddle(selectedId);

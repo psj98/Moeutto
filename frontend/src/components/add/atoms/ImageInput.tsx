@@ -43,7 +43,7 @@ const ImageInput = ({ onChange, inputRef }: PictureInputProps) => {
     <Image>
       <label htmlFor="pic">
         <input id="pic" type="file" onChange={onChange} ref={inputRef} />
-        <Bounce>
+        <Bounce triggerOnce>
           <PiTShirtDuotone size={80} />
         </Bounce>
       </label>
