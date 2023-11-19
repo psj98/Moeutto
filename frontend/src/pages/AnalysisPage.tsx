@@ -1,3 +1,5 @@
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 import ClothAnalysisTemplate from '../components/analysis/templates/ClothAnalysisTemplate';
 
 export interface ClothesResultType {
@@ -30,7 +32,48 @@ export interface AnalysisDataType {
 }
 
 const AnalysisPage = () => {
-  const analysisResult: AnalysisDataType = JSON.parse(localStorage.getItem('analysis'));
+  const analysisResult: AnalysisDataType = JSON.parse(localStorage.getItem('analysis')).data;
+  const navigate = useNavigate();
+  const code = JSON.parse(localStorage.getItem('analysis')).code;
+  const goBackPage = () => {
+    navigate('/pickpick');
+  };
+
+  console.log(code);
+
+  if (code === 6001) {
+    Swal.fire({
+      icon: 'error',
+      html: '데이터 파싱 에러',
+      showCancelButton: false,
+      confirmButtonText: '확인',
+    });
+    goBackPage();
+  } else if (code === 6002) {
+    Swal.fire({
+      icon: 'error',
+      html: '옷이 네벌 초과로 입력되었습니다.',
+      showCancelButton: false,
+      confirmButtonText: '확인',
+    });
+    goBackPage();
+  } else if (code === 6003) {
+    Swal.fire({
+      icon: 'error',
+      html: '같은 대분류가 여러개 입력되었습니다.',
+      showCancelButton: false,
+      confirmButtonText: '확인',
+    });
+    goBackPage();
+  } else if (code === 6004) {
+    Swal.fire({
+      icon: 'error',
+      html: '상의나 하의가 없습니다.',
+      showCancelButton: false,
+      confirmButtonText: '확인',
+    });
+    goBackPage();
+  }
 
   return (
     <>

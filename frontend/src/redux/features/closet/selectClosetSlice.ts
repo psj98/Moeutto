@@ -21,7 +21,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 } */
 
 interface selectedCloth {
-  id: number;
+  id: string;
   largeCategoryId: string;
 } // 대분류}
 // 타입
@@ -52,10 +52,11 @@ const selectClosetSlice = createSlice({
       const index = selectedClosetIds.findIndex(cloth => cloth.id === clothesId.id);
 
       // 리셋하는 로직
-      if (action.payload.id === 0) {
+      if (clothesId.largeCategoryId === 'init') {
         state.selectedClosetIds = [];
       }
-      if (index === -1) {
+
+      if (index === -1 && clothesId.largeCategoryId !== 'init') {
         // 리스트에 없으면 추가
         state.selectedClosetIds = [...selectedClosetIds, clothesId];
       } else {
@@ -63,9 +64,13 @@ const selectClosetSlice = createSlice({
         state.selectedClosetIds = selectedClosetIds.filter(cloth => cloth.id !== clothesId.id);
       }
     },
+    // 초기화
+    resetOnAll: state => {
+      state.selectedClosetIds = [];
+    },
   },
 });
 
-export const { selectCloset } = selectClosetSlice.actions;
+export const { selectCloset, resetOnAll } = selectClosetSlice.actions;
 
 export default selectClosetSlice.reducer;
