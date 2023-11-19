@@ -51,7 +51,8 @@ const Card = styled.div`
     position: absolute;
     bottom: -50px;
     right: -70px;
-    width: 250px;
+    width: 200px;
+    overflow: hidden;
     animation: ${motion} 2s 1s linear infinite alternate; // Apply the animation here
   }
 `;
@@ -59,15 +60,28 @@ const Card = styled.div`
 const TodayWeatherCard = ({ idx }: Props) => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
 
-  const weatherList1 = 
-    [ "", "오늘은 날씨가 화창하고", "오늘은 날씨가 흐리고", "오늘은 구름이 있지만", "오늘은 날씨가 흐리고", "오늘은 날씨가 흐리고", "오늘은 번쩍번쩍 번개가 있어요" ]
+  const weatherList1 = [
+    '',
+    '오늘은 날씨가 화창하고',
+    '오늘은 날씨가 흐리고',
+    '오늘은 구름이 있지만',
+    '오늘은 날씨가 흐리고',
+    '오늘은 날씨가 흐리고',
+    '오늘은 번쩍번쩍 번개가 있어요',
+  ];
 
-    const weatherList2 = 
-    [ "", "맑은 날이네요", "바람이 많이 부네요", "해가 있어 맑은 날이에요", "비가 올 예정이에요", "눈이 올 예정이에요", "번개를 조심하세요" ]
+  const weatherList2 = [
+    '',
+    '맑은 날이네요',
+    '바람이 많이 부네요',
+    '해가 있어 맑은 날이에요',
+    '비가 올 예정이에요',
+    '눈이 올 예정이에요',
+    '번개를 조심하세요',
+  ];
 
-    const firstTip: string = window.localStorage.getItem('first');
-    const secondTip: string = window.localStorage.getItem('second');
-
+  const firstTip: string = window.localStorage.getItem('first');
+  const secondTip: string = window.localStorage.getItem('second');
 
   // dynamically Loading image 힘들었다
   useEffect(() => {
@@ -87,7 +101,10 @@ const TodayWeatherCard = ({ idx }: Props) => {
           <TodayDate />
         </div>
         {imageSrc ? <img src={imageSrc} alt="Weather Icon" className="icon" /> : null}
-        <div className="text-WebBody1">{weatherList1[idx]} <br />{weatherList2[idx]}</div>
+        <div className="text-WebBody1">
+          {weatherList1[idx]} <br />
+          {weatherList2[idx]}
+        </div>
         <div>
           <div className="text-WebBody4">TIP. {firstTip}</div>
           <div className="text-WebBody4">TIP. {secondTip}</div>
