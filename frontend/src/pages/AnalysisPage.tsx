@@ -39,8 +39,6 @@ const AnalysisPage = () => {
     navigate('/pickpick');
   };
 
-  console.log(code);
-
   if (code === 6001) {
     Swal.fire({
       icon: 'error',
