@@ -40,70 +40,60 @@ const PickPickPage = () => {
 
   // 카테고리 선택 확인
   useEffect(() => {
-    console.log('*****************',selectedOptionMain, selectedOptionMiddle);
-
     // 대분류
     if (selectedOptionMain === '전체') {
-        setCategoryId('000000');
-        setSortBy('initial');
-        setOrderBy(0);
-        setSelectedOptionMiddle("");
-      } 
-      
-      else if (selectedOptionMain === '상의') {
-        setCategoryId('001000');
-        // 중분류
-        if (selectedOptionMiddle === '맨투맨') {
-          setCategoryId('001005');
-        } else if (selectedOptionMiddle === '후드') {
-          setCategoryId('001004');
-        } else if (selectedOptionMiddle === '반팔') {
-          setCategoryId('001001');
-        } else {
-          setSelectedOptionMiddle("");
-        }
-      } 
-      
-      else if (selectedOptionMain === '하의') {
-        setCategoryId('003000');
-        // 중분류
-        if (selectedOptionMiddle === '청바지') {
-          setCategoryId('003002');
-        } else if (selectedOptionMiddle === '반바지') {
-          setCategoryId('003009');
-        } else if (selectedOptionMiddle === '카고팬츠') {
-          setCategoryId('003004');
-        } else {
-          setSelectedOptionMiddle("");
-        }
-      } 
-      
-      else if (selectedOptionMain === '아우터') {
-        setCategoryId('002000');
-        // 중분류
-        if (selectedOptionMiddle === '패딩') {
-          setCategoryId('002012');
-        } else if (selectedOptionMiddle === '코트') {
-          setCategoryId('002007');
-        } else if (selectedOptionMiddle === '자켓') {
-          setCategoryId('002004');
-        } else {
-          setSelectedOptionMiddle("");
-        }
-      } 
-      
-      else if (selectedOptionMain === '아이템') {
-        setCategoryId('011000');
-        // 중분류
-        if (selectedOptionMiddle === '귀마개') {
-          setCategoryId('011006');
-        } else if (selectedOptionMiddle === '장갑') {
-          setCategoryId('011011');
-        } else if (selectedOptionMiddle === '목도리') {
-          setCategoryId('011010');
-        } else {
-          setSelectedOptionMiddle("");
-        }
+      setCategoryId('000000');
+      setSortBy('initial');
+      setOrderBy(0);
+      setSelectedOptionMiddle('');
+    } else if (selectedOptionMain === '상의') {
+      setCategoryId('001000');
+      // 중분류
+      if (selectedOptionMiddle === '맨투맨') {
+        setCategoryId('001005');
+      } else if (selectedOptionMiddle === '후드') {
+        setCategoryId('001004');
+      } else if (selectedOptionMiddle === '반팔') {
+        setCategoryId('001001');
+      } else {
+        setSelectedOptionMiddle('');
+      }
+    } else if (selectedOptionMain === '하의') {
+      setCategoryId('003000');
+      // 중분류
+      if (selectedOptionMiddle === '청바지') {
+        setCategoryId('003002');
+      } else if (selectedOptionMiddle === '반바지') {
+        setCategoryId('003009');
+      } else if (selectedOptionMiddle === '카고팬츠') {
+        setCategoryId('003004');
+      } else {
+        setSelectedOptionMiddle('');
+      }
+    } else if (selectedOptionMain === '아우터') {
+      setCategoryId('002000');
+      // 중분류
+      if (selectedOptionMiddle === '패딩') {
+        setCategoryId('002012');
+      } else if (selectedOptionMiddle === '코트') {
+        setCategoryId('002007');
+      } else if (selectedOptionMiddle === '자켓') {
+        setCategoryId('002004');
+      } else {
+        setSelectedOptionMiddle('');
+      }
+    } else if (selectedOptionMain === '아이템') {
+      setCategoryId('011000');
+      // 중분류
+      if (selectedOptionMiddle === '귀마개') {
+        setCategoryId('011006');
+      } else if (selectedOptionMiddle === '장갑') {
+        setCategoryId('011011');
+      } else if (selectedOptionMiddle === '목도리') {
+        setCategoryId('011010');
+      } else {
+        setSelectedOptionMiddle('');
+      }
     }
 
     // 정렬
@@ -119,16 +109,10 @@ const PickPickPage = () => {
     } else {
       setSortBy('color');
     }
-
-    console.log('픽픽페이지에서 내가 선택한 카테고리: ', selectedOptionMain, selectedOptionMiddle, selectedOptionSort)
   }, [selectedOptionMain, selectedOptionMiddle, selectedOptionSort]);
 
   // 선택한 옷 리스트
   const selectedClosetIds = useSelector((state: RootState) => state.closet.selectedClosetIds);
-
-  useEffect(() => {
-    console.log('selectedClosetIds:', selectedClosetIds);
-  }, [selectedClosetIds]);
 
   // 이 페이지에 처음 들어오면 무조건 전체
   useEffect(() => {
@@ -165,10 +149,7 @@ const PickPickPage = () => {
 
   useEffect(() => {
     fetchData();
-    console.log('11111111111111111111111찐막', categoryId)
   }, [categoryId, sortBy, orderBy]);
-
-
 
   // 제출하기 버튼 동작 시 -> 리덕스에 선택한 옷 정보 저장 후 분석 페이지로 이동
   const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = event => {
@@ -192,12 +173,6 @@ const PickPickPage = () => {
         const axiosInstance = authInstance({ ContentType: 'application/json' });
         const response = await axiosInstance.post('/ai-check-outfits/check', requestData);
 
-        if (response.data) {
-          console.log(response.data.data);
-        } else {
-          // alert('옷 목록이 없어요')
-        }
-        
         return response.data.data;
       } catch (error) {
         console.log('착장 검사 실패:', error);
