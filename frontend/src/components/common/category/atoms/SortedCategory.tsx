@@ -31,8 +31,6 @@ interface SortedCategoryProps {
 const SortedCategory: React.FC<SortedCategoryProps> = ({ selectedOption, setSelectedOption }) => {
   const categories: string[] = ['정렬', '등록', '많이 입은', '적게 입은', '색깔'];
 
-  console.log(selectedOption)
-
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setSelectedOption(e.target.id);
   };

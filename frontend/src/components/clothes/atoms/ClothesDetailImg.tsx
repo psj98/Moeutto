@@ -29,7 +29,6 @@ const ClothesDetailImg = ({ imgUrl, id, isStar }: PropsType ) => {
             const axiosInstance = authInstance({ ContentType: 'application/json' });
             const response = await axiosInstance.get(`/clothes/star/${id}`);
 
-            console.log('즐겨찾기 등록/해제 성공', response)
             setStar(response.data.data.star)
         } catch (error) {
             console.log('즐겨찾기 등록/해제 실패', error)

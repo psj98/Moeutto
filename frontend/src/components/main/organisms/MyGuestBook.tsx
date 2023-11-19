@@ -20,7 +20,6 @@ const MyGuestBook = ({ setIsAlertModalOpen }: MyGuestBookProps) => {
             const axiosInstance = authInstance({ ContentType: 'application/json' });
             const response = await axiosInstance.get('/guestbooks');
 
-            console.log('방명록 목록 조회 성공', response.data.data)
             setMyGuestBookData(response.data.data)
         } catch (error) {
             console.log('방명록 목록 조회 실패', error)

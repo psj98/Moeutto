@@ -42,7 +42,6 @@ const TutorialPage = () => {
             disableOnInteraction: false,
           }}
           pagination={{ clickable: true }}
-          onSwiper={swiper => console.log(swiper)}
           onSlideChange={handleSlideChange}>
           <SwiperSlide>
             <div className="flex justify-center mt-6">

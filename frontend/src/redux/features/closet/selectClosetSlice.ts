@@ -58,7 +58,6 @@ const selectClosetSlice = createSlice({
         // 리스트에 있으면 삭제
         state.selectedClosetIds = selectedClosetIds.filter(cloth => cloth.id !== clothesId.id);
       }
-      console.log(state.selectedClosetIds);
     },
   },
 });

@@ -54,9 +54,6 @@ const CalendarPage = () => {
         likeOutfit,
       });
 
-      console.log('착장 평가 성공', response);
-      console.log('옷 평가 완료', isLikedOutFit);
-
       setUpdateCalendar(!updateCalendar);
     } catch (error) {
       console.log('착장 평가 실패', error);
@@ -65,8 +62,6 @@ const CalendarPage = () => {
 
   // 제출하기
   const onHandleSubmitScore = (number: number): void => {
-    console.log('1. 제출하기 버튼을 눌렀다');
-    console.log('넘버는?', number);
     postScoreData(number);
     setIsOpenedScoreModal(!isOpenedScoreModal);
     // 싫어요 누른 경우

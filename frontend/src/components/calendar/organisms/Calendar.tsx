@@ -84,7 +84,6 @@ const Calendar = ({
                 "regDate": format(selectedDate, 'yyyy-MM-dd').toString()
             });
 
-            console.log('캘린더 목록 조회 성공', response.data.data)
             setCalendarDataList(response.data.data)
          
         } catch (error) {

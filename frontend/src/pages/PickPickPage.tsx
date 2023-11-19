@@ -40,8 +40,6 @@ const PickPickPage = () => {
 
   // 카테고리 선택 확인
   useEffect(() => {
-    console.log('전체 떠야됨', selectedOptionMain);
-
     // 중분류
     if (selectedOptionMiddle === '패딩') {
       setCategoryId('002012');
@@ -93,10 +91,6 @@ const PickPickPage = () => {
   // 선택한 옷 리스트
   const selectedClosetIds = useSelector((state: RootState) => state.closet.selectedClosetIds);
 
-  useEffect(() => {
-    console.log('selectedClosetIds:', selectedClosetIds);
-  }, [selectedClosetIds]);
-
   // 옷 목록 조회
   const [clothesData, setClothesData] = useState<ClothesItem[]>([]);
 
@@ -109,8 +103,6 @@ const PickPickPage = () => {
         sortBy,
         orderBy,
       });
-
-      console.log('옷 목록 데이터 조회 성공', response.data);
 
       if (response.data.data) {
         setClothesData(response.data.data);
@@ -147,18 +139,11 @@ const PickPickPage = () => {
       },
     };
 
-    console.log(requestData);
     const postData = async () => {
       try {
         // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
         const axiosInstance = authInstance({ ContentType: 'application/json' });
         const response = await axiosInstance.post('/ai-check-outfits/check', requestData);
-
-        if (response.data) {
-          console.log(response.data.data);
-        } else {
-          // alert('옷 목록이 없어요')
-        }
 
         return response.data.data;
       } catch (error) {
