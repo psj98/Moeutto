@@ -7,7 +7,7 @@ const Graph = ({ graphResult }) => {
         <>
             <LinearTemp temperature={graphResult?.temperature} />
             <LinearBright darkness={graphResult?.darkness} />
-            <Coordinate seasonX={graphResult?.seasonX} seasonY={graphResult?.seasonY} />
+            <Coordinate seasonX={graphResult?.temperature} seasonY={graphResult?.darkness} />
         </>
     )
 }
