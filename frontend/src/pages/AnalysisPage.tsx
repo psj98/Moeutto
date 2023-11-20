@@ -43,7 +43,7 @@ const AnalysisPage = () => {
     if (localStorage.getItem('analysis')) {
       setAnalysisResult(JSON.parse(localStorage.getItem('analysis')).data);
     }
-  }, [analysisResult]);
+  }, []);
   return (
     <>
       <div className="text-WebBody3">오늘 입은 옷은 과연 몇 점일까요?</div>
