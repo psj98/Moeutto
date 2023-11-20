@@ -81,6 +81,11 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none; /* Firefox */
   background-color: #fff7f9;
+  /* 드래그 방지 */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 ::-webkit-scrollbar {
