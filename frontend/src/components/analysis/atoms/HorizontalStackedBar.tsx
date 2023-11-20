@@ -7,6 +7,7 @@ import {
   Legend,
 } from 'chart.js/auto';
 import { Bar } from 'react-chartjs-2'; // specific한 타입의 차트 import 필요
+import { AnalysisDataType } from '../../../pages/AnalysisPage';
 
 ChartJS.register(
   CategoryScale,
@@ -49,13 +50,22 @@ const options = {
   },
 };
 
+const originalData: AnalysisDataType = JSON.parse(localStorage.getItem('analysis')).data;
+
+// 새로운 데이터 생성
+const processedData = originalData.clothesResult.map(item => {
+  return item.fitnessNum === -1 ? 0 : item.fitnessNum;
+});
+
+console.log(processedData);
+
 const HorizontalStackedBar = () => {
   const data = {
     labels: ['Total Score'],
     datasets: [
       {
         label: 'Outer',
-        data: [10],
+        data: [processedData[1]],
         backgroundColor: '#6FA8FF',
         // https://github.com/chartjs/Chart.js/issues/9217#issuecomment-1366100375 참고
         borderRadius: [
@@ -66,7 +76,7 @@ const HorizontalStackedBar = () => {
       },
       {
         label: 'Top',
-        data: [20],
+        data: [processedData[0]],
         backgroundColor: '#FF7C7C',
         borderRadius: [
           { topLeft: 0, topRight: 0, bottomLeft: 0, bottomRight: 0 },
@@ -76,7 +86,7 @@ const HorizontalStackedBar = () => {
       },
       {
         label: 'Bottom',
-        data: [25],
+        data: [processedData[2]],
         backgroundColor: '#FFE177',
         borderRadius: [
           { topLeft: 0, topRight: 0, bottomLeft: 0, bottomRight: 0 },
@@ -86,7 +96,7 @@ const HorizontalStackedBar = () => {
       },
       {
         label: 'Item',
-        data: [5],
+        data: [processedData[3]],
         backgroundColor: '#5FDA64',
         borderRadius: [
           { topLeft: 0, topRight: 12, bottomLeft: 0, bottomRight: 12 },
