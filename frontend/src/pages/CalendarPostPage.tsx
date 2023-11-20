@@ -123,7 +123,13 @@ const calendarPostPage = () => {
 
       return response.data;
     } catch (error) {
-      throw new Error('옷 목록 데이터 조회 실패 토큰을 확인하세요');
+      Swal.fire({
+        icon: 'error',
+        html: '친구 옷 목록 데이터 조회 실패 토큰을 확인하세요',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
+      return false;
     }
   };
 
@@ -173,9 +179,14 @@ const calendarPostPage = () => {
 
       return response.data;
     } catch (error) {
-      console.log(error);
-      throw new Error('캘린더 제출 실패했습니다');
+      Swal.fire({
+        icon: 'error',
+        html: '캘린더 제출 실패',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
     }
+    return true;
   };
 
   return (

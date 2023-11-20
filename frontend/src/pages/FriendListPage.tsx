@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 import FriendListTemplate from '../components/friend/templates/FriendListTemplate';
 import { authInstance } from '../api/api';
 /* {
@@ -35,7 +36,13 @@ const FriendListPage = () => {
 
       return response.data;
     } catch (error) {
-      throw new Error('나의 친구 목록 데이터 조회 실패');
+      Swal.fire({
+        icon: 'error',
+        html: '나의 친구 조회',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
+      return false;
     }
   };
 
@@ -55,7 +62,13 @@ const FriendListPage = () => {
       setData(response.data.data);
       return response.data;
     } catch (error) {
-      throw new Error('나의 친구 검색 데이터 조회 실패');
+      Swal.fire({
+        icon: 'error',
+        html: '친구 검색 실패',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
+      return false;
     }
   };
 
