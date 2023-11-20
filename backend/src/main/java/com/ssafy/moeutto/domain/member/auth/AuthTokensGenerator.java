@@ -35,7 +35,6 @@ public class AuthTokensGenerator {
         String accessToken = jwtTokenProvider.generate(subject, accessTokenExpiresAt);
         String refreshToken = jwtTokenProvider.generate(subject, refreshTokenExpiredAt);
 
-        System.out.println("Our AccessToken : " + accessToken);
 
         return AuthTokens.of(accessToken, refreshToken,ACCESS_TOKEN_EXPIRE_TIME / 1000L);
     }
