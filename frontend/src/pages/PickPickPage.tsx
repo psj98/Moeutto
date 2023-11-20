@@ -28,6 +28,9 @@ export interface ClothesItem {
 const PickPickPage = () => {
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const navigate = useNavigate();
+  const goBackPage = () => {
+    navigate('/pickpick');
+  };
   // 카테고리
   // 대분류
   const [selectedOptionMain, setSelectedOptionMain] = useState<string | null>('전체');
@@ -190,9 +193,19 @@ const PickPickPage = () => {
         return response.data;
       } catch (error) {
         setIsLoading(false);
-        console.log('착장 검사 실패:', error);
 
-        throw new Error('착장 검사 실패');
+        Swal.fire({
+          icon: 'error',
+          html: '착장 검사를 다시 시도해주세요',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        }).then(result => {
+          if (result.isConfirmed) {
+            goBackPage();
+          }
+        });
+
+        return false;
       }
     };
 
