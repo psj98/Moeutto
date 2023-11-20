@@ -3,13 +3,11 @@ package com.ssafy.moeutto.domain.member.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
@@ -40,9 +38,7 @@ public class Member {
     private boolean accountFind;
 
     @Builder(toBuilder = true)
-    public Member(UUID id, String email, String nickname
-                  ,String profileImage, boolean closetFind, boolean accountFind
-                  ) {
+    public Member(UUID id, String email, String nickname, String profileImage, boolean closetFind, boolean accountFind) {
         this.id = id;
         this.email = email;
         this.nickname = nickname;

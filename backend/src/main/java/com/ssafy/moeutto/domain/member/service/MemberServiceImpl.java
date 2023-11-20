@@ -1,6 +1,5 @@
 package com.ssafy.moeutto.domain.member.service;
 
-import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
 import com.ssafy.moeutto.domain.member.dto.request.MemberUpdateMyInfoRequestDto;
 import com.ssafy.moeutto.domain.member.dto.response.MemberMyPageResponseDto;
 import com.ssafy.moeutto.domain.member.entity.Member;
@@ -19,7 +18,6 @@ import java.util.UUID;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
-    private final AuthTokensGenerator authTokensGenerator;
 
     /**
      * 솔이가 요청한 닉네임 검색 API 입니다.
