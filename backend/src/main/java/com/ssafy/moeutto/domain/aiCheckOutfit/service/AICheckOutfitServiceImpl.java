@@ -61,47 +61,40 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
         List<ClientRequestClothesListDto> arr = aiCheckOutfitClientRequestDto.getClothesList();
 //        List<ClientRequestClothesListDto> checkedArr = new ArrayList<>();
 
-        System.out.println("클라이언트로부터 들어온 옷 리스트 : "+Arrays.toString(arr.toArray()));
 
         // 리스트에 4개 초과로 들어올때
-        if(arr.size() > 4){
+        if (arr.size() > 4) {
             throw new BaseException(BaseResponseStatus.OVER_FOUR_ITEMS_ERROR); // 6002 code
         }
 
         // 아이템을 총 4개 모두 고르지 않을때 처리
-        List<Character> check = new ArrayList<>(List.of('0','0','0','0')); // 0 outer 1 top 2 bottom 3 item
+        List<Character> check = new ArrayList<>(List.of('0', '0', '0', '0')); // 0 outer 1 top 2 bottom 3 item
 
-        System.out.println("check 배열 초깃값 : "+Arrays.toString(check.toArray()));
 
-        if(arr.size() < 4){
+        if (arr.size() < 4) {
 
-            for(ClientRequestClothesListDto item : arr){
+            for (ClientRequestClothesListDto item : arr) {
 
-                System.out.println("옷 대분류 : "+item.getLargeCategoryId());
 
-                if(item.getLargeCategoryId().equals("002")) {
+                if (item.getLargeCategoryId().equals("002")) {
                     // 중복 카테고리 체크
-                    if(check.get(0) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
-                    check.set(0,'1');
-                }
-                else if(item.getLargeCategoryId().equals("001")) {
-                    if(check.get(1) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
-                    check.set(1,'1');
-                }
-                else if(item.getLargeCategoryId().equals("003")) {
-                    if(check.get(2) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
-                    check.set(2,'1');
-                }
-                else if(item.getLargeCategoryId().equals("011")) {
-                    if(check.get(3) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
-                    check.set(3,'1');
+                    if (check.get(0) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
+                    check.set(0, '1');
+                } else if (item.getLargeCategoryId().equals("001")) {
+                    if (check.get(1) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
+                    check.set(1, '1');
+                } else if (item.getLargeCategoryId().equals("003")) {
+                    if (check.get(2) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
+                    check.set(2, '1');
+                } else if (item.getLargeCategoryId().equals("011")) {
+                    if (check.get(3) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
+                    check.set(3, '1');
                 }
             }
 
-            System.out.println("클라이언트로부터 들어온 데이터 check 값 : "+Arrays.toString(check.toArray()));
 
             // 상하의가 없을때
-            if(check.get(1) != '1' || check.get(2) != '1'){
+            if (check.get(1) != '1' || check.get(2) != '1') {
                 throw new BaseException(BaseResponseStatus.NO_TOP_OR_BOTTOM_CLOTHES);
             }
         }
@@ -132,7 +125,6 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
                     .frequency(clothesInfo.getFrequency())
                     .build();
 
-            System.out.println("AICheckOutfitService Impl , requestItems : " + requestItems);
 
             if (requestItems.getLargeCategoryId().equals("002")) {
                 outerTemp = requestItems;
@@ -145,10 +137,9 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
             }
         }
 
-        System.out.println("Check 연산 후 : "+Arrays.toString(check.toArray()));
 
         // 빈 카테고리 채워주기 ( 아우터, 아이템 ) check : 0 outer 3 item
-        if(arr.size() < 4) {
+        if (arr.size() < 4) {
             if (check.get(0) == '0') outerTemp = tempRequestItems;
             if (check.get(3) == '0') itemTemp = tempRequestItems;
         }
@@ -167,7 +158,6 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
                 .weatherInfo(pythonRequestWeatherInfo)
                 .build();
 
-        System.out.println("파이썬에 보내는 정보 : " + pythonRequestClothesLists);
 
         /**
          * 여기 아래부턴 테스트 필요
@@ -216,14 +206,11 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
                 // Handle the response data as needed
             } else {
                 // Handle other status codes if needed
-                System.out.println("Received status code: " + statusCode);
             }
         } catch (HttpClientErrorException | HttpServerErrorException e) {
             // Handle HTTP error responses
             HttpStatus statusCode = e.getStatusCode();
             String responseBody = e.getResponseBodyAsString();
-            System.out.println("Received status code: " + statusCode);
-            System.out.println("Response body: " + responseBody);
             e.printStackTrace();
         }
 
@@ -239,7 +226,6 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
             aiCheckOutfitPythonResponseDto =
                     mapper.readValue(pythonResponse, AICheckOutfitPythonResponseDto.class);
 
-            System.out.println("AICHECKOUTFITSERVICE Python Response Dto : " + aiCheckOutfitPythonResponseDto);
         } catch (JsonProcessingException e) {
             throw new BaseException(BaseResponseStatus.JSON_PARSE_ERROR);
         }
@@ -253,11 +239,10 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
 
         for (PythonResponseClothesResult pythonClothes : pythonClothesResult) {
 
-            if(pythonClothes.getClothesId() != -1) {
+            if (pythonClothes.getClothesId() != -1) {
                 IAiCheckOutfitPythonResponseClothesResult tempClothesResult =
                         clothesRepository.findIdAndImageUrlAndLargeCategoryIdByClothesId(pythonClothes.getClothesId());
 
-                System.out.println("AICheckOutfitServiceImpl tempClothesResult : " + tempClothesResult);
 
                 ClientResponseClothesResult tempClientClothes = ClientResponseClothesResult.builder()
                         .clothesId(pythonClothes.getClothesId())
@@ -267,7 +252,6 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
                         .fitnessNum(pythonClothes.getFitnessNum())
                         .build();
 
-                System.out.println("AICheckOutfitServiceImpl tempClientClothes : " + tempClientClothes);
 
 //            clothesIds.add(pythonClothes.getClothesId());
                 clientClothesResult.add(tempClientClothes);
@@ -280,18 +264,16 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
                         .imageUrl("https://moeutto-bucket.s3.ap-northeast-2.amazonaws.com/no_clothes.png")
                         .result("더 정확한 검사를 위해 선택해주세요.")
                         .fitnessNum(0)
-                      .build();
-                
+                        .build();
+
                 clientClothesResult.add(tempClientClothes);
             }
         }
 
-        System.out.println("클라이언트에게 보낼 옷 데이터 : "+Arrays.toString(clientClothesResult.toArray()));
 
         // DB에 저장할 데이터 ( ai_check_outfit , clothes_in_ai_check_outfit 테이블 ) 준비 및 save
         Date now = new Date(System.currentTimeMillis());
 
-        System.out.println("DateTime now() : " + now);
 
         /**
          * 이거 맞는건지 모르겠음.
@@ -307,7 +289,6 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
                 .regDate(now)
                 .build();
 
-        System.out.println("ai_check_outfit 테이블에 저장할 데이터 : " + aiCheckOutfit);
 
         // 저장과 동시에 ai_check_outfit의 id 가져오기
         int ai_check_outfit_id = aiCheckOutfitRepository.save(aiCheckOutfit).getId();
@@ -339,13 +320,13 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
                 .weatherInfo(pythonRequestWeatherInfo)
                 .build();
 
-        System.out.println("AICheckOutfitServiceImpl aiCheckOutfitClientResponseDto : " + aiCheckOutfitClientResponseDto);
 
         return aiCheckOutfitClientResponseDto;
     }
 
     /**
      * 테스트용
+     *
      * @param memberId
      * @param aiCheckOutfitClientRequestDto
      * @return
@@ -365,47 +346,40 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
         List<ClientRequestClothesListDto> arr = aiCheckOutfitClientRequestDto.getClothesList();
 //        List<ClientRequestClothesListDto> checkedArr = new ArrayList<>();
 
-        System.out.println("클라이언트로부터 들어온 옷 리스트 : "+Arrays.toString(arr.toArray()));
 
         // 리스트에 4개 초과로 들어올때
-        if(arr.size() > 4){
+        if (arr.size() > 4) {
             throw new BaseException(BaseResponseStatus.OVER_FOUR_ITEMS_ERROR); // 6002 code
         }
 
         // 아이템을 총 4개 모두 고르지 않을때 처리
-        List<Character> check = Arrays.asList('0','0','0','0'); // 0 outer 1 top 2 bottom 3 item
+        List<Character> check = Arrays.asList('0', '0', '0', '0'); // 0 outer 1 top 2 bottom 3 item
 
-        System.out.println("check 배열 초깃값 : "+Arrays.toString(check.toArray()));
 
-        if(arr.size() < 4){
+        if (arr.size() < 4) {
 
-            for(ClientRequestClothesListDto item : arr){
+            for (ClientRequestClothesListDto item : arr) {
 
-                System.out.println("옷 대분류 : "+item.getLargeCategoryId());
 
-                if(item.getLargeCategoryId().equals("002")) {
+                if (item.getLargeCategoryId().equals("002")) {
                     // 중복 카테고리 체크
-                    if(check.get(0) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
-                    check.set(0,'1');
-                }
-                else if(item.getLargeCategoryId().equals("001")) {
-                    if(check.get(1) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
-                    check.set(1,'1');
-                }
-                else if(item.getLargeCategoryId().equals("003")) {
-                    if(check.get(2) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
-                    check.set(2,'1');
-                }
-                else if(item.getLargeCategoryId().equals("011")) {
-                    if(check.get(3) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
-                    check.set(3,'1');
+                    if (check.get(0) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
+                    check.set(0, '1');
+                } else if (item.getLargeCategoryId().equals("001")) {
+                    if (check.get(1) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
+                    check.set(1, '1');
+                } else if (item.getLargeCategoryId().equals("003")) {
+                    if (check.get(2) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
+                    check.set(2, '1');
+                } else if (item.getLargeCategoryId().equals("011")) {
+                    if (check.get(3) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
+                    check.set(3, '1');
                 }
             }
 
-            System.out.println("클라이언트로부터 들어온 데이터 check 값 : "+Arrays.toString(check.toArray()));
 
             // 상하의가 없을때
-            if(check.get(1) != '1' || check.get(2) != '1'){
+            if (check.get(1) != '1' || check.get(2) != '1') {
                 throw new BaseException(BaseResponseStatus.NO_TOP_OR_BOTTOM_CLOTHES);
             }
         }
@@ -436,7 +410,6 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
                     .frequency(clothesInfo.getFrequency())
                     .build();
 
-            System.out.println("AICheckOutfitService Impl , requestItems : " + requestItems);
 
             if (requestItems.getLargeCategoryId().equals("002")) {
                 outerTemp = requestItems;
@@ -450,8 +423,8 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
         }
 
         // 빈 카테고리 채워주기 ( 아우터, 아이템 ) check : 0 outer 3 item
-        if(check.get(0) == '0') outerTemp = tempRequestItems;
-        if(check.get(3) == '0') itemTemp = tempRequestItems;
+        if (check.get(0) == '0') outerTemp = tempRequestItems;
+        if (check.get(3) == '0') itemTemp = tempRequestItems;
 
         ResponseWeatherInfo pythonRequestWeatherInfo = new ResponseWeatherInfo().toBuilder()
                 .maxTemperature((int) (aiCheckOutfitClientRequestDto.getWeatherInfo().getTmx()))
@@ -467,7 +440,6 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
                 .weatherInfo(pythonRequestWeatherInfo)
                 .build();
 
-        System.out.println("파이썬에 보내는 정보 : " + pythonRequestClothesLists);
 
         return pythonRequestClothesLists;
     }
