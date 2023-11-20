@@ -254,6 +254,7 @@ const PickPickPage = () => {
         setIsLoading(false);
         localStorage.setItem('analysis', JSON.stringify(analysis));
         if (analysis !== false) {
+          localStorage.setItem('analysis', JSON.stringify(analysis));
           navigate('/analysis');
         }
       });
@@ -268,7 +269,7 @@ const PickPickPage = () => {
   };
 
   return (
-    <div className={isLoading ? 'bg-gray-800 bg-opacity-30 me-[100px]' : ' me-[100px]'}>
+    <div className={isLoading ? 'bg-gray-800 bg-opacity-30 me-[200px]' : ' me-[200px]'}>
       {isLoading ? <Loading /> : null}
       <PickComponent
         selectedOptionMain={selectedOptionMain}
