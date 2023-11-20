@@ -61,7 +61,6 @@ const HorizontalStackedBar = ({ originalData }: { originalData: ClothesResultTyp
         return item.fitnessNum === -1 ? 0 : item.fitnessNum / 4;
       });
 
-      console.log('모드리치: ', newData);
       setProcessedData(newData);
     }
   }, [originalData]);
@@ -71,7 +70,7 @@ const HorizontalStackedBar = ({ originalData }: { originalData: ClothesResultTyp
     datasets: [
       {
         label: 'Outer',
-        data: [processedData[1] ? processedData[1] : 0],
+        data: [processedData[0] ? processedData[0] : 0],
         backgroundColor: '#6FA8FF',
         // https://github.com/chartjs/Chart.js/issues/9217#issuecomment-1366100375 참고
         borderRadius: [
@@ -82,7 +81,7 @@ const HorizontalStackedBar = ({ originalData }: { originalData: ClothesResultTyp
       },
       {
         label: 'Top',
-        data: [processedData[0] ? processedData[0] : 0],
+        data: [processedData[1] ? processedData[1] : 0],
         backgroundColor: '#FF7C7C',
         borderRadius: [
           { topLeft: 0, topRight: 0, bottomLeft: 0, bottomRight: 0 },
