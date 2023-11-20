@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -51,23 +51,26 @@ const options = {
 };
 
 const HorizontalStackedBar = () => {
-  const originalData: AnalysisDataType = JSON.parse(localStorage.getItem('analysis')).data;
+  const originalData: AnalysisDataType | undefined = JSON.parse(localStorage.getItem('analysis'))?.data;
 
-  // 새로운 데이터 생성
-  let processedData = [0, 0, 0, 0];
+  const [processedData, setProcessedData] = useState<number[]>([0, 0, 0, 0]);
 
-  processedData = originalData?.clothesResult.map(item => {
-    return item.fitnessNum === -1 ? 0 : item.fitnessNum / 4;
-  });
+  useEffect(() => {
+    if (originalData) {
+      const newData = originalData.clothesResult.map(item => {
+        return item.fitnessNum === -1 ? 0 : item.fitnessNum / 4;
+      });
 
-  console.log(processedData);
+      setProcessedData(newData);
+    }
+  }, [originalData]);
 
   let data = {
     labels: ['Total Score'],
     datasets: [
       {
         label: 'Outer',
-        data: [Number(processedData[1])],
+        data: [processedData[1] ? processedData[1] : 0],
         backgroundColor: '#6FA8FF',
         // https://github.com/chartjs/Chart.js/issues/9217#issuecomment-1366100375 참고
         borderRadius: [
@@ -78,7 +81,7 @@ const HorizontalStackedBar = () => {
       },
       {
         label: 'Top',
-        data: [Number(processedData[0])],
+        data: [processedData[0] ? processedData[0] : 0],
         backgroundColor: '#FF7C7C',
         borderRadius: [
           { topLeft: 0, topRight: 0, bottomLeft: 0, bottomRight: 0 },
@@ -88,7 +91,7 @@ const HorizontalStackedBar = () => {
       },
       {
         label: 'Bottom',
-        data: [Number(processedData[2])],
+        data: [processedData[2] ? processedData[2] : 0],
         backgroundColor: '#FFE177',
         borderRadius: [
           { topLeft: 0, topRight: 0, bottomLeft: 0, bottomRight: 0 },
@@ -98,7 +101,7 @@ const HorizontalStackedBar = () => {
       },
       {
         label: 'Item',
-        data: [Number(processedData[3])],
+        data: [processedData[3] ? processedData[3] : 0],
         backgroundColor: '#5FDA64',
         borderRadius: [
           { topLeft: 0, topRight: 12, bottomLeft: 0, bottomRight: 12 },
@@ -115,7 +118,7 @@ const HorizontalStackedBar = () => {
       datasets: [
         {
           label: 'Outer',
-          data: [Number(processedData[1])],
+          data: [processedData[1] ? processedData[1] : 0],
           backgroundColor: '#6FA8FF',
           // https://github.com/chartjs/Chart.js/issues/9217#issuecomment-1366100375 참고
           borderRadius: [
@@ -126,7 +129,7 @@ const HorizontalStackedBar = () => {
         },
         {
           label: 'Top',
-          data: [Number(processedData[0])],
+          data: [processedData[0] ? processedData[0] : 0],
           backgroundColor: '#FF7C7C',
           borderRadius: [
             { topLeft: 0, topRight: 0, bottomLeft: 0, bottomRight: 0 },
@@ -136,7 +139,7 @@ const HorizontalStackedBar = () => {
         },
         {
           label: 'Bottom',
-          data: [Number(processedData[2])],
+          data: [processedData[2] ? processedData[2] : 0],
           backgroundColor: '#FFE177',
           borderRadius: [
             { topLeft: 0, topRight: 0, bottomLeft: 0, bottomRight: 0 },
@@ -146,7 +149,7 @@ const HorizontalStackedBar = () => {
         },
         {
           label: 'Item',
-          data: [Number(processedData[3])],
+          data: [processedData[3] ? processedData[3] : 0],
           backgroundColor: '#5FDA64',
           borderRadius: [
             { topLeft: 0, topRight: 12, bottomLeft: 0, bottomRight: 12 },
@@ -156,7 +159,6 @@ const HorizontalStackedBar = () => {
         },
       ],
     };
-    console.log([Number(processedData[0])]);
   }, [processedData]);
 
   return (
