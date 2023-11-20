@@ -66,30 +66,28 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
         }
 
         // 아이템을 총 4개 모두 고르지 않을때 처리
-        List<Character> check = new ArrayList<>(List.of('0', '0', '0', '0')); // 0 outer 1 top 2 bottom 3 item
+        int[] check = new int[4];
 
-        if (arr.size() < 4) {
-            for (ClientRequestClothesListDto item : arr) {
-                if (item.getLargeCategoryId().equals("002")) {
-                    // 중복 카테고리 체크
-                    if (check.get(0) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
-                    check.set(0, '1');
-                } else if (item.getLargeCategoryId().equals("001")) {
-                    if (check.get(1) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
-                    check.set(1, '1');
-                } else if (item.getLargeCategoryId().equals("003")) {
-                    if (check.get(2) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
-                    check.set(2, '1');
-                } else if (item.getLargeCategoryId().equals("011")) {
-                    if (check.get(3) == '1') throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
-                    check.set(3, '1');
-                }
+        for (ClientRequestClothesListDto item : arr) {
+            if (item.getLargeCategoryId().equals("002")) {
+                check[0]++;
+            } else if (item.getLargeCategoryId().equals("001")) {
+                check[1]++;
+            } else if (item.getLargeCategoryId().equals("003")) {
+                check[2]++;
+            } else if (item.getLargeCategoryId().equals("011")) {
+                check[3]++;
             }
+        }
 
-            // 상하의가 없을때
-            if (check.get(1) != '1' || check.get(2) != '1') {
-                throw new BaseException(BaseResponseStatus.NO_TOP_OR_BOTTOM_CLOTHES);
-            }
+        // 상하의가 없을때
+        if (check[1] == 0 || check[2] == 0) {
+            throw new BaseException(BaseResponseStatus.NO_TOP_OR_BOTTOM_CLOTHES);
+        }
+
+        // 중복 카테고리 체크
+        if (check[0] >= 2 || check[1] >= 2 || check[2] >= 2 || check[3] >= 2) {
+            throw new BaseException(BaseResponseStatus.DUPLICATED_LARGE_CATEGORY);
         }
 
         // 아우터나 아이템중 선택안된 값에 default 값 채워주기 위함
@@ -131,8 +129,8 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
 
         // 빈 카테고리 채워주기 ( 아우터, 아이템 ) check : 0 outer 3 item
         if (arr.size() < 4) {
-            if (check.get(0) == '0') outerTemp = tempRequestItems;
-            if (check.get(3) == '0') itemTemp = tempRequestItems;
+            if (check[0] == 0) outerTemp = tempRequestItems;
+            if (check[3] == 0) itemTemp = tempRequestItems;
         }
 
         ResponseWeatherInfo pythonRequestWeatherInfo = new ResponseWeatherInfo().toBuilder()
@@ -288,7 +286,8 @@ public class AICheckOutfitServiceImpl implements AICheckOutfitService {
      * @throws BaseException
      */
     @Override
-    public PythonRequestClothesList checkOutfitTest(UUID memberId, AICheckOutfitClientRequestDto aiCheckOutfitClientRequestDto) throws BaseException {
+    public PythonRequestClothesList checkOutfitTest(UUID memberId, AICheckOutfitClientRequestDto
+            aiCheckOutfitClientRequestDto) throws BaseException {
         // 사용자 체크
         memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
