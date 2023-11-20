@@ -8,20 +8,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ClientResponseClothesResult {
 
-    int clothesId;
-    String largeCategoryId;
-    String imageUrl;
-    String result;
-    int fitnessNum;
+    private int clothesId;
+
+    private String largeCategoryId;
+
+    private String imageUrl;
+
+    private String result;
+
+    private int fitnessNum;
 
     @Builder(toBuilder = true)
-    public ClientResponseClothesResult(int clothesId, String largeCategoryId, String imageUrl,
-                                       String result, int fitnessNum){
+    public ClientResponseClothesResult(int clothesId, String largeCategoryId, String imageUrl, String result, int fitnessNum) {
         this.clothesId = clothesId;
         this.largeCategoryId = largeCategoryId;
         this.imageUrl = imageUrl;
         this.result = result;
         this.fitnessNum = fitnessNum;
     }
-
 }

@@ -33,7 +33,7 @@ public class FriendController {
         try {
             UUID memberId = getMemberIdFromToken(token);
 
-            List<IMyFriendsListResponseDto> myFriendsList = friendsService.searchMyFollowinglist(memberId);
+            List<IMyFriendsListResponseDto> myFriendsList = friendsService.searchMyFollowingList(memberId);
             return baseResponseService.getSuccessResponse(myFriendsList);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);

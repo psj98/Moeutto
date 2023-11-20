@@ -38,13 +38,14 @@ public class AICheckOutfitController {
 
     /**
      * 테스트용
+     *
      * @param token
      * @param aiCheckOutfitClientRequestDto
      * @return
      */
     @PostMapping("/test")
     public BaseResponse<Object> aiCheckOutfitTest(@RequestHeader(value = "accessToken", required = false) String token,
-                                              @RequestBody AICheckOutfitClientRequestDto aiCheckOutfitClientRequestDto) {
+                                                  @RequestBody AICheckOutfitClientRequestDto aiCheckOutfitClientRequestDto) {
         try {
             UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
