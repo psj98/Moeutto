@@ -190,9 +190,9 @@ const PickPickPage = () => {
         const axiosInstance = authInstance({ ContentType: 'application/json' });
         const response = await axiosInstance.post('/ai-check-outfits/check', requestData);
 
-        const code = JSON.parse(localStorage.getItem('analysis')).code;
+        // const code = JSON.parse(localStorage.getItem('analysis')).code;
 
-        if (code === 6001) {
+        if (response.data.code === 6001) {
           Swal.fire({
             icon: 'error',
             html: '같은 카테고리가 중복됩니다',
@@ -201,7 +201,7 @@ const PickPickPage = () => {
           });
           goBackPage();
           return false;
-        } else if (code === 6002) {
+        } else if (response.data.code === 6002) {
           Swal.fire({
             icon: 'error',
             html: '옷이 네벌 초과로 입력되었습니다.',
@@ -210,7 +210,7 @@ const PickPickPage = () => {
           });
           goBackPage();
           return false;
-        } else if (code === 6003) {
+        } else if (response.data.code === 6003) {
           Swal.fire({
             icon: 'error',
             html: '같은 대분류가 여러개 입력되었습니다.',
@@ -219,7 +219,7 @@ const PickPickPage = () => {
           });
           goBackPage();
           return false;
-        } else if (code === 6004) {
+        } else if (response.data.code === 6004) {
           Swal.fire({
             icon: 'error',
             html: '상의나 하의가 없습니다.',
