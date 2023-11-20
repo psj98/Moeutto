@@ -252,8 +252,8 @@ const PickPickPage = () => {
     if (requestData) {
       postData().then(analysis => {
         setIsLoading(false);
+        localStorage.setItem('analysis', JSON.stringify(analysis));
         if (analysis !== false) {
-          localStorage.setItem('analysis', JSON.stringify(analysis));
           navigate('/analysis');
         }
       });
