@@ -8,15 +8,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ResponseWeatherInfo {
 
-    int minTemperature;
-    int maxTemperature;
-    int weather; // 날씨 정보
+    private int minTemperature;
+
+    private int maxTemperature;
+
+    private int weather; // 날씨 정보
 
     @Builder(toBuilder = true)
-    public ResponseWeatherInfo(int minTemperature, int maxTemperature, int weather){
+    public ResponseWeatherInfo(int minTemperature, int maxTemperature, int weather) {
         this.minTemperature = minTemperature;
         this.maxTemperature = maxTemperature;
         this.weather = weather;
     }
-
 }

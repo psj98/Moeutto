@@ -4,7 +4,6 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.ssafy.moeutto.domain.S3.dto.response.S3ResponseDto;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
-import com.ssafy.moeutto.domain.member.jwt.JwtTokenProvider;
 import com.ssafy.moeutto.global.response.BaseException;
 import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
@@ -18,17 +17,17 @@ import java.io.InputStream;
 
 @Service
 @RequiredArgsConstructor
-public class S3ServiceImpl implements S3Service{
+public class S3ServiceImpl implements S3Service {
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
     private final AmazonS3Client amazonS3Client;
-//    private final JwtTokenProvider jwtTokenProvider;
     private final AuthTokensGenerator authTokensGenerator;
 
     /**
      * S3 에 이미지 업로드 후, S3ResponseDto 반환 ( accessURL 등등 들어있음 )
+     *
      * @param token
      * @param file
      * @return
@@ -42,10 +41,8 @@ public class S3ServiceImpl implements S3Service{
         String filename = responseDto.getStoredName();
 
         String folderName = authTokensGenerator.extractMemberId(token).toString();
-        System.out.println("S3 upload folderName : "+ folderName);
 
         folderName = folderName + "/" + filename;
-        System.out.println("S3 upload folderName + fileName : "+ folderName);
 
         InputStream inputStream = file.getInputStream();
 
@@ -60,16 +57,13 @@ public class S3ServiceImpl implements S3Service{
             objectMetadata.setContentType(file.getContentType());
             objectMetadata.setContentLength(inputStream.available());
 
-//            amazonS3Client.putObject(bucketName, filename, file.getInputStream(), objectMetadata);
             amazonS3Client.putObject(bucketName, folderName, file.getInputStream(), objectMetadata);
 
-
             // 이미지 접근 URL의 경우, amazonS3Client.getUrl() 메소드를 통해 이미지 접근 URL 얻음
-//            String accessUrl = amazonS3Client.getUrl(bucketName, filename).toString();
             String accessUrl = amazonS3Client.getUrl(bucketName, folderName).toString();
 
             responseDto.setAccessUrl(accessUrl);
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new BaseException(BaseResponseStatus.S3_FILE_IO_ERROR);
         } finally {
             try {
@@ -84,15 +78,12 @@ public class S3ServiceImpl implements S3Service{
 
     /**
      * UUID로 폴더 생성
+     *
      * @param folderName
      * @throws BaseException
      */
     @Override
     public void createFolder(String folderName) throws BaseException {
-
-        amazonS3Client.putObject(bucketName, folderName + "/",new ByteArrayInputStream(new byte[0]),new ObjectMetadata());
-        
+        amazonS3Client.putObject(bucketName, folderName + "/", new ByteArrayInputStream(new byte[0]), new ObjectMetadata());
     }
-
-
 }

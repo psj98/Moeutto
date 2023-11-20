@@ -63,17 +63,26 @@ class KJGResponse(BaseModel):
         item=clothes_request.item.thickness
     )
     jg_temperature = get_temperature(jg_temperature)
-
+    clothes_request_list = [clothes_request.outer, clothes_request.top, clothes_request.bottom, clothes_request.item]
     # color에서 darkness 뽑고 mk_comment에서 온도 가져와서 합산
     # jg_color = Color(clothes_request.outer.color, clothes_request.top.color, clothes_request.bottom.color, clothes_request.item.color)
-    jg_color = Color(
-        outer = clothes_request.outer.color,
-        top = clothes_request.top.color,
-        bottom = clothes_request.bottom.color,
-        item = clothes_request.item.color
-    )
+    jg_color=[clothes_request.outer.color, clothes_request.top.color, clothes_request.bottom.color, clothes_request.item.color]
+    jg_empty=[]
+    for i in clothes_request_list:
+        if i.clothesId == -1:
+            jg_empty.append(0)
+        else:
+            jg_empty.append(1)
 
-    darkness = get_darkness(jg_color)
+
+    # jg_color = Color(
+    #     outer = clothes_request.outer.color,
+    #     top = clothes_request.top.color,
+    #     bottom = clothes_request.bottom.color,
+    #     item = clothes_request.item.color
+    # )
+
+    darkness = get_darkness(jg_color,jg_empty)
 
     # score List : outer top bottom item 순으로 append
     # score = calculate_total_score(thickness, min_temp, max_temp, season)

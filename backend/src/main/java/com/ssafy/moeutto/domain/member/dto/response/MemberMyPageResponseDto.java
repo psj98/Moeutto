@@ -9,8 +9,11 @@ import lombok.NoArgsConstructor;
 public class MemberMyPageResponseDto {
 
     private String nickname;
+
     private String imageUrl;
+
     private boolean closetFind;
+
     private boolean accountFind;
 
     @Builder(toBuilder = true)

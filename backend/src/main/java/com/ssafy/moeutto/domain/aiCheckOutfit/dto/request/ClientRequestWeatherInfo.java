@@ -7,10 +7,13 @@ import lombok.Data;
 @AllArgsConstructor
 public class ClientRequestWeatherInfo {
 
-    int sky;
-    int pty;
-    double tmn;
-    double tmx;
-    double wsd;
+    private int sky;
+    
+    private int pty;
 
+    private double tmn;
+
+    private double tmx;
+
+    private double wsd;
 }

@@ -14,7 +14,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthTokensGenerator {
 
-//    private static final String BEARER_TYPE = "Bearer";
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24;    // 30분
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24;   // 2시간
 
@@ -35,9 +34,7 @@ public class AuthTokensGenerator {
         String accessToken = jwtTokenProvider.generate(subject, accessTokenExpiresAt);
         String refreshToken = jwtTokenProvider.generate(subject, refreshTokenExpiredAt);
 
-        System.out.println("Our AccessToken : " + accessToken);
-
-        return AuthTokens.of(accessToken, refreshToken,ACCESS_TOKEN_EXPIRE_TIME / 1000L);
+        return AuthTokens.of(accessToken, refreshToken, ACCESS_TOKEN_EXPIRE_TIME / 1000L);
     }
 
     /**
