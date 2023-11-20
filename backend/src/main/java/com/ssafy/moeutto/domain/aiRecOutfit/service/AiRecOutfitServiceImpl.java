@@ -31,7 +31,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.*;
 
 @Slf4j
@@ -81,7 +80,6 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
         List<AiRecOutfitCombineByAIResponseDto> aiRecOutfitCombineByAIResponseDtoList = aiRecOutfitCombineListByAIResponseDto.getAiRecommend(); // 날짜별 추천 옷
 
         // AI 추천 옷 목록 (날짜별) 데이터 정제
-        int idx = 0;
         for (AiRecOutfitCombineByAIResponseDto aiRecOutfitCombineByAIResponseDto : aiRecOutfitCombineByAIResponseDtoList) {
             Date recDate = Date.valueOf(aiRecOutfitCombineByAIResponseDto.getRecDate());
 
@@ -227,7 +225,6 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
     @Override
     public AiRecOutfitCombineListByAIResponseDto getOutfitByAI(AiRecOutfitCombineByAIRequestDto aiRecOutfitCombineByAIRequestDto) throws JsonProcessingException, BaseException {
         // Go로 정보 전달
-//        String url = "http://localhost:9000/recommend"; // Go 요청 url
         RestTemplate restTemplate = new RestTemplate();
 
         // 착장 추천 및 데이터 반환

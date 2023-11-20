@@ -43,9 +43,7 @@ public class MemberController {
     public String kakaoLogin() {
         try {
             // 인가 코드 발급
-            String code = memberLoginService.getKakaoPermissionCode();
-
-            return code;
+            return memberLoginService.getKakaoPermissionCode();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -69,7 +67,6 @@ public class MemberController {
         // Access Token을 이용하여 카카오 서버에서 유저정보(이메일,닉네임,프사) 받아오기
         HashMap<String, Object> userInfo = memberLoginService.getUserInfo(accessToken);
 
-
         String email = userInfo.get("email").toString();
         String nickname = userInfo.get("nickname").toString();
         userInfo.put("kakaoAccessToken", accessToken);
@@ -92,11 +89,9 @@ public class MemberController {
      */
     @PostMapping("/find-nickname")
     public BaseResponse<Object> findNicknameForSol(@RequestBody FindNicknameRequestDto requestDto) {
-
         try {
-
-            log.info("1234" + requestDto.getEmail());
             String nickname = memberService.findNicknameForSol(requestDto.getEmail());
+
             return baseResponseService.getSuccessResponse(nickname);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);

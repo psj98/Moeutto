@@ -30,24 +30,19 @@ public class MemberLoginServiceImpl implements MemberLoginService {
         String code = "";
 
         try {
-
             URL url = new URL(requestURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestMethod("GET");
-//            connection.setDoOutput(true);
 
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
-
 
             String str = "response_type=code" +
                     "&client_id=" + apiKey +
                     "&redirect_uri=" + redirectURL;
-//                    +"&scope=profile_nickname,profile_image,account_email";
 
             bw.write(str);
             bw.flush();
-
 
             // 요청 통해 얻어온 데이터 읽어옴
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -58,14 +53,10 @@ public class MemberLoginServiceImpl implements MemberLoginService {
                 result.append(line);
             }
 
-            // 확인용
-
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result.toString());
 
             code = element.getAsJsonObject().get("code").getAsString();
-
-            // 확인용
 
             br.close();
             bw.close();
@@ -85,13 +76,11 @@ public class MemberLoginServiceImpl implements MemberLoginService {
      */
     @Override
     public String KakaoAccessToken(String code) {
-
         String accessToken = "";
         String refreshToken = "";
         String requestURL = "https://kauth.kakao.com/oauth/token";
 
         try {
-
             URL url = new URL(requestURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -107,16 +96,13 @@ public class MemberLoginServiceImpl implements MemberLoginService {
             String str = "grant_type=authorization_code" +
                     "&client_id=" + apiKey +
                     "&redirect_uri=" + redirectURL +
-//                    "&response_type=code"+
                     "&code=" + code +
                     "&client_secret=" + secret;
-
 
             bw.write(str);
             bw.flush();
 
             int responseCode = connection.getResponseCode();
-            // 확인용
 
             // 요청 통해 얻어온 데이터 읽어옴
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -127,15 +113,11 @@ public class MemberLoginServiceImpl implements MemberLoginService {
                 result.append(line);
             }
 
-            // 확인용
-
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result.toString());
 
             accessToken = element.getAsJsonObject().get("access_token").getAsString();
             refreshToken = element.getAsJsonObject().get("refresh_token").getAsString();
-
-            // 확인용
 
             br.close();
             bw.close();
@@ -163,10 +145,7 @@ public class MemberLoginServiceImpl implements MemberLoginService {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
-            connection.setRequestProperty("Authorization","Bearer "+ accessToken);
-
-
-            // 상태 코드 확인용
+            connection.setRequestProperty("Authorization", "Bearer " + accessToken);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line = "";
@@ -181,15 +160,11 @@ public class MemberLoginServiceImpl implements MemberLoginService {
             JsonObject kakaoAccount = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 
             String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-            // 에러나면 얘때문임
-//            String profileImage = properties.getAsJsonObject().get("image").getAsString();
 
             String email = kakaoAccount.getAsJsonObject().get("email").getAsString();
 
             userInfo.put("nickname", nickname);
             userInfo.put("email", email);
-
-//            userInfo.put("profileImage",profileImage);
         } catch (IOException e) {
             e.printStackTrace();
         }

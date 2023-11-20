@@ -15,5 +15,5 @@ public interface FriendService {
 
     List<IFriendsListResponseDto> searchFriends(UUID memberId, FriendsListRequestDto requestDto) throws BaseException;
 
-    List<IMyFriendsListResponseDto> searchMyFollowinglist(UUID memberId) throws BaseException;
+    List<IMyFriendsListResponseDto> searchMyFollowingList(UUID memberId) throws BaseException;
 }
