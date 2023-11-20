@@ -50,18 +50,18 @@ const options = {
   },
 };
 
-const originalData: AnalysisDataType = JSON.parse(localStorage.getItem('analysis')).data;
-
-// 새로운 데이터 생성
-let processedData = [0, 0, 0, 0];
-
-processedData = originalData?.clothesResult.map(item => {
-  return item.fitnessNum === -1 ? 0 : item.fitnessNum / 4;
-});
-
-console.log(processedData);
-
 const HorizontalStackedBar = () => {
+  const originalData: AnalysisDataType = JSON.parse(localStorage.getItem('analysis')).data;
+
+  // 새로운 데이터 생성
+  let processedData = [0, 0, 0, 0];
+
+  processedData = originalData?.clothesResult.map(item => {
+    return item.fitnessNum === -1 ? 0 : item.fitnessNum / 4;
+  });
+
+  console.log(processedData);
+
   let data = {
     labels: ['Total Score'],
     datasets: [
