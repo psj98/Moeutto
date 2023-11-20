@@ -11,8 +11,8 @@ public interface GuestBookRepository extends JpaRepository<GuestBook, Integer> {
     /**
      * 방명록 주인 id에 따른 글 목록을 조회합니다.
      *
-     * @param ownerId
-     * @return
+     * @param ownerId - 방명록 주인 id
+     * @return List<GuestBook> - 방명록 목록
      */
     List<GuestBook> findAllByOwnerId(UUID ownerId);
 }

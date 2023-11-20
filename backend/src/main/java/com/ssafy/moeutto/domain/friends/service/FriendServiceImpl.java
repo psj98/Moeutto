@@ -42,7 +42,7 @@ public class FriendServiceImpl implements FriendService {
     public void follow(UUID memberId, FollowRequestDto requestDto) throws BaseException {
 
         /* 멤버 확인 */
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+        memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
         Optional<Member> follow = memberRepository.findByEmail(requestDto.getEmail());
 
@@ -81,7 +81,7 @@ public class FriendServiceImpl implements FriendService {
     @Override
     public List<IFriendsListResponseDto> searchFriends(UUID memberId, FriendsListRequestDto requestDto) throws BaseException {
         /* 멤버 체크 */
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+        memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
         return memberRepository.findFriendsListByNickname(memberId, requestDto.getNickname());
     }
@@ -94,13 +94,11 @@ public class FriendServiceImpl implements FriendService {
      * @throws BaseException
      */
     @Override
-    public List<IMyFriendsListResponseDto> searchMyFollowinglist(UUID memberId) throws BaseException {
+    public List<IMyFriendsListResponseDto> searchMyFollowingList(UUID memberId) throws BaseException {
 
         /* 멤버 체크 */
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+        memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
-        List<IMyFriendsListResponseDto> list = memberRepository.findMyFollowingListById(memberId);
-
-        return list;
+        return memberRepository.findMyFollowingListById(memberId);
     }
 }

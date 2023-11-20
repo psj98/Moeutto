@@ -8,12 +8,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AICheckOutfitPythonResponseClothesResult {
 
-    int id;
-    String largeCategoryId;
-    String imageUrl;
+    private int id;
+
+    private String largeCategoryId;
+
+    private String imageUrl;
 
     @Builder(toBuilder = true)
-    public AICheckOutfitPythonResponseClothesResult(int id, String largeCategoryId, String imageUrl){
+    public AICheckOutfitPythonResponseClothesResult(int id, String largeCategoryId, String imageUrl) {
         this.id = id;
         this.largeCategoryId = largeCategoryId;
         this.imageUrl = imageUrl;
