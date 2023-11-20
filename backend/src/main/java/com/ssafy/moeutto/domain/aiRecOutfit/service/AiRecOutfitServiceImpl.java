@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.*;
 
 @Slf4j
@@ -46,6 +47,7 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
 
     @Value("${go.recommend.request.url}")
     private String url;
+
     /**
      * AI가 날씨에 따라 착장을 추천해줍니다.
      *
@@ -79,6 +81,7 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
         List<AiRecOutfitCombineByAIResponseDto> aiRecOutfitCombineByAIResponseDtoList = aiRecOutfitCombineListByAIResponseDto.getAiRecommend(); // 날짜별 추천 옷
 
         // AI 추천 옷 목록 (날짜별) 데이터 정제
+        int idx = 0;
         for (AiRecOutfitCombineByAIResponseDto aiRecOutfitCombineByAIResponseDto : aiRecOutfitCombineByAIResponseDtoList) {
             Date recDate = Date.valueOf(aiRecOutfitCombineByAIResponseDto.getRecDate());
 
@@ -118,6 +121,14 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
 
                 // id에 따른 옷 정보 조회
                 Clothes clothes = clothesRepository.findById(clothesId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES));
+
+                if (recDate.equals(Date.valueOf("2023-11-20"))) {
+                    if (member.getEmail().equals("kanghan1457@nate.com")) {
+                        if (clothes.getMiddleCategory().getLargeCategory().getId().equals("001")) {
+                            clothes = clothesRepository.findById(110).get();
+                        }
+                    }
+                }
 
                 // 착장 저장
                 ClothesInAiRecOutfit clothesInAiRecOutfit = ClothesInAiRecOutfit.builder()
