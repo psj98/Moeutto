@@ -1,5 +1,6 @@
 // import Swal from 'sweetalert2';
 // import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import ClothAnalysisTemplate from '../components/analysis/templates/ClothAnalysisTemplate';
 
 export interface ClothesResultType {
@@ -31,15 +32,24 @@ export interface AnalysisDataType {
   weatherInfo: WeatherInfoType;
 }
 
-const analysisResult: AnalysisDataType = JSON.parse(localStorage.getItem('analysis')).data;
+// const analysisResult: AnalysisDataType = JSON.parse(localStorage.getItem('analysis')).data;
 // const navigate = useNavigate();
 // const code = JSON.parse(localStorage.getItem('analysis')).code;
 
 const AnalysisPage = () => {
+  const [analysisResult, setAnalysisResult] = useState<AnalysisDataType | undefined | Boolean>(undefined);
+
+  useEffect(() => {
+    if (localStorage.getItem('analysis')) {
+      setAnalysisResult(JSON.parse(localStorage.getItem('analysis')).data);
+    }
+  }, [analysisResult]);
   return (
     <>
       <div className="text-WebBody3">오늘 입은 옷은 과연 몇 점일까요?</div>
-      <ClothAnalysisTemplate analysisResult={analysisResult} />
+      {analysisResult !== undefined && analysisResult !== false ? (
+        <ClothAnalysisTemplate analysisResult={analysisResult as AnalysisDataType} />
+      ) : null}
     </>
   );
 };
