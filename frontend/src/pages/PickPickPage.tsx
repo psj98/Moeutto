@@ -190,9 +190,14 @@ const PickPickPage = () => {
         return response.data;
       } catch (error) {
         setIsLoading(false);
-        console.log('착장 검사 실패:', error);
 
-        throw new Error('착장 검사 실패');
+        Swal.fire({
+          icon: 'error',
+          html: '착장 검사를 다시 시도해주세요',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        });
+        return false;
       }
     };
 

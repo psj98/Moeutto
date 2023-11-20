@@ -56,7 +56,13 @@ function AddClothPage() {
         });
       }
     } catch (error) {
-      throw new Error('옷 등록 실패');
+      Swal.fire({
+        icon: 'error',
+        html: '옷 등록 실패',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
+      return false;
     }
   };
 
@@ -76,8 +82,13 @@ function AddClothPage() {
         return response;
       }
     } catch (error) {
-      console.log(error);
-      throw new Error('AI로 배경 지우기 실패');
+      Swal.fire({
+        icon: 'error',
+        html: 'AI로 배경 지우기 실패',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
+      return false;
     }
     return true;
   };
