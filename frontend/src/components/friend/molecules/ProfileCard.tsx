@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { authInstance } from '../../../api/api';
 import { FriendType } from '../../../pages/FriendListPage';
 
@@ -26,7 +27,13 @@ const ProfileCard = ({ nickname, email, profileImage, isFollowing }: FriendType)
 
         return response;
       } catch (error) {
-        throw new Error('팔로우 팔로잉 실패');
+        Swal.fire({
+          icon: 'error',
+          html: '팔로잉 실패',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        });
+        return false;
       }
     };
 
