@@ -7,7 +7,7 @@ import {
   Legend,
 } from 'chart.js/auto';
 import { Bar } from 'react-chartjs-2'; // specific한 타입의 차트 import 필요
-import { AnalysisDataType } from '../../../pages/AnalysisPage';
+import { ClothesResultType } from '../../../pages/AnalysisPage';
 
 ChartJS.register(
   CategoryScale,
@@ -50,17 +50,18 @@ const options = {
   },
 };
 
-const HorizontalStackedBar = () => {
-  const originalData: AnalysisDataType | undefined = JSON.parse(localStorage.getItem('analysis'))?.data;
+const HorizontalStackedBar = ({ originalData }: { originalData: ClothesResultType[] }) => {
+  // const originalData: AnalysisDataType | undefined = JSON.parse(localStorage.getItem('analysis'))?.data;
 
   const [processedData, setProcessedData] = useState<number[]>([0, 0, 0, 0]);
 
   useEffect(() => {
     if (originalData) {
-      const newData = originalData.clothesResult.map(item => {
+      const newData = originalData.map(item => {
         return item.fitnessNum === -1 ? 0 : item.fitnessNum / 4;
       });
 
+      console.log('모드리치: ', newData);
       setProcessedData(newData);
     }
   }, [originalData]);
