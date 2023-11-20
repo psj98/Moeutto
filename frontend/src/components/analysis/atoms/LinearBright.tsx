@@ -4,7 +4,7 @@ const LinearBright = ({ darkness }) => {
 
   return (
     <>
-      <div className="flex items-center justify-center mt-10 mb-10 w-[90%] rounded-full shadow-md">
+      <div className="flex items-center justify-center w-[90%] rounded-full shadow-md">
         <div className="bg-gray-button w-full h-[94px] rounded-[40px] flex justify-center items-center">
           <img src="/images/cool.png" alt="시원" className="m-2" />
           <div className="w-[70%] h-[30%] rounded-2xl shadow-lg bg-white">
