@@ -38,7 +38,7 @@ const CategoryTap = ({ title, id, categories, uniqueId }) => {
     } catch (error) {
       console.log('옷 목록 데이터 조회 실패', error);
 
-      throw new Error('옷 목록 데이터 조회 실패');
+      return false;
     }
   };
 
