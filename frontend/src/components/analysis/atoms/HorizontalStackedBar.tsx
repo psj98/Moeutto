@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -53,19 +53,21 @@ const options = {
 const originalData: AnalysisDataType = JSON.parse(localStorage.getItem('analysis')).data;
 
 // 새로운 데이터 생성
-const processedData = originalData.clothesResult.map(item => {
-  return item.fitnessNum === -1 ? 0 : item.fitnessNum;
+let processedData = [0, 0, 0, 0];
+
+processedData = originalData.clothesResult.map(item => {
+  return item.fitnessNum === -1 ? 0 : item.fitnessNum / 4;
 });
 
 console.log(processedData);
 
 const HorizontalStackedBar = () => {
-  const data = {
+  let data = {
     labels: ['Total Score'],
     datasets: [
       {
         label: 'Outer',
-        data: [processedData[1]],
+        data: [Number(processedData[1])],
         backgroundColor: '#6FA8FF',
         // https://github.com/chartjs/Chart.js/issues/9217#issuecomment-1366100375 참고
         borderRadius: [
@@ -76,7 +78,7 @@ const HorizontalStackedBar = () => {
       },
       {
         label: 'Top',
-        data: [processedData[0]],
+        data: [Number(processedData[0])],
         backgroundColor: '#FF7C7C',
         borderRadius: [
           { topLeft: 0, topRight: 0, bottomLeft: 0, bottomRight: 0 },
@@ -86,7 +88,7 @@ const HorizontalStackedBar = () => {
       },
       {
         label: 'Bottom',
-        data: [processedData[2]],
+        data: [Number(processedData[2])],
         backgroundColor: '#FFE177',
         borderRadius: [
           { topLeft: 0, topRight: 0, bottomLeft: 0, bottomRight: 0 },
@@ -96,7 +98,7 @@ const HorizontalStackedBar = () => {
       },
       {
         label: 'Item',
-        data: [processedData[3]],
+        data: [Number(processedData[3])],
         backgroundColor: '#5FDA64',
         borderRadius: [
           { topLeft: 0, topRight: 12, bottomLeft: 0, bottomRight: 12 },
@@ -106,6 +108,56 @@ const HorizontalStackedBar = () => {
       },
     ],
   };
+
+  useEffect(() => {
+    data = {
+      labels: ['Total Score'],
+      datasets: [
+        {
+          label: 'Outer',
+          data: [Number(processedData[1])],
+          backgroundColor: '#6FA8FF',
+          // https://github.com/chartjs/Chart.js/issues/9217#issuecomment-1366100375 참고
+          borderRadius: [
+            { topLeft: 12, topRight: 0, bottomLeft: 12, bottomRight: 0 },
+            // { topLeft: 0, topRight: 0, bottomLeft: 12, bottomRight: 12 },
+          ],
+          borderSkipped: false, // To make all side rounded
+        },
+        {
+          label: 'Top',
+          data: [Number(processedData[0])],
+          backgroundColor: '#FF7C7C',
+          borderRadius: [
+            { topLeft: 0, topRight: 0, bottomLeft: 0, bottomRight: 0 },
+            // { topLeft: 0, topRight: 0, bottomLeft: 12, bottomRight: 12 },
+          ],
+          borderSkipped: false, // To make all side rounded
+        },
+        {
+          label: 'Bottom',
+          data: [Number(processedData[2])],
+          backgroundColor: '#FFE177',
+          borderRadius: [
+            { topLeft: 0, topRight: 0, bottomLeft: 0, bottomRight: 0 },
+            // { topLeft: 0, topRight: 0, bottomLeft: 12, bottomRight: 12 },
+          ],
+          borderSkipped: false, // To make all side roundeds
+        },
+        {
+          label: 'Item',
+          data: [Number(processedData[3])],
+          backgroundColor: '#5FDA64',
+          borderRadius: [
+            { topLeft: 0, topRight: 12, bottomLeft: 0, bottomRight: 12 },
+            // { topLeft: 0, topRight: 0, bottomLeft: 12, bottomRight: 12 },
+          ],
+          borderSkipped: false, // To make all side rounded
+        },
+      ],
+    };
+    console.log([Number(processedData[0])]);
+  }, [processedData]);
 
   return (
     <div className="overflow-auto">
