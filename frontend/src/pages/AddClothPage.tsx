@@ -62,8 +62,9 @@ function AddClothPage() {
         showCancelButton: false,
         confirmButtonText: '확인',
       });
-      return false;
+      return null;
     }
+    return true;
   };
 
   const removeBG = async (imgWithBG: File) => {
