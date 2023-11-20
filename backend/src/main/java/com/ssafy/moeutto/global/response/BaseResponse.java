@@ -9,8 +9,11 @@ import lombok.NoArgsConstructor;
 public class BaseResponse<T> {
 
     private boolean isSuccess; // 성공, 실패 여부
+
     private String message; // 메시지
+
     private int code; // 코드
+
     private T data; // 전달 데이터
 
     @Builder

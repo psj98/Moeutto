@@ -35,7 +35,6 @@ public interface MemberRepository extends JpaRepository<Member, UUID> {
      * @param nickname
      * @return
      */
-
     @Query(value = "SELECT m.email as email, " +
             "m.profile_image as profileImageUrl, " +
             "m.nickname as nickname, " +

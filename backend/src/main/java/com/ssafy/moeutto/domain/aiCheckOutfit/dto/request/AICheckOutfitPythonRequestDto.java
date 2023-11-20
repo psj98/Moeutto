@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AICheckOutfitPythonRequestDto {
 
-    PythonRequestClothesList clothesList;
-    ClientRequestWeatherInfo weatherInfo;
+    private PythonRequestClothesList clothesList;
+
+    private ClientRequestWeatherInfo weatherInfo;
 
     @Builder(toBuilder = true)
-    public AICheckOutfitPythonRequestDto(PythonRequestClothesList clothesList, ClientRequestWeatherInfo weatherInfo){
+    public AICheckOutfitPythonRequestDto(PythonRequestClothesList clothesList, ClientRequestWeatherInfo weatherInfo) {
         this.clothesList = clothesList;
         this.weatherInfo = weatherInfo;
     }
-
 }
