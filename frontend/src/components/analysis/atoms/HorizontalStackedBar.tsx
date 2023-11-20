@@ -55,7 +55,7 @@ const originalData: AnalysisDataType = JSON.parse(localStorage.getItem('analysis
 // 새로운 데이터 생성
 let processedData = [0, 0, 0, 0];
 
-processedData = originalData.clothesResult.map(item => {
+processedData = originalData?.clothesResult.map(item => {
   return item.fitnessNum === -1 ? 0 : item.fitnessNum / 4;
 });
 
