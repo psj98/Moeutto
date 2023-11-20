@@ -7,18 +7,16 @@ interface ClothProps {
 
 const motion = keyframes`
 0% {
-  transform: translateY(100%);
+  transform: translateX(-100%);
 }
-/* ... (이하 애니메이션 내용 복사) ... */
 100% {
-  transform: translateY(0);
+  transform: translateX(0%);
 }
-
 `;
 
-const ChartBackground = styled.div<{ height: number }>`
-  width: 59px;
-  height: 119px;
+const ChartBackground = styled.div<{ width: number }>`
+  height: 20px;
+  width: 120px;
   background-color: #e7e7e7;
   position: relative;
   border-radius: 10px;
@@ -31,37 +29,38 @@ const ChartBackground = styled.div<{ height: number }>`
     bottom: 0;
     left: 0;
     right: 0;
-    height: ${props => (props.height ? `${props.height}%` : '0px')};
+    height: inherit;
+    width: ${props => (props.width ? `${props.width}%` : '0px')};
     background-color: #faa0bf;
     border-radius: 10px;
   }
 `;
 
 const VerticalBar = ({ score }: ClothProps) => {
-  const [barHeight, setBarHeight] = useState<number>(0);
+  const [barwidth, setBarwidth] = useState<number>(0);
 
-  function calBarHeight() {
+  function calBarwidth() {
     if (typeof score === 'number') {
-      setBarHeight(score);
+      setBarwidth(score);
     } else {
-      setBarHeight(Number(score));
+      setBarwidth(Number(score));
     }
   }
 
   useEffect(() => {
     if (score) {
-      calBarHeight();
+      calBarwidth();
     }
     const domObj = window.document.getElementById(score.toString());
 
     if (domObj) {
-      // domObj.style.height = `barHeight.toString()+%`;
+      // domObj.style.width = `barwidth.toString()+%`;
       domObj.classList.add('bar'); // 애니메이션 클래스 추가
     }
   }, [score]);
 
   return (
-    <ChartBackground height={barHeight}>
+    <ChartBackground width={barwidth}>
       <div id={score?.toString()} className="bar"></div>
     </ChartBackground>
   );
