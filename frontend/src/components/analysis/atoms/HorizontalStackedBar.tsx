@@ -7,7 +7,7 @@ import {
   Legend,
 } from 'chart.js/auto';
 import { Bar } from 'react-chartjs-2'; // specific한 타입의 차트 import 필요
-import { AnalysisDataType } from '../../../pages/AnalysisPage';
+import { ClothesResultType } from '../../../pages/AnalysisPage';
 
 ChartJS.register(
   CategoryScale,
@@ -50,14 +50,14 @@ const options = {
   },
 };
 
-const HorizontalStackedBar = () => {
-  const originalData: AnalysisDataType | undefined = JSON.parse(localStorage.getItem('analysis'))?.data;
+const HorizontalStackedBar = ({ originalData }: { originalData: ClothesResultType[] }) => {
+  // const originalData: AnalysisDataType | undefined = JSON.parse(localStorage.getItem('analysis'))?.data;
 
   const [processedData, setProcessedData] = useState<number[]>([0, 0, 0, 0]);
 
   useEffect(() => {
     if (originalData) {
-      const newData = originalData.clothesResult.map(item => {
+      const newData = originalData.map(item => {
         return item.fitnessNum === -1 ? 0 : item.fitnessNum / 4;
       });
 
@@ -70,7 +70,7 @@ const HorizontalStackedBar = () => {
     datasets: [
       {
         label: 'Outer',
-        data: [processedData[1] ? processedData[1] : 0],
+        data: [processedData[0] ? processedData[0] : 0],
         backgroundColor: '#6FA8FF',
         // https://github.com/chartjs/Chart.js/issues/9217#issuecomment-1366100375 참고
         borderRadius: [
@@ -81,7 +81,7 @@ const HorizontalStackedBar = () => {
       },
       {
         label: 'Top',
-        data: [processedData[0] ? processedData[0] : 0],
+        data: [processedData[1] ? processedData[1] : 0],
         backgroundColor: '#FF7C7C',
         borderRadius: [
           { topLeft: 0, topRight: 0, bottomLeft: 0, bottomRight: 0 },
