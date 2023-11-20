@@ -15,12 +15,12 @@ import java.io.IOException;
 /**
  * S3 테스트용
  */
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/s3")
 public class S3Controller {
+
     private final S3Service s3Service;
     private final BaseResponseService baseResponseService;
 

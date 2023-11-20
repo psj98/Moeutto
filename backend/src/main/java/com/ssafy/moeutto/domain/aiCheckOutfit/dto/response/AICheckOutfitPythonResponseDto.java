@@ -10,16 +10,17 @@ import java.util.List;
 @NoArgsConstructor
 public class AICheckOutfitPythonResponseDto {
 
-    List<PythonResponseClothesResult> clothesResult;
-    ResponseClothesFeature clothesFeature;
-    ResponseWeatherInfo weatherInfo;
+    private List<PythonResponseClothesResult> clothesResult;
+
+    private ResponseClothesFeature clothesFeature;
+
+    private ResponseWeatherInfo weatherInfo;
 
     @Builder(toBuilder = true)
     public AICheckOutfitPythonResponseDto(List<PythonResponseClothesResult> clothesResult, ResponseClothesFeature clothesFeature,
-                                          ResponseWeatherInfo weatherInfo){
+                                          ResponseWeatherInfo weatherInfo) {
         this.clothesResult = clothesResult;
         this.clothesFeature = clothesFeature;
         this.weatherInfo = weatherInfo;
     }
-
 }
