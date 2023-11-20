@@ -20,7 +20,7 @@ public class S3Config {
     private String region = "ap-northeast-2";
 
     @Bean
-    public AmazonS3Client amazonS3Client(){
+    public AmazonS3Client amazonS3Client() {
         BasicAWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
 
         return (AmazonS3Client) AmazonS3ClientBuilder.standard()
@@ -28,6 +28,4 @@ public class S3Config {
                 .withRegion(region)
                 .build();
     }
-
-
 }

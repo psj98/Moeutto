@@ -4,9 +4,9 @@ import java.util.HashMap;
 
 public interface MemberLoginService {
 
-    public String getKakaoPermissionCode();
+    String getKakaoPermissionCode();
 
-    public String KakaoAccessToken(String code);
+    String KakaoAccessToken(String code);
 
-    public HashMap<String, Object> getUserInfo(String accessToken);
+    HashMap<String, Object> getUserInfo(String accessToken);
 }
