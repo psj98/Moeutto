@@ -26,8 +26,6 @@ const MyPage = () => {
   const redirectUrl = process.env.REACT_APP_LOGOUT_REDIRECT_URL;
   const link = `https://kauth.kakao.com/oauth/logout?client_id=bab90d2b24304bb1f5b4c07938ff0fcc&logout_redirect_uri=${redirectUrl}`;
 
-  console.log(sessionStorage.getItem('kakaoAccessToken'));
-
   const logout = () => {
     window.location.href = link;
   };
@@ -57,7 +55,6 @@ const MyPage = () => {
 
     if (response.data) {
       if (response.data.code !== 2005) {
-        console.log('1234', response.data);
         sessionStorage.setItem('nickname', nickname);
 
         Swal.fire({
@@ -85,35 +82,22 @@ const MyPage = () => {
   };
 
   const handleClosetChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log('옷장 공개 ? ', e.target.checked);
     const flag = e.target.checked;
 
     setClosetFind(flag);
   };
 
   const handleAccountChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log('handleAccountChange 함수 호출됨');
-    console.log('계정 공개 ? ', e.target.checked);
     const flag = e.target.checked;
 
     setAccountFind(flag);
   };
-
-  useEffect(() => {
-    console.log('바뀐 옷장 공개 여부 ? ', closetFind);
-  }, [closetFind]);
-
-  useEffect(() => {
-    console.log('바뀐 계정 공개 여부 ? ', accountFind);
-  }, [accountFind]);
 
   const fetchData = async () => {
     try {
       // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
       const axiosInstance = authInstance({ ContentType: 'application/json' });
       const response = await axiosInstance.get('/members/my-page');
-
-      console.log('마이페이지 데이터 조회 성공', response.data.data);
 
       setMyPageInfo(response.data.data);
       setImageUrl(response.data.data.imageUrl);
@@ -122,12 +106,13 @@ const MyPage = () => {
 
       setAccountFind(response.data.data.accountFind);
       setClosetFind(response.data.data.closetFind);
-
-      console.log(myPageInfo);
     } catch (error) {
-      console.log('마이페이지 데이터 조회 실패', error);
-
-      throw new Error('마이페이지 데이터 조회 실패 토큰 및 저장된 데이터를 확인하세요');
+      Swal.fire({
+        icon: 'error',
+        html: '마이페이지 데이터 조회 실패 토큰 및 저장된 데이터를 확인하세요',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
     }
   };
 

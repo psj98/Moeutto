@@ -35,7 +35,7 @@ export interface GuestBookListType {
 
 const FriendClosetPage = () => {
   const navigate = useNavigate();
-  
+
   const goMainPage = () => {
     navigate('/main');
   };
@@ -58,16 +58,13 @@ const FriendClosetPage = () => {
 
   // 카테고리 선택 확인
   useEffect(() => {
-
     // 대분류
     if (selectedOptionMain === '전체') {
       setCategoryId('000000');
       setSortBy('initial');
       setOrderBy(0);
-      setSelectedOptionMiddle("");
-    } 
-    
-    else if (selectedOptionMain === '상의') {
+      setSelectedOptionMiddle('');
+    } else if (selectedOptionMain === '상의') {
       setCategoryId('001000');
       // 중분류
       if (selectedOptionMiddle === '맨투맨') {
@@ -77,11 +74,9 @@ const FriendClosetPage = () => {
       } else if (selectedOptionMiddle === '반팔') {
         setCategoryId('001001');
       } else {
-        setSelectedOptionMiddle("");
+        setSelectedOptionMiddle('');
       }
-    } 
-    
-    else if (selectedOptionMain === '하의') {
+    } else if (selectedOptionMain === '하의') {
       setCategoryId('003000');
       // 중분류
       if (selectedOptionMiddle === '청바지') {
@@ -91,11 +86,9 @@ const FriendClosetPage = () => {
       } else if (selectedOptionMiddle === '카고팬츠') {
         setCategoryId('003004');
       } else {
-        setSelectedOptionMiddle("");
+        setSelectedOptionMiddle('');
       }
-    } 
-    
-    else if (selectedOptionMain === '아우터') {
+    } else if (selectedOptionMain === '아우터') {
       setCategoryId('002000');
       // 중분류
       if (selectedOptionMiddle === '패딩') {
@@ -105,11 +98,9 @@ const FriendClosetPage = () => {
       } else if (selectedOptionMiddle === '자켓') {
         setCategoryId('002004');
       } else {
-        setSelectedOptionMiddle("");
+        setSelectedOptionMiddle('');
       }
-    } 
-    
-    else if (selectedOptionMain === '아이템') {
+    } else if (selectedOptionMain === '아이템') {
       setCategoryId('011000');
       // 중분류
       if (selectedOptionMiddle === '귀마개') {
@@ -119,10 +110,10 @@ const FriendClosetPage = () => {
       } else if (selectedOptionMiddle === '목도리') {
         setCategoryId('011010');
       } else {
-        setSelectedOptionMiddle("");
+        setSelectedOptionMiddle('');
       }
-  }
-    
+    }
+
     if (selectedOptionSort === '정렬') {
       setSortBy('initial');
     } else if (selectedOptionSort === '등록순') {
@@ -135,7 +126,7 @@ const FriendClosetPage = () => {
     } else {
       setSortBy('color');
     }
-  }, [selectedOptionMain, selectedOptionMiddle, selectedOptionSort])
+  }, [selectedOptionMain, selectedOptionMiddle, selectedOptionSort]);
 
   // 선택한 옷 리스트
   const selectedClosetIds = useSelector((state: RootState) => state.closet.selectedClosetIds);
@@ -173,7 +164,13 @@ const FriendClosetPage = () => {
       }
       return response.data;
     } catch (error) {
-      throw new Error('친구 옷 목록 데이터 조회 실패 토큰을 확인하세요');
+      Swal.fire({
+        icon: 'error',
+        html: '친구 옷 목록 데이터 조회 실패 토큰을 확인하세요',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+      });
+      return false;
     }
   };
 
@@ -255,7 +252,13 @@ const FriendClosetPage = () => {
           setClothesData([]);
         }
       } catch (error) {
-        throw new Error('게스트북 작성 실패');
+        Swal.fire({
+          icon: 'error',
+          html: '게스트북 작성 실패',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        });
+        return false;
       }
       return true;
     };
