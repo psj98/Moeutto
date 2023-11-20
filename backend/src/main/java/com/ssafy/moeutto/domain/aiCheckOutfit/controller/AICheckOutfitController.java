@@ -32,7 +32,6 @@ public class AICheckOutfitController {
             AICheckOutfitClientResponseDto aiCheckOutfitClientResponseDto = aiCheckOutfitService.checkOutfit(memberId, aiCheckOutfitClientRequestDto);
             return baseResponseService.getSuccessResponse(aiCheckOutfitClientResponseDto);
         } catch (BaseException e) {
-            System.out.println(e.status);
             return baseResponseService.getFailureResponse(e.status);
         }
     }
