@@ -32,20 +32,20 @@ public class AICheckOutfitController {
             AICheckOutfitClientResponseDto aiCheckOutfitClientResponseDto = aiCheckOutfitService.checkOutfit(memberId, aiCheckOutfitClientRequestDto);
             return baseResponseService.getSuccessResponse(aiCheckOutfitClientResponseDto);
         } catch (BaseException e) {
-            System.out.println(e.status);
             return baseResponseService.getFailureResponse(e.status);
         }
     }
 
     /**
      * 테스트용
+     *
      * @param token
      * @param aiCheckOutfitClientRequestDto
      * @return
      */
     @PostMapping("/test")
     public BaseResponse<Object> aiCheckOutfitTest(@RequestHeader(value = "accessToken", required = false) String token,
-                                              @RequestBody AICheckOutfitClientRequestDto aiCheckOutfitClientRequestDto) {
+                                                  @RequestBody AICheckOutfitClientRequestDto aiCheckOutfitClientRequestDto) {
         try {
             UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 

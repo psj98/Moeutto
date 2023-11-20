@@ -3,7 +3,6 @@ package com.ssafy.moeutto.domain.aiCheckOutfit.dto.response;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.joda.time.DateTime;
 
 import java.util.Date;
 import java.util.List;
@@ -12,20 +11,23 @@ import java.util.List;
 @NoArgsConstructor
 public class AICheckOutfitClientResponseDto {
 
-    int id;
-    Date regDate;
-    List<ClientResponseClothesResult> clothesResult;
-    ResponseClothesFeature clothesFeature;
-    ResponseWeatherInfo weatherInfo;
+    private int id;
+
+    private Date regDate;
+
+    private List<ClientResponseClothesResult> clothesResult;
+
+    private ResponseClothesFeature clothesFeature;
+
+    private ResponseWeatherInfo weatherInfo;
 
     @Builder(toBuilder = true)
     public AICheckOutfitClientResponseDto(int id, Date regDate, List<ClientResponseClothesResult> clothesResult,
-                                          ResponseClothesFeature clothesFeature, ResponseWeatherInfo weatherInfo){
+                                          ResponseClothesFeature clothesFeature, ResponseWeatherInfo weatherInfo) {
         this.id = id;
         this.regDate = regDate;
         this.clothesResult = clothesResult;
         this.clothesFeature = clothesFeature;
         this.weatherInfo = weatherInfo;
     }
-
 }

@@ -87,8 +87,7 @@ public class CalendarServiceImpl implements CalendarService {
 
     /**
      * 캘린더를 불러오는 서비스입니다.
-     * <p>
-     * <p>
+     *
      * ToDo : JWT TOKEN 기능 완성되면 연동 후 테스트 필요 -> 2023-10-30 테스트완료
      *
      * @param regDate

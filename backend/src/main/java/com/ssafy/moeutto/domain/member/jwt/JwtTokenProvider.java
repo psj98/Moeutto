@@ -11,12 +11,10 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * JWT 토큰 만들어주는 유틸 클래스
  */
-
 @Component
 public class JwtTokenProvider {
 
