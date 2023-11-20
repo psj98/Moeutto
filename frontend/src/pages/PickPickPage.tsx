@@ -195,7 +195,7 @@ const PickPickPage = () => {
         if (code === 6001) {
           Swal.fire({
             icon: 'error',
-            html: '데이터 파싱 에러',
+            html: '같은 카테고리가 중복됩니다',
             showCancelButton: false,
             confirmButtonText: '확인',
           });
@@ -254,6 +254,7 @@ const PickPickPage = () => {
         setIsLoading(false);
         localStorage.setItem('analysis', JSON.stringify(analysis));
         if (analysis !== false) {
+          localStorage.setItem('analysis', JSON.stringify(analysis));
           navigate('/analysis');
         }
       });
@@ -268,7 +269,7 @@ const PickPickPage = () => {
   };
 
   return (
-    <div className={isLoading ? 'bg-gray-800 bg-opacity-30' : ''}>
+    <div className={isLoading ? 'bg-gray-800 bg-opacity-30 me-[200px]' : ' me-[200px]'}>
       {isLoading ? <Loading /> : null}
       <PickComponent
         selectedOptionMain={selectedOptionMain}
