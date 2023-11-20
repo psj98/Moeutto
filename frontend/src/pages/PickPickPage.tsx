@@ -269,7 +269,7 @@ const PickPickPage = () => {
   };
 
   return (
-    <div className={isLoading ? 'bg-gray-800 bg-opacity-30 me-[200px]' : ' me-[200px]'}>
+    <div className={isLoading ? 'bg-gray-800 bg-opacity-30 mb-[200px]' : ' mb-[200px]'}>
       {isLoading ? <Loading /> : null}
       <PickComponent
         selectedOptionMain={selectedOptionMain}
