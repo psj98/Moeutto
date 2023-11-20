@@ -69,7 +69,6 @@ public class MemberController {
         // Access Token을 이용하여 카카오 서버에서 유저정보(이메일,닉네임,프사) 받아오기
         HashMap<String, Object> userInfo = memberLoginService.getUserInfo(accessToken);
 
-        System.out.println("Member Controller : " + userInfo);
 
         String email = userInfo.get("email").toString();
         String nickname = userInfo.get("nickname").toString();

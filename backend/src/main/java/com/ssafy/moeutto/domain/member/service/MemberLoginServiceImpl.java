@@ -1,14 +1,12 @@
 package com.ssafy.moeutto.domain.member.service;
 
 import com.google.gson.*;
-import com.google.gson.stream.JsonReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -32,7 +30,6 @@ public class MemberLoginServiceImpl implements MemberLoginService {
         String code = "";
 
         try {
-            System.out.println("print redirectURL : "+redirectURL);
 
             URL url = new URL(requestURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -51,8 +48,6 @@ public class MemberLoginServiceImpl implements MemberLoginService {
             bw.write(str);
             bw.flush();
 
-            int responseCode = connection.getResponseCode();
-            System.out.println("인가코드 responseCode : " + responseCode);
 
             // 요청 통해 얻어온 데이터 읽어옴
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -64,7 +59,6 @@ public class MemberLoginServiceImpl implements MemberLoginService {
             }
 
             // 확인용
-            System.out.println("response body : " + result);
 
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result.toString());
@@ -72,7 +66,6 @@ public class MemberLoginServiceImpl implements MemberLoginService {
             code = element.getAsJsonObject().get("code").getAsString();
 
             // 확인용
-            System.out.println("Permission code : " + code);
 
             br.close();
             bw.close();
@@ -98,7 +91,6 @@ public class MemberLoginServiceImpl implements MemberLoginService {
         String requestURL = "https://kauth.kakao.com/oauth/token";
 
         try {
-            System.out.println("redirectURL : "+redirectURL);
 
             URL url = new URL(requestURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -119,14 +111,12 @@ public class MemberLoginServiceImpl implements MemberLoginService {
                     "&code=" + code +
                     "&client_secret=" + secret;
 
-            System.out.println("URL : " + url.toString() + "?" + str);
 
             bw.write(str);
             bw.flush();
 
             int responseCode = connection.getResponseCode();
             // 확인용
-            System.out.println("토근 발급 responseCode : " + responseCode);
 
             // 요청 통해 얻어온 데이터 읽어옴
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -138,7 +128,6 @@ public class MemberLoginServiceImpl implements MemberLoginService {
             }
 
             // 확인용
-//            System.out.println("response body : "+result);
 
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result.toString());
@@ -147,8 +136,6 @@ public class MemberLoginServiceImpl implements MemberLoginService {
             refreshToken = element.getAsJsonObject().get("refresh_token").getAsString();
 
             // 확인용
-            System.out.println("Kakao accessToken : " + accessToken);
-//            System.out.println("refreshToken : "+ refreshToken);
 
             br.close();
             bw.close();
@@ -178,10 +165,8 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 
             connection.setRequestProperty("Authorization","Bearer "+ accessToken);
 
-            int responseCode = connection.getResponseCode();
 
             // 상태 코드 확인용
-            System.out.println("responseCode : " + responseCode);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line = "";
@@ -204,7 +189,6 @@ public class MemberLoginServiceImpl implements MemberLoginService {
             userInfo.put("nickname", nickname);
             userInfo.put("email", email);
 
-//            System.out.println("profileImage : "+profileImage);
 //            userInfo.put("profileImage",profileImage);
         } catch (IOException e) {
             e.printStackTrace();

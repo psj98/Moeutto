@@ -10,7 +10,6 @@ import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -49,7 +48,6 @@ public class OAuthLoginService {
             return newMember(email, nickname);
         }
 
-        System.out.println("findMember : " + memberOptional.get());
 
         return memberOptional.get().getId();
     }
