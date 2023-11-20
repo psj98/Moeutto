@@ -42,10 +42,8 @@ public class S3ServiceImpl implements S3Service{
         String filename = responseDto.getStoredName();
 
         String folderName = authTokensGenerator.extractMemberId(token).toString();
-        System.out.println("S3 upload folderName : "+ folderName);
 
         folderName = folderName + "/" + filename;
-        System.out.println("S3 upload folderName + fileName : "+ folderName);
 
         InputStream inputStream = file.getInputStream();
 
