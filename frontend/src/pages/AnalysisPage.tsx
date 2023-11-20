@@ -1,5 +1,5 @@
-import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
+// import Swal from 'sweetalert2';
+// import { useNavigate } from 'react-router-dom';
 import ClothAnalysisTemplate from '../components/analysis/templates/ClothAnalysisTemplate';
 
 export interface ClothesResultType {
@@ -31,60 +31,11 @@ export interface AnalysisDataType {
   weatherInfo: WeatherInfoType;
 }
 
+const analysisResult: AnalysisDataType = JSON.parse(localStorage.getItem('analysis')).data;
+// const navigate = useNavigate();
+// const code = JSON.parse(localStorage.getItem('analysis')).code;
+
 const AnalysisPage = () => {
-  const analysisResult: AnalysisDataType = JSON.parse(localStorage.getItem('analysis')).data;
-  const navigate = useNavigate();
-  const code = JSON.parse(localStorage.getItem('analysis')).code;
-  const goBackPage = () => {
-    navigate('/pickpick');
-  };
-
-  if (code === 6001) {
-    Swal.fire({
-      icon: 'error',
-      html: '같은 카테고리가 중복선택 되었습니다',
-      showCancelButton: false,
-      confirmButtonText: '확인',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        goBackPage();
-      }
-    })
-  } else if (code === 6002) {
-    Swal.fire({
-      icon: 'error',
-      html: '옷이 네벌 초과로 입력되었습니다.',
-      showCancelButton: false,
-      confirmButtonText: '확인',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        goBackPage();
-      }
-    })
-  } else if (code === 6003) {
-    Swal.fire({
-      icon: 'error',
-      html: '같은 대분류가 여러개 입력되었습니다.',
-      showCancelButton: false,
-      confirmButtonText: '확인',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        goBackPage();
-      }
-    })
-  } else if (code === 6004) {
-    Swal.fire({
-      icon: 'error',
-      html: '상의나 하의가 없습니다.',
-      showCancelButton: false,
-      confirmButtonText: '확인',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        goBackPage();
-      }
-    })
-  }
-
   return (
     <>
       <div className="text-WebBody3">오늘 입은 옷은 과연 몇 점일까요?</div>
