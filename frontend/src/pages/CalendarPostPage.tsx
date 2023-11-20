@@ -186,6 +186,7 @@ const calendarPostPage = () => {
         confirmButtonText: '확인',
       });
     }
+    return true;
   };
 
   return (
