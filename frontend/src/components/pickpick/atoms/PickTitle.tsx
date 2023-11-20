@@ -29,7 +29,8 @@ const PickTitle = () => {
           }
           return response.data;
         } catch (error) {
-          throw new Error('친구 닉네임 조회 실패');
+          console.log('친구 닉네임 조회 실패', error);
+          return false;
         }
       };
 
