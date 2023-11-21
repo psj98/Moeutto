@@ -3,7 +3,7 @@
 const RecommenedFeed = () => {
     return (
         <div className="flex justify-center mb-6">
-            <div className="w-[85%] bg-pink rounded-xl relative">
+            <div className="w-[85%] bg-pink shadow-md rounded-xl relative">
 
                 {/* 친구 정보 */}
                 <div className="flex items-end gap-4 p-4">
