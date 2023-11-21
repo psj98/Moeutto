@@ -209,6 +209,9 @@ const FriendClosetPage = () => {
     getClothesItem();
   }, [categoryId, sortBy, orderBy]);
 
+  // 추천 멘트
+  const [forFriendComment, setForFriendComment] = useState<string>("");
+
   // 옷 추천하기 동작입니다
   // 제출하기 버튼 동작 시 -> 리덕스에 선택한 옷 정보 저장 후 옷 추천 정보를 api body에 담습니다
   const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = event => {
@@ -219,8 +222,6 @@ const FriendClosetPage = () => {
       selectedClosetIds,
     };
 
-    console.log('내가 친구에게 추천할 옷', requestData)
-
     if (requestData) {
       if (requestData.selectedClosetIds.length >= 5) {
         Swal.fire({
@@ -228,12 +229,34 @@ const FriendClosetPage = () => {
           html: '옷 추천은 4개까지 가능해요',
           showCancelButton: false,
           confirmButtonText: '확인',
+          confirmButtonColor: '#FF78A5',
         })
       } else {
-        Swal("추천 문구를 입력해주세요:", {
-          content: "input",
-        })
-        .then()
+        (async () => {
+          const { value: getComment } = await Swal.fire({
+              title: '추천 문구를 입력하세요',
+              input: 'text',
+              confirmButtonColor: '#FF78A5',
+              confirmButtonText: '확인'
+          })
+      
+          // 이후 처리되는 내용
+          if (getComment) {
+            setForFriendComment(getComment)
+            Swal.fire({
+              html: '옷 추천이 완료되었습니다',
+              showCancelButton: false,
+              confirmButtonColor: '#FF78A5',
+              confirmButtonText: '확인',
+            }).then(() => {
+              // 친구 추천 api 호출하기
+            }).then(() => {
+              location.reload();
+            })
+          }
+
+          
+      })()
       }
     } else {
       Swal.fire({
@@ -243,6 +266,7 @@ const FriendClosetPage = () => {
         confirmButtonText: '확인',
       });
     }
+    console.log(forFriendComment)
   };
 
   useEffect(() => {
