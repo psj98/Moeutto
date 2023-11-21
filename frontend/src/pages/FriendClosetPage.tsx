@@ -209,7 +209,33 @@ const FriendClosetPage = () => {
     getClothesItem();
   }, [categoryId, sortBy, orderBy]);
 
-  // 제출하기 버튼 동작 시 -> 리덕스에 선택한 옷 정보 저장 후 분석 페이지로 이동
+  
+
+  // 추천 멘트
+  const [forFriendComment, setForFriendComment] = useState<string>("");
+
+  // 추천 옷 리스트
+  const forFriendClothesIdList: number[] = [];
+
+  // 추천 등록 api
+  const postRecommendForFriend = async () => {
+    try {
+      const axiosInstance = authInstance({ ContentType: 'application/json'});
+      const response = await axiosInstance.post('friend-outfits/recommend', {
+        email: friend,
+        comment: forFriendComment,
+        clothesList: forFriendClothesIdList
+      });
+
+      console.log('친구 추천 등록 성공', response)
+    }
+    catch (error) {
+      console.log('친구 추천 등록 실패', error)
+    }
+  }
+
+  // 옷 추천하기 동작입니다
+  // 제출하기 버튼 동작 시 -> 리덕스에 선택한 옷 정보 저장 후 옷 추천 정보를 api body에 담습니다
   const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = event => {
     // 기본 동작 방지
     event.preventDefault();
@@ -218,9 +244,60 @@ const FriendClosetPage = () => {
       selectedClosetIds,
     };
 
+    // body에 담을 옷 id 만 가져오기
+    for (const closetObj of requestData.selectedClosetIds) {
+      const id = Number(closetObj.id);
+
+      if (!isNaN(id)) {
+        forFriendClothesIdList.push(id);
+      }
+    }
+
     if (requestData) {
-      localStorage.setItem('selectedClosetIds', JSON.stringify(selectedClosetIds));
-      navigate('/analysis');
+      if (requestData.selectedClosetIds.length >= 5) {
+        Swal.fire({
+          icon: 'question',
+          html: '옷 추천은 4개까지 가능해요',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+          confirmButtonColor: '#FF78A5',
+        })
+      } else {
+        (async () => {
+          const { value: getComment } = await Swal.fire({
+              title: '추천 문구를 입력하세요',
+              input: 'text',
+              inputValidator: (value) => {
+                if (!value || value.length > 20) {
+                  return '20자 이내로 입력해주세요.';
+                } else {
+                  return undefined; // 20자를 통과한 경우
+                }
+              },
+              confirmButtonColor: '#FF78A5',
+              confirmButtonText: '확인'
+          })
+
+          setForFriendComment(getComment)
+      
+          // 이후 처리되는 내용
+          if (getComment) {
+            Swal.fire({
+              html: '옷 추천이 완료되었습니다',
+              showCancelButton: false,
+              confirmButtonColor: '#FF78A5',
+              confirmButtonText: '확인',
+            }).then(() => {
+              // 친구 추천 api 호출하기
+              postRecommendForFriend();
+            }).then(() => {
+              location.reload();
+            })
+          }
+
+          
+      })()
+      }
     } else {
       Swal.fire({
         icon: 'question',
@@ -229,6 +306,7 @@ const FriendClosetPage = () => {
         confirmButtonText: '확인',
       });
     }
+    console.log(forFriendComment, forFriendClothesIdList)
   };
 
   useEffect(() => {
