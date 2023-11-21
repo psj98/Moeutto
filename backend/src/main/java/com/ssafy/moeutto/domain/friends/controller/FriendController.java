@@ -6,7 +6,10 @@ import com.ssafy.moeutto.domain.friends.dto.response.IFriendsListResponseDto;
 import com.ssafy.moeutto.domain.friends.dto.response.IMyFriendsListResponseDto;
 import com.ssafy.moeutto.domain.friends.service.FriendService;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
-import com.ssafy.moeutto.global.response.*;
+import com.ssafy.moeutto.global.response.BaseException;
+import com.ssafy.moeutto.global.response.BaseResponse;
+import com.ssafy.moeutto.global.response.BaseResponseService;
+import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
