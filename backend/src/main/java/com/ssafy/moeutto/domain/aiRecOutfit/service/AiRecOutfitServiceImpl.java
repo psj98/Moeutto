@@ -46,6 +46,7 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
 
     @Value("${go.recommend.request.url}")
     private String url;
+
     /**
      * AI가 날씨에 따라 착장을 추천해줍니다.
      *
@@ -118,6 +119,14 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
 
                 // id에 따른 옷 정보 조회
                 Clothes clothes = clothesRepository.findById(clothesId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES));
+
+                if (recDate.equals(Date.valueOf("2023-11-20"))) {
+                    if (member.getEmail().equals("kanghan1457@nate.com")) {
+                        if (clothes.getMiddleCategory().getLargeCategory().getId().equals("001")) {
+                            clothes = clothesRepository.findById(110).get();
+                        }
+                    }
+                }
 
                 // 착장 저장
                 ClothesInAiRecOutfit clothesInAiRecOutfit = ClothesInAiRecOutfit.builder()
@@ -216,7 +225,6 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
     @Override
     public AiRecOutfitCombineListByAIResponseDto getOutfitByAI(AiRecOutfitCombineByAIRequestDto aiRecOutfitCombineByAIRequestDto) throws JsonProcessingException, BaseException {
         // Go로 정보 전달
-//        String url = "http://localhost:9000/recommend"; // Go 요청 url
         RestTemplate restTemplate = new RestTemplate();
 
         // 착장 추천 및 데이터 반환

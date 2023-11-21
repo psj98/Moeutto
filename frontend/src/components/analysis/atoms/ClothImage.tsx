@@ -13,14 +13,14 @@ const Image = styled.img`
 
 const ClothItem = ({ imgUrl, clothesId }: ItemPropsType) => {
   return (
-    <>
+    <div className="w-[120px] shrink-0">
       <Image
         src={imgUrl}
         id={clothesId}
         alt={clothesId}
-        className={`w-[159px] h-[159px] border border-gray rounded-[10px] mb-4`}
+        className={`w-[120px] h-[120px] border border-gray rounded-[10px] object-contain `}
       />
-    </>
+    </div>
   );
 };
 

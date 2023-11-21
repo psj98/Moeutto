@@ -8,9 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PythonResponseClothesResult {
 
-    int clothesId;
-    String result;
-    int fitnessNum;
+    private int clothesId;
+
+    private String result;
+
+    private int fitnessNum;
 
     @Builder(toBuilder = true)
     public PythonResponseClothesResult(int clothesId, String result, int fitnessNum){
@@ -18,5 +20,4 @@ public class PythonResponseClothesResult {
         this.result = result;
         this.fitnessNum = fitnessNum;
     }
-
 }

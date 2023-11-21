@@ -23,7 +23,6 @@ const axiosWithAuth = ({ ContentType }: { ContentType: string }): AxiosInstance 
     'Content-Type': ContentType,
   };
 
-  console.log('Content-Type', ContentType);
   // 토큰 가져오기
   const accessToken: string = window.sessionStorage.getItem('accessToken');
 

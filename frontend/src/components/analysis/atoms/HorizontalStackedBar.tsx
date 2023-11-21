@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -7,6 +7,7 @@ import {
   Legend,
 } from 'chart.js/auto';
 import { Bar } from 'react-chartjs-2'; // specific한 타입의 차트 import 필요
+import { ClothesResultType } from '../../../pages/AnalysisPage';
 
 ChartJS.register(
   CategoryScale,
@@ -49,13 +50,27 @@ const options = {
   },
 };
 
-const HorizontalStackedBar = () => {
-  const data = {
+const HorizontalStackedBar = ({ originalData }: { originalData: ClothesResultType[] }) => {
+  // const originalData: AnalysisDataType | undefined = JSON.parse(localStorage.getItem('analysis'))?.data;
+
+  const [processedData, setProcessedData] = useState<number[]>([0, 0, 0, 0]);
+
+  useEffect(() => {
+    if (originalData) {
+      const newData = originalData.map(item => {
+        return item.fitnessNum === -1 ? 0 : item.fitnessNum / 4;
+      });
+
+      setProcessedData(newData);
+    }
+  }, [originalData]);
+
+  let data = {
     labels: ['Total Score'],
     datasets: [
       {
         label: 'Outer',
-        data: [10],
+        data: [processedData[0] ? processedData[0] : 0],
         backgroundColor: '#6FA8FF',
         // https://github.com/chartjs/Chart.js/issues/9217#issuecomment-1366100375 참고
         borderRadius: [
@@ -66,7 +81,7 @@ const HorizontalStackedBar = () => {
       },
       {
         label: 'Top',
-        data: [20],
+        data: [processedData[1] ? processedData[1] : 0],
         backgroundColor: '#FF7C7C',
         borderRadius: [
           { topLeft: 0, topRight: 0, bottomLeft: 0, bottomRight: 0 },
@@ -76,7 +91,7 @@ const HorizontalStackedBar = () => {
       },
       {
         label: 'Bottom',
-        data: [25],
+        data: [processedData[2] ? processedData[2] : 0],
         backgroundColor: '#FFE177',
         borderRadius: [
           { topLeft: 0, topRight: 0, bottomLeft: 0, bottomRight: 0 },
@@ -86,7 +101,7 @@ const HorizontalStackedBar = () => {
       },
       {
         label: 'Item',
-        data: [5],
+        data: [processedData[3] ? processedData[3] : 0],
         backgroundColor: '#5FDA64',
         borderRadius: [
           { topLeft: 0, topRight: 12, bottomLeft: 0, bottomRight: 12 },
@@ -96,6 +111,55 @@ const HorizontalStackedBar = () => {
       },
     ],
   };
+
+  useEffect(() => {
+    data = {
+      labels: ['Total Score'],
+      datasets: [
+        {
+          label: 'Outer',
+          data: [processedData[1] ? processedData[1] : 0],
+          backgroundColor: '#6FA8FF',
+          // https://github.com/chartjs/Chart.js/issues/9217#issuecomment-1366100375 참고
+          borderRadius: [
+            { topLeft: 12, topRight: 0, bottomLeft: 12, bottomRight: 0 },
+            // { topLeft: 0, topRight: 0, bottomLeft: 12, bottomRight: 12 },
+          ],
+          borderSkipped: false, // To make all side rounded
+        },
+        {
+          label: 'Top',
+          data: [processedData[0] ? processedData[0] : 0],
+          backgroundColor: '#FF7C7C',
+          borderRadius: [
+            { topLeft: 0, topRight: 0, bottomLeft: 0, bottomRight: 0 },
+            // { topLeft: 0, topRight: 0, bottomLeft: 12, bottomRight: 12 },
+          ],
+          borderSkipped: false, // To make all side rounded
+        },
+        {
+          label: 'Bottom',
+          data: [processedData[2] ? processedData[2] : 0],
+          backgroundColor: '#FFE177',
+          borderRadius: [
+            { topLeft: 0, topRight: 0, bottomLeft: 0, bottomRight: 0 },
+            // { topLeft: 0, topRight: 0, bottomLeft: 12, bottomRight: 12 },
+          ],
+          borderSkipped: false, // To make all side roundeds
+        },
+        {
+          label: 'Item',
+          data: [processedData[3] ? processedData[3] : 0],
+          backgroundColor: '#5FDA64',
+          borderRadius: [
+            { topLeft: 0, topRight: 12, bottomLeft: 0, bottomRight: 12 },
+            // { topLeft: 0, topRight: 0, bottomLeft: 12, bottomRight: 12 },
+          ],
+          borderSkipped: false, // To make all side rounded
+        },
+      ],
+    };
+  }, [processedData]);
 
   return (
     <div className="overflow-auto">

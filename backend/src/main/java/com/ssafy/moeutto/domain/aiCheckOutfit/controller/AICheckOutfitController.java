@@ -1,6 +1,7 @@
 package com.ssafy.moeutto.domain.aiCheckOutfit.controller;
 
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.AICheckOutfitClientRequestDto;
+import com.ssafy.moeutto.domain.aiCheckOutfit.dto.request.PythonRequestClothesList;
 import com.ssafy.moeutto.domain.aiCheckOutfit.dto.response.AICheckOutfitClientResponseDto;
 import com.ssafy.moeutto.domain.aiCheckOutfit.service.AICheckOutfitService;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
@@ -29,6 +30,26 @@ public class AICheckOutfitController {
             UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
             AICheckOutfitClientResponseDto aiCheckOutfitClientResponseDto = aiCheckOutfitService.checkOutfit(memberId, aiCheckOutfitClientRequestDto);
+            return baseResponseService.getSuccessResponse(aiCheckOutfitClientResponseDto);
+        } catch (BaseException e) {
+            return baseResponseService.getFailureResponse(e.status);
+        }
+    }
+
+    /**
+     * 테스트용
+     *
+     * @param token
+     * @param aiCheckOutfitClientRequestDto
+     * @return
+     */
+    @PostMapping("/test")
+    public BaseResponse<Object> aiCheckOutfitTest(@RequestHeader(value = "accessToken", required = false) String token,
+                                                  @RequestBody AICheckOutfitClientRequestDto aiCheckOutfitClientRequestDto) {
+        try {
+            UUID memberId = getMemberIdFromToken(token); // 사용자 체크
+
+            PythonRequestClothesList aiCheckOutfitClientResponseDto = aiCheckOutfitService.checkOutfitTest(memberId, aiCheckOutfitClientRequestDto);
             return baseResponseService.getSuccessResponse(aiCheckOutfitClientResponseDto);
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);

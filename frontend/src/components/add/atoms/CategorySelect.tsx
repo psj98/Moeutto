@@ -104,7 +104,8 @@ const CategorySelect = ({ id, value, onClick, aiLargeCategory }: CategoryProps) 
             {item.name}
           </button>
         ));
-
+      case '0':
+        return null;
       default:
         return null;
     }
@@ -118,6 +119,7 @@ const CategorySelect = ({ id, value, onClick, aiLargeCategory }: CategoryProps) 
   useEffect(() => {
     if (value === '') {
       setBase('default');
+      setSelectedLargeCategory('0');
     }
   }, [value]);
 
@@ -136,7 +138,7 @@ const CategorySelect = ({ id, value, onClick, aiLargeCategory }: CategoryProps) 
       {/* <select id="middle" value={value} defaultValue="0" onChange={onChange}> */}
       <div className="buttonSection">
         <Slide delay={1e1} cascade direction="down" damping={0.1} triggerOnce>
-          {returnMiddleSelect()}{' '}
+          {returnMiddleSelect()}
         </Slide>
       </div>
       {/* </select> */}
