@@ -209,7 +209,8 @@ const FriendClosetPage = () => {
     getClothesItem();
   }, [categoryId, sortBy, orderBy]);
 
-  // 제출하기 버튼 동작 시 -> 리덕스에 선택한 옷 정보 저장 후 분석 페이지로 이동
+  // 옷 추천하기 동작입니다
+  // 제출하기 버튼 동작 시 -> 리덕스에 선택한 옷 정보 저장 후 옷 추천 정보를 api body에 담습니다
   const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = event => {
     // 기본 동작 방지
     event.preventDefault();
@@ -218,9 +219,22 @@ const FriendClosetPage = () => {
       selectedClosetIds,
     };
 
+    console.log('내가 친구에게 추천할 옷', requestData)
+
     if (requestData) {
-      localStorage.setItem('selectedClosetIds', JSON.stringify(selectedClosetIds));
-      navigate('/analysis');
+      if (requestData.selectedClosetIds.length >= 5) {
+        Swal.fire({
+          icon: 'question',
+          html: '옷 추천은 4개까지 가능해요',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        })
+      } else {
+        Swal("추천 문구를 입력해주세요:", {
+          content: "input",
+        })
+        .then()
+      }
     } else {
       Swal.fire({
         icon: 'question',

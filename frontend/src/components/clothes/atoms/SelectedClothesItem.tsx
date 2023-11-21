@@ -30,14 +30,21 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
     dispatch(selectItem(imgUrl)); // 이미지 url을 redux state array 로 저장합니다
   };
 
+  // notmycloset/frined 에서 사용되는 함수입니다
+  const recommendClothesForFriend = e => {
+    setIsSelected(!isSelected);
+    console.log(e.target.id)
+    dispatch(selectCloset({ id: e.target.id, largeCategoryId: e.target.alt }))
+  }
+
   let onClickHandler;
 
   if (pathname === '/calendar/post') {
     onClickHandler = handlePostCalendar;
   } else if (pathname === '/pickpick') {
     onClickHandler = handleClick;
-  } else {
-    onClickHandler = null;
+  } else if (pathname.split('/')[1] === 'notmycloset') {
+    onClickHandler = recommendClothesForFriend;
   }
 
   // 이미지 로딩 확인용
