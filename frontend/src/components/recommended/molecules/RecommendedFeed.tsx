@@ -1,4 +1,4 @@
-// import { PiCoatHangerBold } from 'react-icons/pi';
+import { PiCoatHangerBold } from 'react-icons/pi';
 
 const RecommenedFeed = () => {
     return (
@@ -21,9 +21,9 @@ const RecommenedFeed = () => {
 
                 {/* 옷 */}
                 <div className="w-[90%] h-[80px] rounded-lg mx-auto relative">
-                    {/* <div className='absolute -top-16 right-0'>
+                    <div className='absolute -top-16 right-0'>
                         <PiCoatHangerBold size={60} className='text-pink-hot' /> 
-                    </div> */}
+                    </div>
                     <div className='flex-wrap flex gap-3 pt-2 justify-center'>
                         <img src="/images/clothes1.png" alt="clohtes1" className='w-[70px] h-[70px] object-cover bg-white rounded-xl' />
                         <img src="/images/clothes1.png" alt="clohtes1" className='w-[70px] h-[70px] object-cover bg-white rounded-xl' />
