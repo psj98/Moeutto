@@ -1,6 +1,5 @@
 import React, { useLayoutEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import ScrollReveal from 'scrollreveal';
 
 import { selectCloset } from '../../../redux/features/closet/selectClosetSlice';
 import { selectItem } from '../../../redux/features/closet/postCalendar';
@@ -16,9 +15,6 @@ interface ItemPropsType {
 const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, largeCategoryId, last, index }) => {
   const dispatch = useDispatch();
   const pathname = window.location.pathname;
-
-  ScrollReveal().reveal('.clothes');
-
   const [isSelected, setIsSelected] = useState(false);
   // pickpick 페이지에서 사용되는 함수입니다
   const handleClick = e => {
@@ -57,7 +53,7 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
     // 이미지가 로드 되면 화면에 띄운다
     img.onload = () => {
       setImageLoaded(true);
-    }
+    };
     img.src = imgUrl;
   };
 
@@ -67,23 +63,23 @@ const SelectedClothesItem: React.FC<ItemPropsType> = ({ imgUrl, clothesId, large
 
   return (
     <>
-    {imageLoaded ? (
-      <img
-        src={imgUrl}
-        id={clothesId}
-        alt={largeCategoryId}
-        className={`clothes opacity-100 w-[110px] h-[110px] border border-gray rounded-3xl flex-none p-2 mb-4 ${
-          isSelected ? 'bg-gray-300 border-pink-hot border-4' : ''
-        }`}
-        style={{ objectFit: 'cover', minWidth: '110px', minHeight: '110px', opacity: '1' }}
-        // 친구추천 기능 추가하면 아래 코드를 살립니다.
-        // onClick={pathname === '/calendar/post' ? handlePostCalendar : handleClick}
-        // 친구 옷장이 구경기능만 있을때 코드입니다
-        onClick={onClickHandler}
-      />
-    ) : (
-      <div className="animate-pulse w-[110px] h-[110px] bg-gray-button rounded-3xl"></div>
-    )}
+      {imageLoaded ? (
+        <img
+          src={imgUrl}
+          id={clothesId}
+          alt={largeCategoryId}
+          className={`clothes opacity-100 w-[110px] h-[110px] border border-gray rounded-3xl flex-none p-2 mb-4 ${
+            isSelected ? 'bg-gray-300 border-pink-hot border-4' : ''
+          }`}
+          style={{ objectFit: 'cover', minWidth: '110px', minHeight: '110px', opacity: '1' }}
+          // 친구추천 기능 추가하면 아래 코드를 살립니다.
+          // onClick={pathname === '/calendar/post' ? handlePostCalendar : handleClick}
+          // 친구 옷장이 구경기능만 있을때 코드입니다
+          onClick={onClickHandler}
+        />
+      ) : (
+        <div className="animate-pulse w-[110px] h-[110px] bg-gray-button rounded-3xl"></div>
+      )}
       {/* {imageLoaded ? (
         null
       ) : (
