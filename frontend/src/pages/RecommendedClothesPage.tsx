@@ -2,7 +2,7 @@ import RecommendedFeedList from "../components/recommended/organisms/Recommended
 
 const RecommendedClothesPage = () => {
     return (
-        <div className="mt-12">  
+        <div className="mt-8 mb-[100px]">  
             <RecommendedFeedList />
         </div>
     )
