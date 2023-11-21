@@ -33,7 +33,7 @@ const TotalScoreSection = ({ clothesResult }: { clothesResult: ClothesResultType
   return (
     <TotalScore>
       <div className="text-start text-WebBody2 font-bold mx-4">당신의 총 점수는 얼마일까요?</div>
-      <HorizontalStackedBar></HorizontalStackedBar>
+      <HorizontalStackedBar originalData={clothesResult}></HorizontalStackedBar>
       <div className="text-center text-WebBody2 font-bold mt-4">
         당신의 총 점수는 {totalScore}점! {expression}
       </div>
