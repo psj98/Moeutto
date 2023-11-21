@@ -1,20 +1,21 @@
-package com.ssafy.moeutto.domain.friends.entity;
+package com.ssafy.moeutto.domain.friendOutfit.entity;
 
-import com.ssafy.moeutto.domain.friends.dto.request.ClothesRecommendListRequestDto;
 import com.ssafy.moeutto.domain.member.entity.Member;
-import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.sql.Date;
+import java.sql.Timestamp;
 
-
-
-@Data
+@Entity
+@Getter
 @NoArgsConstructor
+@DynamicInsert
 @ToString
-public class FriendsOutfit {
+public class FriendOutfit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,11 +31,11 @@ public class FriendsOutfit {
 
     private String comment;
 
-    @NotNull
-    private Date regDate;
+    private Timestamp regDate;
+
 
     @Builder(toBuilder = true)
-    public FriendsOutfit(Integer id, Member owner, Member recommender, String comment, Date regDate) {
+    public FriendOutfit(Integer id, Member owner, Member recommender, String comment, Timestamp regDate) {
         this.id = id;
         this.owner = owner;
         this.recommender = recommender;
