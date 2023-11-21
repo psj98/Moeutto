@@ -4,12 +4,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
 @NoArgsConstructor
 public class FriendOutfitClothesResponseDto {
 
+    @NotNull
     private Integer id;
 
+    @NotNull
     private String image;
 
     @Builder(toBuilder = true)

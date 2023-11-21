@@ -149,6 +149,7 @@ public class FriendOutfitServiceImpl implements FriendOutfitService {
             FriendOutfitListResponseDto friendOutfitListResponseDto = FriendOutfitListResponseDto.builder()
                     .clothesList(clothesList)
                     .recommenderNickname(friendOutfit.getRecommender().getNickname())
+                    .comment(friendOutfit.getComment())
                     .regDate(Date.valueOf(friendOutfit.getRegDate().toLocalDateTime().toLocalDate()))
                     .build();
 
