@@ -45,8 +45,8 @@ const Container = styled.div`
   .waves {
     position: relative;
     width: 100%;
-    min-height: 200px;
-    max-height: 250px;
+    min-height: 100px;
+    max-height: 150px;
   }
 
   .parallax > use {
