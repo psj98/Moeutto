@@ -1,14 +1,15 @@
 package com.ssafy.moeutto.domain.friends.controller;
 
-import com.ssafy.moeutto.domain.friends.dto.request.ClothesRecommendForFriendsRequestDto;
 import com.ssafy.moeutto.domain.friends.dto.request.FollowRequestDto;
 import com.ssafy.moeutto.domain.friends.dto.request.FriendsListRequestDto;
-import com.ssafy.moeutto.domain.friends.dto.response.ClotheRecommendResponseDto;
 import com.ssafy.moeutto.domain.friends.dto.response.IFriendsListResponseDto;
 import com.ssafy.moeutto.domain.friends.dto.response.IMyFriendsListResponseDto;
 import com.ssafy.moeutto.domain.friends.service.FriendService;
 import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
-import com.ssafy.moeutto.global.response.*;
+import com.ssafy.moeutto.global.response.BaseException;
+import com.ssafy.moeutto.global.response.BaseResponse;
+import com.ssafy.moeutto.global.response.BaseResponseService;
+import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,25 +24,6 @@ public class FriendController {
     private final FriendService friendsService;
     private final AuthTokensGenerator authTokensGenerator;
     private final BaseResponseService baseResponseService;
-
-
-
-    @PostMapping("recommend")
-    public BaseResponse<Object> recommend(@RequestHeader(value = "accessToken", required = false) String token,
-                                          @RequestBody ClothesRecommendForFriendsRequestDto requestDto){
-
-        try {
-            UUID memberId = getMemberIdFromToken(token);
-
-            ClotheRecommendResponseDto responseDto = friendsService.recommend(memberId,requestDto);
-
-
-        }catch (BaseException e){
-            return baseResponseService.getFailureResponse(e.getStatus());
-        }
-
-    }
-
 
     /**
      * 내가 팔로우하는 친구 목록 보기.
