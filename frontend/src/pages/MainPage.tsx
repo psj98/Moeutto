@@ -14,6 +14,7 @@ import MainComment from '../components/main/atoms/MainComment';
 import Calendar from '../components/calendar/organisms/Calendar';
 import Scroll from '../components/common/scroll/molecules/Scroll';
 import RecommendListOnlyWeather from '../components/main/organisms/RecommendListOnlyWeather';
+import RecommenedClothesForMain from '../components/recommended/molecules/RecommendedClothesForMain';
 // import AddTap from '../components/main/atoms/AdTap';
 import { authInstance } from '../api/api';
 
@@ -292,6 +293,18 @@ const MainPage = () => {
                 <RecommendListOnlyWeather clothesListData={clothesListData} weatherListData={weatherListDataFake} />
               </>
             )}
+          </div>
+          
+          {/* 친구 추천 */}
+          <div className='mt-6 bg-white rounded-2xl shadow-md p-4 mb-[70px] w-full relative'
+            onClick={() => navigate('/recommended')}
+          >
+            <MainComment title={`친구들이 추천해줬어요`} />
+            <img src="images/heart.png" alt="heart" className='w-[100px] h-[100px] absolute right-0 -top-8' />
+            <div className='my-8 w-full'>
+              <RecommenedClothesForMain />
+            </div>
+            <div className='text-AppBody2 flex justify-center mb-2'>친구들이 추천해준 옷을 확인해보세요</div>
           </div>
           
           {/* 골라골라 */}

@@ -1,9 +1,9 @@
 // import { PiCoatHangerBold } from 'react-icons/pi';
 
-const RecommenedFeed = () => {
+const RecommenedClothesForMain = () => {
     return (
-        <div className="flex justify-center mb-6">
-            <div className="w-[85%] bg-pink rounded-xl relative">
+        <div className="flex justify-center mb-4">
+            <div className="w-[95%] bg-pink rounded-xl relative">
 
                 {/* 친구 정보 */}
                 <div className="flex items-end gap-4 p-4">
@@ -25,10 +25,10 @@ const RecommenedFeed = () => {
                         <PiCoatHangerBold size={60} className='text-pink-hot' /> 
                     </div> */}
                     <div className='flex-wrap flex gap-3 pt-2 justify-center'>
-                        <img src="/images/clothes1.png" alt="clohtes1" className='w-[70px] h-[70px] object-cover bg-white rounded-xl' />
-                        <img src="/images/clothes1.png" alt="clohtes1" className='w-[70px] h-[70px] object-cover bg-white rounded-xl' />
-                        <img src="/images/clothes1.png" alt="clohtes1" className='w-[70px] h-[70px] object-cover bg-white rounded-xl' />
-                        <img src="/images/clothes1.png" alt="clohtes1" className='w-[70px] h-[70px] object-cover bg-white rounded-xl' />
+                        <img src="/images/clothes1.png" alt="clohtes1" className='w-[65px] h-[65px] object-cover bg-white rounded-xl' />
+                        <img src="/images/clothes1.png" alt="clohtes1" className='w-[65px] h-[65px] object-cover bg-white rounded-xl' />
+                        <img src="/images/clothes1.png" alt="clohtes1" className='w-[65px] h-[65px] object-cover bg-white rounded-xl' />
+                        <img src="/images/clothes1.png" alt="clohtes1" className='w-[65px] h-[65px] object-cover bg-white rounded-xl' />
                     </div>
                 </div>
 
@@ -39,4 +39,4 @@ const RecommenedFeed = () => {
     )
 }
 
-export default RecommenedFeed;
+export default RecommenedClothesForMain;
