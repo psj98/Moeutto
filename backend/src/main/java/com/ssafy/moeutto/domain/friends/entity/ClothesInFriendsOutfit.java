@@ -13,8 +13,6 @@ public class ClothesInFriendsOutfit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "clothesId", referencedColumnName = "clothesId")
     private Integer clothesId;
 
     @Builder(toBuilder = true)
