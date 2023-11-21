@@ -34,8 +34,7 @@ public class FriendController {
             UUID memberId = getMemberIdFromToken(token);
 
             ClotheRecommendResponseDto responseDto = friendsService.recommend(memberId,requestDto);
-
-
+            return baseResponseService.getSuccessResponse(responseDto);
         }catch (BaseException e){
             return baseResponseService.getFailureResponse(e.getStatus());
         }

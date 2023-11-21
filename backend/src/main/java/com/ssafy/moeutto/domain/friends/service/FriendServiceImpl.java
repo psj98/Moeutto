@@ -115,6 +115,14 @@ public class FriendServiceImpl implements FriendService {
 
         List<ClothesRecommendListRequestDto> clothesList = requestDto.getClothesList();
 
+        /* 추천 작성자 Optional 설정 */
+        Optional<Member> recommenderId = memberRepository.findByEmail(requestDto.getEmail());
+
+
+
+
+
+
 
 
 
