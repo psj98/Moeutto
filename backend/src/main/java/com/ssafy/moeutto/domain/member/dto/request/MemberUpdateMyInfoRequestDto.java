@@ -10,16 +10,13 @@ public class MemberUpdateMyInfoRequestDto {
 
     private String nickname;
 
-    private String imageUrl;
-
     private boolean closetFind;
 
     private boolean accountFind;
 
     @Builder(toBuilder = true)
-    public MemberUpdateMyInfoRequestDto(String nickname, String imageUrl, boolean closetFind, boolean accountFind) {
+    public MemberUpdateMyInfoRequestDto(String nickname, boolean closetFind, boolean accountFind) {
         this.nickname = nickname;
-        this.imageUrl = imageUrl;
         this.closetFind = closetFind;
         this.accountFind = accountFind;
     }

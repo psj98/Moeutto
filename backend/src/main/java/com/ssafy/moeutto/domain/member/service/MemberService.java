@@ -3,6 +3,7 @@ package com.ssafy.moeutto.domain.member.service;
 import com.ssafy.moeutto.domain.member.dto.request.MemberUpdateMyInfoRequestDto;
 import com.ssafy.moeutto.domain.member.dto.response.MemberMyPageResponseDto;
 import com.ssafy.moeutto.global.response.BaseException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -19,5 +20,5 @@ public interface MemberService {
      * @param memberUpdateMyInfoRequestDto
      * @throws BaseException
      */
-    void updateMyPageInfo(UUID memberId, MemberUpdateMyInfoRequestDto memberUpdateMyInfoRequestDto) throws BaseException;
+    void updateMyPageInfo(UUID memberId, MemberUpdateMyInfoRequestDto memberUpdateMyInfoRequestDto, MultipartFile file, String token) throws BaseException;
 }

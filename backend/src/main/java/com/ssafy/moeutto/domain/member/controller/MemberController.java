@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -119,11 +120,12 @@ public class MemberController {
 
     @PutMapping("/modify")
     public BaseResponse<Object> updateMyInfo(@RequestHeader(value = "accessToken") String token,
-                                             @RequestBody MemberUpdateMyInfoRequestDto memberUpdateMyInfoRequestDto) {
+                                             @RequestPart("memberUpdateMyInfoRequestDto") MemberUpdateMyInfoRequestDto memberUpdateMyInfoRequestDto,
+                                             @RequestPart("file") MultipartFile file) {
         try {
             UUID memberId = getMemberIdFromToken(token); // 사용자 체크
 
-            memberService.updateMyPageInfo(memberId, memberUpdateMyInfoRequestDto);
+            memberService.updateMyPageInfo(memberId, memberUpdateMyInfoRequestDto, file, token);
             return baseResponseService.getSuccessResponse();
         } catch (BaseException e) {
             return baseResponseService.getFailureResponse(e.status);

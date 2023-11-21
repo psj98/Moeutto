@@ -1,5 +1,7 @@
 package com.ssafy.moeutto.domain.member.service;
 
+import com.ssafy.moeutto.domain.S3.dto.response.S3ResponseDto;
+import com.ssafy.moeutto.domain.S3.service.S3Service;
 import com.ssafy.moeutto.domain.member.dto.request.MemberUpdateMyInfoRequestDto;
 import com.ssafy.moeutto.domain.member.dto.response.MemberMyPageResponseDto;
 import com.ssafy.moeutto.domain.member.entity.Member;
@@ -9,7 +11,9 @@ import com.ssafy.moeutto.global.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @Slf4j
@@ -18,6 +22,7 @@ import java.util.UUID;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final S3Service s3Service;
 
     /**
      * 솔이가 요청한 닉네임 검색 API 입니다.
@@ -61,15 +66,25 @@ public class MemberServiceImpl implements MemberService {
      * @throws BaseException
      */
     @Override
-    public void updateMyPageInfo(UUID memberId, MemberUpdateMyInfoRequestDto memberUpdateMyInfoRequestDto) throws BaseException {
+    public void updateMyPageInfo(UUID memberId, MemberUpdateMyInfoRequestDto memberUpdateMyInfoRequestDto,
+                                 MultipartFile file,String token) throws BaseException {
+
         if (memberUpdateMyInfoRequestDto.getNickname().length() > 8) {
             throw new BaseException(BaseResponseStatus.NICKNAME_OVER_LENGTH_EIGHT);
         }
 
         Member baseMember = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
+        S3ResponseDto s3ResponseDto;
+
+        try {
+            s3ResponseDto = s3Service.uploadImage(token, file);
+        } catch (IOException e) {
+            throw new BaseException(BaseResponseStatus.S3_FILE_IO_ERROR);
+        }
+
         Member fixMember = baseMember.toBuilder()
-                .profileImage(memberUpdateMyInfoRequestDto.getImageUrl())
+                .profileImage(s3ResponseDto.getAccessUrl())
                 .nickname(memberUpdateMyInfoRequestDto.getNickname())
                 .accountFind(memberUpdateMyInfoRequestDto.isAccountFind())
                 .closetFind(memberUpdateMyInfoRequestDto.isClosetFind())
