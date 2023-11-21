@@ -267,13 +267,21 @@ const FriendClosetPage = () => {
           const { value: getComment } = await Swal.fire({
               title: '추천 문구를 입력하세요',
               input: 'text',
+              inputValidator: (value) => {
+                if (!value || value.length > 20) {
+                  return '20자 이내로 입력해주세요.';
+                } else {
+                  return undefined; // 20자를 통과한 경우
+                }
+              },
               confirmButtonColor: '#FF78A5',
               confirmButtonText: '확인'
           })
+
+          setForFriendComment(getComment)
       
           // 이후 처리되는 내용
           if (getComment) {
-            setForFriendComment(getComment)
             Swal.fire({
               html: '옷 추천이 완료되었습니다',
               showCancelButton: false,
@@ -283,7 +291,7 @@ const FriendClosetPage = () => {
               // 친구 추천 api 호출하기
               postRecommendForFriend();
             }).then(() => {
-              location.reload();
+              // location.reload();
             })
           }
 

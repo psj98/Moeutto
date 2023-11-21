@@ -10,7 +10,7 @@ const RecommendedFeedList = () => {
         try {
             const axiosInstance = authInstance({ ContentType: 'application/json' });
             const response = await axiosInstance.get('friend-outfits');
-            
+        
             console.log(response.data.data)
             setRecommendFeedListData(response.data.data);
          
@@ -28,7 +28,12 @@ const RecommendedFeedList = () => {
             {recommendFeedListData?.map((item, index) => {
                 return (
                     <RecommenedFeed 
-                        key={index} 
+                        key={index}
+                        index={index}
+                        date={item.regDate}
+                        nickname={item.recommenderNickname}
+                        clothesList={item.clothesList} 
+                        comment={item.comment}
                     />
                 )
             })}
