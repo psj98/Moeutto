@@ -245,8 +245,12 @@ const FriendClosetPage = () => {
     };
 
     // body에 담을 옷 id 만 가져오기
-    for (const id of requestData.selectedClosetIds) {
-      forFriendClothesIdList.push(Number(id));
+    for (const closetObj of requestData.selectedClosetIds) {
+      const id = Number(closetObj.id);
+
+      if (!isNaN(id)) {
+        forFriendClothesIdList.push(id);
+      }
     }
 
     if (requestData) {
@@ -279,7 +283,7 @@ const FriendClosetPage = () => {
               // 친구 추천 api 호출하기
               postRecommendForFriend();
             }).then(() => {
-              // location.reload();
+              location.reload();
             })
           }
 
@@ -294,7 +298,7 @@ const FriendClosetPage = () => {
         confirmButtonText: '확인',
       });
     }
-    console.log(forFriendComment)
+    console.log(forFriendComment, forFriendClothesIdList)
   };
 
   useEffect(() => {
