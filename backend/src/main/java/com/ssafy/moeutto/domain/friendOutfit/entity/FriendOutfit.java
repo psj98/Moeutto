@@ -29,10 +29,9 @@ public class FriendOutfit {
     @JoinColumn(name = "recommender_id")
     private Member recommender; // 작성자
 
-    private String comment;
+    private String comment; // 코멘트
 
-    private Timestamp regDate;
-
+    private Timestamp regDate; // 추천 날짜
 
     @Builder(toBuilder = true)
     public FriendOutfit(Integer id, Member owner, Member recommender, String comment, Timestamp regDate) {
