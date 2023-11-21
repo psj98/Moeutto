@@ -7,9 +7,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class MemberUpdateMyInfoRequestDto {
+
     private String nickname;
+
     private String imageUrl;
+
     private boolean closetFind;
+
     private boolean accountFind;
 
     @Builder(toBuilder = true)

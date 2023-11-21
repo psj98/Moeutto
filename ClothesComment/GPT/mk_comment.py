@@ -22,7 +22,8 @@ def mk_comment(plain_txt: str):
 
         [Instructions]
         The input should be in the following 'input_format'
-        Based on the provided cloth_name, warmth_score(int), and temperature(int), write feedbacks in Korean. Each feedback should be between 30 and 50 characters, including spaces. For 'item', the feedback should focus on style or functionality, especially if it refers to fashion accessories or non-clothing items that do not contribute to warmth.
+        Based on the provided cloth_name, warmth_score(int), and temperature(int), write feedbacks in Korean. 
+        Each feedback should be between 30 and 50 characters, including spaces. For 'item', if not 'nothing', the feedback should focus on style or functionality, especially if it refers to fashion accessories or non-clothing items that do not contribute to warmth. 
 
     	Keep the '[return_format]' as it is provided.
         [input_format]
@@ -74,7 +75,7 @@ if __name__ == "__main__":
     from dotenv import load_dotenv
 
     load_dotenv()
-    os.environ["OPENAI_API_KEY"] = os.getenv("apikey")
+    os.environ["OPENAI_API_KEY"] ="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"
 
     my_req = """
     {

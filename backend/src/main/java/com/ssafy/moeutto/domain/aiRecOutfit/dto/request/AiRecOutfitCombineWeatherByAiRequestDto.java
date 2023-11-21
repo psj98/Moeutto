@@ -25,7 +25,6 @@ public class AiRecOutfitCombineWeatherByAiRequestDto {
     @NotNull
     private Float wsd; // 풍속
 
-
     @Builder(toBuilder = true)
     public AiRecOutfitCombineWeatherByAiRequestDto(Float tmn, Float tmx, Float wsd, String date) {
         this.tmn = tmn;

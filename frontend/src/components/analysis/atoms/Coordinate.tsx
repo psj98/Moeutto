@@ -17,8 +17,8 @@ const SeasonDot = ({ position }) => (
   />
 );
 
-const Coordinate = () => {
-  const position = { top: '20%', left: '60%' };
+const Coordinate = ({ seasonX, seasonY }) => {
+  const position = { top: seasonX*1.8, left: seasonY*1.8 };
 
   return (
     <div className="flex items-center justify-center w-[90%] mb-10">

@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { authInstance } from '../../../api/api';
 import { FriendType } from '../../../pages/FriendListPage';
 
 const ProfileCard = ({ nickname, email, profileImage, isFollowing }: FriendType) => {
   const [isFollow, setIsFollow] = useState<number>(isFollowing);
 
+  // CSS 클래스명을 변수로 추출하여 가독성을 높인다
+  const followButtonClass =
+    isFollow === 0
+      ? 'w-[96px] text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5'
+      : 'w-[96px] text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5';
+
+  useEffect(() => {
+    setIsFollow(isFollowing);
+  }, [isFollowing]);
+
   const handleFollow = () => {
     const PostFollow = async () => {
       try {
-        // 토큰이 필요한 api의 경우 authInstance를 가져옵니다
         const axiosInstance = authInstance({ ContentType: 'application/json' });
         const response = await axiosInstance.post('/friends/follow', {
           email,
@@ -17,7 +27,13 @@ const ProfileCard = ({ nickname, email, profileImage, isFollowing }: FriendType)
 
         return response;
       } catch (error) {
-        throw new Error('팔로우 팔로잉 실패');
+        Swal.fire({
+          icon: 'error',
+          html: '팔로잉 실패',
+          showCancelButton: false,
+          confirmButtonText: '확인',
+        });
+        return false;
       }
     };
 
@@ -43,15 +59,8 @@ const ProfileCard = ({ nickname, email, profileImage, isFollowing }: FriendType)
               <p className="text-sm text-gray-500 truncate">{email}</p>
             </Link>
           </div>
-          <button
-            className={
-              isFollow === 0
-                ? 'text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700'
-                : 'text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700'
-            }
-            onClick={handleFollow}
-            type="button">
-            {isFollow === 0 ? '팔로우' : '팔로잉'}
+          <button className={followButtonClass} onClick={handleFollow} type="button">
+            {isFollow === 0 ? '언팔로잉' : '팔로잉'}
           </button>
         </div>
       </li>

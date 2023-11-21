@@ -16,6 +16,6 @@ colors_data = {
     "black":"000000",
     "white":"FFFFFF",
     "grey":"E2E2E2",
-    "multi":"000000"
+    "multi":"888888"
     # 혼합 색은 편의상 명도 계산에서 검정색으로 취급
 }

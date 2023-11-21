@@ -37,9 +37,6 @@ public class CalendarController {
         try {
             UUID memberId = getMemberIdFromToken(token);
 
-//            String todayDate = calendarListRequestDto.getRegDate().toString();
-
-            log.info("데이터" + calendarListRequestDto.getRegDate());
             CalendarListResponseDto calendarListResponseDto = calendarService.getCalendarList(memberId, calendarListRequestDto.getRegDate());
             return baseResponseService.getSuccessResponse(calendarListResponseDto);
         } catch (BaseException e) {
@@ -82,6 +79,7 @@ public class CalendarController {
         //토큰 정보로 받은 ID를 기반으로 삭제.
         try {
             UUID memberId = getMemberIdFromToken(token);
+
             calendarService.deleteCalendar(memberId, id);
             return baseResponseService.getSuccessResponse();
         } catch (BaseException e) {
@@ -101,6 +99,7 @@ public class CalendarController {
                                                 @RequestBody CalendarScoreRequestDto requestDto) {
         try {
             UUID memberId = getMemberIdFromToken(token);
+
             calendarService.scoreOutfit(memberId, requestDto);
             return baseResponseService.getSuccessResponse(BaseResponseStatus.SUCCESS);
         } catch (BaseException e) {

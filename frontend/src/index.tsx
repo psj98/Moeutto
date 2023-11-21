@@ -42,6 +42,8 @@ import FriendClosetPage from './pages/FriendClosetPage';
 import store from './redux/store';
 import TutorialPage from './pages/TutorialPage';
 
+import ScrollToTop from './components/common/ScrollToTop';
+
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 const queryClient = new QueryClient();
 
@@ -49,6 +51,7 @@ root.render(
   <Provider store={store}>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           // v6부터 Switch가 Routes로 변경되었음
           <Route element={<App />}>

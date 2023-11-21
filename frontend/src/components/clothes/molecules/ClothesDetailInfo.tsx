@@ -12,12 +12,12 @@ const ClothesDetailInfo = ({ labelList, contentList }: PropsType) => {
     
     return (
         <div className="flex">
-            <div className="space-y-8 flex flex-col items-end me-10 w-[120px]">
+            <div className="space-y-4 flex flex-col items-end me-10 w-[120px]">
                 {labelList.map((title, index) => (
                     <LabelContent title={title} index={index} oneCount={oneCount} price={contentList[5]} brand={contentList[6]} />
                 ) )}
             </div>
-            <div className="space-y-8 flex flex-col">
+            <div className="space-y-4 flex flex-col">
                 {contentList.map((content, index) => (
                     <Content content={content} id={index} />
                 ))}
