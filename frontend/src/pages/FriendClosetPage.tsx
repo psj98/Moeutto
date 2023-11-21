@@ -291,7 +291,7 @@ const FriendClosetPage = () => {
               // 친구 추천 api 호출하기
               postRecommendForFriend();
             }).then(() => {
-              // location.reload();
+              location.reload();
             })
           }
 
