@@ -1,13 +1,14 @@
 package com.ssafy.moeutto.domain.friends.service;
 
+import com.ssafy.moeutto.domain.friends.dto.request.ClothesRecommendForFriendsRequestDto;
+import com.ssafy.moeutto.domain.friends.dto.request.ClothesRecommendListRequestDto;
 import com.ssafy.moeutto.domain.friends.dto.request.FollowRequestDto;
 import com.ssafy.moeutto.domain.friends.dto.request.FriendsListRequestDto;
+import com.ssafy.moeutto.domain.friends.dto.response.ClotheRecommendResponseDto;
 import com.ssafy.moeutto.domain.friends.dto.response.IFriendsListResponseDto;
 import com.ssafy.moeutto.domain.friends.dto.response.IMyFriendsListResponseDto;
-import com.ssafy.moeutto.domain.friends.entity.Follower;
-import com.ssafy.moeutto.domain.friends.entity.FollowerId;
-import com.ssafy.moeutto.domain.friends.entity.Following;
-import com.ssafy.moeutto.domain.friends.entity.FollowingId;
+import com.ssafy.moeutto.domain.friends.entity.*;
+import com.ssafy.moeutto.domain.friends.repository.ClothesInFriendsOutfitRepository;
 import com.ssafy.moeutto.domain.friends.repository.FollowerRepository;
 import com.ssafy.moeutto.domain.friends.repository.FollowingRepository;
 import com.ssafy.moeutto.domain.member.entity.Member;
@@ -18,6 +19,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,6 +33,7 @@ public class FriendServiceImpl implements FriendService {
     private final FollowingRepository followingRepository;
     private final FollowerRepository followerRepository;
     private final MemberRepository memberRepository;
+    private final ClothesInFriendsOutfitRepository clothesInFriendsOutfitRepository;
 
     /**
      * 팔로우 서비스 입니다.
@@ -100,5 +104,26 @@ public class FriendServiceImpl implements FriendService {
         memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
         return memberRepository.findMyFollowingListById(memberId);
+    }
+
+
+    @Override
+    public ClotheRecommendResponseDto recommend(UUID memberId, ClothesRecommendForFriendsRequestDto requestDto) throws BaseException {
+
+        /* 멤버체크 */
+        memberRepository.findById(memberId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
+
+        List<ClothesRecommendListRequestDto> clothesList = requestDto.getClothesList();
+
+
+
+
+
+
+
+
+
+
+        return null;
     }
 }

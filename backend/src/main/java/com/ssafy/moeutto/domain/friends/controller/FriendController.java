@@ -1,8 +1,9 @@
 package com.ssafy.moeutto.domain.friends.controller;
 
-import com.ssafy.moeutto.domain.calendar.dto.response.CalendarRegistResponseDto;
+import com.ssafy.moeutto.domain.friends.dto.request.ClothesRecommendForFriendsRequestDto;
 import com.ssafy.moeutto.domain.friends.dto.request.FollowRequestDto;
 import com.ssafy.moeutto.domain.friends.dto.request.FriendsListRequestDto;
+import com.ssafy.moeutto.domain.friends.dto.response.ClotheRecommendResponseDto;
 import com.ssafy.moeutto.domain.friends.dto.response.IFriendsListResponseDto;
 import com.ssafy.moeutto.domain.friends.dto.response.IMyFriendsListResponseDto;
 import com.ssafy.moeutto.domain.friends.service.FriendService;
@@ -10,7 +11,6 @@ import com.ssafy.moeutto.domain.member.auth.AuthTokensGenerator;
 import com.ssafy.moeutto.global.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,18 +26,23 @@ public class FriendController {
 
 
 
-    @PostMapping("/recommend")
-    public BaseResponse<Object> registCalendar(@RequestHeader(value = "accessToken", required = false) String token,
-                                               @RequestPart(value = "file") MultipartFile file) {
+    @PostMapping("recommend")
+    public BaseResponse<Object> recommend(@RequestHeader(value = "accessToken", required = false) String token,
+                                          @RequestBody ClothesRecommendForFriendsRequestDto requestDto){
+
         try {
             UUID memberId = getMemberIdFromToken(token);
 
-            CalendarRegistResponseDto calendarRegistResponseDto = calendarService.registMyOutfit(memberId, token, file);
-            return baseResponseService.getSuccessResponse(calendarRegistResponseDto);
-        } catch (BaseException e) {
-            return baseResponseService.getFailureResponse(e.status);
+            ClotheRecommendResponseDto responseDto = friendsService.recommend(memberId,requestDto);
+
+
+        }catch (BaseException e){
+            return baseResponseService.getFailureResponse(e.getStatus());
         }
+
     }
+
+
     /**
      * 내가 팔로우하는 친구 목록 보기.
      *
