@@ -11,7 +11,6 @@ const RecommendedFeedList = () => {
             const axiosInstance = authInstance({ ContentType: 'application/json' });
             const response = await axiosInstance.get('friend-outfits');
         
-            console.log(response.data.data)
             setRecommendFeedListData(response.data.data);
          
         } catch (error) {
