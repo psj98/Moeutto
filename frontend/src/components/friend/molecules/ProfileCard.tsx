@@ -32,6 +32,7 @@ const ProfileCard = ({ nickname, email, profileImage, isFollowing }: FriendType)
           html: '팔로잉 실패',
           showCancelButton: false,
           confirmButtonText: '확인',
+          confirmButtonColor: '#FF78A5'
         });
         return false;
       }
