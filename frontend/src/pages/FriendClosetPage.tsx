@@ -221,12 +221,12 @@ const FriendClosetPage = () => {
   const forFriendClothesIdList: number[] = [];
 
   // 추천 등록 api
-  const postRecommendForFriend = async () => {
+  const postRecommendForFriend = async (getComment) => {
     try {
       const axiosInstance = authInstance({ ContentType: 'application/json'});
       const response = await axiosInstance.post('friend-outfits/recommend', {
         email: friend,
-        comment: forFriendComment,
+        comment: getComment,
         clothesList: forFriendClothesIdList
       });
 
@@ -281,6 +281,7 @@ const FriendClosetPage = () => {
               confirmButtonText: '확인'
           })
 
+          console.log('코멘트 뭐라고 썻을가', getComment)
           setForFriendComment(getComment)
       
           // 이후 처리되는 내용
@@ -292,7 +293,8 @@ const FriendClosetPage = () => {
               confirmButtonText: '확인',
             }).then(() => {
               // 친구 추천 api 호출하기
-              postRecommendForFriend();
+              console.log('코멘트 들어갔을가..', forFriendComment, getComment)
+              postRecommendForFriend(getComment);
             }).then(() => {
               location.reload();
             })
