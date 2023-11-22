@@ -122,7 +122,7 @@ const LoginPage = () => {
 
   return (
     <Container className="login-container">
-      <div className="h-full flex flex-col items-center justify-center">
+      <div className="h-full flex flex-col items-center justify-center z-50">
         <div className=" relative text-center text-[#272727] title font-bold 나눔고딕">
           <div className="mb-2">당신의</div>
           <div className="mb-2">옷장을</div>
@@ -150,7 +150,7 @@ const LoginPage = () => {
           />
         </button>
       </div>
-      <div className="absolute w-full bottom-0">
+      <div className="absolute w-full bottom-0 -z-10">
         <svg
           className="waves"
           xmlns="http://www.w3.org/2000/svg"
