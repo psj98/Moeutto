@@ -50,10 +50,10 @@ const RecommenedFeed = ({ index, date, nickname, clothesList, comment }) => {
 
                 {/* 옷 */}
                 <div className="w-[90%] rounded-lg mx-auto flex justify-center px-6 pb-2">
-                    <div className='flex-wrap flex gap-4 justify-start'>
+                    <div className='flex-wrap flex gap-4 justify-start mb-4'>
                         {clothesList?.map((item) => {
                             return (
-                                <img src={item.image} alt="clohtes" className='w-[130px] h-[130px] object-cover bg-white rounded-xl' />
+                                <img src={item.image} alt="clohtes" className='w-1/2 min-w-[100px] min-h-[100px] max-w-[110px] max-h-[110px] object-cover bg-white rounded-xl' />
                             )
                         })}
                     </div>
