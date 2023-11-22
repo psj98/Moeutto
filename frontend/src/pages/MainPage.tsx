@@ -167,7 +167,7 @@ const MainPage = () => {
     }
   };
 
-  // 옷 추천 리스트 GET 조회
+  // 옷 추천 리스트 GET 조회  
   const OnlyGetRecommendClothesData = async () => {
     console.log('2. 조회만 하는 api 실행 시작')
     
@@ -228,18 +228,18 @@ const MainPage = () => {
       // 추천 날씨 목록
       {
         minTemperature: 1, // 최저 기온
-        maxTemperature: 10, // 최고 기온
+        maxTemperature: 15, // 최고 기온
         weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
       },
       {
         minTemperature: 0, // 최저 기온
-        maxTemperature: 12, // 최고 기온
+        maxTemperature: 14, // 최고 기온
         weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
       },
       {
-        minTemperature: 2, // 최저 기온
-        maxTemperature: 14, // 최고 기온
-        weather: 3, // 날씨 정보 (맑음, 구름 조금 등)
+        minTemperature: -4, // 최저 기온
+        maxTemperature: 2, // 최고 기온
+        weather: 1, // 날씨 정보 (맑음, 구름 조금 등)
       },
     ]
 
@@ -251,7 +251,7 @@ const MainPage = () => {
       </div>
 
       {/* 알림 */}
-      <div className='absolute z-50 left-1/2 transform -translate-x-1/2 w-[90%] max-w-[400px] min-w-[300px]'>
+      <div className='absolute z-50 left-1/2 transform -translate-x-1/2 w-[95%] max-w-[400px] min-w-[300px]'>
         <Alert />
       </div>
         <div className="flex flex-col p-4 mb-4">
