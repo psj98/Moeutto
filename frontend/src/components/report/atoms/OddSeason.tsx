@@ -12,7 +12,8 @@ interface SeasonData {
 
 const Card = styled.div`
   width: 45%;
-  height: 200px;
+  min-height: 200px;
+  height: auto;
   border-radius: 15px;
   color: black;
   display: flex;
@@ -80,17 +81,17 @@ const OddSeason = ({ season, name, month }: SeasonData) => {
         background: name === '봄' ? '#69C683' : '#BA9BEB',
       }}
       className="shadow-lg">
-      <div className="flex justify-between absolute top-2 p-1 text-AppTitle text-left bg-red w-full px-3">
+      <div className="flex justify-between absolute top-2 ps-3 pt-1 text-AppTitle text-left bg-red w-full px-3">
         <div className="bg-black w-[55px] rounded-lg text-white text-center flex items-center justify-center py-1">
           {name}
         </div>
         <div className="text-gray-800 text-AppBody2 my-auto">{month}월</div>
       </div>
-      <div className="flex flex-wrap w-full justify-evenly">
+      <div className="w-full pt-14 flex flex-wrap justify-evenly">
         {result2.map((item, index) => {
           if (Number(item.amount) > 0) {
             return (
-              <div key={index} className="tags text-AppBody2">
+              <div key={index} className="tags text-[13px]">
                 {item.name} {item.amount}벌
               </div>
             );
