@@ -167,7 +167,7 @@ const MainPage = () => {
     }
   };
 
-  // 옷 추천 리스트 GET 조회
+  // 옷 추천 리스트 GET 조회  
   const OnlyGetRecommendClothesData = async () => {
     console.log('2. 조회만 하는 api 실행 시작')
     
@@ -251,7 +251,7 @@ const MainPage = () => {
       </div>
 
       {/* 알림 */}
-      <div className='absolute z-50 left-1/2 transform -translate-x-1/2 w-[90%] max-w-[400px] min-w-[300px]'>
+      <div className='absolute z-50 left-1/2 transform -translate-x-1/2 w-[95%] max-w-[400px] min-w-[300px]'>
         <Alert />
       </div>
         <div className="flex flex-col p-4 mb-4">
