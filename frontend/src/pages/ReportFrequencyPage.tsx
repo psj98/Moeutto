@@ -17,7 +17,6 @@ interface frequencyItem {
 }
 
 const colorArray = ['#FFFFFF', '#FFFFFF', '#FFFFFF'];
-// const colorArray = ['#FFCFE0', '#FFEAF6', '#FFFFFF'];
 
 let mostCount;
 let leastCount;
@@ -44,6 +43,7 @@ const ReportFrequencyPage = () => {
         html: '옷을 먼저 등록해주세요',
         showCancelButton: false,
         confirmButtonText: '확인',
+        confirmButtonColor: '#FF78A5'
       });
       goMainPage();
     } else {

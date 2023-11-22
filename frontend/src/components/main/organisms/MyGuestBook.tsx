@@ -50,7 +50,7 @@ const MyGuestBook = ({ setIsAlertModalOpen }: MyGuestBookProps) => {
         <div className="absolute z-99 min-h-[150px] max-h-[600px] shadow-md w-5/6 rounded-2xl left-1/2 top-[290px] transform -translate-x-1/2 -translate-y-1/2 bg-pink">
             <div className="flex">
                 <div className="flex justify-start font-bold text-AppTitle2 text-white p-4">나의 방명록</div>
-                <div className="flex items-center ms-[35%] font-bold text-white" onClick={closeAlert}>X</div>
+                <div className="flex items-center ms-[45%] font-bold text-white" onClick={closeAlert}>X</div>
             </div>
             <div className="bg-white overflow-auto p-4 pt-6 flex rounded-2xl w-[90%] min-h-[100px] max-h-[500px] justify-center items-center mx-auto mb-6">
                 {myGuestBookData ? (

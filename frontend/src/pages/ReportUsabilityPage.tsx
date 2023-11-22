@@ -61,6 +61,7 @@ const ReportCostPage = () => {
         html: '회원 정보가 없어요',
         showCancelButton: false,
         confirmButtonText: '확인',
+        confirmButtonColor: '#FF78A5'
       });
       goMainPage();
     } else if (response.data.code === 2002) {
@@ -69,6 +70,7 @@ const ReportCostPage = () => {
         html: '세션이 만료되었습니다',
         showCancelButton: false,
         confirmButtonText: '확인',
+        confirmButtonColor: '#FF78A5'
       });
       goMainPage();
     } else if (response.data.code === 3002) {
@@ -77,6 +79,7 @@ const ReportCostPage = () => {
         html: '옷을 먼저 등록해주세요',
         showCancelButton: false,
         confirmButtonText: '확인',
+        confirmButtonColor: '#FF78A5'
       });
       goMainPage();
     } else if (response.data.code === 5001) {
@@ -85,6 +88,7 @@ const ReportCostPage = () => {
         html: '대분류 카테고리가 존재하지 않습니다.',
         showCancelButton: false,
         confirmButtonText: '확인',
+        confirmButtonColor: '#FF78A5'
       });
       goMainPage();
     } else {

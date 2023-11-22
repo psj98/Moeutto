@@ -151,6 +151,7 @@ const FriendClosetPage = () => {
           html: '친구 옷장이 공개되어 있지 않습니다.',
           showCancelButton: false,
           confirmButtonText: '확인',
+          confirmButtonColor: '#FF78A5'
         });
         goMainPage();
       }
@@ -169,6 +170,7 @@ const FriendClosetPage = () => {
         html: '친구 옷 목록 데이터 조회 실패 토큰을 확인하세요',
         showCancelButton: false,
         confirmButtonText: '확인',
+        confirmButtonColor: '#FF78A5'
       });
       return false;
     }
@@ -190,6 +192,7 @@ const FriendClosetPage = () => {
           html: '친구 옷장이 공개되어 있지 않습니다.',
           showCancelButton: false,
           confirmButtonText: '확인',
+          confirmButtonColor: '#FF78A5'
         });
         goMainPage();
       }
@@ -304,6 +307,7 @@ const FriendClosetPage = () => {
         html: '선택한 옷이 없어요',
         showCancelButton: false,
         confirmButtonText: '확인',
+        confirmButtonColor: '#FF78A5'
       });
     }
     console.log(forFriendComment, forFriendClothesIdList)
@@ -335,6 +339,7 @@ const FriendClosetPage = () => {
           html: '게스트북 작성 실패',
           showCancelButton: false,
           confirmButtonText: '확인',
+          confirmButtonColor: '#FF78A5'
         });
         return false;
       }
@@ -347,6 +352,7 @@ const FriendClosetPage = () => {
         html: '방명록이 작성되었습니다',
         showCancelButton: false,
         confirmButtonText: '확인',
+        confirmButtonColor: '#FF78A5'
       });
       setGuestbookText(''); // 방명록을 작성하였으므로 인풋값을 비워줍니다.
       fetchData();

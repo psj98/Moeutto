@@ -128,6 +128,7 @@ const AddClothFormOrganism = ({ setStateValue, handleRemoveBG }: Props) => {
         html: '사진, 카테고리, 색상, 계절, 두께 모두 입력해주세요.',
         showCancelButton: false,
         confirmButtonText: '확인',
+        confirmButtonColor: '#FF78A5'
       });
     }
   };
