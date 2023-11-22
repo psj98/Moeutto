@@ -48,8 +48,8 @@ const RecommenedClothesForMain = () => {
                 </div>
 
                 {/* 옷 */}
-                <div className="w-[90%] rounded-lg mx-auto flex justify-center px-6 pb-2">
-                    <div className='flex-wrap flex gap-4 justify-start'>
+                <div className="w-[90%] rounded-lg mx-auto flex justify-center px-6 pb-4">
+                    <div className='flex-wrap flex gap-4 justify-start ms-2'>
                         <img src='images/clothes1.png' alt="clohtes" className='w-[100px] h-[100px] object-cover bg-white rounded-xl' />
                         <img src='images/clothes2.png' alt="clohtes" className='w-[100px] h-[100px] object-cover bg-white rounded-xl' />
                         <img src='images/clothes3.png' alt="clohtes" className='w-[100px] h-[100px] object-cover bg-white rounded-xl' />
