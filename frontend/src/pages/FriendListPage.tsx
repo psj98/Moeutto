@@ -41,6 +41,7 @@ const FriendListPage = () => {
         html: '나의 친구 조회',
         showCancelButton: false,
         confirmButtonText: '확인',
+        confirmButtonColor: '#FF78A5'
       });
       return false;
     }
@@ -67,6 +68,7 @@ const FriendListPage = () => {
         html: '친구 검색 실패',
         showCancelButton: false,
         confirmButtonText: '확인',
+        confirmButtonColor: '#FF78A5'
       });
       return false;
     }

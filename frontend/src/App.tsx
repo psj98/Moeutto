@@ -41,6 +41,7 @@ function App() {
         `,
         showCancelButton: false,
         confirmButtonText: '확인',
+        confirmButtonColor: '#FF78A5'
       });
       navigate('/login');
     }

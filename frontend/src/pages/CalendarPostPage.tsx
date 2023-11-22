@@ -128,6 +128,7 @@ const calendarPostPage = () => {
         html: '친구 옷 목록 데이터 조회 실패 토큰을 확인하세요',
         showCancelButton: false,
         confirmButtonText: '확인',
+        confirmButtonColor: '#FF78A5'
       });
       return false;
     }
@@ -167,6 +168,7 @@ const calendarPostPage = () => {
           html: '캘린더 제출이 완료되었습니다',
           showCancelButton: false,
           confirmButtonText: '확인',
+          confirmButtonColor: '#FF78A5'
         }).then(result => {
           // 확인 버튼이 눌렸을 때 캘린더 페이지로 이동
           if (result.isConfirmed) {
@@ -184,6 +186,7 @@ const calendarPostPage = () => {
         html: '캘린더 제출 실패',
         showCancelButton: false,
         confirmButtonText: '확인',
+        confirmButtonColor: '#FF78A5'
       });
     }
     return true;
