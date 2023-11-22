@@ -48,12 +48,12 @@ const RecommenedClothesForMain = () => {
                 </div>
 
                 {/* 옷 */}
-                <div className="w-[90%] rounded-lg mx-auto flex justify-center px-6 pb-4">
-                    <div className='flex-wrap flex gap-4 justify-start ms-2'>
-                        <img src='images/clothes1.png' alt="clohtes" className='w-[100px] h-[100px] object-cover bg-white rounded-xl' />
-                        <img src='images/clothes2.png' alt="clohtes" className='w-[100px] h-[100px] object-cover bg-white rounded-xl' />
-                        <img src='images/clothes3.png' alt="clohtes" className='w-[100px] h-[100px] object-cover bg-white rounded-xl' />
-                        <img src='images/clothes4.png' alt="clohtes" className='w-[100px] h-[100px] object-cover bg-white rounded-xl' />
+                <div className="w-[90%] rounded-lg mx-auto flex justify-center px-2 pb-4">
+                    <div className='flex-wrap flex gap-2 justify-start px-auto mx-auto'>
+                        <img src='images/clothes1.png' alt="clohtes" className='w-1/2 h-auto max-w-[100px] max-h-[100px] object-cover bg-white rounded-xl' />
+                        <img src='images/clothes1.png' alt="clohtes" className='w-1/2 h-auto max-w-[100px] max-h-[100px] object-cover bg-white rounded-xl' />
+                        <img src='images/clothes1.png' alt="clohtes" className='w-1/2 h-auto max-w-[100px] max-h-[100px] object-cover bg-white rounded-xl' />
+                        <img src='images/clothes1.png' alt="clohtes" className='w-1/2 h-auto max-w-[100px] max-h-[100px] object-cover bg-white rounded-xl' />
                     </div>
                 </div>
             </div>
