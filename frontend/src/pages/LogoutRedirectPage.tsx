@@ -18,6 +18,7 @@ const LogoutRedirectPage = () => {
       `,
       showCancelButton: false,
       confirmButtonText: '안녕!',
+      confirmButtonColor: '#FF78A5'
     });
     navigate('/login');
   }, []);

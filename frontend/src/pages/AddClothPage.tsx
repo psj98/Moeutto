@@ -46,6 +46,7 @@ function AddClothPage() {
           html: '옷장 등록에 성공했어요',
           showCancelButton: false,
           confirmButtonText: '확인',
+          confirmButtonColor: '#FF78A5'
         });
       } else {
         Swal.fire({
@@ -53,6 +54,7 @@ function AddClothPage() {
           html: '옷장 등록에 실패했어요',
           showCancelButton: false,
           confirmButtonText: '확인',
+          confirmButtonColor: '#FF78A5'
         });
       }
     } catch (error) {
@@ -61,6 +63,7 @@ function AddClothPage() {
         html: '옷 등록 실패',
         showCancelButton: false,
         confirmButtonText: '확인',
+        confirmButtonColor: '#FF78A5'
       });
       return null;
     }
@@ -88,6 +91,7 @@ function AddClothPage() {
         html: 'AI로 배경 지우기 실패',
         showCancelButton: false,
         confirmButtonText: '확인',
+        confirmButtonColor: '#FF78A5'
       });
       return false;
     }

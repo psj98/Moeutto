@@ -62,6 +62,7 @@ const MyPage = () => {
           html: '회원 정보가 변경되었습니다',
           showCancelButton: false,
           confirmButtonText: '확인',
+          confirmButtonColor: '#FF78A5'
         });
       } else {
         Swal.fire({
@@ -69,6 +70,7 @@ const MyPage = () => {
           html: '닉네임은 8글자를 넘길 수 없습니다',
           showCancelButton: false,
           confirmButtonText: '확인',
+          confirmButtonColor: '#FF78A5'
         });
       }
     } else {
@@ -77,6 +79,7 @@ const MyPage = () => {
         html: '정보 변경 실패',
         showCancelButton: false,
         confirmButtonText: '확인',
+        confirmButtonColor: '#FF78A5'
       });
     }
   };
@@ -112,6 +115,7 @@ const MyPage = () => {
         html: '마이페이지 데이터 조회 실패 토큰 및 저장된 데이터를 확인하세요',
         showCancelButton: false,
         confirmButtonText: '확인',
+        confirmButtonColor: '#FF78A5'
       });
     }
   };
