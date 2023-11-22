@@ -68,6 +68,7 @@ const ReportVolumePage = () => {
         html: '옷을 먼저 등록해주세요',
         showCancelButton: false,
         confirmButtonText: '확인',
+        confirmButtonColor: '#FF78A5'
       });
       goMainPage();
     } else {

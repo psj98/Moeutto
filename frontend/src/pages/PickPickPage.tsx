@@ -198,6 +198,7 @@ const PickPickPage = () => {
             html: '같은 카테고리가 중복됩니다',
             showCancelButton: false,
             confirmButtonText: '확인',
+            confirmButtonColor: '#FF78A5'
           });
           goBackPage();
           return false;
@@ -207,6 +208,7 @@ const PickPickPage = () => {
             html: '옷이 네벌 초과로 입력되었습니다.',
             showCancelButton: false,
             confirmButtonText: '확인',
+            confirmButtonColor: '#FF78A5'
           });
           goBackPage();
           return false;
@@ -216,6 +218,7 @@ const PickPickPage = () => {
             html: '같은 대분류가 여러개 입력되었습니다.',
             showCancelButton: false,
             confirmButtonText: '확인',
+            confirmButtonColor: '#FF78A5'
           });
           goBackPage();
           return false;
@@ -225,6 +228,7 @@ const PickPickPage = () => {
             html: '상의나 하의가 없습니다.',
             showCancelButton: false,
             confirmButtonText: '확인',
+            confirmButtonColor: '#FF78A5'
           });
           goBackPage();
           return false;
@@ -239,6 +243,7 @@ const PickPickPage = () => {
           html: '착장 검사를 다시 시도해주세요',
           showCancelButton: false,
           confirmButtonText: '확인',
+          confirmButtonColor: '#FF78A5'
         }).then(result => {
           if (result.isConfirmed) {
             goBackPage();
@@ -264,6 +269,7 @@ const PickPickPage = () => {
         html: '선택한 옷이 없어요',
         showCancelButton: false,
         confirmButtonText: '확인',
+        confirmButtonColor: '#FF78A5'
       });
     }
   };
