@@ -39,7 +39,7 @@ const ClothAnalysisOrganism = ({ analysisResult }: { analysisResult: AnalysisDat
     <div className="flex flex-col items-center">
       {/*  컴포넌트 가운데 정렬'} */}
 
-      <TodayWeatherCard idx={2} />
+      <TodayWeatherCard idx={3} />
       <TotalScoreSection clothesResult={analysisResult?.clothesResult} />
       <ClothScoreSection clothesResult={analysisResult?.clothesResult} />
       <Graph graphResult={analysisResult?.clothesFeature} />

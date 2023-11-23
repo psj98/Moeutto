@@ -229,7 +229,7 @@ const MainPage = () => {
       {
         minTemperature: 1, // 최저 기온
         maxTemperature: 14, // 최고 기온
-        weather: 2, // 날씨 정보 (맑음, 구름 조금 등)
+        weather: 3, // 날씨 정보 (맑음, 구름 조금 등)
       },
       {
         minTemperature: -4, // 최저 기온
