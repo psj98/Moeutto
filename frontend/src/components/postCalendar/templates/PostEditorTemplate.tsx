@@ -11,6 +11,7 @@ import backgroundImage from '../../../assets/images/canvas/bg-pattern.jpg';
 interface Props {
   handleSubmit: any;
   cnt: number;
+  setIsLoading: any;
 }
 
 const CanvasSection = styled.div<{ w: string }>`
@@ -32,7 +33,7 @@ const CanvasSectionBackground = styled.div<{ w: string }>`
   z-index: -10;
 `;
 
-const PostEditorTemplate = ({ handleSubmit, cnt }: Props) => {
+const PostEditorTemplate = ({ handleSubmit, cnt, setIsLoading }: Props) => {
   const target = useRef(null);
   const selectedClosetUrls = useSelector((state: RootState) => state.post.selectedClosetUrls);
   const [width, setWidth] = useState('');
@@ -157,6 +158,7 @@ const PostEditorTemplate = ({ handleSubmit, cnt }: Props) => {
       return imageFile;
     }
 
+    setIsLoading(true);
     // 콘솔에 이미지 표시
     htmlToImage
       .toPng(target.current, { cacheBust: true })
