@@ -1,8 +1,18 @@
 import React from 'react';
+import Button from '@mui/material/Button';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 interface PropsType {
   handleSubmit: React.MouseEventHandler<HTMLButtonElement>;
 }
+
+const themeLight = createTheme({
+  palette: {
+    background: {
+      default: '#fff',
+    },
+  },
+});
 
 const SubmitBtn: React.FC<PropsType> = ({ handleSubmit }) => {
   const pathname = window.location.href;
