@@ -3,7 +3,7 @@ from math import sqrt
 color_palette = [
     [  # 범위 넓게
         {'name': 'red', 'kr': '빨강', 'hex_color': '#FF0000'},
-        {'name': 'yellow', 'kr': '노랑', 'hex_color': '#FFFF00'},
+        {'name': 'purple', 'kr': '보라', 'hex_color': '#800080'},
         {'name': 'blue', 'kr': '파랑', 'hex_color': '#0000FF'},
     ],
     [  # 범위 중간
@@ -13,7 +13,7 @@ color_palette = [
     ],
     [  # 굉장히 좁은 범위
         {'name': 'orange', 'kr': '주황', 'hex_color': '#FFA500'},
-        {'name': 'purple', 'kr': '보라', 'hex_color': '#800080'},
+        {'name': 'yellow', 'kr': '노랑', 'hex_color': '#FFFF00'},
         {'name': 'khaki', 'kr': '카키', 'hex_color': '#F0E68C'},
     ],
     [  # 검흑
