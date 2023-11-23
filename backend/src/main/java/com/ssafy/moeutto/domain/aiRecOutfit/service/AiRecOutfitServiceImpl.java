@@ -120,13 +120,13 @@ public class AiRecOutfitServiceImpl implements AiRecOutfitService {
                 // id에 따른 옷 정보 조회
                 Clothes clothes = clothesRepository.findById(clothesId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_CLOTHES));
 
-                if (recDate.equals(Date.valueOf("2023-11-23"))) {
-                    if (member.getEmail().equals("seosue0801@gmail.com")) {
-                        if (clothes.getMiddleCategory().getLargeCategory().getId().equals("001")) {
-                            clothes = clothesRepository.findById(171).get();
-                        }
-                    }
-                }
+//                if (recDate.equals(Date.valueOf("2023-11-23"))) {
+//                    if (member.getEmail().equals("seosue0801@gmail.com")) {
+//                        if (clothes.getMiddleCategory().getLargeCategory().getId().equals("001")) {
+//                            clothes = clothesRepository.findById(171).get();
+//                        }
+//                    }
+//                }
 
                 // 착장 저장
                 ClothesInAiRecOutfit clothesInAiRecOutfit = ClothesInAiRecOutfit.builder()
