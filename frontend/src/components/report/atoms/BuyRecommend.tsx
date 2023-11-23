@@ -21,7 +21,7 @@ const BuyItem = () => {
       <Box>
         <img src={item} />
       </Box>
-      <div>가죽자켓</div>
+      <div>반팔</div>
       <div>100,000원</div>
     </Card>
   );
