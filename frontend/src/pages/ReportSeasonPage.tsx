@@ -50,7 +50,7 @@ const ReportSeasonPage = () => {
         setSeasonData(response.data.data);
       }
     } catch (error) {
-      console.log('캘린더 목록 조회 실패', error);
+      console.log('계절 데이터 가져오기 실패', error);
     }
   };
 
