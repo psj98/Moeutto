@@ -1,5 +1,7 @@
 # 👕 모으또 (Moeutto) 👕
 
+![모으또_표지](/uploads/3092b49c42c37dc664d60ef1010f39cc/모으또_표지.PNG)
+
 > 옷장 관리, 분석 및 날씨 기반 착장 추천 서비스
 
 
@@ -28,6 +30,75 @@
 <br/>
 
 **모으또 (Moeutto)를 활용하여 옷장을 관리해보세요!!**
+
+<br/>
+
+## 팀원 소개
+
+
+| **강한(PM**)                                    | **권현우**                                         | **김동현**                                                    | **박성준**                                        | **고서영**                                             | **김솔**                                        |
+| ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------- |
+| <p align="left" style="color:skyblue">Backend</p> | <p align="left" style="color:skyblue">Backend <br> Infra</p> | <p align="left" style="color:skyblue">Backend <br> ML | <p align="left" style="color:skyblue">Backend</p> | <p align="left" style="color:pink">Frontend</p>         | <p align="left" style="color:pink">Frontend</p>   |
+| 가격, 빈도에 따른 옷장 분석 <br> 캘린더 API <br> 친구 (SNS) API <br> 소셜 로그인 페이지 <br> 튜토리얼 페이지 <br>             |   Kakao OAuth를 활용한 회원 관리 <br> 옷 등록 API <br> 빈도, 활용도에 따른 옷장 분석 API <br> AI 착장 검사 API <br> S3 Bucket API   <br> CI/CD 구축              |  옷 배경 제거 <br> 카테고리 및 색상 분류 <br> 적합도 점수 산정 <br> AI 코멘트 생성<br> 옷 추천 및 평가    | 옷장, AI 착장 추천, 방명록, 카테고리, 친구 착장 추천 REST API <br> bs4와 mulitprocess를 이용한 의류 이미지 크롤링 | 나의 옷장 등록 나의 옷장 분석 <br> 오늘 코디 채점 <br> 캘린더 등록 <br> 친구 검색 등록<br>친구 옷장 구경 <br>방명록 작성| 메인 페이지<br>유저 위치에 따른 날씨 업데이트<br>카테고리별 나의 옷장 보기<br>캘린더<br>오늘 코디 채점<br>친구 코디 추천|
+| [@27kanghan](https://github.com/27kanghan)        | [@mycodeisnoob](https://github.com/mycodeisnoob)  | [@hannernos](https://github.com/hannernos)        | [@psj98](https://github.com/psj98)           | [@seoyoung81](https://github.com/seoyoung81)         |  [@s01k1m618](https://github.com/s01k1m618)        |
+
+<br/>
+
+
+## 프로젝트 일정
+
+- 2023.10.09 ~ 2023.11.17 ( 7주)
+
+<br/>
+
+## 기술 스택
+
+### Back-end & Front-end
+
+![Java](https://img.shields.io/badge/Java-yellow.svg?&style=for-the-badge&logo=java&logoColor=#3776AB)
+![Spring](https://img.shields.io/badge/Spring-6DB33F.svg?&style=for-the-badge&logo=Spring&logoColor=white)
+![Go](https://img.shields.io/badge/go-00ADD8.svg?&style=for-the-badge&logo=go&logoColor=white)
+![Python](https://img.shields.io/badge/python-3776AB.svg?&style=for-the-badge&logo=python&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F.svg?&style=for-the-badge&logo=Spring%20Boot&logoColor=white)
+![Spring Security](https://img.shields.io/badge/Spring%20Security-6DB33F.svg?&style=for-the-badge&logo=Spring%20Security&logoColor=white)
+![JPA](https://img.shields.io/badge/JPA-6DB33F.svg?&style=for-the-badge&logoColor=white)
+![FastAPI](https://img.shields.io/badge/fastapi-009688.svg?&logo=fastapi&style=for-the-badge&logoColor=white)
+
+![React](https://img.shields.io/badge/React-61DAFB.svg?&style=for-the-badge&logo=React&logoColor=blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6.svg?&style=for-the-badge&logo=Typescript&logoColor=white)
+![Redux](https://img.shields.io/badge/Redux-764ABC.svg?&style=for-the-badge&logo=Redux&logoColor=white)
+![Tailwind](https://img.shields.io/badge/Tailwind%20CSS-06B6D4.svg?&style=for-the-badge&logo=Tailwind%20CSS&logoColor=white)
+### AI & ML
+
+![OpenAI](https://img.shields.io/badge/openai-412991.svg?&style=for-the-badge&logo=openai&logoColor=white)
+![LangChain](https://img.shields.io/badge/LangChain-3178C6?style=for-the-badge&logoColor=white)
+![FAISS](https://img.shields.io/badge/FAISS-00ADD8?style=for-the-badge&logoColor=white)
+### DataBase
+
+![MySQL](https://img.shields.io/badge/MySQL-4479A1.svg?&style=for-the-badge&logo=MySQL&logoColor=white)
+![ChromaDB](https://img.shields.io/badge/ChromaDB-412991.svg?&style=for-the-badge&logoColor=white)
+### Storage
+
+![Amazon S3](https://img.shields.io/badge/amazons3-569A31?style=for-the-badge&logo=amazons3&logoColor=white)
+![SageMaker](https://img.shields.io/badge/sagemaker-569A31?style=for-the-badge&logoColor=white)
+### AWS Server
+
+![Amazon EC2](https://img.shields.io/badge/amazonec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white)
+### CI/CD & Infra Tools
+
+![Jenkins](https://img.shields.io/badge/Jenkins-D24939.svg?&style=for-the-badge&logo=Jenkins&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED.svg?&style=for-the-badge&logo=Docker&logoColor=white)
+![Nginx](https://img.shields.io/badge/Nginx-009639.svg?&style=for-the-badge&logo=Nginx&logoColor=white)
+### Collaboration Tools
+
+![Notion](https://img.shields.io/badge/Notion-000000.svg?&style=for-the-badge&logo=Notion&logoColor=로고색상)
+![Mattermost](https://img.shields.io/badge/Mattermost-0058CC.svg?&style=for-the-badge&logo=Mattermost&logoColor=로고색상)
+### Issue & Configuration Management
+
+![GitLab](https://img.shields.io/badge/Gitlab-FC6D26.svg?&style=for-the-badge&logo=Gitlab&logoColor=#FC6D26)
+![Jira](https://img.shields.io/badge/Jira-0052CC.svg?&style=for-the-badge&logo=Jira&logoColor=Blue)
+
+---
 
 <br/>
 
@@ -95,12 +166,6 @@
 
 <br/>
 
-## 팀원 소개
 
-- 강한: PM, BE
-- 고서영: FE
-- 권현우: BE, CI/CD
-- 김동현: BE, ML
-- 김솔: FE
-- 박성준: BE
+
 
