@@ -76,7 +76,7 @@
 ![Redux](https://img.shields.io/badge/Redux-764ABC.svg?&style=for-the-badge&logo=Redux&logoColor=white)
 ![Tailwind](https://img.shields.io/badge/Tailwind%20CSS-06B6D4.svg?&style=for-the-badge&logo=Tailwind%20CSS&logoColor=white)
 
-### DataBase
+### Database
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1.svg?&style=for-the-badge&logo=MySQL&logoColor=white)
 ![ChromaDB](https://img.shields.io/badge/ChromaDB-412991.svg?&style=for-the-badge&logoColor=white)
 
@@ -85,10 +85,6 @@
 ![LangChain](https://img.shields.io/badge/LangChain-3178C6?style=for-the-badge&logoColor=white)
 ![FAISS](https://img.shields.io/badge/FAISS-00ADD8?style=for-the-badge&logoColor=white)
 
-### Storage
-![Amazon S3](https://img.shields.io/badge/amazons3-569A31?style=for-the-badge&logo=amazons3&logoColor=white)
-![SageMaker](https://img.shields.io/badge/sagemaker-569A31?style=for-the-badge&logoColor=white)
-
 ### AWS Server
 ![Amazon EC2](https://img.shields.io/badge/amazonec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white)
 
@@ -96,6 +92,10 @@
 ![Jenkins](https://img.shields.io/badge/Jenkins-D24939.svg?&style=for-the-badge&logo=Jenkins&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED.svg?&style=for-the-badge&logo=Docker&logoColor=white)
 ![Nginx](https://img.shields.io/badge/Nginx-009639.svg?&style=for-the-badge&logo=Nginx&logoColor=white)
+
+### Storage
+![Amazon S3](https://img.shields.io/badge/amazons3-569A31?style=for-the-badge&logo=amazons3&logoColor=white)
+![SageMaker](https://img.shields.io/badge/sagemaker-569A31?style=for-the-badge&logoColor=white)
 
 ### Collaboration Tools
 ![Notion](https://img.shields.io/badge/Notion-000000.svg?&style=for-the-badge&logo=Notion&logoColor=로고색상)
