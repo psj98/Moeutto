@@ -1,9 +1,8 @@
 # 👕 모으또 (Moeutto) 👕
 
-![모으또_표지](/uploads/3092b49c42c37dc664d60ef1010f39cc/모으또_표지.PNG)
-
 > 옷장 관리, 분석 및 날씨 기반 착장 추천 서비스
 
+![모으또 표지](https://github.com/psj98/Moeutto/assets/60167488/a91c031d-42d8-4c50-b2c8-317278195f78)
 
 옷장에는 자주 입는 옷, 안 입는 옷, 계절 별 옷 등 다양한 종류의 옷이 있습니다.
 
@@ -33,25 +32,32 @@
 
 <br/>
 
-## 팀원 소개
+## 👨‍💻 팀원 소개
 
-
-| **강한(PM**)                                    | **권현우**                                         | **김동현**                                                    | **박성준**                                        | **고서영**                                             | **김솔**                                        |
-| ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------- |
+| **강한(PM**) | **권현우** | **김동현** | **박성준** | **고서영** | **김솔** |
+| --- | --- | --- | --- | --- | --- |
 | <p align="left" style="color:skyblue">Backend</p> | <p align="left" style="color:skyblue">Backend <br> Infra</p> | <p align="left" style="color:skyblue">Backend <br> ML | <p align="left" style="color:skyblue">Backend</p> | <p align="left" style="color:pink">Frontend</p>         | <p align="left" style="color:pink">Frontend</p>   |
-| 가격, 빈도에 따른 옷장 분석 <br> 캘린더 API <br> 친구 (SNS) API <br> 소셜 로그인 페이지 <br> 튜토리얼 페이지 <br>             |   Kakao OAuth를 활용한 회원 관리 <br> 옷 등록 API <br> 빈도, 활용도에 따른 옷장 분석 API <br> AI 착장 검사 API <br> S3 Bucket API   <br> CI/CD 구축              |  옷 배경 제거 <br> 카테고리 및 색상 분류 <br> 적합도 점수 산정 <br> AI 코멘트 생성<br> 옷 추천 및 평가    | 옷장, AI 착장 추천, 방명록, 카테고리, 친구 착장 추천 REST API <br> bs4와 mulitprocess를 이용한 의류 이미지 크롤링 | 나의 옷장 등록 나의 옷장 분석 <br> 오늘 코디 채점 <br> 캘린더 등록 <br> 친구 검색 등록<br>친구 옷장 구경 <br>방명록 작성| 메인 페이지<br>유저 위치에 따른 날씨 업데이트<br>카테고리별 나의 옷장 보기<br>캘린더<br>오늘 코디 채점<br>친구 코디 추천|
-| [@27kanghan](https://github.com/27kanghan)        | [@mycodeisnoob](https://github.com/mycodeisnoob)  | [@hannernos](https://github.com/hannernos)        | [@psj98](https://github.com/psj98)           | [@seoyoung81](https://github.com/seoyoung81)         |  [@s01k1m618](https://github.com/s01k1m618)        |
+|가격, 빈도에 따른 옷장 분석, 캘린더, 친구 API<br><br>소셜 로그인, 튜토리얼 페이지|Kakao OAuth를 활용한 회원 관리<br><br>옷 등록, 빈도, 활용도에 따른 옷장 분석, AI 착장 검사 API<br>S3 Bucket API<br><br>CI/CD 구축 | 옷 배경 제거<br>카테고리 및 색상 분류<br><br>적합도 점수 산정<br>AI 코멘트 생성<br><br>옷 추천 및 평가 | 옷장, AI 착장 추천, 방명록, 카테고리, 친구 착장 추천 API<br><br>bs4와 mulitprocess를 이용한 의류 이미지 크롤링 | 옷장 등록, 분석<br><br>착장 검사<br><br>캘린더 등록<br><br>친구 검색, 친구 옷장 조회, 방명록 작성| 메인 페이지<br>사용자 위치에 따른 날씨 업데이트<br><br>카테고리별 옷장 조회<br><br>캘린더<br><br>착장 검사<br><br>친구 착장 추천|
+| [@27kanghan](https://github.com/27kanghan) | [@mycodeisnoob](https://github.com/mycodeisnoob) | [@hannernos](https://github.com/hannernos) | [@psj98](https://github.com/psj98) | [@seoyoung81](https://github.com/seoyoung81) |  [@s01k1m618](https://github.com/s01k1m618) |
 
 <br/>
 
+## 📅 프로젝트 일정
 
-## 프로젝트 일정
+> 2023.10.09 ~ 2023.11.17 (6주)
 
-- 2023.10.09 ~ 2023.11.17 ( 7주)
+|주차|기간|설명|
+|:---|:---|:---|
+|1주차|`2023.10.09 ~ 2023.10.15`|주제 선정 및 토론|
+|2주차|`2023.08.28 ~ 2023.09.22`|세부 기획 선정<br>API 설계<br>ERD 설계<br>아키텍처 설계|
+|3주차|`2023.09.04 ~ 2023.09.29`|Front-End : 기본 틀 생성<br>Back-End : 핵심 기능 개발|
+|4주차|`2023.09.11 ~ 2023.09.05`|Front-End : 핵심 기능 개발<br>Back-End : 부가 기능 개발|
+|5주차|`2023.09.18 ~ 2023.09.12`|Front-End : 부가 기능 개발<br>Back-End : ML 연결 및 테스트|
+|6주차|`2023.09.25 ~ 2023.10.17`|개발 마무리<br>오류 확인 및 처리<br>최종 확인|
 
 <br/>
 
-## 기술 스택
+## 📚 기술 스택
 
 ### Back-end & Front-end
 
@@ -98,11 +104,9 @@
 ![GitLab](https://img.shields.io/badge/Gitlab-FC6D26.svg?&style=for-the-badge&logo=Gitlab&logoColor=#FC6D26)
 ![Jira](https://img.shields.io/badge/Jira-0052CC.svg?&style=for-the-badge&logo=Jira&logoColor=Blue)
 
----
-
 <br/>
 
-## 주요 기능
+## ❗❗ 주요 기능
 
 **🛒 옷장 관리**
 - 카테고리, 색상, 계절, 두께, 소재 등을 설정하여 옷을 **등록**할 수 있습니다.
@@ -127,10 +131,10 @@
 
 <br/>
 
-## 세부 기능
+## ❗ 세부 기능
 
 |구분|기능|설명|비고|
-|:---|:---|:---|:---|
+|---|---|---|---|
 |1|옷장 등록|소유한 옷 등록 및 관리||
 |2|옷장 조회|옷 세부사항 조회 및 최근 입은 날짜 조회||
 |3|옷장 분석|색상, 계절, 빈도, 가격, 양, 활용도를 기준으로 옷장 분석||
@@ -145,27 +149,34 @@
 
 <br/>
 
-## 아키텍처
+## 🗺 아키텍처
 
-![아키텍처](/uploads/fde1818acedff181f29ea0f58649a443/제목_없음.png)
+![아키텍처](https://github.com/psj98/Moeutto/assets/60167488/3d8b7f7b-c50f-442a-b85b-044548badfcf)
 
 <br/>
 
-## 사용 예시
+## 📝 ERD
+
+- 추후 추가 예정
+
+<br/>
+
+## 📙 사용 예시
 
 1. 배포 주소 : [https://k9a604.p.ssafy.io](https://k9a604.p.ssafy.io)
 
-2. UCC 영상 : [UCC 링크]()
+2. UCC 영상 : 추후 추가 예정
 
 <br/>
 
-## 개발 설정
+## ⚙ 개발 설정
 
-1. 포팅 메뉴얼 : [포팅 메뉴얼](https://lab.ssafy.com/s09-final/S09P31A604/-/blob/develop/exec/%EB%B2%B5%EA%B0%88%ED%98%B8%EB%9E%91%EC%9D%B4_%ED%8F%AC%ED%8C%85%EB%A7%A4%EB%89%B4%EC%96%BC.pdf?ref_type=heads)
-2. 데이터베이스 덤프 파일 : [데이터베이스 덤프 파일](https://lab.ssafy.com/s09-final/S09P31A604/-/blob/develop/exec/%EB%B2%B5%EA%B0%88%ED%98%B8%EB%9E%91%EC%9D%B4_%EB%8D%A4%ED%94%84%ED%8C%8C%EC%9D%BC.sql?ref_type=heads)
+1. 포팅 메뉴얼 : [포팅 메뉴얼](https://github.com/psj98/Moeutto/blob/develop/exec/%EB%B2%B5%EA%B0%88%ED%98%B8%EB%9E%91%EC%9D%B4_%ED%8F%AC%ED%8C%85%EB%A7%A4%EB%89%B4%EC%96%BC.pdf)
+
+2. 데이터베이스 덤프 파일 : [데이터베이스 덤프 파일](https://github.com/psj98/Moeutto/blob/develop/exec/%EB%B2%B5%EA%B0%88%ED%98%B8%EB%9E%91%EC%9D%B4_%EB%8D%A4%ED%94%84%ED%8C%8C%EC%9D%BC.sql)
 
 <br/>
 
+## ✅ 참고 자료
 
-
-
+- 추후 Notion 추가 예정
